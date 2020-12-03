@@ -3,24 +3,22 @@ import { Document } from 'mongoose';
 
 export type UploadDocument = Upload & Document; 
 
-@Schema()
+@Schema({timestamps: true})
 export class Upload {
   @Prop()
   campo: string
   @Prop()
-  sjd_ref: string
-  @Prop()
-  sjd_ref_ano: string
-  @Prop()
   rg: string
   @Prop()
-  id_proc: string
+  id_proc: number
   @Prop()
   proc: string
   @Prop()
   obs: string
   @Prop()
   is_old_file: boolean
+  @Prop()
+  data_arquivo: string
 
   @Prop()
   name: string
@@ -30,5 +28,6 @@ export class Upload {
   path: string
   @Prop()
   size: string
+
 }
 export const UploadSchema = SchemaFactory.createForClass(Upload)

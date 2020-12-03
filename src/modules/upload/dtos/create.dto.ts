@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsBoolean,
   IsOptional,
   IsString
 } from 'class-validator';
@@ -30,22 +29,13 @@ export class CreateUploadDto {
   @ApiProperty()
   size: string
 
-  @IsString()
-  @ApiProperty()
-  sjd_ref: string
-
-  @IsString()
-  @ApiProperty()
-  sjd_ref_ano: string
-
   @IsOptional()
   @IsString()
   @ApiProperty()
   rg: string
 
-  @IsString()
   @ApiProperty()
-  id_proc: string
+  id_proc: number
 
   @IsString()
   @ApiProperty()
@@ -57,7 +47,11 @@ export class CreateUploadDto {
   obs: string
 
   @IsOptional()
-  @IsBoolean()
   @ApiProperty()
   is_old_file: boolean
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
+  data_arquivo: string
 }
