@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.25.1](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.25.0...v0.25.1) (2020-12-03)
+
+
+### Bug Fixes
+
+* solve mongoose uncompatibity ([618a694](https://github.com/EmersonBraun/siscoger-backend-v2/commit/618a694b53dbc69bd02f1f378f8e74f0ee600fb8))
+
 ## [0.25.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.24.0...v0.25.0) (2020-12-03)
 
 
