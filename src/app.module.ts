@@ -8,6 +8,7 @@ import { AppLoggerMiddleware } from './common/logger/middleware';
 import { AdlModule } from './modules/adl/adl.module';
 import { AndamentoModule } from './modules/andamento/andamento.module';
 import { AndamentocogerModule } from './modules/andamentocoger/andamentocoger.module';
+import { ApfdModule } from './modules/apfd/apfd.module';
 import { ArquivoModule } from './modules/arquivo/arquivo.module';
 import { ComportamentoModule } from './modules/comportamento/comportamento.module';
 import { EnvolvidoModule } from './modules/envolvido/envolvido.module';
@@ -19,9 +20,8 @@ import { MovimentoModule } from './modules/movimento/movimento.module';
 import { OfendidoModule } from './modules/ofendido/ofendido.module';
 import { SindicanciaModule } from './modules/sindicancia/sindicancia.module';
 import { SobrestamentoModule } from './modules/sobrestamento/sobrestamento.module';
-import { uploadModule } from './modules/upload/upload.module';
-import { AuthModule } from './auth/auth.module';
-import { AuthModule } from './modules/auth/auth.module';
+import { UploadModule } from './modules/upload/upload.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -29,6 +29,7 @@ import { AuthModule } from './modules/auth/auth.module';
     TypeOrmModule.forRoot(typeOrmOptions),
     MongooseModule.forRoot('mongodb://localhost:27017/siscoger'),
     AdlModule,
+    ApfdModule,
     AndamentoModule,
     AndamentocogerModule,
     ArquivoModule,
@@ -42,8 +43,9 @@ import { AuthModule } from './modules/auth/auth.module';
     OfendidoModule,
     SindicanciaModule,
     SobrestamentoModule,
-    uploadModule,
-    AuthModule,
+    UploadModule,
+    // AuthModule,
+    UserModule,
   ],
 })
 export class AppModule {
