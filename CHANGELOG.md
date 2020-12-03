@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.25.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.24.0...v0.25.0) (2020-12-03)
+
+
+### Features
+
+* apfd Module create ([5e007b0](https://github.com/EmersonBraun/siscoger-backend-v2/commit/5e007b078e2dba13336953f8bc62f38954787c98))
+
 ## [0.24.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.23.0...v0.24.0) (2020-11-30)
 
 
