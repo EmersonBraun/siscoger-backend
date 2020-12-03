@@ -20,6 +20,8 @@ import { OfendidoModule } from './modules/ofendido/ofendido.module';
 import { SindicanciaModule } from './modules/sindicancia/sindicancia.module';
 import { SobrestamentoModule } from './modules/sobrestamento/sobrestamento.module';
 import { uploadModule } from './modules/upload/upload.module';
+import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -41,6 +43,7 @@ import { uploadModule } from './modules/upload/upload.module';
     SindicanciaModule,
     SobrestamentoModule,
     uploadModule,
+    AuthModule,
   ],
 })
 export class AppModule {
