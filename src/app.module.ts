@@ -10,6 +10,7 @@ import { AndamentoModule } from './modules/andamento/andamento.module';
 import { AndamentocogerModule } from './modules/andamentocoger/andamentocoger.module';
 import { ApfdModule } from './modules/apfd/apfd.module';
 import { ArquivoModule } from './modules/arquivo/arquivo.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { ComportamentoModule } from './modules/comportamento/comportamento.module';
 import { EnvolvidoModule } from './modules/envolvido/envolvido.module';
 import { FalecimentoModule } from './modules/falecimento/falecimento.module';
@@ -44,7 +45,7 @@ import { UserModule } from './modules/user/user.module';
     SindicanciaModule,
     SobrestamentoModule,
     UploadModule,
-    // AuthModule,
+    AuthModule,
     UserModule,
   ],
 })

@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner, Table} from "typeorm";
+import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
 export class apfd1606828006066 implements MigrationInterface {
 
@@ -12,7 +12,7 @@ export class apfd1606828006066 implements MigrationInterface {
                 { name: 'sjd_ref', type: 'integer', isNullable: true, },                
                 { name: 'sjd_ref_ano', type: 'integer', isNullable: true, },                
                 { name: 'tipo', type: 'varchar', isNullable: true, }, 
-                { name: 'cdopm', type: 'integer', isNullable: true, },
+                { name: 'cdopm', type: 'varchar', isNullable: true, },
                 { name: 'fato_data', type: 'date', isNullable: true},
                 { name: 'sintese_txt', type: 'varchar', isNullable: true},
                 { name: 'tipo_penal', type: 'varchar', isNullable: true},
