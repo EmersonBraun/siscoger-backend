@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.27.1](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.27.0...v0.27.1) (2020-12-09)
+
+
+### Bug Fixes
+
+* seeder apfd ([10f35ea](https://github.com/EmersonBraun/siscoger-backend-v2/commit/10f35ea6169cd3a71d22619e9c97219195015740))
+
 ## [0.27.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.26.0...v0.27.0) (2020-12-03)
 
 ## [0.26.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.25.1...v0.26.0) (2020-12-03)
