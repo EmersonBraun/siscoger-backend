@@ -30,7 +30,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Create a new auth' })
   @ApiCreatedResponse({ type: LoginDto, description: 'Logged' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Not logged', })
-  async login(@Body() data: LoginDto)/*: Promise<CreateUserDto>*/ {
+  async login(@Body() data: LoginDto): Promise<CreateUserDto> {
     return await this.service.login(data);
   }
 

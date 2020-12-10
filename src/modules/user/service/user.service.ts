@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { serializeUserDto } from '../../../common/utils';
 import { CreateUserDto } from '../dtos/create.dto';
 import { UpdateUserDto } from '../dtos/update.dto';
 import { User } from '../entity/user.entity';
@@ -18,14 +16,16 @@ export class UserService {
     return await this.repository.find();
   }
 
-  async findOne(options?: object): Promise<CreateUserDto> {
-    const user =  await this.repository.findOne(options);    
-    return serializeUserDto(user);  
+  async findOne(options?: any): Promise<CreateUserDto> {
+    const user =  await this.repository.findOne(options);
+    if (!user) {
+      throw new NotFoundException('Registry not found');
+    }    
+    return user;  
 }
 
   async search(data: CreateUserDto): Promise<User[]> {
-    console.log(data)
-    return await this.repository.find({ where: { ...data } });
+     return await this.repository.find({ where: { ...data } });
   }
 
   async create(data: CreateUserDto): Promise<User> {

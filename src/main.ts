@@ -1,10 +1,10 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import helmet from 'helmet';
 import { AppModule } from './app.module';
+import { PrettyLogger } from './common/logger/pretty-log';
 import { setupDocumentation } from './config/documentation';
 
-import helmet from 'helmet';
-import { PrettyLogger } from './common/logger/pretty-log';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true, logger: false });

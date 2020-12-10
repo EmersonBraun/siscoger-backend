@@ -1,8 +1,8 @@
-import { Injectable, Scope, Logger } from '@nestjs/common';
-import chalk from 'chalk'
-import figures from 'figures'
+import { Injectable, Logger, Scope } from '@nestjs/common';
+import chalk from 'chalk';
+import figures from 'figures';
+import { Options } from './types';
 
-import { Options } from './types'
 
 export function getIcon(options: Options): string {
   const selectedIcon = options.icon || 'tick'
