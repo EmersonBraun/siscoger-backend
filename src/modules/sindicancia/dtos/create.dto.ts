@@ -12,13 +12,11 @@ import {
 export class CreateSindicanciaDto {
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_andamentocoger: number
 
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_andamento: number
 
