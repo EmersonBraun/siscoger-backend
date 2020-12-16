@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.27.5](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.27.3...v0.27.5) (2020-12-16)
+
+
+### Bug Fixes
+
+* merge changes ([ec9fdf7](https://github.com/EmersonBraun/siscoger-backend-v2/commit/ec9fdf73da359b25eaca6fbe5a44841d1d4453a9))
+* stage ([a4f6aa2](https://github.com/EmersonBraun/siscoger-backend-v2/commit/a4f6aa2b91e6dc8631bfce027e5f99071e3185c3))
+* validations of sindicancia ([a66f159](https://github.com/EmersonBraun/siscoger-backend-v2/commit/a66f159c1295cb010f95df523be54c01e718fd9c))
+* validations of sindicancia ([0babc24](https://github.com/EmersonBraun/siscoger-backend-v2/commit/0babc2474cd24fe40a5ccc7482d2797860baff98))
+
 ### [0.27.4](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.27.3...v0.27.4) (2020-12-16)
 
 
