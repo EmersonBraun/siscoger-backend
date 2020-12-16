@@ -7,7 +7,7 @@ import { setupDocumentation } from './config/documentation';
 
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true, logger: false });
+  const app = await NestFactory.create(AppModule, { cors: true, logger: console });
 
   app.use(helmet())
   app.useLogger(new PrettyLogger);

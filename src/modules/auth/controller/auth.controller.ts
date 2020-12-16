@@ -25,17 +25,17 @@ import { AuthService } from '../service/auth.service';
 export class AuthController {
   constructor(private service: AuthService) {}
 
-  @Post()
+  @Post('login')
   @HttpCode(201)
   @ApiOperation({ summary: 'Create a new auth' })
   @ApiCreatedResponse({ type: LoginDto, description: 'Logged' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Not logged', })
-  async login(@Body() data: LoginDto): Promise<CreateUserDto> {
+  async login(@Body() data: LoginDto): Promise<any> {
     return await this.service.login(data);
   }
 
   @Get('whoami')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard('jwt'))
   public async testAuth(@Req() req: any): Promise<CreateUserDto> {
     return req.user;
   }
