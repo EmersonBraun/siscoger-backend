@@ -28,6 +28,7 @@ import { UserModule } from './modules/user/user.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      expandVariables: true,
     }),
     TypeOrmModule.forRoot(typeOrmOptions),
     MongooseModule.forRoot(process.env.MONGO_CONNECTION),
