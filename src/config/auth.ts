@@ -1,8 +1,8 @@
 export const jwtConfig = () => {
   return {
-    secret: '12345',//process.env.SECRETKEY, 
+    secret: process.env.SECRETKEY, 
     signOptions: {
-      expiresIn: '360s',//process.env.EXPIRESIN,
+      expiresIn: process.env.EXPIRESIN,
     },
   }
 }
