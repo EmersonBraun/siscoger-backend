@@ -26,9 +26,11 @@ import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot(typeOrmOptions),
-    MongooseModule.forRoot('mongodb://localhost:27017/siscoger'),
+    MongooseModule.forRoot(process.env.MONGO_CONNECTION),
     AdlModule,
     ApfdModule,
     AndamentoModule,
