@@ -6,6 +6,7 @@ import { UserModule } from "../user/user.module";
 import { AuthController } from "./controller/auth.controller";
 import { AuthService } from "./service/auth.service";
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { LocalStrategy } from './strategies/local.strategy';
 
 
 @Module({  
@@ -19,7 +20,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        secretOrPrivateKey: configService.get<string>('SECRETKEY'),
+        secret: configService.get<string>('SECRETKEY'),
         signOptions: {
           expiresIn: configService.get<string>('EXPIRESIN'),
         },
@@ -28,7 +29,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     }),
   ], 
   controllers: [AuthController],  
-  providers: [AuthService, JwtStrategy],  
-  exports: [PassportModule, JwtModule, AuthService],
+  providers: [AuthService, JwtStrategy, LocalStrategy],  
+  exports: [AuthService, JwtStrategy, LocalStrategy],
 })
 export class AuthModule {}

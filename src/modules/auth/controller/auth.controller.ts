@@ -1,13 +1,11 @@
 import {
-  Body,
   Controller,
   Get,
   HttpCode,
   Post,
-  Req,
+  Request,
   UseGuards
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -17,6 +15,8 @@ import {
 import { CreateUserDto } from 'src/modules/user/dtos';
 import { ErrorResponse } from '../../../common/responses';
 import { LoginDto } from '../dtos/login.dto';
+import { JwtAuthGuard } from '../guards/jwt.guard';
+import { LocalAuthGuard } from '../guards/local.guard';
 import { AuthService } from '../service/auth.service';
 
 
@@ -25,18 +25,19 @@ import { AuthService } from '../service/auth.service';
 export class AuthController {
   constructor(private service: AuthService) {}
 
+  @UseGuards(LocalAuthGuard)
   @Post('login')
   @HttpCode(201)
   @ApiOperation({ summary: 'Create a new auth' })
   @ApiCreatedResponse({ type: LoginDto, description: 'Logged' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Not logged', })
-  async login(@Body() data: LoginDto): Promise<any> {
-    return await this.service.login(data);
+  async login(@Request() req): Promise<any> {
+    return this.service.login(req.user);
   }
 
   @Get('whoami')
-  @UseGuards(AuthGuard('jwt'))
-  public async testAuth(@Req() req: any): Promise<CreateUserDto> {
+  @UseGuards(JwtAuthGuard)
+  public async testAuth(@Request() req: any): Promise<CreateUserDto> {
     return req.user;
   }
 }

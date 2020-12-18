@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { resolve } from 'path';
+require('dotenv').config();
 
 export const typeOrmOptions: TypeOrmModuleOptions = {
   type: 'postgres',
