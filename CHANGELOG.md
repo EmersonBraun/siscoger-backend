@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.29.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.28.0...v0.29.0) (2020-12-18)
+
+
+### Features
+
+* complete authentication ([5b9f7bc](https://github.com/EmersonBraun/siscoger-backend-v2/commit/5b9f7bcab1b9024282aa36f24d7fa5ebec17c7cb))
+
+
+### Bug Fixes
+
+* merge changes ([ec9fdf7](https://github.com/EmersonBraun/siscoger-backend-v2/commit/ec9fdf73da359b25eaca6fbe5a44841d1d4453a9))
+* merge version ([b0bc0d4](https://github.com/EmersonBraun/siscoger-backend-v2/commit/b0bc0d46e1df9fef0beeaa50b40653c46a445753))
+* solve jwt config in .env ([aabef0f](https://github.com/EmersonBraun/siscoger-backend-v2/commit/aabef0fba5d8ad3d34869f85548e344f8a76889e))
+* stage ([a4f6aa2](https://github.com/EmersonBraun/siscoger-backend-v2/commit/a4f6aa2b91e6dc8631bfce027e5f99071e3185c3))
+* validations of sindicancia ([a66f159](https://github.com/EmersonBraun/siscoger-backend-v2/commit/a66f159c1295cb010f95df523be54c01e718fd9c))
+* validations of sindicancia ([0babc24](https://github.com/EmersonBraun/siscoger-backend-v2/commit/0babc2474cd24fe40a5ccc7482d2797860baff98))
+
 ## [0.28.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.27.3...v0.28.0) (2020-12-17)
 
 
