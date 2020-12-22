@@ -42,6 +42,7 @@
     "@nestjs/mongoose": "^7.2.0",
     "@nestjs/passport": "^7.1.5",
     "@nestjs/platform-express": "7.6.1",
+    "@nestjs/schedule": "^0.4.1",
     "@nestjs/terminus": "^7.0.1",
     "@nestjs/typeorm": "^7.1.4",
     "bcrypt": "^5.0.0",

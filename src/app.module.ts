@@ -1,10 +1,12 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { typeOrmOptions } from '../src/config';
 import { AppLoggerMiddleware } from './common/logger/middleware';
+import { TasksModule } from './common/Tasks/tasks.module';
 import { AdlModule } from './modules/adl/adl.module';
 import { AndamentoModule } from './modules/andamento/andamento.module';
 import { AndamentocogerModule } from './modules/andamentocoger/andamentocoger.module';
@@ -30,6 +32,8 @@ import { UserModule } from './modules/user/user.module';
       isGlobal: true,
       expandVariables: true,
     }),
+    ScheduleModule.forRoot(),
+    TasksModule,
     TypeOrmModule.forRoot(typeOrmOptions),
     MongooseModule.forRoot(process.env.MONGO_CONNECTION),
     AdlModule,
