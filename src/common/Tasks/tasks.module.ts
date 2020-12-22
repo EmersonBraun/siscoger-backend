@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
-import { UpdateDatabaseService } from './update-database.service';
+import { SindicanciaModule } from 'src/modules/sindicancia/sindicancia.module';
+import { SindicanciaTasksService } from './sindicancia.tasks';
 
 @Module({
-  providers: [UpdateDatabaseService],
+  imports: [SindicanciaModule],
+  providers: [SindicanciaTasksService],
 })
 export class TasksModule {}

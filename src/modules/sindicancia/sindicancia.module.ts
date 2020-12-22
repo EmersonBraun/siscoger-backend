@@ -9,5 +9,6 @@ import { SindicanciaService } from './service/sindicancia.service';
   imports: [TypeOrmModule.forFeature([Sindicancia])],
   providers: [SindicanciaService],
   controllers: [SindicanciaController],
+  exports: [SindicanciaService]
 })
 export class SindicanciaModule {}
