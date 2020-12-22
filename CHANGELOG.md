@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.30.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.29.0...v0.30.0) (2020-12-22)
+
+
+### Features
+
+* add columns to sindicancias ([145f0f5](https://github.com/EmersonBraun/siscoger-backend-v2/commit/145f0f54aaa30660dc2405584c056e8525b1af11))
+* add sindicancia tasks ([5715242](https://github.com/EmersonBraun/siscoger-backend-v2/commit/57152424e11d09cbd5ad0d6478094a484b1d8671))
+* create advanced querys to sindicancia module ([70a8021](https://github.com/EmersonBraun/siscoger-backend-v2/commit/70a802135af96c58943b04eac2898c27032e2226))
+* create advanced querys to sindicancia module ([8022a30](https://github.com/EmersonBraun/siscoger-backend-v2/commit/8022a301c025c90f692c0f2c186a8991c95230fe))
+
 ## [0.29.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.28.0...v0.29.0) (2020-12-18)
 
 
