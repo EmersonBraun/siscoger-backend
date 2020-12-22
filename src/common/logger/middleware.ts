@@ -18,6 +18,11 @@ export class AppLoggerMiddleware implements NestMiddleware {
         this.logger.debug(`Response: ${method} ${url} Status ${statusCode}`);
         return
       }
+
+      if (statusCode >= 300 && statusCode < 400) {
+        this.logger.warn(`Response: ${method} ${url} Status ${statusCode}`);
+        return
+      }
      
       this.logger.error(`Response: ${method} ${url}  Status ${statusCode}`);
       console.table({ method, url, contentLength, ip:cleanIp })

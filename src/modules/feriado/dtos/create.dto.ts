@@ -1,15 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsDate,
   IsOptional,
-  IsString,
+  IsString
 } from 'class-validator';
 
 export class CreateFeriadoDto {
   @IsOptional()
-  @IsDate()
   @ApiProperty()
-  data?: Date
+  data?: Date | string
   
   @IsOptional()
   @IsString()
