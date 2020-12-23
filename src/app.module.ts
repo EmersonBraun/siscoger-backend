@@ -6,7 +6,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { typeOrmOptions } from '../src/config';
 import { AppLoggerMiddleware } from './common/logger/middleware';
-import { TasksModule } from './common/Tasks/tasks.module';
 import { AdlModule } from './modules/adl/adl.module';
 import { AndamentoModule } from './modules/andamento/andamento.module';
 import { AndamentocogerModule } from './modules/andamentocoger/andamentocoger.module';
@@ -23,6 +22,7 @@ import { MovimentoModule } from './modules/movimento/movimento.module';
 import { OfendidoModule } from './modules/ofendido/ofendido.module';
 import { SindicanciaModule } from './modules/sindicancia/sindicancia.module';
 import { SobrestamentoModule } from './modules/sobrestamento/sobrestamento.module';
+import { TasksModule } from './modules/Tasks/tasks.module';
 import { UploadModule } from './modules/upload/upload.module';
 import { UserModule } from './modules/user/user.module';
 

@@ -38,13 +38,13 @@ export class SindicanciaController {
     return await this.service.findAll();
   }
 
-  @Get('/andamento')
-  @HttpCode(200)
-  @ApiOperation({ summary: 'Search all Sindicancia' })
-  @ApiOkResponse({ type: [CreateSindicanciaDto], description: 'The found Sindicancia' })
-  async andamento(): Promise<Sindicancia[]> {
-    return await this.service.findAndamento();
-  }
+  // @Get('/andamento')
+  // @HttpCode(200)
+  // @ApiOperation({ summary: 'Search all Sindicancia' })
+  // @ApiOkResponse({ type: [CreateSindicanciaDto], description: 'The found Sindicancia' })
+  // async andamento(): Promise<Sindicancia[]> {
+  //   return await this.service.findAndamento();
+  // }
 
   @Post('portarias')
   @HttpCode(200)
