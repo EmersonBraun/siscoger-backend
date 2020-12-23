@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.31.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.30.0...v0.31.0) (2020-12-23)
+
+
+### Features
+
+* create task module ([949e87c](https://github.com/EmersonBraun/siscoger-backend-v2/commit/949e87c38ea5c58f3265799acf2073d61116772d))
+
 ## [0.30.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.29.0...v0.30.0) (2020-12-22)
 
 
