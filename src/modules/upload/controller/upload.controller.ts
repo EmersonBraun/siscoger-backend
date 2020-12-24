@@ -30,7 +30,7 @@ import { UploadService } from '../service/upload.service';
 
 
 @ApiTags('Upload')
-@Controller('Uploads')
+@Controller('uploads')
 export class UploadController {
   constructor(private service: UploadService) {}
 

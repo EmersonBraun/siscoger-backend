@@ -26,7 +26,7 @@ import { ArquivoService } from '../service/arquivo.service';
 
 
 @ApiTags('Arquivo')
-@Controller('Arquivos')
+@Controller('arquivos')
 export class ArquivoController {
   constructor(private service: ArquivoService) {}
 
