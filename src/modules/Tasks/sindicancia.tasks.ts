@@ -1,17 +1,24 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
+import { changeDate, getCurrentDate } from 'src/common/utils/date.utils';
 import { Sindicancia } from 'src/modules/sindicancia/entity/sindicancia.entity';
 import { SindicanciaService } from 'src/modules/sindicancia/service/sindicancia.service';
+import { FeriadoService } from '../feriado/service/feriado.service';
+import { SobrestamentoService } from '../sobrestamento/service/sobrestamento.service';
 
 @Injectable()
 export class SindicanciaTasksService {
   private errors = []
-  constructor(private service: SindicanciaService){}
+  constructor(
+    private service: SindicanciaService, 
+    private feriadoService: FeriadoService, 
+    private sobrestamentoService: SobrestamentoService, 
+  ){}
 
   private readonly logger = new Logger();
 
-  @Cron('1 * * * * *', { //'0 1 0 * * *'
+  @Cron('0 1 0 * * *', {
     name: 'Update Sindicancias Prazos',
   })
   async handleCron() {
@@ -43,7 +50,7 @@ export class SindicanciaTasksService {
           sintese_txt,
           diasuteis_sobrestado: await this.getDUSobrestado(sindicancia),
           motivo_sobrestado: await this.getMotivo(sindicancia),
-          prazo_decorrido: await this.getDUTotais(sindicancia)
+          prazo_decorrido: await this.getDU(sindicancia)
         })
       } catch (error) {
         this.logger.error(error)
@@ -52,38 +59,25 @@ export class SindicanciaTasksService {
   }
 
   async getDUTotais (sindicancia: Sindicancia) {
-    // DIASUTEIS(abertura_data,DATE(NOW())) AS dutotal
-    return 0
+    const date = changeDate(String(sindicancia.abertura_data),'fr-ca')
+    return await this.feriadoService.betweenDates(date)
   }
 
   async getDU (sindicancia: Sindicancia) {
-    // (DIASUTEIS(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis
-    return 0
+    const DUTotais = await this.getDUTotais(sindicancia)
+    const DUSobrestado = await this.getDUSobrestado(sindicancia)
+    return DUTotais - DUSobrestado
   }
 
   async getDUSobrestado (sindicancia: Sindicancia) {
-    // (SELECT id_sindicancia, SUM(DIASUTEIS(inicio_data, termino_data)+1) AS dusobrestado fROM sobrestamento WHERE termino_data !='0000-00-00' AND id_sindicancia!=''  GROUP BY id_sindicancia)
-    return 0
+    const date = changeDate(String(sindicancia.abertura_data),'fr-ca')
+    return this.sobrestamentoService.betweenDates(date,getCurrentDate('fr-ca'), {field: 'id_sindicancia', value: sindicancia.id})
   }
 
   async getMotivo (sindicancia: Sindicancia) {
-    /**
-     * (
-      SELECT  motivo
-      FROM    sobrestamento
-      WHERE   sobrestamento.id_sindicancia=sindicancia.id_sindicancia 
-      ORDER BY sobrestamento.id_sobrestamento DESC
-      LIMIT 1
-    ) AS motivo,  
-    (
-      SELECT  motivo_outros
-      FROM    sobrestamento
-      WHERE   sobrestamento.id_sindicancia=sindicancia.id_sindicancia 
-      ORDER BY sobrestamento.id_sobrestamento DESC
-      LIMIT 1
-    ) AS motivo_outros,
-     */
-    return ''
+    const sobrestamento = await this.sobrestamentoService.getMotive({field: 'id_sindicancia', value: sindicancia.id})
+    if (!sobrestamento) return ''
+    return sobrestamento.motivo ? sobrestamento.motivo : sobrestamento.motivo_outros
   }
 
 }

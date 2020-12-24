@@ -6,7 +6,7 @@ import {
   HttpCode,
   Param,
   Post,
-  Put,
+  Put
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -15,14 +15,15 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
 import { ErrorResponse } from '../../../common/responses';
-
 import { CreateFeriadoDto } from '../dtos/create.dto';
+import { SearchFeriadoDto } from '../dtos/search.dto';
 import { UpdateFeriadoDto } from '../dtos/update.dto';
 import { Feriado } from '../entity/feriado.entity';
 import { FeriadoService } from '../service/feriado.service';
+
 
 @ApiTags('Feriado')
 @Controller('feriados')
@@ -44,6 +45,16 @@ export class FeriadoController {
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
   async create(@Body() data: CreateFeriadoDto): Promise<Feriado> {
     return await this.service.create(data);
+  }
+
+  @Post('/between-dates')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Verify countable days' })
+  @ApiCreatedResponse({ type: 'number', description: 'Countable Days' })
+  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
+  async betweenDates(@Body() data: SearchFeriadoDto): Promise<number> {
+    const { init, end } = data
+    return await this.service.betweenDates(init, end);
   }
 
   @Get(':id')

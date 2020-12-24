@@ -19,6 +19,7 @@ import {
 } from '@nestjs/swagger';
 import { ErrorResponse } from '../../../common/responses';
 import { SearchSobrestamentoDto } from '../dtos';
+import { BetweenDatesDto } from '../dtos/between-dates.dto';
 import { CreateSobrestamentoDto } from '../dtos/create.dto';
 import { UpdateSobrestamentoDto } from '../dtos/update.dto';
 import { Sobrestamento } from '../entity/sobrestamento.entity';
@@ -45,6 +46,16 @@ export class SobrestamentoController {
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
   async search(@Body() data: SearchSobrestamentoDto): Promise<Sobrestamento[]> {
     return await this.service.search(data);
+  }
+
+  @Post('/between-dates')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Verify countable days' })
+  @ApiCreatedResponse({ type: 'number', description: 'Countable Days' })
+  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
+  async betweenDates(@Body() data: BetweenDatesDto): Promise<number> {
+    const { init, end, procData } = data
+    return await this.service.betweenDates(init, end, procData);
   }
 
   @Post()

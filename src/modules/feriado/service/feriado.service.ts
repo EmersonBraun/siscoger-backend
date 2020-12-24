@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { getCurrentDate, getDaysOfFDS, getDiffDateInDays } from 'src/common/utils/date.utils';
 import { Repository } from 'typeorm';
 import { CreateFeriadoDto } from '../dtos/create.dto';
 import { UpdateFeriadoDto } from '../dtos/update.dto';
@@ -14,6 +15,14 @@ export class FeriadoService {
 
   async findAll(): Promise<Feriado[]> {
     return await this.repository.find();
+  }
+
+  async betweenDates(init: string, end = getCurrentDate('fr-ca')): Promise<number> {
+    const feriados = await this.repository
+      .createQueryBuilder()
+      .where("DATA BETWEEN :init AND :end ", {init, end})
+      .getCount()
+    return getDiffDateInDays(init, end) - getDaysOfFDS(init, end) - feriados
   }
 
   async create(data: CreateFeriadoDto): Promise<Feriado> {
