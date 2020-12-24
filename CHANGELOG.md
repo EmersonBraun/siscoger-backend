@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.32.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.31.0...v0.32.0) (2020-12-24)
+
+
+### Features
+
+* finalize sindicancia task ([9d7c933](https://github.com/EmersonBraun/siscoger-backend-v2/commit/9d7c93386ac348ca0ac45da05624432ead900a1e))
+
+
+### Bug Fixes
+
+* change names od upload and aquivo controllers ([fdf0b41](https://github.com/EmersonBraun/siscoger-backend-v2/commit/fdf0b41f6eb5a0ef5d1a809413e010e86c21365c))
+
 ## [0.31.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.30.0...v0.31.0) (2020-12-23)
 
 
