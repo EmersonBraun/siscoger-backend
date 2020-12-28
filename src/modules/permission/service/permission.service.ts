@@ -25,7 +25,7 @@ export class PermissionService {
   async create(data: CreatePermissionDto): Promise<Permission> {
     const { roles, ...rest } = data
     const registry = this.repository.create(rest);
-    if (roles.length) registry.roles = [...roles]
+    if (roles?.length) registry.roles = [...roles]
     return await this.repository.save(registry);
   }
 
@@ -43,8 +43,11 @@ export class PermissionService {
 
   async update(id: string, data: UpdatePermissionDto): Promise<Permission> {
     const registry = await this.repository.findOne(id, {relations:['roles']});
+    if (!registry) {
+      throw new NotFoundException('Registry not found');
+    }
     const { roles, ...rest } = data
-    if (roles) registry.roles = [...roles]
+    if (roles?.length) registry.roles = [...roles]
     await this.repository.update(id, { ...rest });
 
     return this.repository.save({ ...registry, ...rest });

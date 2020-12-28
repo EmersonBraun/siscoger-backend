@@ -34,7 +34,9 @@ export class UserService {
   }
 
   async findById(id: string): Promise<User> {
-    const registry = await this.repository.findOne(id);
+    const registry = await this.repository.findOne(id, { 
+      relations: ['roles']
+    });
 
     if (!registry) {
       throw new NotFoundException('Registry not found');
@@ -44,10 +46,15 @@ export class UserService {
   }
 
   async update(id: string, data: UpdateUserDto): Promise<User> {
-    const registry = await this.findById(id);
-    await this.repository.update(id, { ...data });
+    const registry = await this.repository.findOne(id, {relations:['roles']});
+    if (!registry) {
+      throw new NotFoundException('Registry not found');
+    }
+    const { roles, ...rest } = data
+    if (roles?.length) registry.roles = [...roles]
+    await this.repository.update(id, { ...rest });
 
-    return this.repository.create({ ...registry, ...data });
+    return this.repository.save({ ...registry, ...rest });
   }
 
   async delete(id: string): Promise<void> {

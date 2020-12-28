@@ -4,7 +4,9 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+
   JoinTable,
+
   ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
@@ -35,7 +37,8 @@ export class User {
       this.password = await bcrypt.hash(this.password, 10);  
   }
   
-  @ManyToMany(() => Role)
+  @ManyToMany(() => Role, role => role.users)
+  @JoinTable()
   @JoinTable({
     name: 'users_has_roles',
     joinColumn: {
@@ -43,9 +46,9 @@ export class User {
       referencedColumnName: "id"
     },
     inverseJoinColumn: {
-        name: "role_id",
-        referencedColumnName: "id"
+      name: "role_id",
+      referencedColumnName: "id"
     }
   })
-  role: Role[];
+  roles!: Role[];
 }

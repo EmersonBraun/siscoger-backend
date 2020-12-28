@@ -3,7 +3,21 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+
+
+
+
+
+
+
   JoinTable,
+
+
+
+
+
+
+
   ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
@@ -19,21 +33,21 @@ export class Role {
   @UpdateDateColumn({ name: 'updated_at' }) updatedAt: Date
   @DeleteDateColumn({ name: 'deleted_at' }) deletedAt: Date
 
-  @ManyToMany(() => User)
-  @JoinTable({
-    name: 'users_has_roles',
-    joinColumn: {
-      name: "role_id",
-      referencedColumnName: "id"
-    },
-    inverseJoinColumn: {
-      name: "user_id",
-      referencedColumnName: "id"
-    }
-  })
-  user: User[];
+  @ManyToMany(() => User, user => user.roles, {cascade: true})
+  // @JoinTable({
+  //   name: 'users_has_roles',
+  //   joinColumn: {
+  //     name: "user_id",
+  //     referencedColumnName: "id"
+  //   },
+  //   inverseJoinColumn: {
+  //     name: "role_id",
+  //     referencedColumnName: "id"
+  //   }
+  // })
+  users!: User[];
 
-  @ManyToMany(() => Permission)
+  @ManyToMany(() => Permission, permission => permission.roles, {cascade: true})
   @JoinTable({
     name: 'roles_has_permissions',
     joinColumn: {
@@ -45,5 +59,5 @@ export class Role {
       referencedColumnName: "id"
     }
   })
-  permission: Permission[];
+  permissions!: Permission[];
 }

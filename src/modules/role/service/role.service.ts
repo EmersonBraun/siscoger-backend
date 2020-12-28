@@ -17,17 +17,21 @@ export class RoleService {
   }
 
   async search(data: CreateRoleDto): Promise<Role[]> {
-    console.log(data)
     return await this.repository.find({ where: { ...data } });
   }
 
   async create(data: CreateRoleDto): Promise<Role> {
-    const registry = this.repository.create(data);
+    const { permissions, users, ...rest } = data
+    const registry = this.repository.create(rest);
+    if (permissions?.length) registry.permissions = [...permissions]
+    if (users?.length) registry.users = [...users]
     return await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<Role> {
-    const registry = await this.repository.findOne(id);
+    const registry = await this.repository.findOne(id, {
+      relations: ['permissions','users']
+    });
 
     if (!registry) {
       throw new NotFoundException('Registry not found');
@@ -37,10 +41,16 @@ export class RoleService {
   }
 
   async update(id: string, data: UpdateRoleDto): Promise<Role> {
-    const registry = await this.findById(id);
-    await this.repository.update(id, { ...data });
+    const registry = await this.repository.findOne(id, {relations:['permissions','users']});
+    if (!registry) {
+      throw new NotFoundException('Registry not found');
+    }
+    const { permissions, users, ...rest } = data
+    if (permissions?.length) registry.permissions = [...permissions]
+    if (users?.length) registry.users = [...users]
+    await this.repository.update(id, { ...rest });
 
-    return this.repository.create({ ...registry, ...data });
+    return this.repository.save({ ...registry, ...rest });
   }
 
   async delete(id: string): Promise<void> {

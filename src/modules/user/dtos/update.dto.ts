@@ -3,6 +3,7 @@ import {
   IsOptional,
   IsString
 } from 'class-validator';
+import { Role } from 'src/modules/role/entity/role.entity';
 
 export class UpdateUserDto {
   @IsOptional() @IsString() @ApiProperty() name: string
@@ -18,4 +19,6 @@ export class UpdateUserDto {
   @IsOptional() @ApiProperty() block: boolean 
   @IsOptional() @ApiProperty() terms: boolean
   @IsOptional() @IsString() @ApiProperty() password: string
+
+  @IsOptional() @ApiProperty() roles?: Role[]
 }
