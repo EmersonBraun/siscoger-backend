@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.33.1](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.33.0...v0.33.1) (2020-12-28)
+
+
+### Features
+
+* add export services to all modules ([d6db29d](https://github.com/EmersonBraun/siscoger-backend-v2/commit/d6db29d2f1bda2599daf66345418bcc7fec3f152))
+
+
+### Bug Fixes
+
+* solve tests ([dc9949a](https://github.com/EmersonBraun/siscoger-backend-v2/commit/dc9949ac42f2b8ee04e3d54582ee8668b99df91f))
+
 ## [0.33.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.32.0...v0.33.0) (2020-12-28)
 
 
