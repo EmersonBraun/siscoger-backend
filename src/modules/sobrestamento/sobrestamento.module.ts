@@ -7,7 +7,7 @@ import { Sobrestamento } from './entity/sobrestamento.entity';
 import { SobrestamentoService } from './service/sobrestamento.service';
 
 @Module({
-  imports: [FeriadoModule, TypeOrmModule.forFeature([Sobrestamento])],
+  imports: [TypeOrmModule.forFeature([Sobrestamento]), FeriadoModule],
   providers: [SobrestamentoService],
   controllers: [SobrestamentoController],
   exports: [SobrestamentoService]
