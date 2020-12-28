@@ -8,5 +8,6 @@
 //   imports: [TypeOrmModule.forFeature([{{moduleName | toCamelCase}}])],
 //   providers: [{{moduleName | toCamelCase}}Service],
 //   controllers: [{{moduleName | toCamelCase}}Controller],
+//   exports: [{{moduleName | toCamelCase}}Service],
 // })
 // export class {{moduleName | toCamelCase}}Module {}

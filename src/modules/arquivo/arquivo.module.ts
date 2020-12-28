@@ -9,5 +9,6 @@ import { ArquivoService } from './service/arquivo.service';
   imports: [TypeOrmModule.forFeature([Arquivo])],
   providers: [ArquivoService],
   controllers: [ArquivoController],
+  exports: [ArquivoService]
 })
 export class ArquivoModule {}

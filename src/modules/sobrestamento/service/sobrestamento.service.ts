@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { getCurrentDate } from 'src/common/utils/date.utils';
-import { FeriadoService } from 'src/modules/feriado/service/feriado.service';
 import { Repository } from 'typeorm';
+import { getCurrentDate } from '../../../common/utils/date.utils';
+import { FeriadoService } from '../../feriado/service/feriado.service';
 import { SearchSobrestamentoDto } from '../dtos';
 import { CreateSobrestamentoDto } from '../dtos/create.dto';
 import { UpdateSobrestamentoDto } from '../dtos/update.dto';

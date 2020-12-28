@@ -9,5 +9,6 @@ import { ComportamentoService } from './service/comportamento.service';
   imports: [TypeOrmModule.forFeature([Comportamento])],
   providers: [ComportamentoService],
   controllers: [ComportamentoController],
+  exports: [ComportamentoService]
 })
 export class ComportamentoModule {}

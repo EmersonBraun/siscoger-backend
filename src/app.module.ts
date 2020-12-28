@@ -20,6 +20,9 @@ import { GradacaoModule } from './modules/gradacao/gradacao.module';
 import { LigacaoModule } from './modules/ligacao/ligacao.module';
 import { MovimentoModule } from './modules/movimento/movimento.module';
 import { OfendidoModule } from './modules/ofendido/ofendido.module';
+import { PendenciaModule } from './modules/pendencias/pendencia.module';
+import { PermissionModule } from './modules/permission/permission.module';
+import { RoleModule } from './modules/role/role.module';
 import { SindicanciaModule } from './modules/sindicancia/sindicancia.module';
 import { SobrestamentoModule } from './modules/sobrestamento/sobrestamento.module';
 import { TasksModule } from './modules/Tasks/tasks.module';
@@ -28,14 +31,12 @@ import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      expandVariables: true,
-    }),
+    ConfigModule.forRoot({isGlobal: true,expandVariables: true,}),
     ScheduleModule.forRoot(),
     TasksModule,
     TypeOrmModule.forRoot(typeOrmOptions),
     MongooseModule.forRoot(process.env.MONGO_CONNECTION),
+
     AdlModule,
     ApfdModule,
     AndamentoModule,
@@ -49,6 +50,9 @@ import { UserModule } from './modules/user/user.module';
     LigacaoModule,
     MovimentoModule,
     OfendidoModule,
+    PendenciaModule,
+    PermissionModule,
+    RoleModule,
     SindicanciaModule,
     SobrestamentoModule,
     UploadModule,

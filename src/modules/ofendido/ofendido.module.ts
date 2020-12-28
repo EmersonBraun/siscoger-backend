@@ -9,5 +9,6 @@ import { OfendidoService } from './service/ofendido.service';
   imports: [TypeOrmModule.forFeature([Ofendido])],
   providers: [OfendidoService],
   controllers: [OfendidoController],
+  exports: [OfendidoService]
 })
 export class OfendidoModule {}

@@ -9,5 +9,6 @@ import { AdlService } from './service/adl.service';
   imports: [TypeOrmModule.forFeature([Adl])],
   providers: [AdlService],
   controllers: [AdlController],
+  exports: [AdlService]
 })
 export class AdlModule {}

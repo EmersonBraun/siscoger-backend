@@ -9,5 +9,6 @@ import { MovimentoService } from './service/movimento.service';
   imports: [TypeOrmModule.forFeature([Movimento])],
   providers: [MovimentoService],
   controllers: [MovimentoController],
+  exports: [MovimentoService]
 })
 export class MovimentoModule {}

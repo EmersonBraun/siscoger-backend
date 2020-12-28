@@ -9,5 +9,6 @@ import { AndamentocogerService } from './service/andamentocoger.service';
   imports: [TypeOrmModule.forFeature([Andamentocoger])],
   providers: [AndamentocogerService],
   controllers: [AndamentocogerController],
+  exports: [AndamentocogerService]
 })
 export class AndamentocogerModule {}

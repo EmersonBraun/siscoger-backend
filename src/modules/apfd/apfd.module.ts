@@ -8,5 +8,6 @@ import { ApfdService } from './service/apfd.service';
   imports: [TypeOrmModule.forFeature([Apfd])],
   providers: [ApfdService],
   controllers: [ApfdController],
+  exports: [ApfdService]
 })
 export class ApfdModule {}

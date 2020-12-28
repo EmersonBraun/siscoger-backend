@@ -9,5 +9,6 @@ import { LigacaoService } from './service/ligacao.service';
   imports: [TypeOrmModule.forFeature([Ligacao])],
   providers: [LigacaoService],
   controllers: [LigacaoController],
+  exports: [LigacaoService]
 })
 export class LigacaoModule {}

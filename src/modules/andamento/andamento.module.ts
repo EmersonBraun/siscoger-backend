@@ -9,5 +9,6 @@ import { AndamentoService } from './service/andamento.service';
   imports: [TypeOrmModule.forFeature([Andamento])],
   providers: [AndamentoService],
   controllers: [AndamentoController],
+  exports: [AndamentoService]
 })
 export class AndamentoModule {}

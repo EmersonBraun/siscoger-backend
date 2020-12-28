@@ -8,5 +8,6 @@ import { UploadService } from './service/upload.service';
   imports: [MongooseModule.forFeature([{ name: Upload.name, schema: UploadSchema }])],
   providers: [UploadService],
   controllers: [UploadController],
+  exports: [UploadService]
 })
 export class UploadModule {}

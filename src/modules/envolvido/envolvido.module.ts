@@ -9,5 +9,6 @@ import { EnvolvidoService } from './service/envolvido.service';
   imports: [TypeOrmModule.forFeature([Envolvido])],
   providers: [EnvolvidoService],
   controllers: [EnvolvidoController],
+  exports: [EnvolvidoService]
 })
 export class EnvolvidoModule {}
