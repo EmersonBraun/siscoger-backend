@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.35.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.34.0...v0.35.0) (2020-12-28)
+
+
+### Features
+
+* add task list - controller ([7e7a861](https://github.com/EmersonBraun/siscoger-backend-v2/commit/7e7a8614de0ebd1cd9afabd7970031b87ac9c0e7))
+* remove unused functions ([04fc460](https://github.com/EmersonBraun/siscoger-backend-v2/commit/04fc46075f001e50233680398ba577bbf97d6f85))
+
 ## [0.34.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.33.2...v0.34.0) (2020-12-28)
 
 
