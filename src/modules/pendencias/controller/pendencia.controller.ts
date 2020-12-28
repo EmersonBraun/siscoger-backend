@@ -25,7 +25,7 @@ import { PendenciaService } from '../service/pendencia.service';
 
 
 @ApiTags('Pendencia')
-@Controller('Pendencias')
+@Controller('pendencias')
 export class PendenciaController {
   constructor(private service: PendenciaService) {}
 

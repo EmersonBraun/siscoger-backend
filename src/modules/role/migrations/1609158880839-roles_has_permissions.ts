@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class rolesHasPermissions1609157880839 implements MigrationInterface {
+export class rolesHasPermissions1609158880839 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(new Table({
@@ -12,14 +12,14 @@ export class rolesHasPermissions1609157880839 implements MigrationInterface {
             ]
         }))
 
-        await queryRunner.createForeignKey("andamento", new TableForeignKey({
+        await queryRunner.createForeignKey("roles_has_permissions", new TableForeignKey({
             columnNames: ["role_id"],
             referencedColumnNames: ["id"],
             referencedTableName: "roles",
             onDelete: "CASCADE"
         }));
 
-        await queryRunner.createForeignKey("andamento", new TableForeignKey({
+        await queryRunner.createForeignKey("roles_has_permissions", new TableForeignKey({
             columnNames: ["permission_id"],
             referencedColumnNames: ["id"],
             referencedTableName: "permissions",

@@ -1,10 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsDate,
   IsNumber,
   IsOptional,
-  IsPositive,
-  IsString,
+
+  IsString
 } from 'class-validator';
 
 export class UpdateFalecimentoDto {
@@ -24,13 +23,11 @@ export class UpdateFalecimentoDto {
   nome?: string
 
   @IsOptional()
-  @IsDate()
   @ApiProperty()
   data?: Date
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_municipio?: number
   
@@ -51,7 +48,6 @@ export class UpdateFalecimentoDto {
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   bou_ano?: number
   
@@ -62,7 +58,6 @@ export class UpdateFalecimentoDto {
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_situacao?: number
   

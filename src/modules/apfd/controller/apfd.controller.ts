@@ -25,7 +25,7 @@ import { ApfdService } from '../service/apfd.service';
 
 
 @ApiTags('Apfd')
-@Controller('apfd')
+@Controller('apfds')
 export class ApfdController {
   constructor(private service: ApfdService) {}
 

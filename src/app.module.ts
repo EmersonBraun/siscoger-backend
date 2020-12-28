@@ -18,6 +18,7 @@ import { FalecimentoModule } from './modules/falecimento/falecimento.module';
 import { FeriadoModule } from './modules/feriado/feriado.module';
 import { GradacaoModule } from './modules/gradacao/gradacao.module';
 import { LigacaoModule } from './modules/ligacao/ligacao.module';
+import { MotivoconselhoModule } from './modules/motivoconselho/motivoconselho.module';
 import { MovimentoModule } from './modules/movimento/movimento.module';
 import { OfendidoModule } from './modules/ofendido/ofendido.module';
 import { PendenciaModule } from './modules/pendencias/pendencia.module';
@@ -48,6 +49,7 @@ import { UserModule } from './modules/user/user.module';
     FeriadoModule,
     GradacaoModule,
     LigacaoModule,
+    MotivoconselhoModule,
     MovimentoModule,
     OfendidoModule,
     PendenciaModule,

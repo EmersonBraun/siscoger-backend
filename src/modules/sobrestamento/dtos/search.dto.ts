@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsNumber,
   IsOptional,
-  IsPositive,
+
   IsString
 } from 'class-validator';
 
@@ -37,50 +37,43 @@ export class SearchSobrestamentoDto {
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_adl?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_cd?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_cj?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_fatd?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_iso?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_it?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_sindicancia?: number
 
   @IsOptional()
   @IsString()
   @ApiProperty()
-  doc_controle_inicio?: string
+  doc_controle_inicio: string
 
   @IsOptional()
   @IsString()

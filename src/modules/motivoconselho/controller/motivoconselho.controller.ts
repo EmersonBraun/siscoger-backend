@@ -6,7 +6,7 @@ import {
   HttpCode,
   Param,
   Post,
-  Put,
+  Put
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -15,14 +15,14 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
 import { ErrorResponse } from '../../../common/responses';
-
 import { CreateMotivoconselhoDto } from '../dtos/create.dto';
 import { UpdateMotivoconselhoDto } from '../dtos/update.dto';
 import { Motivoconselho } from '../entity/motivoconselho.entity';
 import { MotivoconselhoService } from '../service/motivoconselho.service';
+
 
 @ApiTags('Motivoconselho')
 @Controller('motivosconselho')

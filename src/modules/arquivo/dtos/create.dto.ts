@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsNumber,
   IsOptional,
-  IsPositive,
+
   IsString
 } from 'class-validator';
 
@@ -29,85 +29,71 @@ export class CreateArquivoDto {
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_ipm: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_cj: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_cd: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_adl: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_sindicancia: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_fatd: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_desercao: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_apfd: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_iso: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_it: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_sai: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_pad: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_proc_outros: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_punicao: number
   
@@ -129,11 +115,11 @@ export class CreateArquivoDto {
   @IsOptional()
   @IsString()
   @ApiProperty()
-  arquivo_data?: string | Date
+  arquivo_data: string | Date
   
   @IsOptional()
   @ApiProperty()
-  retorno_data?: string | Date
+  retorno_data: string | Date
   
   @IsOptional()
   @ApiProperty()

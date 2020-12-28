@@ -11,14 +11,14 @@ export class usersHasRoles1609157856679 implements MigrationInterface {
             ]
         }))
 
-        await queryRunner.createForeignKey("andamento", new TableForeignKey({
+        await queryRunner.createForeignKey("users_has_roles", new TableForeignKey({
             columnNames: ["role_id"],
             referencedColumnNames: ["id"],
             referencedTableName: "roles",
             onDelete: "CASCADE"
         }));
 
-        await queryRunner.createForeignKey("andamento", new TableForeignKey({
+        await queryRunner.createForeignKey("users_has_roles", new TableForeignKey({
             columnNames: ["user_id"],
             referencedColumnNames: ["id"],
             referencedTableName: "users",

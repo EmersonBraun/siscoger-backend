@@ -11,5 +11,5 @@ export class CreatePendenciaDto {
   @IsOptional() @IsNumber() @ApiProperty() sjd_ref: number
   @IsOptional() @IsNumber() @ApiProperty() sjd_ref_ano: number
   @IsOptional() @IsString() @ApiProperty() proc: string
-  @IsOptional() @IsString() @ApiProperty() pendencias: string[]
+  @IsOptional() @ApiProperty() pendencias: string[]
 }
