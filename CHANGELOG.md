@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.34.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.33.2...v0.34.0) (2020-12-28)
+
+
+### Features
+
+* add funtions to sync users, roles and permissions ([2891ef2](https://github.com/EmersonBraun/siscoger-backend-v2/commit/2891ef2f8ce8243e8b045a9b625c6c7242810000))
+* add relation to permission and roles ([9ee4c76](https://github.com/EmersonBraun/siscoger-backend-v2/commit/9ee4c760334bc953cc5cd5f45e0eac8d6ad9bcd9))
+
 ### [0.33.2](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.33.1...v0.33.2) (2020-12-28)
 
 
