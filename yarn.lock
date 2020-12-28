@@ -3284,10 +3284,10 @@ expect@^26.6.2:
     jest-message-util "^26.6.2"
     jest-regex-util "^26.0.0"
 
-express-rate-limit@^5.2.3:
-  version "5.2.3"
-  resolved "https://registry.yarnpkg.com/express-rate-limit/-/express-rate-limit-5.2.3.tgz#ae73b3dc723decd697797611bd96e9b34a912f6c"
-  integrity sha512-cjQH+oDrEPXxc569XvxhHC6QXqJiuBT6BhZ70X3bdAImcnHnTNMVuMAJaT0TXPoRiEErUrVPRcOTpZpM36VbOQ==
+express-rate-limit@^0.0.0-typescript-beta-7:
+  version "0.0.0-typescript-beta-7"
+  resolved "https://registry.yarnpkg.com/express-rate-limit/-/express-rate-limit-0.0.0-typescript-beta-7.tgz#5397cc433504f3d15a15554d08162f986dbbdb40"
+  integrity sha512-KUIZE9mVVY7YbgeDuAYjyAJNvuB7jet1l9/kycz4Wb+Q4TAeEkb0+QOSvF9GfOXOGdunyle89BrHbdQS6R3t/w==
 
 express@4.17.1:
   version "4.17.1"
