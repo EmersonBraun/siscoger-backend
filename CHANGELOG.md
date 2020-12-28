@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.33.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.32.0...v0.33.0) (2020-12-28)
+
+
+### Features
+
+* add modules roles and permissions ([e6071c2](https://github.com/EmersonBraun/siscoger-backend-v2/commit/e6071c23c058a61cd5ab3839ed68f313f502c0c3))
+* add rate limit ([81c5dc5](https://github.com/EmersonBraun/siscoger-backend-v2/commit/81c5dc5f8b98ac836a882b3c87a58618528bd939))
+* add relations to users, roles and permissions ([c19863c](https://github.com/EmersonBraun/siscoger-backend-v2/commit/c19863c85762eb46ee0e98f2a73529f6f32020fb))
+
+
+### Bug Fixes
+
+* solve types of rate limit ([a2cf0b6](https://github.com/EmersonBraun/siscoger-backend-v2/commit/a2cf0b637bc53e9899f5eec8572b19f67979d3e6))
+
 ## [0.32.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.31.0...v0.32.0) (2020-12-24)
 
 
