@@ -18,17 +18,17 @@ export class Permission {
   @UpdateDateColumn({ name: 'updated_at' }) updatedAt: Date
   @DeleteDateColumn({ name: 'deleted_at' }) deletedAt: Date
 
-  @ManyToMany(() => Role)
+  @ManyToMany(() => Role, role => role.role, {cascade: true})
   @JoinTable({
     name: 'roles_has_permissions',
     joinColumn: {
       name: "permission_id",
-      referencedColumnName: "id"
+      referencedColumnName: "id",
     },
     inverseJoinColumn: {
       name: "role_id",
       referencedColumnName: "id"
     }
   })
-  role: Role[];
+  roles: Role[];
 }

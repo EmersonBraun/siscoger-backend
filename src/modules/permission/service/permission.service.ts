@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -17,17 +18,21 @@ export class PermissionService {
   }
 
   async search(data: CreatePermissionDto): Promise<Permission[]> {
-    console.log(data)
-    return await this.repository.find({ where: { ...data } });
+    const { roles, ...rest } = data
+    return await this.repository.find({ where: { ...rest } });
   }
 
   async create(data: CreatePermissionDto): Promise<Permission> {
-    const registry = this.repository.create(data);
+    const { roles, ...rest } = data
+    const registry = this.repository.create(rest);
+    if (roles.length) registry.roles = [...roles]
     return await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<Permission> {
-    const registry = await this.repository.findOne(id);
+    const registry = await this.repository.findOne(id,{
+      relations: ['roles']
+    });
 
     if (!registry) {
       throw new NotFoundException('Registry not found');
@@ -37,10 +42,12 @@ export class PermissionService {
   }
 
   async update(id: string, data: UpdatePermissionDto): Promise<Permission> {
-    const registry = await this.findById(id);
-    await this.repository.update(id, { ...data });
+    const registry = await this.repository.findOne(id, {relations:['roles']});
+    const { roles, ...rest } = data
+    if (roles) registry.roles = [...roles]
+    await this.repository.update(id, { ...rest });
 
-    return this.repository.create({ ...registry, ...data });
+    return this.repository.save({ ...registry, ...rest });
   }
 
   async delete(id: string): Promise<void> {
