@@ -1,5 +1,5 @@
 // /* eslint-disable @typescript-eslint/no-unused-vars */
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { RedisCacheService } from 'src/modules/cache/redis-cache.service';
 
@@ -17,9 +17,11 @@ export class ACLGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest();
+    if (!request?.user?.user) {
+      throw new UnauthorizedException('Not logged')
+    }
     const { rg } = request.user.user;
     const userData = await this.redisCacheService.get(rg)
-
     const getVerifiedRoles = this.verifyIfHasAnyRole(acl.roles, userData.roles)
     const getVerifiedPermission = this.verifyIfHasAnyPermission(acl.permissions, userData.permissions)
 

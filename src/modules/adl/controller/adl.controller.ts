@@ -44,10 +44,10 @@ export class AdlController {
 
   @Post()
   @HttpCode(201)
-  @UseGuards(JwtAuthGuard, ACLGuard)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
   @ACLPolice({roles: [], permissions: ['criar-adl']})
   @ApiOperation({ summary: 'Create a new Adl' })
-  @ApiCreatedResponse({ type: UpdateAdlDto, description: 'Created Adl' })
+  @ApiCreatedResponse({ type: UpdateAdlDto, description: 'Created Adl' }) 
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
   async create(@Body() data: CreateAdlDto): Promise<Adl> {
     return await this.service.create(data);
@@ -55,6 +55,8 @@ export class AdlController {
 
   @Get(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: ['ver-adl']})
   @ApiOperation({ summary: 'Search a Adl by id' })
   @ApiOkResponse({ type: UpdateAdlDto, description: 'The found Adl' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -64,6 +66,8 @@ export class AdlController {
 
   @Put(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: ['editar-adl']})
   @ApiOperation({ summary: 'Update a Adl' })
   @ApiOkResponse({ type: UpdateAdlDto, description: 'Updated Adl' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -76,6 +80,8 @@ export class AdlController {
 
   @Delete(':id')
   @HttpCode(204)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: ['apagar-adl']})
   @ApiOperation({ summary: 'Delete a Adl' })
   @ApiNoContentResponse({ description: 'Deleted Adl' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
