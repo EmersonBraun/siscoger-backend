@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.37.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.36.0...v0.37.0) (2020-12-30)
+
+
+### Features
+
+* acl guards to all routes ([f4bd8e6](https://github.com/EmersonBraun/siscoger-backend-v2/commit/f4bd8e66f4b2d758912f718d1bd26b74a65b3516))
+* add guards in acl ([e91f35a](https://github.com/EmersonBraun/siscoger-backend-v2/commit/e91f35a71bcdfcc284970719aec2f133307a5519))
+* add guards in adl and andamento ([a49eea5](https://github.com/EmersonBraun/siscoger-backend-v2/commit/a49eea5766460aab55f20d95a1ce4d2222541693))
+* add guards in andamentocoger ([b94bce9](https://github.com/EmersonBraun/siscoger-backend-v2/commit/b94bce947492bac72491c01ec8189fce032cf03a))
+
+
+### Bug Fixes
+
+* solve jwt exception ([db5d28f](https://github.com/EmersonBraun/siscoger-backend-v2/commit/db5d28f5ba5e71bebf24672f2dda4ff1ceb0ec62))
+
 ## [0.36.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.35.0...v0.36.0) (2020-12-30)
 
 
