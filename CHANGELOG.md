@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.38.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.37.0...v0.38.0) (2020-12-30)
+
+
+### Features
+
+* add description in roles and permissions ([3f546ef](https://github.com/EmersonBraun/siscoger-backend-v2/commit/3f546ef848120338823fda030527f77d33f2bb41))
+* add state in pendencias ([6d0c4f4](https://github.com/EmersonBraun/siscoger-backend-v2/commit/6d0c4f492d47a72b485f2be873a52dfc74d1d263))
+* create module mail ([a8ec99e](https://github.com/EmersonBraun/siscoger-backend-v2/commit/a8ec99e4fa17c7c8567012ff353e4c33fea67548))
+
 ## [0.37.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.36.0...v0.37.0) (2020-12-30)
 
 
