@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -15,14 +16,17 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
+import { ACLPolice } from 'src/common/decorators/acl.decorator';
+import { ACLGuard } from 'src/common/guards/acl.guard';
+import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 import { ErrorResponse } from '../../../common/responses';
-
 import { CreateAndamentoDto } from '../dtos/create.dto';
 import { UpdateAndamentoDto } from '../dtos/update.dto';
 import { Andamento } from '../entity/andamento.entity';
 import { AndamentoService } from '../service/andamento.service';
+
 
 @ApiTags('Andamento')
 @Controller('andamentos')
@@ -31,6 +35,8 @@ export class AndamentoController {
 
   @Get()
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: ['admin'], permissions: []})
   @ApiOperation({ summary: 'Search all Andamento' })
   @ApiOkResponse({ type: [CreateAndamentoDto], description: 'The found Andamento' })
   async findAll(): Promise<Andamento[]> {
@@ -39,6 +45,8 @@ export class AndamentoController {
 
   @Post()
   @HttpCode(201)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: ['admin'], permissions: []})
   @ApiOperation({ summary: 'Create a new Andamento' })
   @ApiCreatedResponse({ type: UpdateAndamentoDto, description: 'Created Andamento' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -48,6 +56,8 @@ export class AndamentoController {
 
   @Get(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: ['admin'], permissions: []})
   @ApiOperation({ summary: 'Search a Andamento by id' })
   @ApiOkResponse({ type: UpdateAndamentoDto, description: 'The found Andamento' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -57,6 +67,8 @@ export class AndamentoController {
 
   @Put(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: ['admin'], permissions: []})
   @ApiOperation({ summary: 'Update a Andamento' })
   @ApiOkResponse({ type: UpdateAndamentoDto, description: 'Updated Andamento' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -69,6 +81,8 @@ export class AndamentoController {
 
   @Delete(':id')
   @HttpCode(204)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: ['admin'], permissions: []})
   @ApiOperation({ summary: 'Delete a Andamento' })
   @ApiNoContentResponse({ description: 'Deleted Andamento' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
