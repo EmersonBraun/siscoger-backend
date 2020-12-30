@@ -6,7 +6,8 @@ import {
   HttpCode,
   Param,
   Post,
-  Put
+  Put,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -17,6 +18,9 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
+import { ACLPolice } from '../../../common/decorators/acl.decorator';
+import { ACLGuard } from '../../../common/guards/acl.guard';
+import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
 import { ErrorResponse } from '../../../common/responses';
 import { CreateApfdDto } from '../dtos/create.dto';
 import { UpdateApfdDto } from '../dtos/update.dto';
@@ -31,6 +35,8 @@ export class ApfdController {
 
   @Get()
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: ['admin'], permissions: ['criar-apfd']})
   @ApiOperation({ summary: 'Search all Apfd' })
   @ApiOkResponse({ type: [CreateApfdDto], description: 'The found Apfd' })
   async findAll(): Promise<Apfd[]> {
@@ -39,6 +45,8 @@ export class ApfdController {
 
   @Post()
   @HttpCode(201)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: ['admin'], permissions: ['criar-apfd']})
   @ApiOperation({ summary: 'Create a new Apfd' })
   @ApiCreatedResponse({ type: UpdateApfdDto, description: 'Created Apfd' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -48,6 +56,8 @@ export class ApfdController {
 
   @Get(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: ['admin'], permissions: ['criar-apfd']})
   @ApiOperation({ summary: 'Search a Apfd by id' })
   @ApiOkResponse({ type: UpdateApfdDto, description: 'The found Apfd' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -57,6 +67,8 @@ export class ApfdController {
 
   @Put(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: ['admin'], permissions: ['editar-apfd']})
   @ApiOperation({ summary: 'Update a Apfd' })
   @ApiOkResponse({ type: UpdateApfdDto, description: 'Updated Apfd' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -69,6 +81,8 @@ export class ApfdController {
 
   @Delete(':id')
   @HttpCode(204)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: ['admin'], permissions: ['apagar-apfd']})
   @ApiOperation({ summary: 'Delete a Apfd' })
   @ApiNoContentResponse({ description: 'Deleted Apfd' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })

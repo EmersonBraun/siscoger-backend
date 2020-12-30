@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -15,14 +16,17 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
+import { ACLPolice } from '../../../common/decorators/acl.decorator';
+import { ACLGuard } from '../../../common/guards/acl.guard';
+import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
 import { ErrorResponse } from '../../../common/responses';
-
 import { CreateOfendidoDto } from '../dtos/create.dto';
 import { UpdateOfendidoDto } from '../dtos/update.dto';
 import { Ofendido } from '../entity/ofendido.entity';
 import { OfendidoService } from '../service/ofendido.service';
+
 
 @ApiTags('Ofendido')
 @Controller('ofendidos')
@@ -31,6 +35,8 @@ export class OfendidoController {
 
   @Get()
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search all Ofendido' })
   @ApiOkResponse({ type: [CreateOfendidoDto], description: 'The found Ofendido' })
   async findAll(): Promise<Ofendido[]> {
@@ -39,6 +45,8 @@ export class OfendidoController {
 
   @Post('search')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search ofendido' })
   @ApiCreatedResponse({ type: UpdateOfendidoDto, description: 'Searched Ligacao' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -48,6 +56,8 @@ export class OfendidoController {
 
   @Post()
   @HttpCode(201)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Create a new Ofendido' })
   @ApiCreatedResponse({ type: UpdateOfendidoDto, description: 'Created Ofendido' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -57,6 +67,8 @@ export class OfendidoController {
 
   @Get(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search a Ofendido by id' })
   @ApiOkResponse({ type: UpdateOfendidoDto, description: 'The found Ofendido' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -66,6 +78,8 @@ export class OfendidoController {
 
   @Put(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Update a Ofendido' })
   @ApiOkResponse({ type: UpdateOfendidoDto, description: 'Updated Ofendido' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -78,6 +92,8 @@ export class OfendidoController {
 
   @Delete(':id')
   @HttpCode(204)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Delete a Ofendido' })
   @ApiNoContentResponse({ description: 'Deleted Ofendido' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })

@@ -1,7 +1,7 @@
 // /* eslint-disable @typescript-eslint/no-unused-vars */
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { RedisCacheService } from 'src/modules/cache/redis-cache.service';
+import { RedisCacheService } from '../../modules/cache/redis-cache.service';
 
 @Injectable()
 export class ACLGuard implements CanActivate {

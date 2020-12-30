@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { RedisCacheModule } from '../../cache/redis-cache.module';
 import { CreatePermissionDto } from '../dtos/create.dto';
 import { UpdatePermissionDto } from '../dtos/update.dto';
 import { fakerRegistry } from '../factory/permission.factory';
@@ -20,6 +21,7 @@ describe('PermissionController', () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [RedisCacheModule],
       controllers: [PermissionController],
       providers: [{ provide: PermissionService, useValue: mockService }],
     }).compile();

@@ -8,6 +8,7 @@ import {
   Post,
   Put,
   UploadedFile,
+  UseGuards,
   UseInterceptors
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -20,9 +21,12 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
-import { PDFFileFilter } from 'src/common/utils/file-upload.utils';
 import { fileUploadConfig } from 'src/config/fileupload';
+import { ACLPolice } from '../../../common/decorators/acl.decorator';
+import { ACLGuard } from '../../../common/guards/acl.guard';
+import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
 import { ErrorResponse } from '../../../common/responses';
+import { PDFFileFilter } from '../../../common/utils/file-upload.utils';
 import { CreateUploadDto } from '../dtos';
 import { UpdateUploadDto } from '../dtos/update.dto';
 import { Upload } from '../schema/upload.schema';
@@ -36,6 +40,8 @@ export class UploadController {
 
   @Get()
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search all Upload' })
   @ApiOkResponse({ type: [CreateUploadDto], description: 'The found Upload' })
   async findAll(): Promise<Upload[]> {
@@ -44,6 +50,8 @@ export class UploadController {
 
   @Post('search')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search Upload' })
   @ApiCreatedResponse({ type: UpdateUploadDto, description: 'Searched Upload' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -53,6 +61,8 @@ export class UploadController {
 
   @Post()
   @HttpCode(201)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Create a new Upload' })
   @ApiCreatedResponse({ type: UpdateUploadDto, description: 'Created Upload' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -64,6 +74,8 @@ export class UploadController {
 
   @Get(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search a Upload by id' })
   @ApiOkResponse({ type: UpdateUploadDto, description: 'The found Upload' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -73,6 +85,8 @@ export class UploadController {
 
   @Put(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Update a Upload' })
   @ApiOkResponse({ type: UpdateUploadDto, description: 'Updated Upload' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -85,6 +99,8 @@ export class UploadController {
 
   @Delete(':id')
   @HttpCode(204)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Delete a Upload' })
   @ApiNoContentResponse({ description: 'Deleted Upload' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })

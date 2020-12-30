@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { RedisCacheModule } from '../../cache/redis-cache.module';
 import { CreateMotivoconselhoDto, UpdateMotivoconselhoDto } from '../dtos';
 import { fakerRegistry } from '../factory/motivoconselho.factory';
 import { MotivoconselhoService } from '../service/motivoconselho.service';
@@ -18,6 +19,7 @@ describe('MotivoconselhoController', () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [RedisCacheModule],
       controllers: [MotivoconselhoController],
       providers: [{ provide: MotivoconselhoService, useValue: mockService }],
     }).compile();

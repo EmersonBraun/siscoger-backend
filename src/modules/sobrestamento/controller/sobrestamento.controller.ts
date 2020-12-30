@@ -6,7 +6,8 @@ import {
   HttpCode,
   Param,
   Post,
-  Put
+  Put,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -17,6 +18,9 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
+import { ACLPolice } from '../../../common/decorators/acl.decorator';
+import { ACLGuard } from '../../../common/guards/acl.guard';
+import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
 import { ErrorResponse } from '../../../common/responses';
 import { SearchSobrestamentoDto } from '../dtos';
 import { BetweenDatesDto } from '../dtos/between-dates.dto';
@@ -33,6 +37,8 @@ export class SobrestamentoController {
 
   @Get()
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search all Sobrestamento' })
   @ApiOkResponse({ type: [CreateSobrestamentoDto], description: 'The found Sobrestamento' })
   async findAll(): Promise<Sobrestamento[]> {
@@ -41,6 +47,8 @@ export class SobrestamentoController {
 
   @Post('search')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search Sobrestamento' })
   @ApiCreatedResponse({ type: SearchSobrestamentoDto, description: 'Searched Sobrestamento' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -50,6 +58,8 @@ export class SobrestamentoController {
 
   @Post('/between-dates')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Verify countable days' })
   @ApiCreatedResponse({ type: 'number', description: 'Countable Days' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -60,6 +70,8 @@ export class SobrestamentoController {
 
   @Post()
   @HttpCode(201)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Create a new Sobrestamento' })
   @ApiCreatedResponse({ type: UpdateSobrestamentoDto, description: 'Created Sobrestamento' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -69,6 +81,8 @@ export class SobrestamentoController {
 
   @Get(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search a Sobrestamento by id' })
   @ApiOkResponse({ type: UpdateSobrestamentoDto, description: 'The found Sobrestamento' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -78,6 +92,8 @@ export class SobrestamentoController {
 
   @Put(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Update a Sobrestamento' })
   @ApiOkResponse({ type: UpdateSobrestamentoDto, description: 'Updated Sobrestamento' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -90,6 +106,8 @@ export class SobrestamentoController {
 
   @Delete(':id')
   @HttpCode(204)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Delete a Sobrestamento' })
   @ApiNoContentResponse({ description: 'Deleted Sobrestamento' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })

@@ -3,7 +3,8 @@ import {
   Controller,
   Get,
   HttpCode,
-  Post
+  Post,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -14,6 +15,9 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
+import { ACLPolice } from '../../../common/decorators/acl.decorator';
+import { ACLGuard } from '../../../common/guards/acl.guard';
+import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
 import { ErrorResponse } from '../../../common/responses';
 import { CreateTasksDto } from '../dtos/create.dto';
 import { UpdateTasksDto } from '../dtos/update.dto';
@@ -28,6 +32,8 @@ export class TasksController {
 
   @Get()
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search all Tasks' })
   @ApiOkResponse({ type: [CreateTasksDto], description: 'The found Tasks' })
   async findAll(): Promise<Tasks[]> {
@@ -36,6 +42,8 @@ export class TasksController {
 
   @Post('search')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search Tasks' })
   @ApiCreatedResponse({ type: UpdateTasksDto, description: 'Searched Tasks' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })

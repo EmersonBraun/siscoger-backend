@@ -6,7 +6,8 @@ import {
   HttpCode,
   Param,
   Post,
-  Put
+  Put,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -17,6 +18,9 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
+import { ACLPolice } from '../../../common/decorators/acl.decorator';
+import { ACLGuard } from '../../../common/guards/acl.guard';
+import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
 import { ErrorResponse } from '../../../common/responses';
 import { CreatePermissionDto } from '../dtos/create.dto';
 import { UpdatePermissionDto } from '../dtos/update.dto';
@@ -31,6 +35,8 @@ export class PermissionController {
 
   @Get()
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search all permission' })
   @ApiOkResponse({ type: [CreatePermissionDto], description: 'The found permission' })
   async findAll(): Promise<Permission[]> {
@@ -39,6 +45,9 @@ export class PermissionController {
 
   @Post('search')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
+  @ApiOperation({ summary: 'Search all permission' })
   @ApiOperation({ summary: 'Search permission' })
   @ApiCreatedResponse({ type: UpdatePermissionDto, description: 'Searched permission' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -48,6 +57,9 @@ export class PermissionController {
 
   @Post()
   @HttpCode(201)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
+  @ApiOperation({ summary: 'Search all permission' })
   @ApiOperation({ summary: 'Create a new permission' })
   @ApiCreatedResponse({ type: UpdatePermissionDto, description: 'Created permission' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -57,6 +69,9 @@ export class PermissionController {
 
   @Get(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
+  @ApiOperation({ summary: 'Search all permission' })
   @ApiOperation({ summary: 'Search a permission by id' })
   @ApiOkResponse({ type: UpdatePermissionDto, description: 'The found permission' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -66,6 +81,9 @@ export class PermissionController {
 
   @Put(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
+  @ApiOperation({ summary: 'Search all permission' })
   @ApiOperation({ summary: 'Update a permission' })
   @ApiOkResponse({ type: UpdatePermissionDto, description: 'Updated permission' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -78,6 +96,9 @@ export class PermissionController {
 
   @Delete(':id')
   @HttpCode(204)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
+  @ApiOperation({ summary: 'Search all permission' })
   @ApiOperation({ summary: 'Delete a permission' })
   @ApiNoContentResponse({ description: 'Deleted permission' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })

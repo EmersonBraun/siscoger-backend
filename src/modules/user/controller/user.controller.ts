@@ -6,7 +6,8 @@ import {
   HttpCode,
   Param,
   Post,
-  Put
+  Put,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -17,6 +18,9 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
+import { ACLPolice } from '../../../common/decorators/acl.decorator';
+import { ACLGuard } from '../../../common/guards/acl.guard';
+import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
 import { ErrorResponse } from '../../../common/responses';
 import { CreateUserDto } from '../dtos/create.dto';
 import { UpdateUserDto } from '../dtos/update.dto';
@@ -31,6 +35,8 @@ export class UserController {
 
   @Get()
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search all User' })
   @ApiOkResponse({ type: [CreateUserDto], description: 'The found User' })
   async findAll(): Promise<User[]> {
@@ -39,6 +45,8 @@ export class UserController {
 
   @Post('search')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search User' })
   @ApiCreatedResponse({ type: UpdateUserDto, description: 'Searched User' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -48,6 +56,8 @@ export class UserController {
 
   @Post()
   @HttpCode(201)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Create a new User' })
   @ApiCreatedResponse({ type: UpdateUserDto, description: 'Created User' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -57,6 +67,8 @@ export class UserController {
 
   @Get(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search a User by id' })
   @ApiOkResponse({ type: UpdateUserDto, description: 'The found User' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -66,6 +78,8 @@ export class UserController {
 
   @Put(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Update a User' })
   @ApiOkResponse({ type: UpdateUserDto, description: 'Updated User' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -78,6 +92,8 @@ export class UserController {
 
   @Delete(':id')
   @HttpCode(204)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Delete a User' })
   @ApiNoContentResponse({ description: 'Deleted User' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })

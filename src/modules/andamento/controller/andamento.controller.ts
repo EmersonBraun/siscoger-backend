@@ -18,9 +18,9 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
-import { ACLPolice } from 'src/common/decorators/acl.decorator';
-import { ACLGuard } from 'src/common/guards/acl.guard';
-import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
+import { ACLPolice } from '../../../common/decorators/acl.decorator';
+import { ACLGuard } from '../../../common/guards/acl.guard';
+import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
 import { ErrorResponse } from '../../../common/responses';
 import { CreateAndamentoDto } from '../dtos/create.dto';
 import { UpdateAndamentoDto } from '../dtos/update.dto';

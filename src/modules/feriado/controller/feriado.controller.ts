@@ -6,7 +6,8 @@ import {
   HttpCode,
   Param,
   Post,
-  Put
+  Put,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -17,6 +18,9 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
+import { ACLPolice } from '../../../common/decorators/acl.decorator';
+import { ACLGuard } from '../../../common/guards/acl.guard';
+import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
 import { ErrorResponse } from '../../../common/responses';
 import { CreateFeriadoDto } from '../dtos/create.dto';
 import { SearchFeriadoDto } from '../dtos/search.dto';
@@ -32,6 +36,8 @@ export class FeriadoController {
 
   @Get()
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: ['admin'], permissions: []})
   @ApiOperation({ summary: 'Search all Feriado' })
   @ApiOkResponse({ type: [CreateFeriadoDto], description: 'The found Feriado' })
   async findAll(): Promise<Feriado[]> {
@@ -40,6 +46,8 @@ export class FeriadoController {
 
   @Post()
   @HttpCode(201)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: ['admin'], permissions: []})
   @ApiOperation({ summary: 'Create a new Feriado' })
   @ApiCreatedResponse({ type: UpdateFeriadoDto, description: 'Created Feriado' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -49,6 +57,8 @@ export class FeriadoController {
 
   @Post('/between-dates')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: ['admin'], permissions: []})
   @ApiOperation({ summary: 'Verify countable days' })
   @ApiCreatedResponse({ type: 'number', description: 'Countable Days' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -59,6 +69,8 @@ export class FeriadoController {
 
   @Get(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: ['admin'], permissions: []})
   @ApiOperation({ summary: 'Search a Feriado by id' })
   @ApiOkResponse({ type: UpdateFeriadoDto, description: 'The found Feriado' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -68,6 +80,8 @@ export class FeriadoController {
 
   @Put(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: ['admin'], permissions: []})
   @ApiOperation({ summary: 'Update a Feriado' })
   @ApiOkResponse({ type: UpdateFeriadoDto, description: 'Updated Feriado' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -80,6 +94,8 @@ export class FeriadoController {
 
   @Delete(':id')
   @HttpCode(204)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: ['admin'], permissions: []})
   @ApiOperation({ summary: 'Delete a Feriado' })
   @ApiNoContentResponse({ description: 'Deleted Feriado' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })

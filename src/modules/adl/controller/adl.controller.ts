@@ -18,9 +18,9 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
-import { ACLPolice } from 'src/common/decorators/acl.decorator';
-import { ACLGuard } from 'src/common/guards/acl.guard';
-import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
+import { ACLPolice } from '../../../common/decorators/acl.decorator';
+import { ACLGuard } from '../../../common/guards/acl.guard';
+import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
 import { ErrorResponse } from '../../../common/responses';
 import { CreateAdlDto } from '../dtos/create.dto';
 import { UpdateAdlDto } from '../dtos/update.dto';
@@ -35,7 +35,8 @@ export class AdlController {
 
   @Get()
   @HttpCode(200)
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: ['admin'], permissions: ['criar-adl']})
   @ApiOperation({ summary: 'Search all Adl' })
   @ApiOkResponse({ type: [CreateAdlDto], description: 'The found Adl' })
   async findAll(): Promise<Adl[]> {
@@ -45,7 +46,7 @@ export class AdlController {
   @Post()
   @HttpCode(201)
   @UseGuards(JwtAuthGuard, ACLGuard) 
-  @ACLPolice({roles: [], permissions: ['criar-adl']})
+  @ACLPolice({roles: ['admin'], permissions: ['criar-adl']})
   @ApiOperation({ summary: 'Create a new Adl' })
   @ApiCreatedResponse({ type: UpdateAdlDto, description: 'Created Adl' }) 
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -56,7 +57,7 @@ export class AdlController {
   @Get(':id')
   @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard) 
-  @ACLPolice({roles: [], permissions: ['ver-adl']})
+  @ACLPolice({roles: ['admin'], permissions: ['ver-adl']})
   @ApiOperation({ summary: 'Search a Adl by id' })
   @ApiOkResponse({ type: UpdateAdlDto, description: 'The found Adl' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -67,7 +68,7 @@ export class AdlController {
   @Put(':id')
   @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({roles: [], permissions: ['editar-adl']})
+  @ACLPolice({roles: ['admin'], permissions: ['editar-adl']})
   @ApiOperation({ summary: 'Update a Adl' })
   @ApiOkResponse({ type: UpdateAdlDto, description: 'Updated Adl' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -81,7 +82,7 @@ export class AdlController {
   @Delete(':id')
   @HttpCode(204)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({roles: [], permissions: ['apagar-adl']})
+  @ACLPolice({roles: ['admin'], permissions: ['apagar-adl']})
   @ApiOperation({ summary: 'Delete a Adl' })
   @ApiNoContentResponse({ description: 'Deleted Adl' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })

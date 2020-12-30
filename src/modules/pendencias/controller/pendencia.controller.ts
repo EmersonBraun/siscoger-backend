@@ -6,7 +6,8 @@ import {
   HttpCode,
   Param,
   Post,
-  Put
+  Put,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -17,6 +18,9 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
+import { ACLPolice } from '../../../common/decorators/acl.decorator';
+import { ACLGuard } from '../../../common/guards/acl.guard';
+import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
 import { ErrorResponse } from '../../../common/responses';
 import { CreatePendenciaDto } from '../dtos';
 import { UpdatePendenciaDto } from '../dtos/update.dto';
@@ -31,6 +35,8 @@ export class PendenciaController {
 
   @Get()
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search all Pendencia' })
   @ApiOkResponse({ type: [CreatePendenciaDto], description: 'The found Pendencia' })
   async findAll(): Promise<Pendencia[]> {
@@ -39,6 +45,8 @@ export class PendenciaController {
 
   @Post('search')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search Pendencia' })
   @ApiCreatedResponse({ type: UpdatePendenciaDto, description: 'Searched Pendencia' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -48,6 +56,8 @@ export class PendenciaController {
 
   @Post()
   @HttpCode(201)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Create a new Pendencia' })
   @ApiCreatedResponse({ type: UpdatePendenciaDto, description: 'Created Pendencia' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -57,6 +67,8 @@ export class PendenciaController {
 
   @Get(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search a Pendencia by id' })
   @ApiOkResponse({ type: UpdatePendenciaDto, description: 'The found Pendencia' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -66,6 +78,8 @@ export class PendenciaController {
 
   @Put(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Update a Pendencia' })
   @ApiOkResponse({ type: UpdatePendenciaDto, description: 'Updated Pendencia' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -78,6 +92,8 @@ export class PendenciaController {
 
   @Delete(':id')
   @HttpCode(204)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Delete a Pendencia' })
   @ApiNoContentResponse({ description: 'Deleted Pendencia' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
