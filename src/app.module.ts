@@ -1,5 +1,5 @@
 import { MailerModule } from '@nestjs-modules/mailer';
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { CacheModule, MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -35,6 +35,7 @@ import { UserModule } from './modules/user/user.module';
 @Module({
   imports: [
     ConfigModule.forRoot({isGlobal: true,expandVariables: true,}),
+    CacheModule.register(),
     ScheduleModule.forRoot(),
     TasksModule,
     TypeOrmModule.forRoot(typeOrmOptions),
