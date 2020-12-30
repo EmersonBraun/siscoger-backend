@@ -16,13 +16,23 @@ export class UserService {
     return await this.repository.find();
   }
 
-  async findOne(options?: any): Promise<CreateUserDto> {
-    const user =  await this.repository.findOne(options);
+  async findOne(data?: any): Promise<CreateUserDto> {
+    const user =  await this.repository.findOne(data);
     if (!user) {
       throw new NotFoundException('Registry not found');
     }    
     return user;  
-}
+  }
+
+  async findByRg(rg?: string): Promise<CreateUserDto> {
+    const user = await this.repository.findOne({ rg }, { 
+      relations: ['roles','roles.permissions']
+    });
+    if (!user) {
+      throw new NotFoundException('Registry not found');
+    } 
+    return user;  
+  }
 
   async search(data: CreateUserDto): Promise<User[]> {
      return await this.repository.find({ where: { ...data } });

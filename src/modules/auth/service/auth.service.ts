@@ -14,8 +14,7 @@ export class AuthService {
   ) {}
 
   async validateUser(rg: string, pass: string): Promise<any> {
-    const userData = await this.usersService.findOne({ where: { rg } });
-    
+    const userData = await this.usersService.findByRg(rg);
     if (!userData) {
       throw new NotFoundException('User not found');    
     }
@@ -32,14 +31,8 @@ export class AuthService {
   }
 
   private _createToken(user: User): any {
-    const expiresIn = process.env.EXPIRESIN;
-    user['roles'] = []
     try {
-      const accessToken = this.jwtService.sign(user);
-      return {
-        expiresIn,
-        accessToken,
-      };  
+      return this.jwtService.sign(user); 
     } catch (error) {
       this.logger.verbose(error)
       return error
@@ -47,7 +40,30 @@ export class AuthService {
   } 
 
   async login(userData: any) {
-    const token = this._createToken(userData)
-    return { user: userData, token };
+    const {user, roles, permissions} = this.getCleanDataOfUser(userData)
+    const token = this._createToken(user as User)
+    return {token, user, roles, permissions}
+  }
+
+  getCleanDataOfUser (userData: { user: { [x: string]: any; roles: any; }; }) {
+    const permissionsData:string[] = []
+    let rolesData = []
+    const { roles, ...user } = userData.user
+    if (roles.length) {
+      rolesData = roles.map((role: { role?: string; permissions?: unknown[]; }) => {
+        const { permissions } = role
+        if (permissions.length) {
+          const p = permissions.map((permission: { permission: string; }) => permission.permission)
+          permissionsData.push(...p)
+        }
+        return role.role
+      })
+    }
+
+    let cleanDuplicatedPermissions = []
+    if (permissionsData.length) {
+      cleanDuplicatedPermissions = [...new Set(permissionsData)]
+    }
+    return {user, roles:rolesData, permissions:cleanDuplicatedPermissions }
   }
 }
