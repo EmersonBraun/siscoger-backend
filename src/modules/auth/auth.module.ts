@@ -1,7 +1,8 @@
-import { CacheModule, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
+import { RedisCacheModule } from '../cache/redis-cache.module';
 import { UserModule } from "../user/user.module";
 import { AuthController } from "./controller/auth.controller";
 import { AuthService } from "./service/auth.service";
@@ -11,8 +12,8 @@ import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({  
   imports: [   
-    UserModule,
-    CacheModule.register(),    
+    UserModule,  
+    RedisCacheModule,
     PassportModule.register({
       defaultStrategy: 'jwt',
       property: 'user',

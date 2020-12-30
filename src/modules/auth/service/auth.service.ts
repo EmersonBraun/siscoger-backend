@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { CACHE_MANAGER, HttpException, HttpStatus, Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
-import { Cache } from 'cache-manager';
+import { RedisCacheService } from 'src/modules/cache/redis-cache.service';
 import { User } from '../../user/entity/user.entity';
 import { UserService } from '../../user/service/user.service';
 
@@ -12,7 +12,7 @@ export class AuthService {
   constructor(
     private readonly usersService: UserService,
     private readonly jwtService: JwtService,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    private readonly redisCacheService: RedisCacheService,
   ) {}
 
   async validateUser(rg: string, pass: string): Promise<any> {
@@ -43,9 +43,10 @@ export class AuthService {
 
   async login(userData: { user: { [x: string]: User; roles: any; }; }) {
     const {user, roles, permissions} = this.getCleanDataOfUser(userData)
-    // const value = this.cacheManager.get(user.rg)
+    const value = await this.redisCacheService.get(user.rg)
+    console.log(value)
     const token = this._createToken(user as User)
-    await this.cacheManager.set(user.rg,{user, roles, permissions},{ttl: 86400})
+    await this.redisCacheService.set(user.rg,{user, roles, permissions},86400)
     return {token, user, roles, permissions}
   }
 
