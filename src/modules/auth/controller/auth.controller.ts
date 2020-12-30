@@ -13,10 +13,10 @@ import {
   ApiTags
 } from '@nestjs/swagger';
 import { CreateUserDto } from 'src/modules/user/dtos';
+import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
+import { LocalAuthGuard } from '../../../common/guards/local.guard';
 import { ErrorResponse } from '../../../common/responses';
 import { LoginDto } from '../dtos/login.dto';
-import { JwtAuthGuard } from '../guards/jwt.guard';
-import { LocalAuthGuard } from '../guards/local.guard';
 import { AuthService } from '../service/auth.service';
 
 
@@ -25,12 +25,12 @@ import { AuthService } from '../service/auth.service';
 export class AuthController {
   constructor(private service: AuthService) {}
 
-  @UseGuards(LocalAuthGuard)
   @Post('login')
   @HttpCode(201)
   @ApiOperation({ summary: 'Create a new auth' })
   @ApiCreatedResponse({ type: LoginDto, description: 'Logged' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Not logged', })
+  @UseGuards(LocalAuthGuard)
   async login(@Request() req): Promise<any> {
     return this.service.login(req.user);
   }

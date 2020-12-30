@@ -6,7 +6,8 @@ import {
   HttpCode,
   Param,
   Post,
-  Put
+  Put,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -17,6 +18,9 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
+import { ACLPolice } from 'src/common/decorators/acl.decorator';
+import { ACLGuard } from 'src/common/guards/acl.guard';
+import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 import { ErrorResponse } from '../../../common/responses';
 import { CreateAdlDto } from '../dtos/create.dto';
 import { UpdateAdlDto } from '../dtos/update.dto';
@@ -31,6 +35,7 @@ export class AdlController {
 
   @Get()
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Search all Adl' })
   @ApiOkResponse({ type: [CreateAdlDto], description: 'The found Adl' })
   async findAll(): Promise<Adl[]> {
@@ -39,6 +44,8 @@ export class AdlController {
 
   @Post()
   @HttpCode(201)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({roles: [], permissions: ['criar-adl']})
   @ApiOperation({ summary: 'Create a new Adl' })
   @ApiCreatedResponse({ type: UpdateAdlDto, description: 'Created Adl' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })

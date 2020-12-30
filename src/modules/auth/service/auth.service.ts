@@ -27,12 +27,11 @@ export class AuthService {
     }
 
     const { password, ...user } = userData;
-
     return {user}
 
   }
 
-  private _createToken(user: User): any {
+  private _createToken(user: any): any {
     try {
       return this.jwtService.sign(user); 
     } catch (error) {
@@ -43,14 +42,12 @@ export class AuthService {
 
   async login(userData: { user: { [x: string]: User; roles: any; }; }) {
     const {user, roles, permissions} = this.getCleanDataOfUser(userData)
-    const value = await this.redisCacheService.get(user.rg)
-    console.log(value)
-    const token = this._createToken(user as User)
+    const token = this._createToken(user)
     await this.redisCacheService.set(user.rg,{user, roles, permissions},86400)
     return {token, user, roles, permissions}
   }
 
-  getCleanDataOfUser (userData: { user: { [x: string]: any; roles: any; }; }) {
+  getCleanDataOfUser (userData: any) {
     const permissionsData:string[] = []
     let rolesData = []
     const { roles, ...user } = userData.user
