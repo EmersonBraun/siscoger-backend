@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.36.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.35.0...v0.36.0) (2020-12-30)
+
+
+### Features
+
+* add roles and permissions in return of login ([b2e780f](https://github.com/EmersonBraun/siscoger-backend-v2/commit/b2e780fce60663f98cdce56cae3a514b3845fbce))
+* configure cache with redis ([72dcfd9](https://github.com/EmersonBraun/siscoger-backend-v2/commit/72dcfd9304d4d71c4a84f9968d1c44e78add3daa))
+
 ## [0.35.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.34.0...v0.35.0) (2020-12-28)
 
 
