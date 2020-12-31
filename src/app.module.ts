@@ -6,14 +6,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
-import { bullConfig, mailerConfig, typeOrmOptions } from '../src/config';
+import { bullConfig, mailerConfig, mainConfig, typeOrmOptions } from '../src/config';
 import { AppLoggerMiddleware } from './common/logger/middleware';
 import { registerModules } from './register-modules';
 
 @Module({
   imports: [
     BullModule.forRoot(bullConfig),
-    ConfigModule.forRoot({isGlobal: true,expandVariables: true,}),
+    ConfigModule.forRoot(mainConfig),
     CacheModule.register(),
     ScheduleModule.forRoot(),
     TypeOrmModule.forRoot(typeOrmOptions),
