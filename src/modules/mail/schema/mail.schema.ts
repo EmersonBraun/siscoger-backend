@@ -11,6 +11,9 @@ export class Mail {
   @Prop() subject: string
   @Prop() template: string
   @Prop([Any]) context: any[]
+  @Prop([Any]) processedOn: any
+  @Prop([Any]) finishedOn: any
+  @Prop([Any]) failedReason: any
 
 }
 export const MailSchema = SchemaFactory.createForClass(Mail)

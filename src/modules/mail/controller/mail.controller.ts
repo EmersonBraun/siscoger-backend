@@ -29,7 +29,7 @@ import { MailService } from '../service/mail.service';
 
 
 @ApiTags('Mail')
-@Controller('pendencias')
+@Controller('mails')
 export class MailController {
   constructor(private service: MailService) {}
 

@@ -6,12 +6,14 @@ require('dotenv').config();
 
 export const mailerConfig: MailerOptions = {
   template: {
-    dir: path.resolve(__dirname, '..', '..', '..','templates'),
+    dir: path.resolve(__dirname, '..', '..', '..', 'src', 'modules', 'mail','templates'),
     adapter: new HandlebarsAdapter(),
     options: {
       extName: '.hbs',
-      layoutsDir: path.resolve(__dirname, '..', '..', '..','templates'),
+      layoutsDir: path.resolve(__dirname, '..', '..', '..', 'src', 'modules', 'mail','templates'),
     },
   },
   transport: process.env.MAIL,
 };
+
+export const usernameSendMail = process.env.MAIL_USER || 'noreply'

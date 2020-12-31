@@ -5,9 +5,12 @@ import {
 } from 'class-validator';
 
 export class CreateMailDto {
-  @IsOptional() @IsString() @ApiProperty() to: string
+  @IsString() @ApiProperty() to: string
   @IsOptional() @IsString() @ApiProperty() from: string
-  @IsOptional() @IsString() @ApiProperty() subject: string
+  @IsString() @ApiProperty() subject: string
   @IsOptional() @IsString() @ApiProperty() template: string
   @IsOptional() @ApiProperty() context: any[]
+  @IsOptional() @ApiProperty() processedOn: any
+  @IsOptional() @ApiProperty() finishedOn: any
+  @IsOptional() @ApiProperty() failedReason: any
 }

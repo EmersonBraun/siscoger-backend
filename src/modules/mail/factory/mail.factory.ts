@@ -9,6 +9,9 @@ define(Mail, (faker: typeof Faker) => {
   factory.from = faker.name.findName()
   factory.subject = faker.name.findName()
   factory.template = faker.name.findName()
+  factory.processedOn = 0,
+  factory.finishedOn = 0,
+  factory.failedReason = 0,
   factory.context = []
   return factory
 })
@@ -20,6 +23,9 @@ export const fakerRegistry = ():CreateMailDto => {
     from: faker.name.findName(),
     subject: faker.name.findName(),
     template: faker.name.findName(),
+    processedOn: 0,
+    finishedOn: 0,
+    failedReason: 0,
     context: [],
   }
 }
