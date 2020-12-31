@@ -19,7 +19,7 @@ import { PermissionModule } from './modules/permission/permission.module';
 import { RoleModule } from './modules/role/role.module';
 import { SindicanciaModule } from './modules/sindicancia/sindicancia.module';
 import { SobrestamentoModule } from './modules/sobrestamento/sobrestamento.module';
-import { TasksModule } from './modules/Tasks/tasks.module';
+import { TasksModule } from './modules/tasks/tasks.module';
 import { UploadModule } from './modules/upload/upload.module';
 import { UserModule } from './modules/user/user.module';
 
