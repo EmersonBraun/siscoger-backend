@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.39.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.38.0...v0.39.0) (2020-12-31)
+
+
+### Features
+
+* finish mail module ([33156a4](https://github.com/EmersonBraun/siscoger-backend-v2/commit/33156a47cbef569f903b60533f6b20a44ca7d170))
+
+
+### Bug Fixes
+
+* rename module Tasks to tasks ([84749e8](https://github.com/EmersonBraun/siscoger-backend-v2/commit/84749e8f1ebaadb75d6ff8dcd293c3defb407482))
+* solve pendencia changes compatibility ([0c7e5e9](https://github.com/EmersonBraun/siscoger-backend-v2/commit/0c7e5e9809aedf04ddde2011383c1d5f19af87aa))
+
 ## [0.38.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.37.0...v0.38.0) (2020-12-30)
 
 
