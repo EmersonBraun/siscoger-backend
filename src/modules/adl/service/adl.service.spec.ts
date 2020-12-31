@@ -1,6 +1,8 @@
 import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { LogModule } from '../../log/log.module';
+import { LogService } from '../../log/service/log.service';
 import { CreateAdlDto, UpdateAdlDto } from '../dtos';
 import { Adl } from '../entity/adl.entity';
 import { fakerRegistry } from '../factory/adl.factory';
@@ -21,8 +23,10 @@ describe('AdlService', () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [LogModule],
       providers: [
         AdlService,
+        LogService,
         { provide: getRepositoryToken(Adl), useValue: mockRepository },
       ],
     }).compile();

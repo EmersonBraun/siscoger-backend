@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { LogService } from '../../log/service/log.service';
 import { CreateSindicanciaDto } from '../dtos/create.dto';
 import { SearchPortariaDto } from '../dtos/search-portaria.dto';
 import { UpdateSindicanciaDto } from '../dtos/update.dto';
@@ -11,6 +12,7 @@ export class SindicanciaService {
   constructor(
     @InjectRepository(Sindicancia)
     private repository: Repository<Sindicancia>,
+    private log: LogService
     // private connection: Connection
   ) {}
 
@@ -295,7 +297,9 @@ export class SindicanciaService {
     const registry = this.repository.create(data);
     registry.sjd_ref_ano = this.getNextRefYear(data)
     registry.sjd_ref = await this.getNextRef(data)
-    return await this.repository.save(registry);
+    const saveData = await this.repository.save(registry);
+    await this.log.create({ module: 'sindicancia', action: 'create', data: saveData,})
+    return saveData
   }
 
   async findById(id: string): Promise<Sindicancia> {
@@ -312,11 +316,15 @@ export class SindicanciaService {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
 
-    return this.repository.create({ ...registry, ...data });
+    const saveData = this.repository.create({ ...registry, ...data });
+    await this.log.create({module: 'sindicancia',action: 'update',data: saveData,old: registry,})
+    
+    return saveData
   }
 
   async delete(id: string): Promise<void> {
-    await this.findById(id);
+    const saveData = await this.findById(id);
+    await this.log.create({module: 'sindicancia',action: 'delete',data: saveData})
     await this.repository.delete(id);
   }
 }

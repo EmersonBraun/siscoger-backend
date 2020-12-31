@@ -1,6 +1,3 @@
 {
-  "hooks": {
-    "pre-commit": "lint-staged",
-    "pre-push": "yarn audit && npm run test:cov"
-  }
+  "hooks": {}
 }

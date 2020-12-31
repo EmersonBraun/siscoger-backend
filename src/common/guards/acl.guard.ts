@@ -17,10 +17,10 @@ export class ACLGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest();
-    if (!request?.user?.user) {
+    if (!request?.user) {
       throw new UnauthorizedException('Not logged')
     }
-    const { rg } = request.user.user;
+    const { rg } = request.user;
     const userData = await this.redisCacheService.get(rg)
     const getVerifiedRoles = this.verifyIfHasAnyRole(acl.roles, userData.roles)
     const getVerifiedPermission = this.verifyIfHasAnyPermission(acl.permissions, userData.permissions)

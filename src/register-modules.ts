@@ -1,3 +1,4 @@
+import { LoggerModule } from './common/logger/logger.module';
 import { AdlModule } from './modules/adl/adl.module';
 import { AndamentoModule } from './modules/andamento/andamento.module';
 import { AndamentocogerModule } from './modules/andamentocoger/andamentocoger.module';
@@ -35,6 +36,7 @@ export const registerModules = [
   FeriadoModule,
   GradacaoModule,
   LigacaoModule,
+  LoggerModule,
   MailModule,
   MotivoconselhoModule,
   MovimentoModule,

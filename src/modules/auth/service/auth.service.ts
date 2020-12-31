@@ -3,6 +3,7 @@ import { HttpException, HttpStatus, Injectable, Logger, NotFoundException } from
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
 import { RedisCacheService } from 'src/modules/cache/redis-cache.service';
+import { LogService } from '../../log/service/log.service';
 import { User } from '../../user/entity/user.entity';
 import { UserService } from '../../user/service/user.service';
 
@@ -13,6 +14,7 @@ export class AuthService {
     private readonly usersService: UserService,
     private readonly jwtService: JwtService,
     private readonly redisCacheService: RedisCacheService,
+    private log: LogService,
   ) {}
 
   async validateUser(rg: string, pass: string): Promise<any> {
@@ -44,6 +46,7 @@ export class AuthService {
     const {user, roles, permissions} = this.getCleanDataOfUser(userData)
     const token = this._createToken(user)
     await this.redisCacheService.set(user.rg,{user, roles, permissions},86400)
+    await this.log.create({ module: 'login', action: 'login', data: user,})
     return {token, user, roles, permissions}
   }
 

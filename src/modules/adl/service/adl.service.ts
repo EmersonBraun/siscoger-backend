@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { LogService } from '../../log/service/log.service';
 import { CreateAdlDto } from '../dtos/create.dto';
 import { UpdateAdlDto } from '../dtos/update.dto';
 import { Adl } from '../entity/adl.entity';
@@ -10,6 +11,7 @@ export class AdlService {
   constructor(
     @InjectRepository(Adl)
     private repository: Repository<Adl>,
+    private log: LogService
   ) {}
 
   async findAll(): Promise<Adl[]> {
@@ -18,7 +20,9 @@ export class AdlService {
 
   async create(data: CreateAdlDto): Promise<Adl> {
     const registry = this.repository.create(data);
-    return await this.repository.save(registry);
+    const saveData = await this.repository.save(registry);
+    await this.log.create({ module: 'adl', action: 'create', data: saveData,})
+    return saveData
   }
 
   async findById(id: string): Promise<Adl> {
@@ -34,12 +38,15 @@ export class AdlService {
   async update(id: string, data: UpdateAdlDto): Promise<Adl> {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
-
-    return this.repository.create({ ...registry, ...data });
+    const saveData = this.repository.create({ ...registry, ...data });
+    await this.log.create({module: 'adl',action: 'update',data: saveData,old: registry,})
+    
+    return saveData
   }
 
   async delete(id: string): Promise<void> {
-    await this.findById(id);
+    const saveData = await this.findById(id);
+    await this.log.create({module: 'adl',action: 'delete',data: saveData})
     await this.repository.delete(id);
   }
 }

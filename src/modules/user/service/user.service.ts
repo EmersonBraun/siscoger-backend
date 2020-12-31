@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { LogService } from '../../log/service/log.service';
 import { CreateUserDto } from '../dtos/create.dto';
 import { UpdateUserDto } from '../dtos/update.dto';
 import { User } from '../entity/user.entity';
@@ -10,6 +11,7 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private repository: Repository<User>,
+    private log: LogService
   ) {}
 
   async findAll(): Promise<User[]> {
@@ -40,7 +42,9 @@ export class UserService {
 
   async create(data: CreateUserDto): Promise<User> {
     const registry = this.repository.create(data);
-    return await this.repository.save(registry);
+    const saveData = await this.repository.save(registry);
+    await this.log.create({ module: 'user', action: 'create', data: saveData,})
+    return saveData
   }
 
   async findById(id: string): Promise<User> {
@@ -64,11 +68,15 @@ export class UserService {
     if (roles?.length) registry.roles = [...roles]
     await this.repository.update(id, { ...rest });
 
-    return this.repository.save({ ...registry, ...rest });
+    const saveData = this.repository.save({ ...registry, ...rest });
+    await this.log.create({module: 'user',action: 'update',data: saveData,old: registry,})
+    
+    return saveData
   }
 
   async delete(id: string): Promise<void> {
-    await this.findById(id);
+    const saveData = await this.findById(id);
+    await this.log.create({module: 'user',action: 'delete',data: saveData})
     await this.repository.delete(id);
   }
 }

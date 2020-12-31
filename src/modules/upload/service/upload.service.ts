@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { LogService } from '../../log/service/log.service';
 import { CreateUploadDto } from '../dtos/create.dto';
 import { UpdateUploadDto } from '../dtos/update.dto';
 import { Upload, UploadDocument } from '../schema/upload.schema';
@@ -9,7 +10,8 @@ import { Upload, UploadDocument } from '../schema/upload.schema';
 export class UploadService {
   constructor(
     @InjectModel(Upload.name)
-    private repository: Model<UploadDocument>
+    private repository: Model<UploadDocument>,
+    private log: LogService
   ) {}
 
   async findAll(): Promise<Upload[]> {
@@ -21,7 +23,9 @@ export class UploadService {
   }
 
   async create(data: CreateUploadDto): Promise<Upload> {
-    return await this.repository.create(data);
+    const saveData = await this.repository.create(data);
+    await this.log.create({ module: 'upload', action: 'create', data: saveData,})
+    return saveData
   }
 
   async findById(id: string): Promise<Upload> {
@@ -35,10 +39,14 @@ export class UploadService {
   }
 
   async update(id: string, data: UpdateUploadDto): Promise<Upload> {
-    return await this.repository.findOneAndUpdate({ _id: id }, { ...data }, { new: true }).exec();
+    const saveData = await this.repository.findOneAndUpdate({ _id: id }, { ...data }, { new: true }).exec();
+    await this.log.create({module: 'upload',action: 'update',data: saveData})
+    
+    return saveData
   }
 
   async delete(id: string): Promise<void> {
-    await this.repository.findOneAndDelete({ _id: id }).exec();
+    const saveData = await this.repository.findOneAndDelete({ _id: id }).exec();
+    await this.log.create({module: 'upload',action: 'delete',data: saveData})
   }
 }
