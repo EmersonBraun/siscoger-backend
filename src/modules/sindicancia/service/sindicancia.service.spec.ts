@@ -28,7 +28,7 @@ describe('SindicanciaService', () => {
     }).compile();
 
     service = module.get<SindicanciaService>(SindicanciaService);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -65,9 +65,9 @@ describe('SindicanciaService', () => {
     it('should list all Sindicancia', async () => {
       mockRepository.find.mockReturnValue([mockRegistry]);
 
-      const Sindicancia = await service.findAll();
+      const SindicanciaVariable = await service.findAll();
 
-      expect(Sindicancia).toHaveLength(1);
+      expect(SindicanciaVariable).toHaveLength(1);
       expect(mockRepository.find).toBeCalledTimes(1);
     });
   });
@@ -111,7 +111,7 @@ describe('SindicanciaService', () => {
   describe('when update a sindicancia', () => {
     it('should update a existing sindicancia', async () => {
       const sindicanciaUpdate: UpdateSindicanciaDto = mockRegistry;
-      sindicanciaUpdate.sintese_txt = 'Update sindicancia '
+      sindicanciaUpdate.sintese_txt = 'Update sindicancia ';
 
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.update.mockReturnValue({
@@ -123,10 +123,7 @@ describe('SindicanciaService', () => {
         ...sindicanciaUpdate,
       });
 
-      const updatedsindicancia = await service.update(
-        '1',
-        sindicanciaUpdate,
-      );
+      const updatedsindicancia = await service.update('1', sindicanciaUpdate);
 
       expect(updatedsindicancia).toMatchObject(sindicanciaUpdate);
       expect(mockRepository.findOne).toBeCalledWith('1');
