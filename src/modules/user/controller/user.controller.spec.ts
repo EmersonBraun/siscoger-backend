@@ -26,7 +26,7 @@ describe('UserController', () => {
     }).compile();
 
     controller = module.get<UserController>(UserController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -83,23 +83,17 @@ describe('UserController', () => {
   describe('when update a User', () => {
     it('should update a existing User and return it', async () => {
       const UserUpdate: UpdateUserDto = mockRegistry;
-      UserUpdate.class = 'Update User '
+      UserUpdate.class = 'Update User ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
         ...UserUpdate,
       });
 
-      const updatedUser = await controller.update(
-        '1',
-        UserUpdate,
-      );
+      const updatedUser = await controller.update('1', UserUpdate);
 
       expect(updatedUser).toMatchObject(UserUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        UserUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', UserUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

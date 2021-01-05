@@ -1,4 +1,3 @@
-
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GradacaoController } from './controller/gradacao.controller';
@@ -9,6 +8,6 @@ import { GradacaoService } from './service/gradacao.service';
   imports: [TypeOrmModule.forFeature([Gradacao])],
   providers: [GradacaoService],
   controllers: [GradacaoController],
-  exports: [GradacaoService]
+  exports: [GradacaoService],
 })
 export class GradacaoModule {}

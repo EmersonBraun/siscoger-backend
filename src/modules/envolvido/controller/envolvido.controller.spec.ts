@@ -26,7 +26,7 @@ describe('EnvolvidoController', () => {
     }).compile();
 
     controller = module.get<EnvolvidoController>(EnvolvidoController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -95,23 +95,17 @@ describe('EnvolvidoController', () => {
   describe('when update a Envolvido', () => {
     it('should update a existing Envolvido and return it', async () => {
       const EnvolvidoUpdate: UpdateEnvolvidoDto = mockRegistry;
-      EnvolvidoUpdate.cargo = 'Update Envolvido '
+      EnvolvidoUpdate.cargo = 'Update Envolvido ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
         ...EnvolvidoUpdate,
       });
 
-      const updatedEnvolvido = await controller.update(
-        '1',
-        EnvolvidoUpdate,
-      );
+      const updatedEnvolvido = await controller.update('1', EnvolvidoUpdate);
 
       expect(updatedEnvolvido).toMatchObject(EnvolvidoUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        EnvolvidoUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', EnvolvidoUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

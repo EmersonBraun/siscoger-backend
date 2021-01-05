@@ -12,13 +12,13 @@ export class GradacaoService {
     private repository: Repository<Gradacao>,
   ) {}
 
-  async findAll(): Promise<Gradacao[]> {
-    return await this.repository.find();
+  async findAll(): Promise<void> {
+    await this.repository.find();
   }
 
-  async create(data: CreateGradacaoDto): Promise<Gradacao> {
+  async create(data: CreateGradacaoDto): Promise<void> {
     const registry = this.repository.create(data);
-    return await this.repository.save(registry);
+    await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<Gradacao> {

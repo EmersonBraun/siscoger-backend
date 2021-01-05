@@ -6,6 +6,6 @@ describe('roleFactory', () => {
   it('should create a factory and return it', async () => {
     const role: CreateRoleDto = fakerRegistry();
 
-    expect(role).toBe(role)
+    expect(role).toBe(role);
   });
 });

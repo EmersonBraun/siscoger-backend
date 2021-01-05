@@ -12,7 +12,7 @@ describe('authController', () => {
   // beforeEach(async () => {
   //   const auth: TestingModule = await Test.createTestingModule({
   //     imports: [
-  //       AuthModule, 
+  //       AuthModule,
   //       UserModule,
   //       JwtModule.registerAsync({
   //         imports: [ConfigModule],
@@ -33,7 +33,7 @@ describe('authController', () => {
   // });
 
   it('should be defined', () => {
-    expect(1).toEqual(1)
+    expect(1).toEqual(1);
     // expect(authController).toBeDefined();
   });
 });

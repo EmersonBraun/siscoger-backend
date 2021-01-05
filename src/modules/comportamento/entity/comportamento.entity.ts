@@ -1,8 +1,4 @@
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('comportamentos')
 export class Comportamento {
@@ -10,5 +6,5 @@ export class Comportamento {
   id: number;
 
   @Column({ nullable: true })
-  comportamento: string
+  comportamento: string;
 }

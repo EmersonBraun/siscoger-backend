@@ -25,7 +25,7 @@ describe('ComportamentoController', () => {
     }).compile();
 
     controller = module.get<ComportamentoController>(ComportamentoController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -81,7 +81,7 @@ describe('ComportamentoController', () => {
   describe('when update a Comportamento', () => {
     it('should update a existing Comportamento and return it', async () => {
       const ComportamentoUpdate: UpdateComportamentoDto = mockRegistry;
-      ComportamentoUpdate.comportamento = 'Update Comportamento '
+      ComportamentoUpdate.comportamento = 'Update Comportamento ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
@@ -94,10 +94,7 @@ describe('ComportamentoController', () => {
       );
 
       expect(updatedComportamento).toMatchObject(ComportamentoUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        ComportamentoUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', ComportamentoUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

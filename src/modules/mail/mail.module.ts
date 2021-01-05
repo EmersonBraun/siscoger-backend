@@ -16,6 +16,6 @@ import { MailService } from './service/mail.service';
   ],
   providers: [MailService, MailProcessor],
   controllers: [MailController],
-  exports: [MailService]
+  exports: [MailService],
 })
 export class MailModule {}

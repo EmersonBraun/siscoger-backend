@@ -17,7 +17,7 @@ export const transations = {
   },
   update: {
     success: 'Updated',
-    'same': 'Same data without change',
+    same: 'Same data without change',
     error: 'Not updated',
   },
   delete: {
@@ -32,4 +32,4 @@ export const transations = {
     success: 'Removed permanent',
     error: 'Not removed',
   },
-}
+};

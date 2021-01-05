@@ -25,7 +25,7 @@ describe('GradacaoController', () => {
     }).compile();
 
     controller = module.get<GradacaoController>(GradacaoController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -81,23 +81,17 @@ describe('GradacaoController', () => {
   describe('when update a Gradacao', () => {
     it('should update a existing Gradacao and return it', async () => {
       const GradacaoUpdate: UpdateGradacaoDto = mockRegistry;
-      GradacaoUpdate.gradacao = 'Update Gradacao '
+      GradacaoUpdate.gradacao = 'Update Gradacao ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
         ...GradacaoUpdate,
       });
 
-      const updatedGradacao = await controller.update(
-        '1',
-        GradacaoUpdate,
-      );
+      const updatedGradacao = await controller.update('1', GradacaoUpdate);
 
       expect(updatedGradacao).toMatchObject(GradacaoUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        GradacaoUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', GradacaoUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

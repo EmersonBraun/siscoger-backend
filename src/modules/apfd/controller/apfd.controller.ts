@@ -7,7 +7,7 @@ import {
   Param,
   Post,
   Put,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -16,17 +16,16 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags
+  ApiTags,
 } from '@nestjs/swagger';
-import { ACLPolice } from '../../../common/decorators/acl.decorator';
-import { ACLGuard } from '../../../common/guards/acl.guard';
-import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
-import { ErrorResponse } from '../../../common/responses';
+import ACLPolice from '../../../common/decorators/acl.decorator';
+import ACLGuard from '../../../common/guards/acl.guard';
+import JwtAuthGuard from '../../../common/guards/jwt.guard';
+import ErrorResponse from '../../../common/responses/error';
 import { CreateApfdDto } from '../dtos/create.dto';
 import { UpdateApfdDto } from '../dtos/update.dto';
 import { Apfd } from '../entity/apfd.entity';
 import { ApfdService } from '../service/apfd.service';
-
 
 @ApiTags('Apfd')
 @Controller('apfds')
@@ -35,40 +34,40 @@ export class ApfdController {
 
   @Get()
   @HttpCode(200)
-  @UseGuards(JwtAuthGuard, ACLGuard) 
-  @ACLPolice({roles: ['admin'], permissions: ['criar-apfd']})
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: ['admin'], permissions: ['criar-apfd'] })
   @ApiOperation({ summary: 'Search all Apfd' })
   @ApiOkResponse({ type: [CreateApfdDto], description: 'The found Apfd' })
-  async findAll(): Promise<Apfd[]> {
-    return await this.service.findAll();
+  async findAll(): Promise<void> {
+    await this.service.findAll();
   }
 
   @Post()
   @HttpCode(201)
-  @UseGuards(JwtAuthGuard, ACLGuard) 
-  @ACLPolice({roles: ['admin'], permissions: ['criar-apfd']})
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: ['admin'], permissions: ['criar-apfd'] })
   @ApiOperation({ summary: 'Create a new Apfd' })
   @ApiCreatedResponse({ type: UpdateApfdDto, description: 'Created Apfd' })
-  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
-  async create(@Body() data: CreateApfdDto): Promise<Apfd> {
-    return await this.service.create(data);
+  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
+  async create(@Body() data: CreateApfdDto): Promise<void> {
+    await this.service.create(data);
   }
 
   @Get(':id')
   @HttpCode(200)
-  @UseGuards(JwtAuthGuard, ACLGuard) 
-  @ACLPolice({roles: ['admin'], permissions: ['criar-apfd']})
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: ['admin'], permissions: ['criar-apfd'] })
   @ApiOperation({ summary: 'Search a Apfd by id' })
   @ApiOkResponse({ type: UpdateApfdDto, description: 'The found Apfd' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<Apfd> {
-    return await this.service.findById(id);
+  async findById(@Param('id') id: string): Promise<void> {
+    await this.service.findById(id);
   }
 
   @Put(':id')
   @HttpCode(200)
-  @UseGuards(JwtAuthGuard, ACLGuard) 
-  @ACLPolice({roles: ['admin'], permissions: ['editar-apfd']})
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: ['admin'], permissions: ['editar-apfd'] })
   @ApiOperation({ summary: 'Update a Apfd' })
   @ApiOkResponse({ type: UpdateApfdDto, description: 'Updated Apfd' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -81,8 +80,8 @@ export class ApfdController {
 
   @Delete(':id')
   @HttpCode(204)
-  @UseGuards(JwtAuthGuard, ACLGuard) 
-  @ACLPolice({roles: ['admin'], permissions: ['apagar-apfd']})
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: ['admin'], permissions: ['apagar-apfd'] })
   @ApiOperation({ summary: 'Delete a Apfd' })
   @ApiNoContentResponse({ description: 'Deleted Apfd' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })

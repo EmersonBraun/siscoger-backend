@@ -12,13 +12,13 @@ export class MotivoconselhoService {
     private repository: Repository<Motivoconselho>,
   ) {}
 
-  async findAll(): Promise<Motivoconselho[]> {
-    return await this.repository.find();
+  async findAll(): Promise<void> {
+    await this.repository.find();
   }
 
-  async create(data: CreateMotivoconselhoDto): Promise<Motivoconselho> {
+  async create(data: CreateMotivoconselhoDto): Promise<void> {
     const registry = this.repository.create(data);
-    return await this.repository.save(registry);
+    await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<Motivoconselho> {
@@ -31,7 +31,10 @@ export class MotivoconselhoService {
     return registry;
   }
 
-  async update(id: string, data: UpdateMotivoconselhoDto): Promise<Motivoconselho> {
+  async update(
+    id: string,
+    data: UpdateMotivoconselhoDto,
+  ): Promise<Motivoconselho> {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
 

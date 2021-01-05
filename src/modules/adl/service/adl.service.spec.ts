@@ -3,9 +3,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { LogModule } from '../../log/log.module';
 import { LogService } from '../../log/service/log.service';
-import { CreateAdlDto, UpdateAdlDto } from '../dtos';
-import { Adl } from '../entity/adl.entity';
-import { fakerRegistry } from '../factory/adl.factory';
+import { CreateAdlDto, UpdateAdlDto } from '../dtos/index';
+import Adl from '../entity/adl.entity';
+import fakerRegistry from '../factory/adl.factory';
 import { AdlService } from './adl.service';
 
 describe('AdlService', () => {
@@ -32,7 +32,7 @@ describe('AdlService', () => {
     }).compile();
 
     service = module.get<AdlService>(AdlService);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -53,9 +53,9 @@ describe('AdlService', () => {
       mockRepository.create.mockReturnValueOnce(mockRegistry);
       mockRepository.save.mockReturnValueOnce(mockRegistry);
 
-      const Adl: CreateAdlDto = mockRegistry;
+      const AdlVariable: CreateAdlDto = mockRegistry;
 
-      const savedAdl = await service.create(Adl);
+      const savedAdl = await service.create(AdlVariable);
 
       expect(savedAdl).toMatchObject(mockRegistry);
       expect(mockRepository.create).toBeCalledWith(Adl);
@@ -68,9 +68,9 @@ describe('AdlService', () => {
     it('should list all Adl', async () => {
       mockRepository.find.mockReturnValue([mockRegistry]);
 
-      const Adl = await service.findAll();
+      const AdlVariable = await service.findAll();
 
-      expect(Adl).toHaveLength(1);
+      expect(AdlVariable).toHaveLength(1);
       expect(mockRepository.find).toBeCalledTimes(1);
     });
   });
@@ -79,9 +79,9 @@ describe('AdlService', () => {
     it('should find a existing Adl', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
 
-      const Adl = await service.findById('1');
+      const AdlVariable = await service.findById('1');
 
-      expect(Adl).toMatchObject(mockRegistry);
+      expect(AdlVariable).toMatchObject(mockRegistry);
       expect(mockRepository.findOne).toBeCalledWith('1');
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
@@ -101,7 +101,7 @@ describe('AdlService', () => {
   describe('when update a Adl', () => {
     it('should update a existing Adl', async () => {
       const AdlUpdate: UpdateAdlDto = mockRegistry;
-      AdlUpdate.doc_numero = 'Update Adl '
+      AdlUpdate.doc_numero = 'Update Adl ';
 
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.update.mockReturnValue({
@@ -113,10 +113,7 @@ describe('AdlService', () => {
         ...AdlUpdate,
       });
 
-      const updatedAdl = await service.update(
-        '1',
-        AdlUpdate,
-      );
+      const updatedAdl = await service.update('1', AdlUpdate);
 
       expect(updatedAdl).toMatchObject(AdlUpdate);
       expect(mockRepository.findOne).toBeCalledWith('1');

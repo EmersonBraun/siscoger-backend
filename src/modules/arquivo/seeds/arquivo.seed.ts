@@ -3,7 +3,6 @@ import { Factory, Seeder } from 'typeorm-seeding';
 
 export default class CreateArquivos implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    
-    await factory(Arquivo)().createMany(10)
+    await factory(Arquivo)().createMany(10);
   }
 }

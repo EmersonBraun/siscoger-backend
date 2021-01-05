@@ -26,7 +26,7 @@ describe('OfendidoController', () => {
     }).compile();
 
     controller = module.get<OfendidoController>(OfendidoController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -95,23 +95,17 @@ describe('OfendidoController', () => {
   describe('when update a Ofendido', () => {
     it('should update a existing Ofendido and return it', async () => {
       const OfendidoUpdate: UpdateOfendidoDto = mockRegistry;
-      OfendidoUpdate.email = 'Update Ofendido '
+      OfendidoUpdate.email = 'Update Ofendido ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
         ...OfendidoUpdate,
       });
 
-      const updatedOfendido = await controller.update(
-        '1',
-        OfendidoUpdate,
-      );
+      const updatedOfendido = await controller.update('1', OfendidoUpdate);
 
       expect(updatedOfendido).toMatchObject(OfendidoUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        OfendidoUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', OfendidoUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

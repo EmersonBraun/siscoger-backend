@@ -11,22 +11,26 @@ export class EnvolvidoService {
   constructor(
     @InjectRepository(Envolvido)
     private repository: Repository<Envolvido>,
-    private log: LogService
+    private log: LogService,
   ) {}
 
-  async findAll(): Promise<Envolvido[]> {
-    return await this.repository.find();
+  async findAll(): Promise<void> {
+    await this.repository.find();
   }
 
-  async search(data: CreateEnvolvidoDto): Promise<Envolvido[]> {
-    return await this.repository.find({ where: { ...data } });
+  async search(data: CreateEnvolvidoDto): Promise<void> {
+    await this.repository.find({ where: { ...data } });
   }
 
   async create(data: CreateEnvolvidoDto): Promise<Envolvido> {
     const registry = this.repository.create(data);
     const saveData = await this.repository.save(registry);
-    await this.log.create({ module: 'envolvido', action: 'create', data: saveData,})
-    return saveData
+    await this.log.create({
+      module: 'envolvido',
+      action: 'create',
+      data: saveData,
+    });
+    return saveData;
   }
 
   async findById(id: string): Promise<Envolvido> {
@@ -43,14 +47,23 @@ export class EnvolvidoService {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
     const saveData = this.repository.create({ ...registry, ...data });
-    await this.log.create({module: 'envolvido',action: 'update',data: saveData,old: registry,})
-    
-    return saveData
+    await this.log.create({
+      module: 'envolvido',
+      action: 'update',
+      data: saveData,
+      old: registry,
+    });
+
+    return saveData;
   }
 
   async delete(id: string): Promise<void> {
     const saveData = await this.findById(id);
-    await this.log.create({module: 'envolvido',action: 'delete',data: saveData})
+    await this.log.create({
+      module: 'envolvido',
+      action: 'delete',
+      data: saveData,
+    });
     await this.repository.delete(id);
   }
 }

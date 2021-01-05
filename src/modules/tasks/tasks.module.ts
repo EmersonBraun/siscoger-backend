@@ -11,9 +11,9 @@ import { SindicanciaTasksService } from './sindicancia.tasks';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Tasks.name, schema: TasksSchema }]),
-    SindicanciaModule, 
-    FeriadoModule, 
-    SobrestamentoModule
+    SindicanciaModule,
+    FeriadoModule,
+    SobrestamentoModule,
   ],
   controllers: [TasksController],
   providers: [SindicanciaTasksService, TasksService],

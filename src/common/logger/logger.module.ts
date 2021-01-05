@@ -5,4 +5,4 @@ import { PrettyLogger } from './pretty-log';
   providers: [PrettyLogger],
   exports: [PrettyLogger],
 })
-export class LoggerModule {}
+export default class LoggerModule {}

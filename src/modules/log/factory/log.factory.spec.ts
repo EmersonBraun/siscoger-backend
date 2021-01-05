@@ -6,6 +6,6 @@ describe('LogFactory', () => {
   it('should create a factory and return it', async () => {
     const Log: CreateLogDto = fakerRegistry();
 
-    expect(Log).toBe(Log)
+    expect(Log).toBe(Log);
   });
 });

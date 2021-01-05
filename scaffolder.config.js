@@ -8,19 +8,19 @@ module.exports = {
     ucFirstPlural: (str) => pluralize(ucFirst(str)),
     toUppercase: (str) => str.toUpperCase(),
     toUppercasePlural: (str) => pluralize(str.toUpperCase()),
-    toLowercase: (str) =>  str.toLowerCase(),
-    toLowercasePlural: (str) =>  pluralize(str.toLowerCase()),
+    toLowercase: (str) => str.toLowerCase(),
+    toLowercasePlural: (str) => pluralize(str.toLowerCase()),
     toKebabCase: (str) => {
-      const matched = str.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
-      if (!matched) return str
+      const matched = str.match(
+        /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g,
+      );
+      if (!matched) return str;
 
-      const kebab = matched
-        .map(x => x.toLowerCase())
-        .join('-')
-      return kebab
+      const kebab = matched.map((x) => x.toLowerCase()).join('-');
+      return kebab;
     },
-    toKebabCasePlural: (str) =>  pluralize(toKebabCase(str)),
-    toCamelCase: (str) =>  camelCase(str),
+    toKebabCasePlural: (str) => pluralize(toKebabCase(str)),
+    toCamelCase: (str) => camelCase(str),
     toCamelCasePlural: (str) => camelCase(pluralize(str)),
     toPascalCase: (str) => pascalCase(str),
     toPascalCasePlural: (str) => pascalCase(pluralize(str)),
@@ -36,7 +36,7 @@ module.exports = {
   //       "this text will be shown to the user in the interactive mode when he will be asked to enter the value for 'someParameter'",
   //   },
   // },
-   templatesOptions: {
+  templatesOptions: {
     // someTemplate: {
     //   hooks: {
     //     preTemplateGeneration: (context) => {
@@ -51,5 +51,5 @@ module.exports = {
     //   functions: {...},
     //   parametersOptions: {...}
     // }
-  }
+  },
 };

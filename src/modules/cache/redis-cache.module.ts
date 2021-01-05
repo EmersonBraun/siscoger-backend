@@ -18,6 +18,6 @@ import { RedisCacheService } from './redis-cache.service';
     }),
   ],
   providers: [RedisCacheService],
-  exports: [RedisCacheService]
+  exports: [RedisCacheService],
 })
 export class RedisCacheModule {}

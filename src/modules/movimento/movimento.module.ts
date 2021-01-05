@@ -1,4 +1,3 @@
-
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MovimentoController } from './controller/movimento.controller';
@@ -9,6 +8,6 @@ import { MovimentoService } from './service/movimento.service';
   imports: [TypeOrmModule.forFeature([Movimento])],
   providers: [MovimentoService],
   controllers: [MovimentoController],
-  exports: [MovimentoService]
+  exports: [MovimentoService],
 })
 export class MovimentoModule {}

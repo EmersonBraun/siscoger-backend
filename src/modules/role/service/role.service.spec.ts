@@ -30,7 +30,7 @@ describe('roleService', () => {
     }).compile();
 
     service = module.get<RoleService>(RoleService);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -95,7 +95,9 @@ describe('roleService', () => {
       const role = await service.findById('1');
 
       expect(role).toMatchObject(mockRegistry);
-      expect(mockRepository.findOne).toBeCalledWith('1', {"relations": ["permissions", "users"]});
+      expect(mockRepository.findOne).toBeCalledWith('1', {
+        relations: ['permissions', 'users'],
+      });
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
 
@@ -105,7 +107,9 @@ describe('roleService', () => {
       await service.findById('3').catch(error => {
         expect(error).toBeInstanceOf(NotFoundException);
         expect(error).toMatchObject({ message: 'Registry not found' });
-        expect(mockRepository.findOne).toBeCalledWith('3', {"relations": ["permissions", "users"]});
+        expect(mockRepository.findOne).toBeCalledWith('3', {
+          relations: ['permissions', 'users'],
+        });
         expect(mockRepository.findOne).toBeCalledTimes(1);
       });
     });
@@ -114,7 +118,7 @@ describe('roleService', () => {
   describe('when update a role', () => {
     it('should update a existing role', async () => {
       const roleUpdate: UpdateRoleDto = mockRegistry;
-      roleUpdate.role = 'Update role '
+      roleUpdate.role = 'Update role ';
 
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.update.mockReturnValue({
@@ -126,13 +130,12 @@ describe('roleService', () => {
         ...roleUpdate,
       });
 
-      const updatedrole = await service.update(
-        '1',
-        roleUpdate,
-      );
+      const updatedrole = await service.update('1', roleUpdate);
 
       // expect(updatedrole).toMatchObject(roleUpdate);
-      expect(mockRepository.findOne).toBeCalledWith('1', {"relations": ["permissions", "users"]});
+      expect(mockRepository.findOne).toBeCalledWith('1', {
+        relations: ['permissions', 'users'],
+      });
       expect(mockRepository.findOne).toBeCalledTimes(1);
       expect(mockRepository.update).toBeCalledWith('1', roleUpdate);
       expect(mockRepository.update).toBeCalledTimes(1);
@@ -151,7 +154,9 @@ describe('roleService', () => {
 
       await service.delete('1');
 
-      expect(mockRepository.findOne).toBeCalledWith('1', {"relations": ["permissions", "users"]});
+      expect(mockRepository.findOne).toBeCalledWith('1', {
+        relations: ['permissions', 'users'],
+      });
       expect(mockRepository.findOne).toBeCalledTimes(1);
       expect(mockRepository.delete).toBeCalledWith('1');
       expect(mockRepository.delete).toBeCalledTimes(1);

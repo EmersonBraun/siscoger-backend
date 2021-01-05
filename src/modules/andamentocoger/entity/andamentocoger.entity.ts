@@ -1,8 +1,4 @@
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('andamentoscoger')
 export class Andamentocoger {
@@ -10,8 +6,8 @@ export class Andamentocoger {
   id: number;
 
   @Column({ nullable: true })
-  andamentocoger: string
-  
+  andamentocoger: string;
+
   @Column({ nullable: true })
-  procedimento: string
+  procedimento: string;
 }

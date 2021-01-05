@@ -25,7 +25,7 @@ describe('FalecimentoController', () => {
     }).compile();
 
     controller = module.get<FalecimentoController>(FalecimentoController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -81,7 +81,7 @@ describe('FalecimentoController', () => {
   describe('when update a Falecimento', () => {
     it('should update a existing Falecimento and return it', async () => {
       const FalecimentoUpdate: UpdateFalecimentoDto = mockRegistry;
-      FalecimentoUpdate.cargo = 'Update Falecimento '
+      FalecimentoUpdate.cargo = 'Update Falecimento ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
@@ -94,10 +94,7 @@ describe('FalecimentoController', () => {
       );
 
       expect(updatedFalecimento).toMatchObject(FalecimentoUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        FalecimentoUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', FalecimentoUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

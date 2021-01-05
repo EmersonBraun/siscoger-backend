@@ -28,7 +28,7 @@ describe('AndamentoService', () => {
     }).compile();
 
     service = module.get<AndamentoService>(AndamentoService);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -50,9 +50,9 @@ describe('AndamentoService', () => {
       mockRepository.create.mockReturnValueOnce(mockRegistry);
       mockRepository.save.mockReturnValueOnce(mockRegistry);
 
-      const Andamento: CreateAndamentoDto = mockRegistry;
+      const AndamentoVariable: CreateAndamentoDto = mockRegistry;
 
-      const savedAndamento = await service.create(Andamento);
+      const savedAndamento = await service.create(AndamentoVariable);
 
       expect(savedAndamento).toMatchObject(mockRegistry);
       expect(mockRepository.create).toBeCalledWith(Andamento);
@@ -65,9 +65,9 @@ describe('AndamentoService', () => {
     it('should list all Andamento', async () => {
       mockRepository.find.mockReturnValue([mockRegistry]);
 
-      const Andamento = await service.findAll();
+      const AndamentoVariable = await service.findAll();
 
-      expect(Andamento).toHaveLength(1);
+      expect(AndamentoVariable).toHaveLength(1);
       expect(mockRepository.find).toBeCalledTimes(1);
     });
   });
@@ -76,9 +76,9 @@ describe('AndamentoService', () => {
     it('should find a existing Andamento', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
 
-      const Andamento = await service.findById('1');
+      const AndamentoVariable = await service.findById('1');
 
-      expect(Andamento).toMatchObject(mockRegistry);
+      expect(AndamentoVariable).toMatchObject(mockRegistry);
       expect(mockRepository.findOne).toBeCalledWith('1');
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
@@ -98,7 +98,7 @@ describe('AndamentoService', () => {
   describe('when update a Andamento', () => {
     it('should update a existing Andamento', async () => {
       const AndamentoUpdate: UpdateAndamentoDto = mockRegistry;
-      AndamentoUpdate.andamento = 'Update Andamento '
+      AndamentoUpdate.andamento = 'Update Andamento ';
 
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.update.mockReturnValue({
@@ -110,10 +110,7 @@ describe('AndamentoService', () => {
         ...AndamentoUpdate,
       });
 
-      const updatedAndamento = await service.update(
-        '1',
-        AndamentoUpdate,
-      );
+      const updatedAndamento = await service.update('1', AndamentoUpdate);
 
       expect(updatedAndamento).toMatchObject(AndamentoUpdate);
       expect(mockRepository.findOne).toBeCalledWith('1');

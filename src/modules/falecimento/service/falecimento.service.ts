@@ -11,18 +11,22 @@ export class FalecimentoService {
   constructor(
     @InjectRepository(Falecimento)
     private repository: Repository<Falecimento>,
-    private log: LogService
+    private log: LogService,
   ) {}
 
-  async findAll(): Promise<Falecimento[]> {
-    return await this.repository.find();
+  async findAll(): Promise<void> {
+    await this.repository.find();
   }
 
   async create(data: CreateFalecimentoDto): Promise<Falecimento> {
     const registry = this.repository.create(data);
     const saveData = await this.repository.save(registry);
-    await this.log.create({ module: 'falecimento', action: 'create', data: saveData,})
-    return saveData
+    await this.log.create({
+      module: 'falecimento',
+      action: 'create',
+      data: saveData,
+    });
+    return saveData;
   }
 
   async findById(id: string): Promise<Falecimento> {
@@ -39,14 +43,23 @@ export class FalecimentoService {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
     const saveData = this.repository.create({ ...registry, ...data });
-    await this.log.create({module: 'falecimento',action: 'update',data: saveData,old: registry,})
-    
-    return saveData
+    await this.log.create({
+      module: 'falecimento',
+      action: 'update',
+      data: saveData,
+      old: registry,
+    });
+
+    return saveData;
   }
 
   async delete(id: string): Promise<void> {
     const saveData = await this.findById(id);
-    await this.log.create({module: 'falecimento',action: 'delete',data: saveData})
+    await this.log.create({
+      module: 'falecimento',
+      action: 'delete',
+      data: saveData,
+    });
     await this.repository.delete(id);
   }
 }

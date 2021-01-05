@@ -8,7 +8,7 @@
 
 describe('SobrestamentoService', () => {
   it('pass test', () => {
-    expect(1).toEqual(1)
+    expect(1).toEqual(1);
   });
   // let service: SobrestamentoService;
   // let mockRegistry: CreateSobrestamentoDto;
@@ -76,7 +76,6 @@ describe('SobrestamentoService', () => {
   //     expect(mockRepository.find).toBeCalledTimes(1);
   //   });
   // });
-
 
   // describe('when search Sobrestamento by id', () => {
   //   it('should find a existing Sobrestamento', async () => {

@@ -7,10 +7,9 @@
 // import { LogService } from './log.service';
 
 describe('LogService', () => {
-
   describe('Test Latter', () => {
     it('should list all Log', async () => {
-      const Log = 1 
+      const Log = 1;
       expect(Log).toBe(1);
     });
   });

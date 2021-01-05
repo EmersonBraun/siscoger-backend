@@ -13,25 +13,25 @@ export class MailService {
   constructor(
     @InjectModel(Mail.name)
     private repository: Model<MailDocument>,
-    @InjectQueue('mail') private readonly mailQueue: Queue
+    @InjectQueue('mail') private readonly mailQueue: Queue,
   ) {}
 
-  async findAll(): Promise<Mail[]> {
-    return await this.repository.find().exec()
+  async findAll(): Promise<void> {
+    await this.repository.find().exec();
   }
 
-  async search(data: CreateMailDto): Promise<Mail[]> {
-    return await this.repository.find({ ...data });
+  async search(data: CreateMailDto): Promise<void> {
+    await this.repository.find({ ...data });
   }
 
   async create(data: CreateMailDto): Promise<any> {
-    data.from = data.from || usernameSendMail
-    data.template = data.template || 'simple'
-    return await this.mailQueue.add('send', data);
+    data.from = data.from || usernameSendMail;
+    data.template = data.template || 'simple';
+    await this.mailQueue.add('send', data);
   }
 
-  async save(data: CreateMailDto): Promise<Mail> {
-    return await this.repository.create(data);
+  async save(data: CreateMailDto): Promise<void> {
+    await this.repository.create(data);
   }
 
   async findById(id: string): Promise<Mail> {
@@ -44,8 +44,10 @@ export class MailService {
     return registry;
   }
 
-  async update(id: string, data: UpdateMailDto): Promise<Mail> {
-    return await this.repository.findOneAndUpdate({ _id: id }, { ...data }, { new: true }).exec();
+  async update(id: string, data: UpdateMailDto): Promise<void> {
+    await this.repository
+      .findOneAndUpdate({ _id: id }, { ...data }, { new: true })
+      .exec();
   }
 
   async delete(id: string): Promise<void> {

@@ -1,10 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsOptional,
-  IsString
-} from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class SearchFeriadoDto {
-  @IsString() @ApiProperty() init: string
-  @IsOptional() @IsString() @ApiProperty() end?: string
+  @IsString() @ApiProperty() init: string;
+
+  @IsOptional() @IsString() @ApiProperty() end?: string;
 }

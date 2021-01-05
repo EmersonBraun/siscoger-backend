@@ -7,10 +7,9 @@
 // import { TaskService } from './pendencia.service';
 
 describe('TaskService', () => {
-
   describe('Test Latter', () => {
     it('should list all Task', async () => {
-      const Task = 1 
+      const Task = 1;
       expect(Task).toBe(1);
     });
   });

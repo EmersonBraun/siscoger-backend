@@ -25,7 +25,7 @@ describe('ApfdController', () => {
     }).compile();
 
     controller = module.get<ApfdController>(ApfdController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -81,23 +81,17 @@ describe('ApfdController', () => {
   describe('when update a Apfd', () => {
     it('should update a existing Apfd and return it', async () => {
       const ApfdUpdate: UpdateApfdDto = mockRegistry;
-      ApfdUpdate.doc_numero = 'Update Apfd '
+      ApfdUpdate.doc_numero = 'Update Apfd ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
         ...ApfdUpdate,
       });
 
-      const updatedApfd = await controller.update(
-        '1',
-        ApfdUpdate,
-      );
+      const updatedApfd = await controller.update('1', ApfdUpdate);
 
       expect(updatedApfd).toMatchObject(ApfdUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        ApfdUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', ApfdUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

@@ -1,4 +1,3 @@
-
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SindicanciaController } from './controller/sindicancia.controller';
@@ -9,6 +8,6 @@ import { SindicanciaService } from './service/sindicancia.service';
   imports: [TypeOrmModule.forFeature([Sindicancia])],
   providers: [SindicanciaService],
   controllers: [SindicanciaController],
-  exports: [SindicanciaService]
+  exports: [SindicanciaService],
 })
 export class SindicanciaModule {}

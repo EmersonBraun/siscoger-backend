@@ -31,7 +31,7 @@ describe('PermissionService', () => {
     }).compile();
 
     service = module.get<PermissionService>(PermissionService);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -96,7 +96,9 @@ describe('PermissionService', () => {
       const permission = await service.findById('1');
 
       expect(permission).toMatchObject(mockRegistry);
-      expect(mockRepository.findOne).toBeCalledWith('1', {"relations": ["roles"]});
+      expect(mockRepository.findOne).toBeCalledWith('1', {
+        relations: ['roles'],
+      });
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
 
@@ -106,7 +108,9 @@ describe('PermissionService', () => {
       await service.findById('3').catch(error => {
         expect(error).toBeInstanceOf(NotFoundException);
         expect(error).toMatchObject({ message: 'Registry not found' });
-        expect(mockRepository.findOne).toBeCalledWith('3', {"relations": ["roles"]});
+        expect(mockRepository.findOne).toBeCalledWith('3', {
+          relations: ['roles'],
+        });
         expect(mockRepository.findOne).toBeCalledTimes(1);
       });
     });
@@ -115,7 +119,7 @@ describe('PermissionService', () => {
   describe('when update a permission', () => {
     it('should update a existing permission', async () => {
       const permissionUpdate: UpdatePermissionDto = mockRegistry;
-      permissionUpdate.permission = 'Update permission '
+      permissionUpdate.permission = 'Update permission ';
 
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.update.mockReturnValue({
@@ -127,13 +131,12 @@ describe('PermissionService', () => {
         ...permissionUpdate,
       });
 
-      const updatedpermission = await service.update(
-        '1',
-        permissionUpdate,
-      );
+      const updatedpermission = await service.update('1', permissionUpdate);
 
       // expect(updatedpermission).toMatchObject(permissionUpdate);
-      expect(mockRepository.findOne).toBeCalledWith('1', {"relations": ["roles"]});
+      expect(mockRepository.findOne).toBeCalledWith('1', {
+        relations: ['roles'],
+      });
       expect(mockRepository.findOne).toBeCalledTimes(1);
       expect(mockRepository.update).toBeCalledWith('1', permissionUpdate);
       expect(mockRepository.update).toBeCalledTimes(1);
@@ -152,7 +155,9 @@ describe('PermissionService', () => {
 
       await service.delete('1');
 
-      expect(mockRepository.findOne).toBeCalledWith('1', {"relations": ["roles"]});
+      expect(mockRepository.findOne).toBeCalledWith('1', {
+        relations: ['roles'],
+      });
       expect(mockRepository.findOne).toBeCalledTimes(1);
       expect(mockRepository.delete).toBeCalledWith('1');
       expect(mockRepository.delete).toBeCalledTimes(1);

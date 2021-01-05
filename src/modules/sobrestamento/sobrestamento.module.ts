@@ -1,4 +1,3 @@
-
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FeriadoModule } from '../feriado/feriado.module';
@@ -10,6 +9,6 @@ import { SobrestamentoService } from './service/sobrestamento.service';
   imports: [TypeOrmModule.forFeature([Sobrestamento]), FeriadoModule],
   providers: [SobrestamentoService],
   controllers: [SobrestamentoController],
-  exports: [SobrestamentoService]
+  exports: [SobrestamentoService],
 })
 export class SobrestamentoModule {}

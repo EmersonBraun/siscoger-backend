@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RedisCacheModule } from '../../cache/redis-cache.module';
 import { CreateAdlDto, UpdateAdlDto } from '../dtos';
-import { fakerRegistry } from '../factory/adl.factory';
+import fakerRegistry from '../factory/adl.factory';
 import { AdlService } from '../service/adl.service';
-import { AdlController } from './adl.controller';
+import AdlController from './adl.controller';
 
 describe('AdlController', () => {
   let controller: AdlController;
@@ -25,7 +25,7 @@ describe('AdlController', () => {
     }).compile();
 
     controller = module.get<AdlController>(AdlController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -81,23 +81,17 @@ describe('AdlController', () => {
   describe('when update a Adl', () => {
     it('should update a existing Adl and return it', async () => {
       const AdlUpdate: UpdateAdlDto = mockRegistry;
-      AdlUpdate.doc_numero = 'Update Adl '
+      AdlUpdate.doc_numero = 'Update Adl ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
         ...AdlUpdate,
       });
 
-      const updatedAdl = await controller.update(
-        '1',
-        AdlUpdate,
-      );
+      const updatedAdl = await controller.update('1', AdlUpdate);
 
       expect(updatedAdl).toMatchObject(AdlUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        AdlUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', AdlUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

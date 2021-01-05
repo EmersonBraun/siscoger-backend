@@ -7,7 +7,7 @@ import {
   Param,
   Post,
   Put,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -16,18 +16,17 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags
+  ApiTags,
 } from '@nestjs/swagger';
-import { ACLPolice } from '../../../common/decorators/acl.decorator';
-import { ACLGuard } from '../../../common/guards/acl.guard';
-import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
-import { ErrorResponse } from '../../../common/responses';
+import ACLPolice from '../../../common/decorators/acl.decorator';
+import ACLGuard from '../../../common/guards/acl.guard';
+import JwtAuthGuard from '../../../common/guards/jwt.guard';
+import ErrorResponse from '../../../common/responses/error';
 import { CreateSindicanciaDto } from '../dtos/create.dto';
 import { SearchPortariaDto } from '../dtos/search-portaria.dto';
 import { UpdateSindicanciaDto } from '../dtos/update.dto';
 import { Sindicancia } from '../entity/sindicancia.entity';
 import { SindicanciaService } from '../service/sindicancia.service';
-
 
 @ApiTags('Sindicancia')
 @Controller('sindicancias')
@@ -37,11 +36,14 @@ export class SindicanciaController {
   @Get()
   @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({roles: [], permissions: []})
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Search all Sindicancia' })
-  @ApiOkResponse({ type: [CreateSindicanciaDto], description: 'The found Sindicancia' })
-  async findAll(): Promise<Sindicancia[]> {
-    return await this.service.findAll();
+  @ApiOkResponse({
+    type: [CreateSindicanciaDto],
+    description: 'The found Sindicancia',
+  })
+  async findAll(): Promise<void> {
+    await this.service.findAll();
   }
 
   // @Get('/andamento')
@@ -52,48 +54,57 @@ export class SindicanciaController {
   //   return await this.service.findAndamento();
   // }
 
-
   @Post('portarias')
   @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({roles: [], permissions: []})
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Found Sindicancia' })
-  @ApiOkResponse({ type: CreateSindicanciaDto, description: 'Found Sindicancia' })
-  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
-  async findPortaria(
-    @Body() data: SearchPortariaDto,
-    ): Promise<any> {
-    return await this.service.findPortaria(data);
+  @ApiOkResponse({
+    type: CreateSindicanciaDto,
+    description: 'Found Sindicancia',
+  })
+  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
+  async findPortaria(@Body() data: SearchPortariaDto): Promise<void> {
+    await this.service.findPortaria(data);
   }
 
   @Post()
   @HttpCode(201)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({roles: [], permissions: []})
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Create a new Sindicancia' })
-  @ApiCreatedResponse({ type: UpdateSindicanciaDto, description: 'Created Sindicancia' })
-  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
-  async create(@Body() data: CreateSindicanciaDto): Promise<Sindicancia> {
-    return await this.service.create(data);
+  @ApiCreatedResponse({
+    type: UpdateSindicanciaDto,
+    description: 'Created Sindicancia',
+  })
+  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
+  async create(@Body() data: CreateSindicanciaDto): Promise<void> {
+    await this.service.create(data);
   }
 
   @Get(':id')
   @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({roles: [], permissions: []})
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Search a Sindicancia by id' })
-  @ApiOkResponse({ type: UpdateSindicanciaDto, description: 'The found Sindicancia' })
+  @ApiOkResponse({
+    type: UpdateSindicanciaDto,
+    description: 'The found Sindicancia',
+  })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<Sindicancia> {
-    return await this.service.findById(id);
+  async findById(@Param('id') id: string): Promise<void> {
+    await this.service.findById(id);
   }
 
   @Put(':id')
   @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({roles: [], permissions: []})
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Update a Sindicancia' })
-  @ApiOkResponse({ type: UpdateSindicanciaDto, description: 'Updated Sindicancia' })
+  @ApiOkResponse({
+    type: UpdateSindicanciaDto,
+    description: 'Updated Sindicancia',
+  })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
   async update(
     @Param('id') id: string,
@@ -105,7 +116,7 @@ export class SindicanciaController {
   @Delete(':id')
   @HttpCode(204)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({roles: [], permissions: []})
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Delete a Sindicancia' })
   @ApiNoContentResponse({ description: 'Deleted Sindicancia' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
