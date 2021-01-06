@@ -25,7 +25,7 @@ export class SindicanciaTasksService {
     // '0 1 0 * * *'
     name: 'Update Sindicancias Prazos',
   })
-  async handleCron() {
+  async handleCron(): Promise<void> {
     const start = new Date().toLocaleString();
     const sindicancias = await this.service.findAll();
     sindicancias.map(async (sindicancia: Sindicancia) => {
@@ -36,7 +36,7 @@ export class SindicanciaTasksService {
     await this.saveTask(start);
   }
 
-  async saveTask(start) {
+  async saveTask(start: string): Promise<void> {
     const data = {
       name: 'rotina sindicância',
       start,
@@ -46,7 +46,7 @@ export class SindicanciaTasksService {
     await this.dbService.create(data);
   }
 
-  async verifyPendences(sindicancia: Sindicancia) {
+  async verifyPendences(sindicancia: Sindicancia): Promise<boolean> {
     return true;
   }
 
@@ -79,18 +79,18 @@ export class SindicanciaTasksService {
     }
   }
 
-  async getDUTotais(sindicancia: Sindicancia) {
+  async getDUTotais(sindicancia: Sindicancia): Promise<void> {
     const date = changeDate(String(sindicancia.abertura_data), 'fr-ca');
     await this.feriadoService.betweenDates(date);
   }
 
-  async getDU(sindicancia: Sindicancia) {
+  async getDU(sindicancia: Sindicancia): Promise<number> {
     const DUTotais = await this.getDUTotais(sindicancia);
     const DUSobrestado = await this.getDUSobrestado(sindicancia);
     return Number(DUTotais) - DUSobrestado;
   }
 
-  async getDUSobrestado(sindicancia: Sindicancia) {
+  async getDUSobrestado(sindicancia: Sindicancia): Promise<number> {
     const date = changeDate(String(sindicancia.abertura_data), 'fr-ca');
     return this.sobrestamentoService.betweenDates(
       date,
@@ -99,7 +99,7 @@ export class SindicanciaTasksService {
     );
   }
 
-  async getMotivo(sindicancia: Sindicancia) {
+  async getMotivo(sindicancia: Sindicancia): Promise<void> {
     const sobrestamento = await this.sobrestamentoService.getMotive({
       field: 'id_sindicancia',
       value: sindicancia.id,

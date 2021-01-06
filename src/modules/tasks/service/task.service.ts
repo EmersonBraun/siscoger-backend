@@ -12,7 +12,7 @@ export class TasksService {
     private repository: Model<TasksDocument>,
   ) {}
 
-  async findAll(): Promise<void> {
+  async findAll(): Promise<Tasks | void> {
     await this.repository.find().exec();
   }
 
@@ -34,7 +34,7 @@ export class TasksService {
     return registry;
   }
 
-  async update(id: string, data: UpdateTasksDto): Promise<void> {
+  async update(id: string, data: UpdateTasksDto): Promise<any> {
     await this.repository
       .findOneAndUpdate({ _id: id }, { ...data }, { new: true })
       .exec();

@@ -33,7 +33,7 @@ export class TasksController {
   @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Search all Tasks' })
   @ApiOkResponse({ type: [CreateTasksDto], description: 'The found Tasks' })
-  async findAll(): Promise<void> {
+  async findAll(): Promise<Tasks | void> {
     await this.service.findAll();
   }
 
@@ -44,7 +44,7 @@ export class TasksController {
   @ApiOperation({ summary: 'Search Tasks' })
   @ApiCreatedResponse({ type: UpdateTasksDto, description: 'Searched Tasks' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async search(@Body() data: CreateTasksDto): Promise<void> {
+  async search(@Body() data: CreateTasksDto): Promise<Tasks | void> {
     await this.service.search(data);
   }
 }

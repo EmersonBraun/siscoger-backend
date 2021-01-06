@@ -29,7 +29,7 @@ export class SindicanciaService {
     return registry?.max ? ++registry.max : 1;
   }
 
-  async findAll(): Promise<void> {
+  async findAll(): Promise<Sindicancia[] | any> {
     // if (canSeeAllOpm()) {
     await this.repository.find({
       where: { completo: true },
