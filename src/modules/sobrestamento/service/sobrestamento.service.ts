@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Sindicancia } from 'src/modules/sindicancia/entity/sindicancia.entity';
 import { Repository } from 'typeorm';
 import { getCurrentDate } from '../../../common/utils/date.utils';
 import { FeriadoService } from '../../feriado/service/feriado.service';
@@ -44,7 +45,10 @@ export class SobrestamentoService {
     return duSobrestado - feriados;
   }
 
-  async getMotive(procData: { field: any; value: any }): Promise<void> {
+  async getMotive(procData: {
+    field: any;
+    value: any;
+  }): Promise<Sobrestamento | void> {
     await this.repository
       .createQueryBuilder()
       .where(':id_proc = :value ', {

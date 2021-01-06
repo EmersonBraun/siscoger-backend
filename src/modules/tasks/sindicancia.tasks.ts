@@ -99,17 +99,15 @@ export class SindicanciaTasksService {
     );
   }
 
-  async getMotivo(sindicancia: Sindicancia): Promise<void> {
+  async getMotivo(sindicancia: Sindicancia): Promise<string> {
     const sobrestamento = await this.sobrestamentoService.getMotive({
       field: 'id_sindicancia',
       value: sindicancia.id,
     });
 
-    // Revisar esse bloco
+    // Fiz alteração, Revisar esse bloco
 
-    // if (!sobrestamento) return '';
-    // return sobrestamento.motivo
-    //   ? sobrestamento.motivo
-    //   : sobrestamento.motivo_outros;
+    if (!sobrestamento) return '';
+    return sobrestamento && sobrestamento.motivo;
   }
 }
