@@ -21,7 +21,7 @@ export class MailProcessor {
   ) {}
 
   @Process('send')
-  async handleTranscode(job: Job) {
+  async handleTranscode(job: Job): Promise<void> {
     try {
       await this.sendMailService.sendMail(job.data);
     } catch (error) {

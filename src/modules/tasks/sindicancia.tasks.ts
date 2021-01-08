@@ -105,7 +105,7 @@ export class SindicanciaTasksService {
       value: sindicancia.id,
     });
 
-    // Fiz alteração, Revisar esse bloco
+    // Fiz alteração nessa parte, revisar esse bloco
 
     if (!sobrestamento) return '';
     return sobrestamento && sobrestamento.motivo;
