@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RedisCacheModule } from '../../cache/redis-cache.module';
 import { CreateCdDto, UpdateCdDto } from '../dtos';
-import { fakerRegistry } from '../factory/cd.factory';
+import { fakerRegister } from '../factory/cd.factory';
 import { CdService } from '../service/cd.service';
 import { CdController } from './cd.controller';
 
@@ -25,7 +25,7 @@ describe('CdController', () => {
     }).compile();
 
     controller = module.get<CdController>(CdController);
-    mockRegistry = fakerRegistry();
+    mockRegistry = fakerRegister();
   });
 
   beforeEach(() => {
