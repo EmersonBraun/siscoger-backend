@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class cd1610017579556 implements MigrationInterface {
+export class cj1610451392810 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'cd',
+        name: 'cj',
         columns: [
           {
             name: 'id',
@@ -31,12 +31,14 @@ export class cd1610017579556 implements MigrationInterface {
             default: 0,
             isNullable: true,
           },
+
           {
             name: 'id_decorrenciaconselho',
             type: 'int',
             default: 0,
             isNullable: true,
           },
+
           {
             name: 'id_situacaoconselho',
             type: 'int',
@@ -50,7 +52,28 @@ export class cd1610017579556 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: 'cdopm',
+            type: 'varchar',
+            default: 0,
+          },
+          {
+            name: 'sjd_ref',
+            type: 'int',
+            default: 0,
+          },
+          {
+            name: 'sjd_ref_ano',
+            type: 'int',
+            default: 0,
+          },
+          {
             name: 'abertura_data',
+            type: 'varchar',
+            default: 0,
+            isNullable: true,
+          },
+          {
+            name: 'fato_data',
             type: 'varchar',
             default: 0,
             isNullable: true,
@@ -85,12 +108,7 @@ export class cd1610017579556 implements MigrationInterface {
             default: 0,
             isNullable: true,
           },
-          {
-            name: 'fato_data',
-            type: 'varchar',
-            default: 0,
-            isNullable: true,
-          },
+
           {
             name: 'portaria_data',
             type: 'varchar',
@@ -116,34 +134,13 @@ export class cd1610017579556 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: 'sjd_ref',
-            type: 'int',
-            default: 0,
-          },
-          {
-            name: 'sjd_ref_ano',
-            type: 'int',
-            default: 0,
-          },
-          {
-            name: 'sjd_file',
+            name: 'numero_tj',
             type: 'varchar',
             default: 0,
+            isNullable: true,
           },
           {
             name: 'prescricao_data',
-            type: 'varchar',
-            default: 0,
-            isNullable: true,
-          },
-          {
-            name: 'prescricao_comissao',
-            type: 'varchar',
-            default: 0,
-            isNullable: true,
-          },
-          {
-            name: 'parecer_cmtgeral',
             type: 'varchar',
             default: 0,
             isNullable: true,
@@ -160,6 +157,7 @@ export class cd1610017579556 implements MigrationInterface {
             default: 0,
             isNullable: true,
           },
+          { name: 'sjd_file', type: 'varchar', default: 0, isNullable: true },
           {
             name: 'rec_gov_file',
             type: 'varchar',
@@ -167,10 +165,12 @@ export class cd1610017579556 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: 'cdopm',
+            name: 'opm_meta4',
             type: 'varchar',
             default: 0,
+            isNullable: true,
           },
+
           {
             name: 'ac_desempenho_bl',
             type: 'varchar',

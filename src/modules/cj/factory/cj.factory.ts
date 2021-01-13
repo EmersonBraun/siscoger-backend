@@ -1,10 +1,10 @@
 import * as Faker from 'faker';
 import { define } from 'typeorm-seeding';
-import { CreateCdDto } from '../dtos/create.dto';
-import { Cd } from '../entity/cd.entity';
+import { CreateCjDto } from '../dtos/create.dto';
+import { Cj } from '../entity/cj.entity';
 
-define(Cd, (faker: typeof Faker) => {
-  const factory = new Cd();
+define(Cj, (faker: typeof Faker) => {
+  const factory = new Cj();
   factory.abertura_data = faker.date.past(1);
   factory.cdopm = faker.random.number(99999999).toString();
   factory.doc_numero = faker.random.number(99).toString();
@@ -30,15 +30,17 @@ define(Cd, (faker: typeof Faker) => {
   factory.parecer_file = faker.name.findName();
   factory.decisao_file = faker.name.findName();
   factory.doc_prorrogacao = faker.name.findName();
-  factory.parecer_cmtgeral = faker.name.findName();
   factory.exclusao_text = faker.name.findName();
   factory.rec_ato_file = faker.name.findName();
   factory.rec_gov_file = faker.name.findName();
+  factory.numero_tj = faker.name.findName();
+  factory.opm_meta4 = faker.name.findName();
+  factory.prescricao_data = faker.date.past(1);
   factory.sintese_text = faker.name.findName();
   return factory;
 });
 
-export const fakerRegister = (): CreateCdDto => {
+export const fakerRegister = (): CreateCjDto => {
   const faker = Faker;
   return {
     abertura_data: faker.date.past(1),
@@ -52,7 +54,6 @@ export const fakerRegister = (): CreateCdDto => {
     id_decorrenciaconselho: 1,
     id_situacaoconselho: 1,
     portaria_file: faker.name.findName(),
-    prescricao_comissao: faker.name.findName(),
     motivo_outros: faker.name.findName(),
     portaria_data: faker.date.past(1),
     portaria_numero: faker.random.number(999).toString(),
@@ -68,10 +69,12 @@ export const fakerRegister = (): CreateCdDto => {
     parecer_file: faker.name.findName(),
     decisao_file: faker.name.findName(),
     doc_prorrogacao: faker.name.findName(),
-    parecer_cmtgeral: faker.name.findName(),
     exclusao_text: faker.name.findName(),
     rec_ato_file: faker.name.findName(),
     rec_gov_file: faker.name.findName(),
+    numero_tj: faker.name.findName(),
+    opm_meta4: faker.name.findName(),
+    prescricao_data: faker.date.past(1),
     sintese_text: faker.name.findName(),
   };
 };

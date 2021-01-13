@@ -9,7 +9,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class UpdateCdDto {
+export class CreateCjDto {
   @IsOptional() @IsNumber() @ApiProperty() id_andamentocoger: number;
 
   @IsOptional() @IsNumber() @ApiProperty() id_andamento: number;
@@ -20,21 +20,19 @@ export class UpdateCdDto {
 
   @IsOptional() @IsNumber() @ApiProperty() id_situacaoconselho: number;
 
+  @IsOptional() @IsString() @ApiProperty() motivo_outros: string;
+
+  @IsString() @IsNotEmpty() @ApiProperty() cdopm: string;
+
   @IsOptional() @IsNumber() @IsPositive() @ApiProperty() sjd_ref?: number;
 
   @IsOptional() @IsNumber() @IsPositive() @ApiProperty() sjd_ref_ano?: number;
 
-  @IsOptional() @IsString() @ApiProperty() motivo_outros: string;
+  @IsOptional() @ApiProperty() abertura_data?: string | Date;
 
   @IsOptional() @ApiProperty() fato_data?: string | Date;
 
-  @IsOptional() @ApiProperty() abertura_data?: string | Date;
-
-  @IsString() @IsNotEmpty() @MinLength(100) @ApiProperty() sintese_text: string;
-
   @IsOptional() @IsString() @ApiProperty() libelo_file: string;
-
-  @IsString() @IsNotEmpty() @ApiProperty() cdopm: string;
 
   @IsOptional() @IsString() @ApiProperty() doc_tipo: string;
 
@@ -44,23 +42,25 @@ export class UpdateCdDto {
 
   @IsOptional() @IsString() @ApiProperty() portaria_data: string | Date;
 
-  @IsOptional() @IsString() @ApiProperty() portaria_file: string;
-
   @IsOptional() @IsString() @ApiProperty() parecer_file: string;
+
+  @IsOptional() @IsString() @ApiProperty() portaria_file: string;
 
   @IsOptional() @IsString() @ApiProperty() decisao_file: string;
 
   @IsOptional() @IsString() @ApiProperty() doc_prorrogacao: string;
 
-  @IsOptional() @IsString() @ApiProperty() prescricao_comissao: string;
+  @IsOptional() @IsString() @ApiProperty() numero_tj: string;
 
-  @IsOptional() @IsString() @ApiProperty() parecer_cmtgeral: string;
+  @IsOptional() @IsString() @ApiProperty() prescricao_data: Date;
 
   @IsOptional() @IsString() @ApiProperty() exclusao_text: string;
 
   @IsOptional() @IsString() @ApiProperty() rec_ato_file: string;
 
   @IsOptional() @IsString() @ApiProperty() rec_gov_file: string;
+
+  @IsOptional() @IsString() @ApiProperty() opm_meta4: string;
 
   @IsOptional() @IsString() @ApiProperty() ac_desempenho_bl: string;
 
@@ -73,4 +73,6 @@ export class UpdateCdDto {
   @IsOptional() @IsString() @ApiProperty() sjd_file: string;
 
   @IsOptional() @IsBoolean() @ApiProperty() prioridade?: boolean;
+
+  @IsString() @IsNotEmpty() @MinLength(100) @ApiProperty() sintese_text: string;
 }

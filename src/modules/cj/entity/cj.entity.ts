@@ -7,8 +7,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('cd')
-export class Cd {
+@Entity('cj')
+export class Cj {
   @PrimaryGeneratedColumn() id: number;
 
   @Column({ type: 'int', nullable: true }) id_andamentocoger: number;
@@ -21,17 +21,17 @@ export class Cd {
 
   @Column({ type: 'int', nullable: true }) id_situacaoconselho: number;
 
+  @Column({ nullable: true }) motivo_outros: string;
+
+  @Column({ nullable: true }) cdopm: string;
+
   @Column({ type: 'int' }) sjd_ref: number;
 
   @Column({ type: 'int' }) sjd_ref_ano: number;
 
-  @Column({ nullable: true }) motivo_outros: string;
-
-  @Column({ nullable: true }) fato_data: Date;
-
   @Column({ nullable: true }) abertura_data: Date;
 
-  @Column({ nullable: true }) sintese_text: string;
+  @Column({ nullable: true }) fato_data: Date;
 
   @Column({ nullable: true }) libelo_file: string;
 
@@ -49,9 +49,9 @@ export class Cd {
 
   @Column({ nullable: true }) doc_prorrogacao: string;
 
-  @Column({ nullable: true }) prescricao_comissao: string;
+  @Column({ nullable: true }) numero_tj: string;
 
-  @Column({ nullable: true }) parecer_cmtgeral: string;
+  @Column({ nullable: true }) prescricao_data: Date;
 
   @Column({ nullable: true }) exclusao_text: string;
 
@@ -59,7 +59,7 @@ export class Cd {
 
   @Column({ nullable: true }) rec_gov_file: string;
 
-  @Column({ nullable: true }) cdopm: string;
+  @Column({ nullable: true }) opm_meta4: string;
 
   @Column({ nullable: true }) ac_desempenho_bl: string;
 
@@ -70,6 +70,8 @@ export class Cd {
   @Column({ nullable: true }) tjpr_file: string;
 
   @Column({ nullable: true }) sjd_file: string;
+
+  @Column({ nullable: true }) sintese_text: string;
 
   @Column() prioridade: boolean;
 
