@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
-import { Permission } from 'src/modules/permission/entity/permission.entity';
-import { User } from 'src/modules/user/entity/user.entity';
+import { Permission } from '../../permission/entity/permission.entity';
+import { User } from '../../user/entity/user.entity';
 
 export class UpdateRoleDto {
   @IsString() @ApiProperty() role: string;

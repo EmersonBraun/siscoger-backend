@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LogService } from 'src/modules/log/service/log.service';
 import { Repository } from 'typeorm';
+import { LogService } from '../../log/service/log.service';
 import { CreateRoleDto } from '../dtos/create.dto';
 import { UpdateRoleDto } from '../dtos/update.dto';
 import { Role } from '../entity/role.entity';

@@ -1,5 +1,5 @@
-import { Motivoconselho } from 'src/modules/motivoconselho/entity/motivoconselho.entity';
 import { Seeder, Factory } from 'typeorm-seeding';
+import { Motivoconselho } from '../entity/motivoconselho.entity';
 
 export default class CreateMotivoconselhos implements Seeder {
   public async run(factory: Factory): Promise<void> {

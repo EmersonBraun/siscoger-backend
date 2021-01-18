@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   HttpException,
   HttpStatus,
@@ -8,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
-import { RedisCacheService } from 'src/modules/cache/redis-cache.service';
+import { RedisCacheService } from '../../cache/redis-cache.service';
 import { LogService } from '../../log/service/log.service';
 import { User } from '../../user/entity/user.entity';
 import { UserService } from '../../user/service/user.service';

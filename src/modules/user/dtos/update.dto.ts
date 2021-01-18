@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
-import { Role } from 'src/modules/role/entity/role.entity';
+import { Role } from '../../role/entity/role.entity';
 
 export class UpdateUserDto {
   @IsOptional() @IsString() @ApiProperty() name: string;

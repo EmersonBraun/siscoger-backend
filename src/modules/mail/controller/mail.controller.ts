@@ -24,7 +24,7 @@ import JwtAuthGuard from '../../../common/guards/jwt.guard';
 import ErrorResponse from '../../../common/responses/error';
 import { CreateMailDto } from '../dtos';
 import { UpdateMailDto } from '../dtos/update.dto';
-import { Mail } from '../schema/mail.schema';
+// import { Mail } from '../schema/mail.schema';
 import { MailService } from '../service/mail.service';
 
 @ApiTags('Mail')

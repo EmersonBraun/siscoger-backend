@@ -1,5 +1,5 @@
-import { Ligacao } from 'src/modules/ligacao/entity/ligacao.entity';
 import { Seeder, Factory } from 'typeorm-seeding';
+import { Ligacao } from '../entity/ligacao.entity';
 
 export default class CreateLigacaos implements Seeder {
   public async run(factory: Factory): Promise<void> {

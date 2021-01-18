@@ -1,4 +1,4 @@
-import { transations } from 'src/config';
+import { transations } from '../../config';
 
 export type TypeFunction =
   | 'login'

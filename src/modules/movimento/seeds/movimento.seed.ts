@@ -1,5 +1,5 @@
-import { Movimento } from 'src/modules/movimento/entity/movimento.entity';
 import { Seeder, Factory } from 'typeorm-seeding';
+import { Movimento } from '../entity/movimento.entity';
 
 export default class CreateMovimentos implements Seeder {
   public async run(factory: Factory): Promise<void> {

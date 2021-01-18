@@ -21,7 +21,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { fileUploadConfig } from 'src/config/fileupload';
+import { fileUploadConfig } from '../../../config';
 import ACLPolice from '../../../common/decorators/acl.decorator';
 import ACLGuard from '../../../common/guards/acl.guard';
 import JwtAuthGuard from '../../../common/guards/jwt.guard';

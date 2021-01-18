@@ -1,6 +1,6 @@
 import { HttpException } from '@nestjs/common';
 import { diskStorage } from 'multer';
-import { editFileName } from 'src/common/utils/file-upload.utils';
+import { editFileName } from '../common/utils/file-upload.utils';
 
 export const fileUploadConfig = (
   filter: (

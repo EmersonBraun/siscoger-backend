@@ -1,5 +1,5 @@
-import { Andamento } from 'src/modules/andamento/entity/andamento.entity';
 import { Seeder, Factory } from 'typeorm-seeding';
+import { Andamento } from '../entity/andamento.entity';
 
 export default class CreateAndamentos implements Seeder {
   public async run(factory: Factory): Promise<void> {

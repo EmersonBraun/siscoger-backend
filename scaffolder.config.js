@@ -1,4 +1,10 @@
-import { camelCase, pascalCase, snakeCase } from 'change-case';
+import {
+  camelCase,
+  pascalCase,
+  snakeCase,
+  ucFirst,
+  toKebabCase,
+} from 'change-case';
 import pluralize from 'pluralize';
 
 module.exports = {

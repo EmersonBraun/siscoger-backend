@@ -3,7 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Queue } from 'bull';
 import { Model } from 'mongoose';
-import { usernameSendMail } from 'src/config';
+import { usernameSendMail } from '../../../config';
 import { CreateMailDto } from '../dtos/create.dto';
 import { UpdateMailDto } from '../dtos/update.dto';
 import { Mail, MailDocument } from '../schema/mail.schema';

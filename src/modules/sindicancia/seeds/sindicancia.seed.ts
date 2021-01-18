@@ -1,5 +1,5 @@
-import { Sindicancia } from 'src/modules/sindicancia/entity/sindicancia.entity';
 import { Seeder, Factory } from 'typeorm-seeding';
+import { Sindicancia } from '../entity/sindicancia.entity';
 
 export default class CreateSindicancias implements Seeder {
   public async run(factory: Factory): Promise<void> {

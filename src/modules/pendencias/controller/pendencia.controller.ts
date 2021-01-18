@@ -24,7 +24,7 @@ import JwtAuthGuard from '../../../common/guards/jwt.guard';
 import ErrorResponse from '../../../common/responses/error';
 import { CreatePendenciaDto } from '../dtos';
 import { UpdatePendenciaDto } from '../dtos/update.dto';
-import { Pendencia } from '../schema/pendencia.schema';
+// import { Pendencia } from '../schema/pendencia.schema';
 import { PendenciaService } from '../service/pendencia.service';
 
 @ApiTags('Pendencia')

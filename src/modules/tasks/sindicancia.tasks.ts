@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
-import { changeDate, getCurrentDate } from 'src/common/utils/date.utils';
-import { Sindicancia } from 'src/modules/sindicancia/entity/sindicancia.entity';
-import { SindicanciaService } from 'src/modules/sindicancia/service/sindicancia.service';
+import { changeDate, getCurrentDate } from '../../common/utils/date.utils';
+import { Sindicancia } from '../sindicancia/entity/sindicancia.entity';
+import { SindicanciaService } from '../sindicancia/service/sindicancia.service';
 import { FeriadoService } from '../feriado/service/feriado.service';
 import { SobrestamentoService } from '../sobrestamento/service/sobrestamento.service';
 import { TasksService } from './service/task.service';

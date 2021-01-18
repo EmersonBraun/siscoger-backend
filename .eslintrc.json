@@ -30,15 +30,16 @@
     "no-plusplus": "off",
     "class-methods-use-this": "off",
     "no-useless-constructor": "off",
+    "no-unused-vars": "off",
     "import/no-duplicates": "off",
     "import/prefer-default-export": "off",
     "no-param-reassign": 0,
     "camelcase": 0,
-    "@typescript-eslint/camelcase": ["warn"],
-    "@typescript-eslint/no-unused-vars": ["error", {
+    "@typescript-eslint/camelcase": 0,
+    "@typescript-eslint/no-unused-vars": ["off", {
       "argsIgnorePattern": "_"
     }],
-    "@typescript-eslint/interface-name-prefix": ["error", { "prefixWithI": "never" }],
+    "@typescript-eslint/interface-name-prefix": ["off", { "prefixWithI": "never" }],
     "import/extensions": [
       "error",
       "ignorePackages",
