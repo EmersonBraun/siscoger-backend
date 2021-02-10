@@ -3,7 +3,7 @@ import {
   CanActivate,
   ExecutionContext,
   Injectable,
-  UnauthorizedException,
+  UnauthorizedException
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { RedisCacheService } from '../../modules/cache/redis-cache.service';
@@ -36,7 +36,7 @@ export default class ACLGuard implements CanActivate {
     return getVerifiedRoles && getVerifiedPermission;
   }
 
-  verifyIfHasAnyRole(aclRoles: string[], useRoles: string[]) {
+  verifyIfHasAnyRole(aclRoles: string[], useRoles: string[]): boolean {
     if (!aclRoles.length) return true;
     let hasAnyRole = false;
     aclRoles.map(role => {
@@ -45,10 +45,13 @@ export default class ACLGuard implements CanActivate {
     return hasAnyRole;
   }
 
-  verifyIfHasAnyPermission(aclPermissions: string[], usePermissions: string[]) {
+  verifyIfHasAnyPermission(
+    aclPermissions: string[],
+    usePermissions: string[],
+  ): boolean {
     if (!aclPermissions.length) return true;
     let hasAnyPermission = false;
-    aclPermissions.map(role => {
+    aclPermissions.map((role: string): void => {
       if (usePermissions.includes(role)) hasAnyPermission = true;
     });
     return hasAnyPermission;

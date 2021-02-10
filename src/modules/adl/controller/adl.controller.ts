@@ -19,8 +19,7 @@ import {
   ApiTags
 } from '@nestjs/swagger';
 import { ACLPolice } from '../../../common/decorators/acl.decorator';
-import { ACLGuard } from '../../../common/guards/acl.guard';
-import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
+import { ACLGuard, JwtAuthGuard } from '../../../common/guards';
 import { ErrorResponse } from '../../../common/responses/error';
 import { CreateAdlDto } from '../dtos/create.dto';
 import { UpdateAdlDto } from '../dtos/update.dto';

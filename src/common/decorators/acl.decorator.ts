@@ -1,6 +1,7 @@
-import { SetMetadata } from '@nestjs/common';
+import { CustomDecorator, SetMetadata } from '@nestjs/common';
 
-const ACLPolice = ({ roles, permissions } = { roles: [], permissions: [] }) =>
-  SetMetadata('acl', { roles, permissions });
+const ACLPolice = (
+  { roles, permissions } = { roles: [], permissions: [] },
+): CustomDecorator<string> => SetMetadata('acl', { roles, permissions });
 
 export default ACLPolice;

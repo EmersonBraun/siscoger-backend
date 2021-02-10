@@ -50,6 +50,7 @@
     "@nestjs/terminus": "^7.0.1",
     "@nestjs/testing": "^7.0.0",
     "@nestjs/typeorm": "^7.1.4",
+    "@types/supertest": "^2.0.8",
     "bcrypt": "^5.0.0",
     "bull": "^3.20.0",
     "cache-manager": "^3.4.0",
@@ -77,8 +78,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
     "typeorm": "^0.2.28",
-    "typeorm-seeding": "^1.6.1",
-    "@types/supertest": "^2.0.8"
+    "typeorm-seeding": "^1.6.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",
@@ -97,12 +97,16 @@
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.4.1",
     "eslint": "^7.11.0",
+    "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-prettier": "^6.10.0",
+    "eslint-import-resolver-typescript": "^2.0.0",
     "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-prettier": "^3.1.2",
     "git-commit-msg-linter": "^3.0.0",
     "husky": "^4.3.0",
     "jest": "^26.5.3",
     "lint-staged": "^10.4.0",
+    "mongodb-memory-server": "^6.9.3",
     "prettier": "^2.1.2",
     "scaffolder-cli": "^1.9.2",
     "standard-version": "^9.0.0",
@@ -111,12 +115,9 @@
     "ts-jest": "^26.4.1",
     "ts-loader": "^8.0.5",
     "ts-node": "9.0.0",
+    "ts-node-dev": "^1.0.0-pre.44",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^4.0.3",
-    "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-import-resolver-typescript": "^2.0.0",
-    "eslint-plugin-prettier": "^3.1.2",
-    "ts-node-dev": "^1.0.0-pre.44"
+    "typescript": "^4.0.3"
   },
   "jest": {
     "moduleFileExtensions": [

@@ -1,6 +1,10 @@
 import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import {
+  closeInMongodConnection,
+  rootMongooseTestModule
+} from '../../../../test/utils';
 import { RedisCacheModule } from '../../cache/redis-cache.module';
 import { LogModule } from '../../log/log.module';
 import { CreateAdlDto, UpdateAdlDto } from '../dtos/index';
@@ -23,7 +27,7 @@ describe('AdlService', () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [RedisCacheModule, LogModule],
+      imports: [rootMongooseTestModule(), RedisCacheModule, LogModule],
       providers: [
         AdlService,
         { provide: getRepositoryToken(Adl), useValue: mockRepository },
@@ -43,6 +47,10 @@ describe('AdlService', () => {
     mockRepository.delete.mockReset();
   });
 
+  afterAll(async () => {
+    await closeInMongodConnection();
+  });
+
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
@@ -52,12 +60,12 @@ describe('AdlService', () => {
       mockRepository.create.mockReturnValueOnce(mockRegistry);
       mockRepository.save.mockReturnValueOnce(mockRegistry);
 
-      const AdlVariable: CreateAdlDto = mockRegistry;
-
-      const savedAdl = await service.create(AdlVariable);
+      const adl: CreateAdlDto = mockRegistry;
+      console.log(service);
+      const savedAdl = await service.create(adl);
 
       expect(savedAdl).toMatchObject(mockRegistry);
-      expect(mockRepository.create).toBeCalledWith(Adl);
+      expect(mockRepository.create).toBeCalledWith(adl);
       expect(mockRepository.create).toBeCalledTimes(1);
       expect(mockRepository.save).toBeCalledTimes(1);
     });
