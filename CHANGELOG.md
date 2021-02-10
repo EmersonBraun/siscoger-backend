@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.40.1](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.40.0...v0.40.1) (2021-02-10)
+
+
+### Bug Fixes
+
+* solve auth problems ([c9b6d05](https://github.com/EmersonBraun/siscoger-backend-v2/commit/c9b6d0532aba41a8ed865276abacfe0fc6c69453))
+
 ## [0.40.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.39.0...v0.40.0) (2020-12-31)
 
 
