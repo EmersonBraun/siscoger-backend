@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Injectable, Logger, Scope } from '@nestjs/common';
 import chalk from 'chalk';
 import figures from 'figures';
