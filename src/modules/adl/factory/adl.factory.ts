@@ -40,7 +40,7 @@ define(Adl, (faker: typeof Faker) => {
   return factory;
 });
 
-const fakerRegistry = (): CreateAdlDto => {
+export default function  fakerRegistry(): CreateAdlDto {
   const faker = Faker;
   return {
     id_andamento: faker.random.number(999),
@@ -78,4 +78,3 @@ const fakerRegistry = (): CreateAdlDto => {
   };
 };
 
-export default fakerRegistry;
