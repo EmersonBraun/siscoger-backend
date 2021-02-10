@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   HttpCode,
@@ -14,7 +15,6 @@ import {
 } from '@nestjs/swagger';
 import { CreateUserDto } from 'src/modules/user/dtos';
 import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
-import { LocalAuthGuard } from '../../../common/guards/local.guard';
 import { ErrorResponse } from '../../../common/responses';
 import { LoginDto } from '../dtos/login.dto';
 import { AuthService } from '../service/auth.service';
@@ -30,9 +30,10 @@ export class AuthController {
   @ApiOperation({ summary: 'Create a new auth' })
   @ApiCreatedResponse({ type: LoginDto, description: 'Logged' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Not logged', })
-  @UseGuards(LocalAuthGuard)
-  async login(@Request() req): Promise<any> {
-    return this.service.login(req.user);
+  // @UseGuards(LocalAuthGuard)
+  async login(@Body() data): Promise<any> {
+    console.log(data)
+    return this.service.login(data);
   }
 
   @Get('whoami')

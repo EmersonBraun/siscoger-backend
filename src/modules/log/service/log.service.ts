@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { InjectModel } from '@nestjs/mongoose';
 import { Request } from 'express';
@@ -10,7 +10,7 @@ import { Log, LogDocument } from '../schema/log.schema';
 export interface AuthRequest extends Request {
   user?: string
 }
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class LogService {
   constructor(
     @InjectModel(Log.name)

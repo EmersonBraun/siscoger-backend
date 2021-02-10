@@ -4,7 +4,6 @@ import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
 import { RedisCacheService } from 'src/modules/cache/redis-cache.service';
 import { LogService } from '../../log/service/log.service';
-import { User } from '../../user/entity/user.entity';
 import { UserService } from '../../user/service/user.service';
 
 @Injectable()
@@ -42,7 +41,8 @@ export class AuthService {
     }
   } 
 
-  async login(userData: { user: { [x: string]: User; roles: any; }; }) {
+  async login({rg, password}) {
+    const userData = await this.validateUser(rg, password)
     const {user, roles, permissions} = this.getCleanDataOfUser(userData)
     const token = this._createToken(user)
     await this.redisCacheService.set(user.rg,{user, roles, permissions},86400)
