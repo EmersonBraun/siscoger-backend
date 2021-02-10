@@ -19,7 +19,7 @@ import { MovimentoModule } from './modules/movimento/movimento.module';
 import { OfendidoModule } from './modules/ofendido/ofendido.module';
 import { SindicanciaModule } from './modules/sindicancia/sindicancia.module';
 import { SobrestamentoModule } from './modules/sobrestamento/sobrestamento.module';
-import { uploadModule } from './modules/upload/upload.module';
+import { UploadModule } from './modules/upload/upload.module';
 
 @Module({
   imports: [
@@ -40,7 +40,7 @@ import { uploadModule } from './modules/upload/upload.module';
     OfendidoModule,
     SindicanciaModule,
     SobrestamentoModule,
-    uploadModule,
+    UploadModule,
   ],
 })
 export class AppModule {
