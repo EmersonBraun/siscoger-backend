@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -15,14 +16,17 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
+import { ACLPolice } from '../../../common/decorators/acl.decorator';
+import { ACLGuard } from '../../../common/guards/acl.guard';
+import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
 import { ErrorResponse } from '../../../common/responses';
-
 import { CreateMovimentoDto } from '../dtos/create.dto';
 import { UpdateMovimentoDto } from '../dtos/update.dto';
 import { Movimento } from '../entity/movimento.entity';
 import { MovimentoService } from '../service/movimento.service';
+
 
 @ApiTags('Movimento')
 @Controller('movimentos')
@@ -31,6 +35,8 @@ export class MovimentoController {
 
   @Get()
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search all Movimento' })
   @ApiOkResponse({ type: [CreateMovimentoDto], description: 'The found Movimento' })
   async findAll(): Promise<Movimento[]> {
@@ -39,6 +45,8 @@ export class MovimentoController {
 
   @Post('search')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search Movimento' })
   @ApiCreatedResponse({ type: UpdateMovimentoDto, description: 'Searched Movimento' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -48,6 +56,8 @@ export class MovimentoController {
 
   @Post()
   @HttpCode(201)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Create a new Movimento' })
   @ApiCreatedResponse({ type: UpdateMovimentoDto, description: 'Created Movimento' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -57,6 +67,8 @@ export class MovimentoController {
 
   @Get(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Search a Movimento by id' })
   @ApiOkResponse({ type: UpdateMovimentoDto, description: 'The found Movimento' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -66,6 +78,8 @@ export class MovimentoController {
 
   @Put(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Update a Movimento' })
   @ApiOkResponse({ type: UpdateMovimentoDto, description: 'Updated Movimento' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -78,6 +92,8 @@ export class MovimentoController {
 
   @Delete(':id')
   @HttpCode(204)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: [], permissions: []})
   @ApiOperation({ summary: 'Delete a Movimento' })
   @ApiNoContentResponse({ description: 'Deleted Movimento' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })

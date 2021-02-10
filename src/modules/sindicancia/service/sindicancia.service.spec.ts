@@ -2,8 +2,8 @@ import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateSindicanciaDto, UpdateSindicanciaDto } from '../dtos';
-import { fakerRegistry } from '../factory/sindicancia.factory';
 import { Sindicancia } from '../entity/sindicancia.entity';
+import { fakerRegistry } from '../factory/sindicancia.factory';
 import { SindicanciaService } from './sindicancia.service';
 
 describe('SindicanciaService', () => {

@@ -2,6 +2,207 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.40.1](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.40.0...v0.40.1) (2021-02-10)
+
+
+### Bug Fixes
+
+* solve auth problems ([c9b6d05](https://github.com/EmersonBraun/siscoger-backend-v2/commit/c9b6d0532aba41a8ed865276abacfe0fc6c69453))
+
+## [0.40.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.39.0...v0.40.0) (2020-12-31)
+
+
+### Features
+
+* finish log module ([50b0555](https://github.com/EmersonBraun/siscoger-backend-v2/commit/50b0555959ba86f7527f66ed754930872bb8d896))
+
+## [0.39.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.38.0...v0.39.0) (2020-12-31)
+
+
+### Features
+
+* finish mail module ([33156a4](https://github.com/EmersonBraun/siscoger-backend-v2/commit/33156a47cbef569f903b60533f6b20a44ca7d170))
+
+
+### Bug Fixes
+
+* rename module Tasks to tasks ([84749e8](https://github.com/EmersonBraun/siscoger-backend-v2/commit/84749e8f1ebaadb75d6ff8dcd293c3defb407482))
+* solve pendencia changes compatibility ([0c7e5e9](https://github.com/EmersonBraun/siscoger-backend-v2/commit/0c7e5e9809aedf04ddde2011383c1d5f19af87aa))
+
+## [0.38.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.37.0...v0.38.0) (2020-12-30)
+
+
+### Features
+
+* add description in roles and permissions ([3f546ef](https://github.com/EmersonBraun/siscoger-backend-v2/commit/3f546ef848120338823fda030527f77d33f2bb41))
+* add state in pendencias ([6d0c4f4](https://github.com/EmersonBraun/siscoger-backend-v2/commit/6d0c4f492d47a72b485f2be873a52dfc74d1d263))
+* create module mail ([a8ec99e](https://github.com/EmersonBraun/siscoger-backend-v2/commit/a8ec99e4fa17c7c8567012ff353e4c33fea67548))
+
+## [0.37.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.36.0...v0.37.0) (2020-12-30)
+
+
+### Features
+
+* acl guards to all routes ([f4bd8e6](https://github.com/EmersonBraun/siscoger-backend-v2/commit/f4bd8e66f4b2d758912f718d1bd26b74a65b3516))
+* add guards in acl ([e91f35a](https://github.com/EmersonBraun/siscoger-backend-v2/commit/e91f35a71bcdfcc284970719aec2f133307a5519))
+* add guards in adl and andamento ([a49eea5](https://github.com/EmersonBraun/siscoger-backend-v2/commit/a49eea5766460aab55f20d95a1ce4d2222541693))
+* add guards in andamentocoger ([b94bce9](https://github.com/EmersonBraun/siscoger-backend-v2/commit/b94bce947492bac72491c01ec8189fce032cf03a))
+
+
+### Bug Fixes
+
+* solve jwt exception ([db5d28f](https://github.com/EmersonBraun/siscoger-backend-v2/commit/db5d28f5ba5e71bebf24672f2dda4ff1ceb0ec62))
+
+## [0.36.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.35.0...v0.36.0) (2020-12-30)
+
+
+### Features
+
+* add roles and permissions in return of login ([b2e780f](https://github.com/EmersonBraun/siscoger-backend-v2/commit/b2e780fce60663f98cdce56cae3a514b3845fbce))
+* configure cache with redis ([72dcfd9](https://github.com/EmersonBraun/siscoger-backend-v2/commit/72dcfd9304d4d71c4a84f9968d1c44e78add3daa))
+
+## [0.35.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.34.0...v0.35.0) (2020-12-28)
+
+
+### Features
+
+* add task list - controller ([7e7a861](https://github.com/EmersonBraun/siscoger-backend-v2/commit/7e7a8614de0ebd1cd9afabd7970031b87ac9c0e7))
+* remove unused functions ([04fc460](https://github.com/EmersonBraun/siscoger-backend-v2/commit/04fc46075f001e50233680398ba577bbf97d6f85))
+
+## [0.34.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.33.2...v0.34.0) (2020-12-28)
+
+
+### Features
+
+* add funtions to sync users, roles and permissions ([2891ef2](https://github.com/EmersonBraun/siscoger-backend-v2/commit/2891ef2f8ce8243e8b045a9b625c6c7242810000))
+* add relation to permission and roles ([9ee4c76](https://github.com/EmersonBraun/siscoger-backend-v2/commit/9ee4c760334bc953cc5cd5f45e0eac8d6ad9bcd9))
+
+### [0.33.2](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.33.1...v0.33.2) (2020-12-28)
+
+
+### Bug Fixes
+
+* dtos and documentation ([eda16c2](https://github.com/EmersonBraun/siscoger-backend-v2/commit/eda16c2d9d143dee8871afac107e4554a8b451db))
+
+### [0.33.1](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.33.0...v0.33.1) (2020-12-28)
+
+
+### Features
+
+* add export services to all modules ([d6db29d](https://github.com/EmersonBraun/siscoger-backend-v2/commit/d6db29d2f1bda2599daf66345418bcc7fec3f152))
+
+
+### Bug Fixes
+
+* solve tests ([dc9949a](https://github.com/EmersonBraun/siscoger-backend-v2/commit/dc9949ac42f2b8ee04e3d54582ee8668b99df91f))
+
+## [0.33.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.32.0...v0.33.0) (2020-12-28)
+
+
+### Features
+
+* add modules roles and permissions ([e6071c2](https://github.com/EmersonBraun/siscoger-backend-v2/commit/e6071c23c058a61cd5ab3839ed68f313f502c0c3))
+* add rate limit ([81c5dc5](https://github.com/EmersonBraun/siscoger-backend-v2/commit/81c5dc5f8b98ac836a882b3c87a58618528bd939))
+* add relations to users, roles and permissions ([c19863c](https://github.com/EmersonBraun/siscoger-backend-v2/commit/c19863c85762eb46ee0e98f2a73529f6f32020fb))
+
+
+### Bug Fixes
+
+* solve types of rate limit ([a2cf0b6](https://github.com/EmersonBraun/siscoger-backend-v2/commit/a2cf0b637bc53e9899f5eec8572b19f67979d3e6))
+
+## [0.32.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.31.0...v0.32.0) (2020-12-24)
+
+
+### Features
+
+* finalize sindicancia task ([9d7c933](https://github.com/EmersonBraun/siscoger-backend-v2/commit/9d7c93386ac348ca0ac45da05624432ead900a1e))
+
+
+### Bug Fixes
+
+* change names od upload and aquivo controllers ([fdf0b41](https://github.com/EmersonBraun/siscoger-backend-v2/commit/fdf0b41f6eb5a0ef5d1a809413e010e86c21365c))
+
+## [0.31.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.30.0...v0.31.0) (2020-12-23)
+
+
+### Features
+
+* create task module ([949e87c](https://github.com/EmersonBraun/siscoger-backend-v2/commit/949e87c38ea5c58f3265799acf2073d61116772d))
+
+## [0.30.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.29.0...v0.30.0) (2020-12-22)
+
+
+### Features
+
+* add columns to sindicancias ([145f0f5](https://github.com/EmersonBraun/siscoger-backend-v2/commit/145f0f54aaa30660dc2405584c056e8525b1af11))
+* add sindicancia tasks ([5715242](https://github.com/EmersonBraun/siscoger-backend-v2/commit/57152424e11d09cbd5ad0d6478094a484b1d8671))
+* create advanced querys to sindicancia module ([70a8021](https://github.com/EmersonBraun/siscoger-backend-v2/commit/70a802135af96c58943b04eac2898c27032e2226))
+* create advanced querys to sindicancia module ([8022a30](https://github.com/EmersonBraun/siscoger-backend-v2/commit/8022a301c025c90f692c0f2c186a8991c95230fe))
+
+## [0.29.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.28.0...v0.29.0) (2020-12-18)
+
+
+### Features
+
+* complete authentication ([5b9f7bc](https://github.com/EmersonBraun/siscoger-backend-v2/commit/5b9f7bcab1b9024282aa36f24d7fa5ebec17c7cb))
+
+
+### Bug Fixes
+
+* merge changes ([ec9fdf7](https://github.com/EmersonBraun/siscoger-backend-v2/commit/ec9fdf73da359b25eaca6fbe5a44841d1d4453a9))
+* merge version ([b0bc0d4](https://github.com/EmersonBraun/siscoger-backend-v2/commit/b0bc0d46e1df9fef0beeaa50b40653c46a445753))
+* solve jwt config in .env ([aabef0f](https://github.com/EmersonBraun/siscoger-backend-v2/commit/aabef0fba5d8ad3d34869f85548e344f8a76889e))
+* stage ([a4f6aa2](https://github.com/EmersonBraun/siscoger-backend-v2/commit/a4f6aa2b91e6dc8631bfce027e5f99071e3185c3))
+* validations of sindicancia ([a66f159](https://github.com/EmersonBraun/siscoger-backend-v2/commit/a66f159c1295cb010f95df523be54c01e718fd9c))
+* validations of sindicancia ([0babc24](https://github.com/EmersonBraun/siscoger-backend-v2/commit/0babc2474cd24fe40a5ccc7482d2797860baff98))
+
+## [0.28.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.27.3...v0.28.0) (2020-12-17)
+
+
+### [0.27.3](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.27.2...v0.27.3) (2020-12-16)
+
+
+### Bug Fixes
+
+* solve seed of users ([4b40e3f](https://github.com/EmersonBraun/siscoger-backend-v2/commit/4b40e3fbb8cb6cc1af87609400dc5d396fd7cb17))
+
+### [0.27.2](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.27.1...v0.27.2) (2020-12-10)
+
+
+### Bug Fixes
+
+* solved auth module ([54a8bb5](https://github.com/EmersonBraun/siscoger-backend-v2/commit/54a8bb5863bf5bf7c6150794ff1a13e49953422a))
+
+### [0.27.1](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.27.0...v0.27.1) (2020-12-09)
+
+
+### Bug Fixes
+
+* seeder apfd ([10f35ea](https://github.com/EmersonBraun/siscoger-backend-v2/commit/10f35ea6169cd3a71d22619e9c97219195015740))
+
+## [0.27.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.26.0...v0.27.0) (2020-12-03)
+
+## [0.26.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.25.1...v0.26.0) (2020-12-03)
+
+
+### Features
+
+* add user module ([1b857fe](https://github.com/EmersonBraun/siscoger-backend-v2/commit/1b857fe4a25a59520c6bba5a97980a2dec46cd16))
+
+### [0.25.1](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.25.0...v0.25.1) (2020-12-03)
+
+
+### Bug Fixes
+
+* solve mongoose uncompatibity ([618a694](https://github.com/EmersonBraun/siscoger-backend-v2/commit/618a694b53dbc69bd02f1f378f8e74f0ee600fb8))
+
+## [0.25.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.24.0...v0.25.0) (2020-12-03)
+
+
+### Features
+
+* apfd Module create ([5e007b0](https://github.com/EmersonBraun/siscoger-backend-v2/commit/5e007b078e2dba13336953f8bc62f38954787c98))
+
 ## [0.24.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.23.0...v0.24.0) (2020-11-30)
 
 

@@ -1,12 +1,12 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { extname } from 'path';
 
-export const PDFFileFilter = (req, file, callback) => {
+export const PDFFileFilter = (_req: any, file: { originalname: string; }, callback: (arg0: HttpException, arg1: boolean) => void) => {
   if (!file.originalname.match(/\.(pdf)$/)) {
     return callback(
       new HttpException(
         'Only PDF files are allowed!',
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.UNPROCESSABLE_ENTITY,
       ),
       false,
     );
@@ -14,12 +14,12 @@ export const PDFFileFilter = (req, file, callback) => {
   callback(null, true);
 };
 
-export const imageFileFilter = (req, file, callback) => {
+export const imageFileFilter = (_req: any, file: { originalname: string; }, callback: (arg0: HttpException, arg1: boolean) => void) => {
   if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
     return callback(
       new HttpException(
         'Only image files are allowed!',
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.UNPROCESSABLE_ENTITY,
       ),
       false,
     );
@@ -27,7 +27,7 @@ export const imageFileFilter = (req, file, callback) => {
   callback(null, true);
 };
 
-export const editFileName = (req, file, callback) => {
+export const editFileName = (_req: any, file: { originalname: string; }, callback: (arg0: any, arg1: string) => void) => {
   const name = file.originalname.split('.')[0];
   const fileExtName = extname(file.originalname);
   const randomName = Array(4)

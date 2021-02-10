@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsBoolean,
   IsOptional, IsString
 } from 'class-validator';
 
@@ -42,9 +41,8 @@ export class UpdateUploadDto {
   @ApiProperty()
   rg: string
 
-  @IsString()
   @ApiProperty()
-  id_proc: string
+  id_proc: number
 
   @IsString()
   @ApiProperty()
@@ -56,7 +54,11 @@ export class UpdateUploadDto {
   obs: string
 
   @IsOptional()
-  @IsBoolean()
   @ApiProperty()
   is_old_file: boolean
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
+  data_arquivo: string
 }

@@ -37,6 +37,9 @@ export class sindicancias1601833822166 implements MigrationInterface {
                 { name: "prorogacao", type: "boolean", default: false, isNullable: true},
                 { name: "prorogacao_dias", type: "int", default: 0},
                 { name: "completo", type: "boolean", default: false, isNullable: true},
+                { name: 'diasuteis_sobrestado', type: 'number', isNullable: true },
+                { name: 'motivo_sobrestado', type: 'varchar', isNullable: true },
+                { name: 'prazo_decorrido', type: 'number', isNullable: true },
             ]
         }), true)
 

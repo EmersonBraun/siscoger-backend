@@ -6,7 +6,8 @@ import {
   HttpCode,
   Param,
   Post,
-  Put
+  Put,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -17,6 +18,9 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
+import { ACLPolice } from '../../../common/decorators/acl.decorator';
+import { ACLGuard } from '../../../common/guards/acl.guard';
+import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
 import { ErrorResponse } from '../../../common/responses';
 import { SearchArquivoDto } from '../dtos';
 import { CreateArquivoDto } from '../dtos/create.dto';
@@ -26,12 +30,14 @@ import { ArquivoService } from '../service/arquivo.service';
 
 
 @ApiTags('Arquivo')
-@Controller('Arquivos')
+@Controller('arquivos')
 export class ArquivoController {
   constructor(private service: ArquivoService) {}
 
   @Get()
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: ['admin'], permissions: ['criar-arquivo']})
   @ApiOperation({ summary: 'Search all Arquivo' })
   @ApiOkResponse({ type: [CreateArquivoDto], description: 'The found Arquivo' })
   async findAll(): Promise<Arquivo[]> {
@@ -40,6 +46,8 @@ export class ArquivoController {
 
   @Post('search')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: ['admin'], permissions: ['criar-arquivo']})
   @ApiOperation({ summary: 'Search Arquivo' })
   @ApiCreatedResponse({ type: SearchArquivoDto, description: 'Searched Arquivo' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -49,6 +57,8 @@ export class ArquivoController {
 
   @Post()
   @HttpCode(201)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: ['admin'], permissions: ['criar-arquivo']})
   @ApiOperation({ summary: 'Create a new Arquivo' })
   @ApiCreatedResponse({ type: UpdateArquivoDto, description: 'Created Arquivo' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
@@ -58,6 +68,8 @@ export class ArquivoController {
 
   @Get(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: ['admin'], permissions: ['criar-arquivo']})
   @ApiOperation({ summary: 'Search a Arquivo by id' })
   @ApiOkResponse({ type: UpdateArquivoDto, description: 'The found Arquivo' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -67,6 +79,8 @@ export class ArquivoController {
 
   @Put(':id')
   @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: ['admin'], permissions: ['editar-arquivo']})
   @ApiOperation({ summary: 'Update a Arquivo' })
   @ApiOkResponse({ type: UpdateArquivoDto, description: 'Updated Arquivo' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -79,6 +93,8 @@ export class ArquivoController {
 
   @Delete(':id')
   @HttpCode(204)
+  @UseGuards(JwtAuthGuard, ACLGuard) 
+  @ACLPolice({roles: ['admin'], permissions: ['apagar-arquivo']})
   @ApiOperation({ summary: 'Delete a Arquivo' })
   @ApiNoContentResponse({ description: 'Deleted Arquivo' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })

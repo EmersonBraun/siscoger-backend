@@ -9,5 +9,6 @@ import { MotivoconselhoService } from './service/motivoconselho.service';
   imports: [TypeOrmModule.forFeature([Motivoconselho])],
   providers: [MotivoconselhoService],
   controllers: [MotivoconselhoController],
+  exports: [MotivoconselhoService]
 })
 export class MotivoconselhoModule {}

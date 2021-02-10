@@ -9,5 +9,6 @@ import { GradacaoService } from './service/gradacao.service';
   imports: [TypeOrmModule.forFeature([Gradacao])],
   providers: [GradacaoService],
   controllers: [GradacaoController],
+  exports: [GradacaoService]
 })
 export class GradacaoModule {}

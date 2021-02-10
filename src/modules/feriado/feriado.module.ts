@@ -9,5 +9,6 @@ import { FeriadoService } from './service/feriado.service';
   imports: [TypeOrmModule.forFeature([Feriado])],
   providers: [FeriadoService],
   controllers: [FeriadoController],
+  exports: [FeriadoService]
 })
 export class FeriadoModule {}

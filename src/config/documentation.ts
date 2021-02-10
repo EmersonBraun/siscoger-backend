@@ -1,5 +1,6 @@
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { version } from '../../package.json'
+import { INestApplication } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { version } from '../../package.json';
 
 const documentationOptions = new DocumentBuilder()
     .setTitle('SISCOGER API')
@@ -7,7 +8,7 @@ const documentationOptions = new DocumentBuilder()
     .setVersion(version)
     .build();
 
-export function setupDocumentation (app) {
+export function setupDocumentation (app: INestApplication) {
     const document = SwaggerModule.createDocument(app, documentationOptions);
     SwaggerModule.setup('documentation', app, document);
 }

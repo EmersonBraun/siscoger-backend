@@ -9,5 +9,6 @@ import { FalecimentoService } from './service/falecimento.service';
   imports: [TypeOrmModule.forFeature([Falecimento])],
   providers: [FalecimentoService],
   controllers: [FalecimentoController],
+  exports: [FalecimentoService],
 })
 export class FalecimentoModule {}

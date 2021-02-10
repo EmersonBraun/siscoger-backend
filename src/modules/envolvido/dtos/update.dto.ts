@@ -1,10 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsDate,
   IsNumber,
   IsOptional,
-  IsPositive,
-  IsString,
+
+  IsString
 } from 'class-validator';
 
 export class UpdateEnvolvidoDto {
@@ -40,7 +39,6 @@ export class UpdateEnvolvidoDto {
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   inclusao_ano?: number
   
@@ -56,19 +54,16 @@ export class UpdateEnvolvidoDto {
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   ipm_pena_anos?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   ipm_pena_meses?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   ipm_pena_dias?: number
   
@@ -93,7 +88,6 @@ export class UpdateEnvolvidoDto {
   obs_txt?:string
 
   @IsOptional()
-  @IsDate()
   @ApiProperty()
   exclusaoportaria_data: Date
   
@@ -110,18 +104,15 @@ export class UpdateEnvolvidoDto {
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   exclusaobg_numero?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   exclusaobg_ano?: number
 
   @IsOptional()
-  @IsDate()
   @ApiProperty()
   exclusaobg_data?: Date
   
@@ -132,85 +123,71 @@ export class UpdateEnvolvidoDto {
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_ipm?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_cj?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_cd?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_adl?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_sindicancia?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_fatd?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_desercao?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_apfd?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_iso?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_it?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_pad?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_sai?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_punicao?: number
   
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @ApiProperty()
   id_proc_outros?: number
 }
