@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { extname } from 'path';
 
 export const PDFFileFilter = (
-  _req: any,
+  _req: unknown,
   file: { originalname: string },
   callback: (arg0: HttpException, arg1: boolean) => void,
 ) => {

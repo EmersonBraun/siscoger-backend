@@ -40,6 +40,10 @@
       "argsIgnorePattern": "_"
     }],
     "@typescript-eslint/interface-name-prefix": ["off", { "prefixWithI": "never" }],
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "no-console": "off",
+    "consistent-return": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "import/extensions": [
       "error",
       "ignorePackages",

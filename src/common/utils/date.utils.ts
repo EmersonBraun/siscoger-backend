@@ -10,7 +10,7 @@ const getQtdOfWeeks = (init: string, end: string): number =>
 const getMajorDayOfWeek = (init: string, end: string): number =>
   Number(Boolean(new Date(init).getDay() < new Date(end).getDay()));
 const getSunday = (init: string): number =>
-  Number(Boolean(new Date(init).getDay() == 7));
+  Number(Boolean(new Date(init).getDay() === 7));
 
 export function getDaysOfFDS(init: string, end: string): number {
   return (
