@@ -5,9 +5,13 @@ import { Pendencia, PendenciaSchema } from './schema/pendencia.schema';
 import { PendenciaService } from './service/pendencia.service';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Pendencia.name, schema: PendenciaSchema }])],
+  imports: [
+    MongooseModule.forFeature([
+      { name: Pendencia.name, schema: PendenciaSchema },
+    ]),
+  ],
   providers: [PendenciaService],
   controllers: [PendenciaController],
-  exports: [PendenciaService]
+  exports: [PendenciaService],
 })
 export class PendenciaModule {}

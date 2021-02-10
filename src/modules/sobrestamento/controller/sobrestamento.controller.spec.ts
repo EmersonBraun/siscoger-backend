@@ -26,7 +26,7 @@ describe('SobrestamentoController', () => {
     }).compile();
 
     controller = module.get<SobrestamentoController>(SobrestamentoController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -95,7 +95,7 @@ describe('SobrestamentoController', () => {
   describe('when update a Sobrestamento', () => {
     it('should update a existing Sobrestamento and return it', async () => {
       const SobrestamentoUpdate: UpdateSobrestamentoDto = mockRegistry;
-      SobrestamentoUpdate.publicacao_inicio = 'Update Sobrestamento '
+      SobrestamentoUpdate.publicacao_inicio = 'Update Sobrestamento ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
@@ -108,10 +108,7 @@ describe('SobrestamentoController', () => {
       );
 
       expect(updatedSobrestamento).toMatchObject(SobrestamentoUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        SobrestamentoUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', SobrestamentoUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

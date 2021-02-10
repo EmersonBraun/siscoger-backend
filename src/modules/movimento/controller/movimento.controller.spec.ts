@@ -26,7 +26,7 @@ describe('MovimentoController', () => {
     }).compile();
 
     controller = module.get<MovimentoController>(MovimentoController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -95,23 +95,17 @@ describe('MovimentoController', () => {
   describe('when update a Movimento', () => {
     it('should update a existing Movimento and return it', async () => {
       const MovimentoUpdate: UpdateMovimentoDto = mockRegistry;
-      MovimentoUpdate.descricao = 'Update Movimento '
+      MovimentoUpdate.descricao = 'Update Movimento ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
         ...MovimentoUpdate,
       });
 
-      const updatedMovimento = await controller.update(
-        '1',
-        MovimentoUpdate,
-      );
+      const updatedMovimento = await controller.update('1', MovimentoUpdate);
 
       expect(updatedMovimento).toMatchObject(MovimentoUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        MovimentoUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', MovimentoUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

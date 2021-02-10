@@ -7,10 +7,9 @@
 // import { PendenciaService } from './pendencia.service';
 
 describe('PendenciaService', () => {
-
   describe('Test Latter', () => {
     it('should list all Pendencia', async () => {
-      const Pendencia = 1 
+      const Pendencia = 1;
       expect(Pendencia).toBe(1);
     });
   });

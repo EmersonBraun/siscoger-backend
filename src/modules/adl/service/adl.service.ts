@@ -4,25 +4,25 @@ import { Repository } from 'typeorm';
 import { LogService } from '../../log/service/log.service';
 import { CreateAdlDto } from '../dtos/create.dto';
 import { UpdateAdlDto } from '../dtos/update.dto';
-import { Adl } from '../entity/adl.entity';
+import Adl from '../entity/adl.entity';
 
 @Injectable()
 export class AdlService {
   constructor(
     @InjectRepository(Adl)
     private repository: Repository<Adl>,
-    private log: LogService
+    private log: LogService,
   ) {}
 
-  async findAll(): Promise<Adl[]> {
-    return await this.repository.find();
+  async findAll(): Promise<void> {
+    await this.repository.find();
   }
 
   async create(data: CreateAdlDto): Promise<Adl> {
     const registry = this.repository.create(data);
     const saveData = await this.repository.save(registry);
-    await this.log.create({ module: 'adl', action: 'create', data: saveData,})
-    return saveData
+    await this.log.create({ module: 'adl', action: 'create', data: saveData });
+    return saveData;
   }
 
   async findById(id: string): Promise<Adl> {
@@ -39,14 +39,19 @@ export class AdlService {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
     const saveData = this.repository.create({ ...registry, ...data });
-    await this.log.create({module: 'adl',action: 'update',data: saveData,old: registry,})
-    
-    return saveData
+    await this.log.create({
+      module: 'adl',
+      action: 'update',
+      data: saveData,
+      old: registry,
+    });
+
+    return saveData;
   }
 
   async delete(id: string): Promise<void> {
     const saveData = await this.findById(id);
-    await this.log.create({module: 'adl',action: 'delete',data: saveData})
+    await this.log.create({ module: 'adl', action: 'delete', data: saveData });
     await this.repository.delete(id);
   }
 }

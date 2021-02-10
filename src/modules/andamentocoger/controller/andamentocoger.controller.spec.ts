@@ -25,7 +25,7 @@ describe('AndamentocogerController', () => {
     }).compile();
 
     controller = module.get<AndamentocogerController>(AndamentocogerController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -81,7 +81,7 @@ describe('AndamentocogerController', () => {
   describe('when update a Andamentocoger', () => {
     it('should update a existing Andamentocoger and return it', async () => {
       const AndamentocogerUpdate: UpdateAndamentocogerDto = mockRegistry;
-      AndamentocogerUpdate.andamentocoger = 'Update Andamentocoger '
+      AndamentocogerUpdate.andamentocoger = 'Update Andamentocoger ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
@@ -94,10 +94,7 @@ describe('AndamentocogerController', () => {
       );
 
       expect(updatedAndamentocoger).toMatchObject(AndamentocogerUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        AndamentocogerUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', AndamentocogerUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

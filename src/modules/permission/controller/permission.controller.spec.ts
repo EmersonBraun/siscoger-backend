@@ -27,7 +27,7 @@ describe('PermissionController', () => {
     }).compile();
 
     controller = module.get<PermissionController>(PermissionController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -84,23 +84,17 @@ describe('PermissionController', () => {
   describe('when update a permission', () => {
     it('should update a existing permission and return it', async () => {
       const permissionUpdate: UpdatePermissionDto = mockRegistry;
-      permissionUpdate.permission = 'Update permission '
+      permissionUpdate.permission = 'Update permission ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
         ...permissionUpdate,
       });
 
-      const updatedpermission = await controller.update(
-        '1',
-        permissionUpdate,
-      );
+      const updatedpermission = await controller.update('1', permissionUpdate);
 
       expect(updatedpermission).toMatchObject(permissionUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        permissionUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', permissionUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

@@ -7,10 +7,9 @@
 // import { UploadService } from './upload.service';
 
 describe('UploadService', () => {
-
   describe('Test Latter', () => {
     it('should list all Upload', async () => {
-      const Upload = 1 
+      const Upload = 1;
       expect(Upload).toBe(1);
     });
   });

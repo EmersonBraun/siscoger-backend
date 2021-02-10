@@ -11,22 +11,26 @@ export class LigacaoService {
   constructor(
     @InjectRepository(Ligacao)
     private repository: Repository<Ligacao>,
-    private log: LogService
+    private log: LogService,
   ) {}
 
-  async findAll(): Promise<Ligacao[]> {
-    return await this.repository.find();
+  async findAll(): Promise<void> {
+    await this.repository.find();
   }
 
-  async search(data: CreateLigacaoDto): Promise<Ligacao[]> {
-    return await this.repository.find({ where: { ...data } });
+  async search(data: CreateLigacaoDto): Promise<void> {
+    await this.repository.find({ where: { ...data } });
   }
 
   async create(data: CreateLigacaoDto): Promise<Ligacao> {
     const registry = this.repository.create(data);
     const saveData = await this.repository.save(registry);
-    await this.log.create({ module: 'ligacao', action: 'create', data: saveData,})
-    return saveData
+    await this.log.create({
+      module: 'ligacao',
+      action: 'create',
+      data: saveData,
+    });
+    return saveData;
   }
 
   async findById(id: string): Promise<Ligacao> {
@@ -43,14 +47,23 @@ export class LigacaoService {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
     const saveData = this.repository.create({ ...registry, ...data });
-    await this.log.create({module: 'ligacao',action: 'update',data: saveData,old: registry,})
-    
-    return saveData
+    await this.log.create({
+      module: 'ligacao',
+      action: 'update',
+      data: saveData,
+      old: registry,
+    });
+
+    return saveData;
   }
 
   async delete(id: string): Promise<void> {
     const saveData = await this.findById(id);
-    await this.log.create({module: 'ligacao',action: 'delete',data: saveData})
+    await this.log.create({
+      module: 'ligacao',
+      action: 'delete',
+      data: saveData,
+    });
     await this.repository.delete(id);
   }
 }

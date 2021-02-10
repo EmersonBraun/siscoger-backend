@@ -27,7 +27,7 @@ describe('RoleController', () => {
     }).compile();
 
     controller = module.get<RoleController>(RoleController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -84,23 +84,17 @@ describe('RoleController', () => {
   describe('when update a role', () => {
     it('should update a existing role and return it', async () => {
       const roleUpdate: UpdateRoleDto = mockRegistry;
-      roleUpdate.role = 'Update role '
+      roleUpdate.role = 'Update role ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
         ...roleUpdate,
       });
 
-      const updatedrole = await controller.update(
-        '1',
-        roleUpdate,
-      );
+      const updatedrole = await controller.update('1', roleUpdate);
 
       expect(updatedrole).toMatchObject(roleUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        roleUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', roleUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

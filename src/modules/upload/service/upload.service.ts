@@ -11,21 +11,25 @@ export class UploadService {
   constructor(
     @InjectModel(Upload.name)
     private repository: Model<UploadDocument>,
-    private log: LogService
+    private log: LogService,
   ) {}
 
-  async findAll(): Promise<Upload[]> {
-    return await this.repository.find().exec()
+  async findAll(): Promise<void> {
+    await this.repository.find().exec();
   }
 
-  async search(data: CreateUploadDto): Promise<Upload[]> {
-    return await this.repository.find({ ...data });
+  async search(data: CreateUploadDto): Promise<void> {
+    await this.repository.find({ ...data });
   }
 
   async create(data: CreateUploadDto): Promise<Upload> {
     const saveData = await this.repository.create(data);
-    await this.log.create({ module: 'upload', action: 'create', data: saveData,})
-    return saveData
+    await this.log.create({
+      module: 'upload',
+      action: 'create',
+      data: saveData,
+    });
+    return saveData;
   }
 
   async findById(id: string): Promise<Upload> {
@@ -39,14 +43,24 @@ export class UploadService {
   }
 
   async update(id: string, data: UpdateUploadDto): Promise<Upload> {
-    const saveData = await this.repository.findOneAndUpdate({ _id: id }, { ...data }, { new: true }).exec();
-    await this.log.create({module: 'upload',action: 'update',data: saveData})
-    
-    return saveData
+    const saveData = await this.repository
+      .findOneAndUpdate({ _id: id }, { ...data }, { new: true })
+      .exec();
+    await this.log.create({
+      module: 'upload',
+      action: 'update',
+      data: saveData,
+    });
+
+    return saveData;
   }
 
   async delete(id: string): Promise<void> {
     const saveData = await this.repository.findOneAndDelete({ _id: id }).exec();
-    await this.log.create({module: 'upload',action: 'delete',data: saveData})
+    await this.log.create({
+      module: 'upload',
+      action: 'delete',
+      data: saveData,
+    });
   }
 }

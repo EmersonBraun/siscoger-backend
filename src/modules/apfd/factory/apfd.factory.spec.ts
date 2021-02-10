@@ -6,6 +6,6 @@ describe('ApfdFactory', () => {
   it('should create a factory and return it', async () => {
     const Apfd: CreateApfdDto = fakerRegistry();
 
-    expect(Apfd).toBe(Apfd)
+    expect(Apfd).toBe(Apfd);
   });
 });

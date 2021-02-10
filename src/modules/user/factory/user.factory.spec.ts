@@ -6,6 +6,6 @@ describe('userFactory', () => {
   it('should create a factory and return it', async () => {
     const user: CreateUserDto = fakerRegistry();
 
-    expect(user).toBe(user)
+    expect(user).toBe(user);
   });
 });

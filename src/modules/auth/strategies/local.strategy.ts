@@ -8,9 +8,10 @@ import { AuthService } from '../service/auth.service';
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
   private logger = new Logger('HTTP');
+
   constructor(
     private moduleRef: ModuleRef,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
   ) {
     super({
       passReqToCallback: true,

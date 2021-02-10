@@ -1,9 +1,8 @@
-import { Falecimento } from 'src/modules/falecimento/entity/falecimento.entity';
-import { Seeder, Factory } from 'typeorm-seeding'
+import { Seeder, Factory } from 'typeorm-seeding';
+import { Falecimento } from '../entity/falecimento.entity';
 
 export default class CreateFalecimentos implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    
-    await factory(Falecimento)().createMany(10)
+    await factory(Falecimento)().createMany(10);
   }
 }

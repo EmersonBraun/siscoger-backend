@@ -4,26 +4,23 @@ import {
   Get,
   HttpCode,
   Post,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
-
-
   ApiOkResponse,
   ApiOperation,
-  ApiTags
+  ApiTags,
 } from '@nestjs/swagger';
-import { ACLPolice } from '../../../common/decorators/acl.decorator';
-import { ACLGuard } from '../../../common/guards/acl.guard';
-import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
-import { ErrorResponse } from '../../../common/responses';
+import ACLPolice from '../../../common/decorators/acl.decorator';
+import ACLGuard from '../../../common/guards/acl.guard';
+import JwtAuthGuard from '../../../common/guards/jwt.guard';
+import ErrorResponse from '../../../common/responses/error';
 import { CreateTasksDto } from '../dtos/create.dto';
 import { UpdateTasksDto } from '../dtos/update.dto';
 import { Tasks } from '../schema/task.schema';
 import { TasksService } from '../service/task.service';
-
 
 @ApiTags('Tasks')
 @Controller('tasks')
@@ -33,21 +30,21 @@ export class TasksController {
   @Get()
   @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({roles: [], permissions: []})
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Search all Tasks' })
   @ApiOkResponse({ type: [CreateTasksDto], description: 'The found Tasks' })
-  async findAll(): Promise<Tasks[]> {
-    return await this.service.findAll();
+  async findAll(): Promise<Tasks | void> {
+    await this.service.findAll();
   }
 
   @Post('search')
   @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({roles: [], permissions: []})
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Search Tasks' })
   @ApiCreatedResponse({ type: UpdateTasksDto, description: 'Searched Tasks' })
-  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
-  async search(@Body() data: CreateTasksDto): Promise<Tasks[]> {
-    return await this.service.search(data);
+  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
+  async search(@Body() data: CreateTasksDto): Promise<Tasks | void> {
+    await this.service.search(data);
   }
 }

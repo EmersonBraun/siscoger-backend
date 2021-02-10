@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -12,30 +11,34 @@ export class PermissionService {
   constructor(
     @InjectRepository(Permission)
     private repository: Repository<Permission>,
-    private log: LogService
+    private log: LogService,
   ) {}
 
-  async findAll(): Promise<Permission[]> {
-    return await this.repository.find();
+  async findAll(): Promise<void> {
+    await this.repository.find();
   }
 
-  async search(data: CreatePermissionDto): Promise<Permission[]> {
-    const { roles, ...rest } = data
-    return await this.repository.find({ where: { ...rest } });
+  async search(data: CreatePermissionDto): Promise<void> {
+    const { roles, ...rest } = data;
+    await this.repository.find({ where: { ...rest } });
   }
 
   async create(data: CreatePermissionDto): Promise<Permission> {
-    const { roles, ...rest } = data
+    const { roles, ...rest } = data;
     const registry = this.repository.create(rest);
-    if (roles?.length) registry.roles = [...roles]
+    if (roles?.length) registry.roles = [...roles];
     const saveData = await this.repository.save(registry);
-    await this.log.create({ module: 'permission', action: 'create', data: saveData,})
-    return saveData
+    await this.log.create({
+      module: 'permission',
+      action: 'create',
+      data: saveData,
+    });
+    return saveData;
   }
 
   async findById(id: string): Promise<Permission> {
-    const registry = await this.repository.findOne(id,{
-      relations: ['roles']
+    const registry = await this.repository.findOne(id, {
+      relations: ['roles'],
     });
 
     if (!registry) {
@@ -46,23 +49,34 @@ export class PermissionService {
   }
 
   async update(id: string, data: UpdatePermissionDto): Promise<Permission> {
-    const registry = await this.repository.findOne(id, {relations:['roles']});
+    const registry = await this.repository.findOne(id, {
+      relations: ['roles'],
+    });
     if (!registry) {
       throw new NotFoundException('Registry not found');
     }
-    const { roles, ...rest } = data
-    if (roles?.length) registry.roles = [...roles]
+    const { roles, ...rest } = data;
+    if (roles?.length) registry.roles = [...roles];
     await this.repository.update(id, { ...rest });
 
     const saveData = this.repository.save({ ...registry, ...rest });
-    await this.log.create({module: 'permission',action: 'update',data: saveData,old: registry,})
-    
-    return saveData
+    await this.log.create({
+      module: 'permission',
+      action: 'update',
+      data: saveData,
+      old: registry,
+    });
+
+    return saveData;
   }
 
   async delete(id: string): Promise<void> {
     const saveData = await this.findById(id);
-    await this.log.create({module: 'permission',action: 'delete',data: saveData})
+    await this.log.create({
+      module: 'permission',
+      action: 'delete',
+      data: saveData,
+    });
     await this.repository.delete(id);
   }
 }

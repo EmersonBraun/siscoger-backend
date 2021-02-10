@@ -1,9 +1,8 @@
-import { Gradacao } from 'src/modules/gradacao/entity/gradacao.entity';
-import { Seeder, Factory } from 'typeorm-seeding'
+import { Seeder, Factory } from 'typeorm-seeding';
+import { Gradacao } from '../entity/gradacao.entity';
 
 export default class CreateGradacaos implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    
-    await factory(Gradacao)().createMany(10)
+    await factory(Gradacao)().createMany(10);
   }
 }

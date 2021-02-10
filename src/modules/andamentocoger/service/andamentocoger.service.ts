@@ -12,13 +12,13 @@ export class AndamentocogerService {
     private repository: Repository<Andamentocoger>,
   ) {}
 
-  async findAll(): Promise<Andamentocoger[]> {
-    return await this.repository.find();
+  async findAll(): Promise<void> {
+    await this.repository.find();
   }
 
-  async create(data: CreateAndamentocogerDto): Promise<Andamentocoger> {
+  async create(data: CreateAndamentocogerDto): Promise<void> {
     const registry = this.repository.create(data);
-    return await this.repository.save(registry);
+    await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<Andamentocoger> {
@@ -31,7 +31,10 @@ export class AndamentocogerService {
     return registry;
   }
 
-  async update(id: string, data: UpdateAndamentocogerDto): Promise<Andamentocoger> {
+  async update(
+    id: string,
+    data: UpdateAndamentocogerDto,
+  ): Promise<Andamentocoger> {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
 

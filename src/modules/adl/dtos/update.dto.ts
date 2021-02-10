@@ -1,165 +1,160 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsBoolean,
-  IsNumber,
-  IsOptional,
-  IsString
-} from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdateAdlDto {
   @IsOptional()
   @IsNumber()
   @ApiProperty()
-  id_andamento: number 
-  
+  id_andamento: number;
+
   @IsOptional()
   @IsNumber()
   @ApiProperty()
-  id_andamentocoger: number
-  
+  id_andamentocoger: number;
+
   @IsOptional()
   @IsNumber()
   @ApiProperty()
-  id_motivoconselho: number 
-  
+  id_motivoconselho: number;
+
   @IsOptional()
   @IsBoolean()
   @ApiProperty()
-  id_decorrenciaconselho: boolean  
-  
+  id_decorrenciaconselho: boolean;
+
   @IsOptional()
   @IsNumber()
   @ApiProperty()
-  id_situacaoconselho: number           
-  
+  id_situacaoconselho: number;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  outromotivo: string               
-  
+  outromotivo: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  cdopm: string              
-  
+  cdopm: string;
+
   @IsOptional()
   @ApiProperty()
-  fato_data: Date                
-  
+  fato_data: Date;
+
   @IsOptional()
   @ApiProperty()
-  abertura_data: Date                
-  
-  @IsOptional()
-  @IsString()
-  @ApiProperty()
-  sintese_txt: string                 
-  
+  abertura_data: Date;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  libelo_file: string                 
-  
+  sintese_txt: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  doc_tipo: string                
-  
+  libelo_file: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  doc_numero: string              
-  
+  doc_tipo: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  portaria_numero: string                
-  
-  @IsOptional()
-  @ApiProperty()
-  portaria_data: Date                
-  
+  doc_numero: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  parecer_file: string                
-  
+  portaria_numero: string;
+
+  @IsOptional()
+  @ApiProperty()
+  portaria_data: Date;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  decisao_file: string               
-  
+  parecer_file: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  doc_prorrogacao: string                
-  
+  decisao_file: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
+  doc_prorrogacao: string;
+
   @IsOptional()
   @IsNumber()
   @ApiProperty()
-  sjd_ref: number                
-  
+  sjd_ref: number;
+
   @IsOptional()
   @IsNumber()
   @ApiProperty()
-  sjd_ref_ano: number                
-  
+  sjd_ref_ano: number;
+
   @IsOptional()
   @ApiProperty()
-  prescricao_data: Date               
-  
-  @IsOptional()
-  @IsString()
-  @ApiProperty()
-  parecer_comissao: string                
-  
+  prescricao_data: Date;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  parecer_cmtgeral: string               
-  
+  parecer_comissao: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  exclusao_txt: string                
-  
+  parecer_cmtgeral: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  rec_ato_file: string               
-  
+  exclusao_txt: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  rec_gov_file: string               
-  
+  rec_ato_file: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  ac_desempenho_bl: string      
-  
+  rec_gov_file: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  ac_conduta_bl: string         
-  
+  ac_desempenho_bl: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  ac_honra_bl: string           
-  
+  ac_conduta_bl: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  tjpr_file: string             
-  
+  ac_honra_bl: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  stj_file: string              
-  
+  tjpr_file: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
+  stj_file: string;
+
   @IsOptional()
   @IsNumber()
   @ApiProperty()
-  prioridade: number
+  prioridade: number;
 }

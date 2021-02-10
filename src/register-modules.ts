@@ -1,4 +1,6 @@
-import { LoggerModule } from './common/logger/logger.module';
+import LoggerModule from './common/logger/logger.module';
+import { CdModule } from './modules/cd/cd.module';
+import { CjModule } from './modules/cj/cj.module';
 import { AdlModule } from './modules/adl/adl.module';
 import { AndamentoModule } from './modules/andamento/andamento.module';
 import { AndamentocogerModule } from './modules/andamentocoger/andamentocoger.module';
@@ -50,6 +52,6 @@ export const registerModules = [
   AuthModule,
   TasksModule,
   UserModule,
-]
-
-
+  CdModule,
+  CjModule,
+];

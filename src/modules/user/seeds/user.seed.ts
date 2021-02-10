@@ -9,11 +9,21 @@ export default class CreateUsers implements Seeder {
       .insert()
       .into(User)
       .values([
-        {cpf: '123456', rg: '123456', password: '123456', email: 'teste@teste.com'}
+        {
+          cpf: '123456',
+          rg: '123456',
+          password: '123456',
+          email: 'teste@teste.com',
+        },
       ])
-      .execute()
+      .execute();
 
+<<<<<<< HEAD
       console.log(user)
       // await factory(User)().createMany(10)
+=======
+    console.log(user);
+    await factory(User)().createMany(10);
+>>>>>>> f3570f884e2cdcf6d9de59e2803ba90a53e52660
   }
 }

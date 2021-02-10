@@ -6,6 +6,6 @@ describe('UploadFactory', () => {
   it('should create a factory and return it', async () => {
     const Upload: CreateUploadDto = fakerRegistry();
 
-    expect(Upload).toBe(Upload)
+    expect(Upload).toBe(Upload);
   });
 });

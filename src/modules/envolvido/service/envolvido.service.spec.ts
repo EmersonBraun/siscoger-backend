@@ -29,7 +29,7 @@ describe('EnvolvidoService', () => {
     }).compile();
 
     service = module.get<EnvolvidoService>(EnvolvidoService);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -52,9 +52,9 @@ describe('EnvolvidoService', () => {
       mockRepository.create.mockReturnValueOnce(mockRegistry);
       mockRepository.save.mockReturnValueOnce(mockRegistry);
 
-      const Envolvido: CreateEnvolvidoDto = mockRegistry;
+      const EnvolvidoVariable: CreateEnvolvidoDto = mockRegistry;
 
-      const savedEnvolvido = await service.create(Envolvido);
+      const savedEnvolvido = await service.create(EnvolvidoVariable);
 
       expect(savedEnvolvido).toMatchObject(mockRegistry);
       expect(mockRepository.create).toBeCalledWith(Envolvido);
@@ -67,9 +67,9 @@ describe('EnvolvidoService', () => {
     it('should list all Envolvido', async () => {
       mockRepository.find.mockReturnValue([mockRegistry]);
 
-      const Envolvido = await service.findAll();
+      const EnvolvidoVariable = await service.findAll();
 
-      expect(Envolvido).toHaveLength(1);
+      expect(EnvolvidoVariable).toHaveLength(1);
       expect(mockRepository.find).toBeCalledTimes(1);
     });
   });
@@ -91,9 +91,9 @@ describe('EnvolvidoService', () => {
     it('should find a existing Envolvido', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
 
-      const Envolvido = await service.findById('1');
+      const EnvolvidoVariable = await service.findById('1');
 
-      expect(Envolvido).toMatchObject(mockRegistry);
+      expect(EnvolvidoVariable).toMatchObject(mockRegistry);
       expect(mockRepository.findOne).toBeCalledWith('1');
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
@@ -113,7 +113,7 @@ describe('EnvolvidoService', () => {
   describe('when update a Envolvido', () => {
     it('should update a existing Envolvido', async () => {
       const EnvolvidoUpdate: UpdateEnvolvidoDto = mockRegistry;
-      EnvolvidoUpdate.cargo = 'Update Envolvido '
+      EnvolvidoUpdate.cargo = 'Update Envolvido ';
 
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.update.mockReturnValue({
@@ -125,10 +125,7 @@ describe('EnvolvidoService', () => {
         ...EnvolvidoUpdate,
       });
 
-      const updatedEnvolvido = await service.update(
-        '1',
-        EnvolvidoUpdate,
-      );
+      const updatedEnvolvido = await service.update('1', EnvolvidoUpdate);
 
       expect(updatedEnvolvido).toMatchObject(EnvolvidoUpdate);
       expect(mockRepository.findOne).toBeCalledWith('1');

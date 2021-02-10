@@ -1,9 +1,8 @@
-import { Sobrestamento } from 'src/modules/sobrestamento/entity/sobrestamento.entity';
-import { Seeder, Factory } from 'typeorm-seeding'
+import { Seeder, Factory } from 'typeorm-seeding';
+import { Sobrestamento } from '../entity/sobrestamento.entity';
 
 export default class CreateSobrestamentos implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    
-    await factory(Sobrestamento)().createMany(10)
+    await factory(Sobrestamento)().createMany(10);
   }
 }

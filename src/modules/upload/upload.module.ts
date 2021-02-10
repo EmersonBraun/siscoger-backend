@@ -5,9 +5,11 @@ import { Upload, UploadSchema } from './schema/upload.schema';
 import { UploadService } from './service/upload.service';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Upload.name, schema: UploadSchema }])],
+  imports: [
+    MongooseModule.forFeature([{ name: Upload.name, schema: UploadSchema }]),
+  ],
   providers: [UploadService],
   controllers: [UploadController],
-  exports: [UploadService]
+  exports: [UploadService],
 })
 export class UploadModule {}

@@ -25,7 +25,7 @@ describe('ArquivoController', () => {
     }).compile();
 
     controller = module.get<ArquivoController>(ArquivoController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -81,23 +81,17 @@ describe('ArquivoController', () => {
   describe('when update a Arquivo', () => {
     it('should update a existing Arquivo and return it', async () => {
       const ArquivoUpdate: UpdateArquivoDto = mockRegistry;
-      ArquivoUpdate.numero = 'Update Arquivo '
+      ArquivoUpdate.numero = 'Update Arquivo ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
         ...ArquivoUpdate,
       });
 
-      const updatedArquivo = await controller.update(
-        '1',
-        ArquivoUpdate,
-      );
+      const updatedArquivo = await controller.update('1', ArquivoUpdate);
 
       expect(updatedArquivo).toMatchObject(ArquivoUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        ArquivoUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', ArquivoUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

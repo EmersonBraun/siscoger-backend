@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
@@ -30,7 +29,7 @@ describe('UserService', () => {
     }).compile();
 
     service = module.get<UserService>(UserService);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -53,9 +52,9 @@ describe('UserService', () => {
       mockRepository.create.mockReturnValueOnce(mockRegistry);
       mockRepository.save.mockReturnValueOnce(mockRegistry);
 
-      const User: CreateUserDto = mockRegistry;
+      const UserVariable: CreateUserDto = mockRegistry;
 
-      const savedUser = await service.create(User);
+      const savedUser = await service.create(UserVariable);
 
       expect(savedUser).toMatchObject(mockRegistry);
       expect(mockRepository.create).toBeCalledWith(User);
@@ -68,9 +67,9 @@ describe('UserService', () => {
     it('should list all User', async () => {
       mockRepository.find.mockReturnValue([mockRegistry]);
 
-      const User = await service.findAll();
+      const UserVariable = await service.findAll();
 
-      expect(User).toHaveLength(1);
+      expect(UserVariable).toHaveLength(1);
       expect(mockRepository.find).toBeCalledTimes(1);
     });
   });
@@ -92,10 +91,12 @@ describe('UserService', () => {
     it('should find a existing User', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
 
-      const User = await service.findById('1');
+      const UserVariable = await service.findById('1');
 
-      expect(User).toMatchObject(mockRegistry);
-      expect(mockRepository.findOne).toBeCalledWith('1', {"relations": ["roles"]});
+      expect(UserVariable).toMatchObject(mockRegistry);
+      expect(mockRepository.findOne).toBeCalledWith('1', {
+        relations: ['roles'],
+      });
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
 
@@ -105,7 +106,9 @@ describe('UserService', () => {
       await service.findById('3').catch(error => {
         expect(error).toBeInstanceOf(NotFoundException);
         expect(error).toMatchObject({ message: 'Registry not found' });
-        expect(mockRepository.findOne).toBeCalledWith('3', {"relations": ["roles"]});
+        expect(mockRepository.findOne).toBeCalledWith('3', {
+          relations: ['roles'],
+        });
         expect(mockRepository.findOne).toBeCalledTimes(1);
       });
     });
@@ -114,7 +117,7 @@ describe('UserService', () => {
   describe('when update a User', () => {
     it('should update a existing User', async () => {
       const UserUpdate: UpdateUserDto = mockRegistry;
-      UserUpdate.class = 'Update User '
+      UserUpdate.class = 'Update User ';
 
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.update.mockReturnValue({
@@ -126,13 +129,12 @@ describe('UserService', () => {
         ...UserUpdate,
       });
 
-      const updatedUser = await service.update(
-        '1',
-        UserUpdate,
-      );
+      const updatedUser = await service.update('1', UserUpdate);
 
       // expect(updatedUser).toMatchObject(UserUpdate);
-      expect(mockRepository.findOne).toBeCalledWith('1', {"relations": ["roles"]});
+      expect(mockRepository.findOne).toBeCalledWith('1', {
+        relations: ['roles'],
+      });
       expect(mockRepository.findOne).toBeCalledTimes(1);
       expect(mockRepository.update).toBeCalledWith('1', UserUpdate);
       expect(mockRepository.update).toBeCalledTimes(1);
@@ -151,7 +153,9 @@ describe('UserService', () => {
 
       await service.delete('1');
 
-      expect(mockRepository.findOne).toBeCalledWith('1', {"relations": ["roles"]});
+      expect(mockRepository.findOne).toBeCalledWith('1', {
+        relations: ['roles'],
+      });
       expect(mockRepository.findOne).toBeCalledTimes(1);
       expect(mockRepository.delete).toBeCalledWith('1');
       expect(mockRepository.delete).toBeCalledTimes(1);

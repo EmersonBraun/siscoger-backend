@@ -1,9 +1,8 @@
-import { Adl } from 'src/modules/adl/entity/adl.entity';
 import { Factory, Seeder } from 'typeorm-seeding';
+import Adl from '../entity/adl.entity';
 
 export default class CreateAdls implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    
-    await factory(Adl)().createMany(10)
+    await factory(Adl)().createMany(10);
   }
 }

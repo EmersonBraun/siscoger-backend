@@ -7,7 +7,7 @@ import {
   Param,
   Post,
   Put,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -16,17 +16,16 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags
+  ApiTags,
 } from '@nestjs/swagger';
-import { ACLPolice } from '../../../common/decorators/acl.decorator';
-import { ACLGuard } from '../../../common/guards/acl.guard';
-import { JwtAuthGuard } from '../../../common/guards/jwt.guard';
-import { ErrorResponse } from '../../../common/responses';
+import ACLPolice from '../../../common/decorators/acl.decorator';
+import ACLGuard from '../../../common/guards/acl.guard';
+import JwtAuthGuard from '../../../common/guards/jwt.guard';
+import ErrorResponse from '../../../common/responses/error';
 import { CreateEnvolvidoDto } from '../dtos/create.dto';
 import { UpdateEnvolvidoDto } from '../dtos/update.dto';
 import { Envolvido } from '../entity/envolvido.entity';
 import { EnvolvidoService } from '../service/envolvido.service';
-
 
 @ApiTags('Envolvido')
 @Controller('envolvidos')
@@ -35,51 +34,63 @@ export class EnvolvidoController {
 
   @Get()
   @HttpCode(200)
-  @UseGuards(JwtAuthGuard, ACLGuard) 
-  @ACLPolice({roles: ['admin'], permissions: ['ver-envolvido']})
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: ['admin'], permissions: ['ver-envolvido'] })
   @ApiOperation({ summary: 'Search all Envolvido' })
-  @ApiOkResponse({ type: [CreateEnvolvidoDto], description: 'The found Envolvido' })
-  async findAll(): Promise<Envolvido[]> {
-    return await this.service.findAll();
+  @ApiOkResponse({
+    type: [CreateEnvolvidoDto],
+    description: 'The found Envolvido',
+  })
+  async findAll(): Promise<void> {
+    await this.service.findAll();
   }
 
   @Post('search')
   @HttpCode(200)
-  @UseGuards(JwtAuthGuard, ACLGuard) 
-  @ACLPolice({roles: ['admin'], permissions: ['ver-envolvido']})
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: ['admin'], permissions: ['ver-envolvido'] })
   @ApiOperation({ summary: 'Search Envolvido' })
-  @ApiCreatedResponse({ type: UpdateEnvolvidoDto, description: 'Searched Ligacao' })
-  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
-  async search(@Body() data: CreateEnvolvidoDto): Promise<Envolvido[]> {
-    return await this.service.search(data);
+  @ApiCreatedResponse({
+    type: UpdateEnvolvidoDto,
+    description: 'Searched Ligacao',
+  })
+  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
+  async search(@Body() data: CreateEnvolvidoDto): Promise<void> {
+    await this.service.search(data);
   }
 
   @Post()
   @HttpCode(201)
-  @UseGuards(JwtAuthGuard, ACLGuard) 
-  @ACLPolice({roles: ['admin'], permissions: ['criar-envolvido']})
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: ['admin'], permissions: ['criar-envolvido'] })
   @ApiOperation({ summary: 'Create a new Envolvido' })
-  @ApiCreatedResponse({ type: UpdateEnvolvidoDto, description: 'Created Envolvido' })
-  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
-  async create(@Body() data: CreateEnvolvidoDto): Promise<Envolvido> {
-    return await this.service.create(data);
+  @ApiCreatedResponse({
+    type: UpdateEnvolvidoDto,
+    description: 'Created Envolvido',
+  })
+  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
+  async create(@Body() data: CreateEnvolvidoDto): Promise<void> {
+    await this.service.create(data);
   }
 
   @Get(':id')
   @HttpCode(200)
-  @UseGuards(JwtAuthGuard, ACLGuard) 
-  @ACLPolice({roles: ['admin'], permissions: ['ver-envolvido']})
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: ['admin'], permissions: ['ver-envolvido'] })
   @ApiOperation({ summary: 'Search a Envolvido by id' })
-  @ApiOkResponse({ type: UpdateEnvolvidoDto, description: 'The found Envolvido' })
+  @ApiOkResponse({
+    type: UpdateEnvolvidoDto,
+    description: 'The found Envolvido',
+  })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<Envolvido> {
-    return await this.service.findById(id);
+  async findById(@Param('id') id: string): Promise<void> {
+    await this.service.findById(id);
   }
 
   @Put(':id')
   @HttpCode(200)
-  @UseGuards(JwtAuthGuard, ACLGuard) 
-  @ACLPolice({roles: ['admin'], permissions: ['editar-envolvido']})
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: ['admin'], permissions: ['editar-envolvido'] })
   @ApiOperation({ summary: 'Update a Envolvido' })
   @ApiOkResponse({ type: UpdateEnvolvidoDto, description: 'Updated Envolvido' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -92,8 +103,8 @@ export class EnvolvidoController {
 
   @Delete(':id')
   @HttpCode(204)
-  @UseGuards(JwtAuthGuard, ACLGuard) 
-  @ACLPolice({roles: ['admin'], permissions: ['apagar-envolvido']})
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: ['admin'], permissions: ['apagar-envolvido'] })
   @ApiOperation({ summary: 'Delete a Envolvido' })
   @ApiNoContentResponse({ description: 'Deleted Envolvido' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })

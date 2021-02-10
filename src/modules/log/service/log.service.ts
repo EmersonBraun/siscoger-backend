@@ -8,27 +8,27 @@ import { CreateLogDto } from '../dtos/create.dto';
 import { Log, LogDocument } from '../schema/log.schema';
 
 export interface AuthRequest extends Request {
-  user?: string
+  user?: string;
 }
 @Injectable({ scope: Scope.REQUEST })
 export class LogService {
   constructor(
     @InjectModel(Log.name)
     private repository: Model<LogDocument>,
-    @Inject(REQUEST) private request: Request
+    @Inject(REQUEST) private request: Request,
   ) {}
 
-  async findAll(): Promise<Log[]> {
-    return await this.repository.find().exec()
+  async findAll(): Promise<void> {
+    await this.repository.find().exec();
   }
 
-  async search(data: CreateLogDto): Promise<Log[]> {
-    return await this.repository.find({ ...data });
+  async search(data: CreateLogDto): Promise<void> {
+    await this.repository.find({ ...data });
   }
 
-  async create(data: any): Promise<Log> {
-    const { user } = this.request
-    return await this.repository.create({...data, user});
+  async create(data: any): Promise<void> {
+    const { user } = this.request;
+    await this.repository.create({ ...data, user });
   }
 
   async findById(id: string): Promise<Log> {

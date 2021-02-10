@@ -1,73 +1,68 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNumber,
-  IsOptional,
-
-  IsString
-} from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateFalecimentoDto {
   @IsOptional()
   @IsString()
   @ApiProperty()
-  rg?: string
-  
+  rg?: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  cargo?: string
-  
+  cargo?: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  nome?: string
+  nome?: string;
 
   @IsOptional()
   @ApiProperty()
-  data?: Date
-  
+  data?: Date;
+
   @IsOptional()
   @IsNumber()
   @ApiProperty()
-  id_municipio?: number
-  
+  id_municipio?: number;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  endereco?: string
-  
+  endereco?: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  endereco_numero?: string
-  
+  endereco_numero?: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  cdopm?: string
-  
+  cdopm?: string;
+
   @IsOptional()
   @IsNumber()
   @ApiProperty()
-  bou_ano?: number
-  
+  bou_ano?: number;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  bou_numero?: string
-  
+  bou_numero?: string;
+
   @IsOptional()
   @IsNumber()
   @ApiProperty()
-  id_situacao?: number
-  
+  id_situacao?: number;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  resultado?: string
-  
+  resultado?: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  descricao_txt?: string
+  descricao_txt?: string;
 }

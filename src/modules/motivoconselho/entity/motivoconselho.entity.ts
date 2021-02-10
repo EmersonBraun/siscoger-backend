@@ -1,8 +1,4 @@
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('motivoconselhos')
 export class Motivoconselho {
@@ -10,5 +6,5 @@ export class Motivoconselho {
   id: number;
 
   @Column({ nullable: true })
-  motivoconselho: string
+  motivoconselho: string;
 }

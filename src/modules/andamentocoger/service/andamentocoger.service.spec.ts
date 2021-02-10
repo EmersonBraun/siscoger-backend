@@ -23,12 +23,15 @@ describe('AndamentocogerService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AndamentocogerService,
-        { provide: getRepositoryToken(Andamentocoger), useValue: mockRepository },
+        {
+          provide: getRepositoryToken(Andamentocoger),
+          useValue: mockRepository,
+        },
       ],
     }).compile();
 
     service = module.get<AndamentocogerService>(AndamentocogerService);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -50,9 +53,9 @@ describe('AndamentocogerService', () => {
       mockRepository.create.mockReturnValueOnce(mockRegistry);
       mockRepository.save.mockReturnValueOnce(mockRegistry);
 
-      const Andamentocoger: CreateAndamentocogerDto = mockRegistry;
+      const AndamentocogerVariable: CreateAndamentocogerDto = mockRegistry;
 
-      const savedAndamentocoger = await service.create(Andamentocoger);
+      const savedAndamentocoger = await service.create(AndamentocogerVariable);
 
       expect(savedAndamentocoger).toMatchObject(mockRegistry);
       expect(mockRepository.create).toBeCalledWith(Andamentocoger);
@@ -65,9 +68,9 @@ describe('AndamentocogerService', () => {
     it('should list all Andamentocoger', async () => {
       mockRepository.find.mockReturnValue([mockRegistry]);
 
-      const Andamentocoger = await service.findAll();
+      const AndamentocogerVariable = await service.findAll();
 
-      expect(Andamentocoger).toHaveLength(1);
+      expect(AndamentocogerVariable).toHaveLength(1);
       expect(mockRepository.find).toBeCalledTimes(1);
     });
   });
@@ -76,9 +79,9 @@ describe('AndamentocogerService', () => {
     it('should find a existing Andamentocoger', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
 
-      const Andamentocoger = await service.findById('1');
+      const AndamentocogerVariable = await service.findById('1');
 
-      expect(Andamentocoger).toMatchObject(mockRegistry);
+      expect(AndamentocogerVariable).toMatchObject(mockRegistry);
       expect(mockRepository.findOne).toBeCalledWith('1');
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
@@ -98,7 +101,7 @@ describe('AndamentocogerService', () => {
   describe('when update a Andamentocoger', () => {
     it('should update a existing Andamentocoger', async () => {
       const AndamentocogerUpdate: UpdateAndamentocogerDto = mockRegistry;
-      AndamentocogerUpdate.andamentocoger = 'Update Andamentocoger '
+      AndamentocogerUpdate.andamentocoger = 'Update Andamentocoger ';
 
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.update.mockReturnValue({

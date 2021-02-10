@@ -7,10 +7,9 @@
 // import { MailService } from './pendencia.service';
 
 describe('MailService', () => {
-
   describe('Test Latter', () => {
     it('should list all Mail', async () => {
-      const Mail = 1 
+      const Mail = 1;
       expect(Mail).toBe(1);
     });
   });

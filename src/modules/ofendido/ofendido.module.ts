@@ -1,4 +1,3 @@
-
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { OfendidoController } from './controller/ofendido.controller';
@@ -9,6 +8,6 @@ import { OfendidoService } from './service/ofendido.service';
   imports: [TypeOrmModule.forFeature([Ofendido])],
   providers: [OfendidoService],
   controllers: [OfendidoController],
-  exports: [OfendidoService]
+  exports: [OfendidoService],
 })
 export class OfendidoModule {}

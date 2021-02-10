@@ -29,7 +29,7 @@ describe('LigacaoService', () => {
     }).compile();
 
     service = module.get<LigacaoService>(LigacaoService);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -52,9 +52,9 @@ describe('LigacaoService', () => {
       mockRepository.create.mockReturnValueOnce(mockRegistry);
       mockRepository.save.mockReturnValueOnce(mockRegistry);
 
-      const Ligacao: CreateLigacaoDto = mockRegistry;
+      const LigacaoVariable: CreateLigacaoDto = mockRegistry;
 
-      const savedLigacao = await service.create(Ligacao);
+      const savedLigacao = await service.create(LigacaoVariable);
 
       expect(savedLigacao).toMatchObject(mockRegistry);
       expect(mockRepository.create).toBeCalledWith(Ligacao);
@@ -67,9 +67,9 @@ describe('LigacaoService', () => {
     it('should list all Ligacao', async () => {
       mockRepository.find.mockReturnValue([mockRegistry]);
 
-      const Ligacao = await service.findAll();
+      const LigacaoVariable = await service.findAll();
 
-      expect(Ligacao).toHaveLength(1);
+      expect(LigacaoVariable).toHaveLength(1);
       expect(mockRepository.find).toBeCalledTimes(1);
     });
   });
@@ -91,9 +91,9 @@ describe('LigacaoService', () => {
     it('should find a existing Ligacao', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
 
-      const Ligacao = await service.findById('1');
+      const LigacaoVariable = await service.findById('1');
 
-      expect(Ligacao).toMatchObject(mockRegistry);
+      expect(LigacaoVariable).toMatchObject(mockRegistry);
       expect(mockRepository.findOne).toBeCalledWith('1');
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
@@ -113,7 +113,7 @@ describe('LigacaoService', () => {
   describe('when update a Ligacao', () => {
     it('should update a existing Ligacao', async () => {
       const LigacaoUpdate: UpdateLigacaoDto = mockRegistry;
-      LigacaoUpdate.destino_proc = 'Update Ligacao '
+      LigacaoUpdate.destino_proc = 'Update Ligacao ';
 
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.update.mockReturnValue({
@@ -125,10 +125,7 @@ describe('LigacaoService', () => {
         ...LigacaoUpdate,
       });
 
-      const updatedLigacao = await service.update(
-        '1',
-        LigacaoUpdate,
-      );
+      const updatedLigacao = await service.update('1', LigacaoUpdate);
 
       expect(updatedLigacao).toMatchObject(LigacaoUpdate);
       expect(mockRepository.findOne).toBeCalledWith('1');

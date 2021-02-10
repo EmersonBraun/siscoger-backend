@@ -1,16 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsOptional,
-  IsString
-} from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class UpdateFeriadoDto {
   @IsOptional()
   @ApiProperty()
-  data?: Date | string
-  
+  data?: Date | string;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  feriado?: string
+  feriado?: string;
 }

@@ -29,7 +29,7 @@ describe('ArquivoService', () => {
     }).compile();
 
     service = module.get<ArquivoService>(ArquivoService);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -51,9 +51,9 @@ describe('ArquivoService', () => {
       mockRepository.create.mockReturnValueOnce(mockRegistry);
       mockRepository.save.mockReturnValueOnce(mockRegistry);
 
-      const Arquivo: CreateArquivoDto = mockRegistry;
+      const ArquivoVariable: CreateArquivoDto = mockRegistry;
 
-      const savedArquivo = await service.create(Arquivo);
+      const savedArquivo = await service.create(ArquivoVariable);
 
       expect(savedArquivo).toMatchObject(mockRegistry);
       expect(mockRepository.create).toBeCalledWith(Arquivo);
@@ -66,9 +66,9 @@ describe('ArquivoService', () => {
     it('should list all Arquivo', async () => {
       mockRepository.find.mockReturnValue([mockRegistry]);
 
-      const Arquivo = await service.findAll();
+      const ArquivoVariable = await service.findAll();
 
-      expect(Arquivo).toHaveLength(1);
+      expect(ArquivoVariable).toHaveLength(1);
       expect(mockRepository.find).toBeCalledTimes(1);
     });
   });
@@ -77,9 +77,9 @@ describe('ArquivoService', () => {
     it('should find a existing Arquivo', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
 
-      const Arquivo = await service.findById('1');
+      const ArquivoVariable = await service.findById('1');
 
-      expect(Arquivo).toMatchObject(mockRegistry);
+      expect(ArquivoVariable).toMatchObject(mockRegistry);
       expect(mockRepository.findOne).toBeCalledWith('1');
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
@@ -99,7 +99,7 @@ describe('ArquivoService', () => {
   describe('when update a Arquivo', () => {
     it('should update a existing Arquivo', async () => {
       const ArquivoUpdate: UpdateArquivoDto = mockRegistry;
-      ArquivoUpdate.nome = 'Update Arquivo '
+      ArquivoUpdate.nome = 'Update Arquivo ';
 
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.update.mockReturnValue({
@@ -111,10 +111,7 @@ describe('ArquivoService', () => {
         ...ArquivoUpdate,
       });
 
-      const updatedArquivo = await service.update(
-        '1',
-        ArquivoUpdate,
-      );
+      const updatedArquivo = await service.update('1', ArquivoUpdate);
 
       expect(updatedArquivo).toMatchObject(ArquivoUpdate);
       expect(mockRepository.findOne).toBeCalledWith('1');

@@ -11,22 +11,26 @@ export class MovimentoService {
   constructor(
     @InjectRepository(Movimento)
     private repository: Repository<Movimento>,
-    private log: LogService
+    private log: LogService,
   ) {}
 
-  async findAll(): Promise<Movimento[]> {
-    return await this.repository.find();
+  async findAll(): Promise<void> {
+    await this.repository.find();
   }
 
-  async search(data: CreateMovimentoDto): Promise<Movimento[]> {
-    return await this.repository.find({ where: { ...data } });
+  async search(data: CreateMovimentoDto): Promise<void> {
+    await this.repository.find({ where: { ...data } });
   }
 
   async create(data: CreateMovimentoDto): Promise<Movimento> {
     const registry = this.repository.create(data);
     const saveData = await this.repository.save(registry);
-    await this.log.create({ module: 'movimento', action: 'create', data: saveData,})
-    return saveData
+    await this.log.create({
+      module: 'movimento',
+      action: 'create',
+      data: saveData,
+    });
+    return saveData;
   }
 
   async findById(id: string): Promise<Movimento> {
@@ -43,14 +47,23 @@ export class MovimentoService {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
     const saveData = this.repository.create({ ...registry, ...data });
-    await this.log.create({module: 'movimento',action: 'update',data: saveData,old: registry,})
-    
-    return saveData
+    await this.log.create({
+      module: 'movimento',
+      action: 'update',
+      data: saveData,
+      old: registry,
+    });
+
+    return saveData;
   }
 
   async delete(id: string): Promise<void> {
     const saveData = await this.findById(id);
-    await this.log.create({module: 'movimento',action: 'delete',data: saveData})
+    await this.log.create({
+      module: 'movimento',
+      action: 'delete',
+      data: saveData,
+    });
     await this.repository.delete(id);
   }
 }

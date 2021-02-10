@@ -28,7 +28,7 @@ describe('GradacaoService', () => {
     }).compile();
 
     service = module.get<GradacaoService>(GradacaoService);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -50,9 +50,9 @@ describe('GradacaoService', () => {
       mockRepository.create.mockReturnValueOnce(mockRegistry);
       mockRepository.save.mockReturnValueOnce(mockRegistry);
 
-      const Gradacao: CreateGradacaoDto = mockRegistry;
+      const GradacaoVariable: CreateGradacaoDto = mockRegistry;
 
-      const savedGradacao = await service.create(Gradacao);
+      const savedGradacao = await service.create(GradacaoVariable);
 
       expect(savedGradacao).toMatchObject(mockRegistry);
       expect(mockRepository.create).toBeCalledWith(Gradacao);
@@ -65,9 +65,9 @@ describe('GradacaoService', () => {
     it('should list all Gradacao', async () => {
       mockRepository.find.mockReturnValue([mockRegistry]);
 
-      const Gradacao = await service.findAll();
+      const GradacaoVariable = await service.findAll();
 
-      expect(Gradacao).toHaveLength(1);
+      expect(GradacaoVariable).toHaveLength(1);
       expect(mockRepository.find).toBeCalledTimes(1);
     });
   });
@@ -76,9 +76,9 @@ describe('GradacaoService', () => {
     it('should find a existing Gradacao', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
 
-      const Gradacao = await service.findById('1');
+      const GradacaoVariable = await service.findById('1');
 
-      expect(Gradacao).toMatchObject(mockRegistry);
+      expect(GradacaoVariable).toMatchObject(mockRegistry);
       expect(mockRepository.findOne).toBeCalledWith('1');
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
@@ -98,7 +98,7 @@ describe('GradacaoService', () => {
   describe('when update a Gradacao', () => {
     it('should update a existing Gradacao', async () => {
       const GradacaoUpdate: UpdateGradacaoDto = mockRegistry;
-      GradacaoUpdate.gradacao = 'Update Gradacao '
+      GradacaoUpdate.gradacao = 'Update Gradacao ';
 
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.update.mockReturnValue({
@@ -110,10 +110,7 @@ describe('GradacaoService', () => {
         ...GradacaoUpdate,
       });
 
-      const updatedGradacao = await service.update(
-        '1',
-        GradacaoUpdate,
-      );
+      const updatedGradacao = await service.update('1', GradacaoUpdate);
 
       expect(updatedGradacao).toMatchObject(GradacaoUpdate);
       expect(mockRepository.findOne).toBeCalledWith('1');
