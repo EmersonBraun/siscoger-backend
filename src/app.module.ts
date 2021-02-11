@@ -6,7 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
-import { AppLoggerMiddleware } from './common/logger/middleware';
+import AppLoggerMiddleware from './common/logger/middleware';
 import { bullConfig, mailerConfig, mainConfig, typeOrmOptions } from './config';
 import { registerModules } from './register-modules';
 
