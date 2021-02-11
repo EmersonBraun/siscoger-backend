@@ -18,13 +18,16 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
-import { ACLPolice } from '../../../common/decorators/acl.decorator';
-import { ACLGuard, JwtAuthGuard } from '../../../common/guards';
-import { ErrorResponse } from '../../../common/responses';
-import { CreateAdlDto } from '../dtos/create.dto';
-import { UpdateAdlDto } from '../dtos/update.dto';
-import Adl from '../entity/adl.entity';
-import { AdlService } from '../service/adl.service';
+import {
+  ACLGuard,
+  ACLPolice,
+  Adl,
+  AdlService,
+  CreateAdlDto,
+  ErrorResponse,
+  JwtAuthGuard,
+  UpdateAdlDto
+} from './imports';
 
 @ApiTags('Adl')
 @Controller('adls')
@@ -37,8 +40,8 @@ export default class AdlController {
   @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Search all Adl' })
   @ApiOkResponse({ type: [CreateAdlDto], description: 'The found Adl' })
-  async findAll(): Promise<void> {
-    await this.service.findAll();
+  async findAll(): Promise<Adl[]> {
+    return await this.service.findAll();
   }
 
   @Post()
@@ -48,8 +51,8 @@ export default class AdlController {
   @ApiOperation({ summary: 'Create a new Adl' })
   @ApiCreatedResponse({ type: UpdateAdlDto, description: 'Created Adl' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreateAdlDto): Promise<void> {
-    await this.service.create(data);
+  async create(@Body() data: CreateAdlDto): Promise<Adl> {
+    return await this.service.create(data);
   }
 
   @Get(':id')
@@ -59,8 +62,8 @@ export default class AdlController {
   @ApiOperation({ summary: 'Search a Adl by id' })
   @ApiOkResponse({ type: UpdateAdlDto, description: 'The found Adl' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<void> {
-    await this.service.findById(id);
+  async findById(@Param('id') id: string): Promise<Adl> {
+    return await this.service.findById(id);
   }
 
   @Put(':id')

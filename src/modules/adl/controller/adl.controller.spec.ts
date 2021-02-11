@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { closeInMongodConnection } from '../../../../test/utils';
 import { RedisCacheModule } from '../../cache/redis-cache.module';
-import { LogModule } from '../../log/log.module';
 import { CreateAdlDto, UpdateAdlDto } from '../dtos';
 import fakerRegistry from '../factory/adl.factory';
 import { AdlService } from '../service/adl.service';
@@ -20,7 +20,7 @@ describe('AdlController', () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [RedisCacheModule, LogModule],
+      imports: [RedisCacheModule],
       controllers: [AdlController],
       providers: [{ provide: AdlService, useValue: mockService }],
     }).compile();
@@ -37,6 +37,10 @@ describe('AdlController', () => {
     mockService.delete.mockReset();
   });
 
+  afterAll(async () => {
+    await closeInMongodConnection();
+  });
+
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
@@ -44,13 +48,11 @@ describe('AdlController', () => {
   describe('when create Adl', () => {
     it('should create a Adl and return it', async () => {
       mockService.create.mockReturnValue(mockRegistry);
+      const adl: CreateAdlDto = mockRegistry;
 
-      const Adl: CreateAdlDto = mockRegistry;
-
-      const createdAdl = await controller.create(Adl);
-
+      const createdAdl = await controller.create(adl);
       expect(createdAdl).toMatchObject(mockRegistry);
-      expect(mockService.create).toBeCalledWith(Adl);
+      expect(mockService.create).toBeCalledWith(adl);
       expect(mockService.create).toBeCalledTimes(1);
     });
   });

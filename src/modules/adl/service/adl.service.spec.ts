@@ -1,12 +1,8 @@
 import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import {
-  closeInMongodConnection,
-  rootMongooseTestModule
-} from '../../../../test/utils';
+import { closeInMongodConnection } from '../../../../test/utils';
 import { RedisCacheModule } from '../../cache/redis-cache.module';
-import { LogModule } from '../../log/log.module';
 import { CreateAdlDto, UpdateAdlDto } from '../dtos/index';
 import Adl from '../entity/adl.entity';
 import fakerRegistry from '../factory/adl.factory';
@@ -27,10 +23,14 @@ describe('AdlService', () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [rootMongooseTestModule(), RedisCacheModule, LogModule],
+      imports: [RedisCacheModule],
+      // imports: [RedisCacheModule, LogModule],
       providers: [
         AdlService,
-        { provide: getRepositoryToken(Adl), useValue: mockRepository },
+        {
+          provide: getRepositoryToken(Adl),
+          useValue: mockRepository,
+        },
       ],
     }).compile();
 
@@ -51,7 +51,7 @@ describe('AdlService', () => {
     await closeInMongodConnection();
   });
 
-  it('should be defined', () => {
+  it('should be defined', async () => {
     expect(service).toBeDefined();
   });
 
@@ -61,10 +61,9 @@ describe('AdlService', () => {
       mockRepository.save.mockReturnValueOnce(mockRegistry);
 
       const adl: CreateAdlDto = mockRegistry;
-      console.log(service);
       const savedAdl = await service.create(adl);
 
-      expect(savedAdl).toMatchObject(mockRegistry);
+      expect(savedAdl).toMatchObject(adl);
       expect(mockRepository.create).toBeCalledWith(adl);
       expect(mockRepository.create).toBeCalledTimes(1);
       expect(mockRepository.save).toBeCalledTimes(1);
@@ -76,7 +75,6 @@ describe('AdlService', () => {
       mockRepository.find.mockReturnValue([mockRegistry]);
 
       const AdlVariable = await service.findAll();
-
       expect(AdlVariable).toHaveLength(1);
       expect(mockRepository.find).toBeCalledTimes(1);
     });

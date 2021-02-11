@@ -9,7 +9,7 @@ import { Reflector } from '@nestjs/core';
 import { RedisCacheService } from '../../modules/cache/redis-cache.service';
 
 @Injectable()
-export class ACLGuard implements CanActivate {
+export default class ACLGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
     private readonly redisCacheService: RedisCacheService,

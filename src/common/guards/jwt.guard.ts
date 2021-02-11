@@ -3,7 +3,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 @Injectable()
-export class JwtAuthGuard extends AuthGuard('jwt') {
+class JwtAuthGuard extends AuthGuard('jwt') {
   handleRequest(err, user, info): any {
     // no error is thrown if no user is found
     // You can use info for logging (e.g. token is expired etc.)
@@ -14,3 +14,5 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     return user;
   }
 }
+
+export default JwtAuthGuard;

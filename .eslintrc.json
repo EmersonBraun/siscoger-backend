@@ -44,6 +44,7 @@
     "no-console": "off",
     "consistent-return": "off",
     "@typescript-eslint/no-explicit-any": "off",
+    "no-return-await": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
