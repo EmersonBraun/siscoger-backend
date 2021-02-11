@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export default class ErrorResponse {
+export class ErrorResponse {
   @ApiProperty()
   statusCode: number;
 

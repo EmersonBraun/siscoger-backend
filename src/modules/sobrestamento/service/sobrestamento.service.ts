@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { getCurrentDate } from '../../../common/utils/date.utils';
@@ -14,8 +14,8 @@ export class SobrestamentoService {
   constructor(
     @InjectRepository(Sobrestamento)
     private repository: Repository<Sobrestamento>,
-    private feriadoService: FeriadoService,
-    private log: LogService,
+    @Inject() private feriadoService: FeriadoService,
+    @Inject() private log: LogService,
   ) {}
 
   async findAll(): Promise<void> {

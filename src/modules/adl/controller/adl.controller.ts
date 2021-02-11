@@ -20,7 +20,7 @@ import {
 } from '@nestjs/swagger';
 import { ACLPolice } from '../../../common/decorators/acl.decorator';
 import { ACLGuard, JwtAuthGuard } from '../../../common/guards';
-import { ErrorResponse } from '../../../common/responses/error';
+import { ErrorResponse } from '../../../common/responses';
 import { CreateAdlDto } from '../dtos/create.dto';
 import { UpdateAdlDto } from '../dtos/update.dto';
 import Adl from '../entity/adl.entity';

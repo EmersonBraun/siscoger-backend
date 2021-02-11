@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { LogService } from '../../log/service/log.service';
@@ -9,9 +9,8 @@ import { Upload, UploadDocument } from '../schema/upload.schema';
 @Injectable()
 export class UploadService {
   constructor(
-    @InjectModel(Upload.name)
-    private repository: Model<UploadDocument>,
-    private log: LogService,
+    @InjectModel(Upload.name) private repository: Model<UploadDocument>,
+    @Inject() private log: LogService,
   ) {}
 
   async findAll(): Promise<void> {

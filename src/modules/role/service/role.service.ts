@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { LogService } from '../../log/service/log.service';
@@ -9,9 +9,8 @@ import { Role } from '../entity/role.entity';
 @Injectable()
 export class RoleService {
   constructor(
-    @InjectRepository(Role)
-    private repository: Repository<Role>,
-    private log: LogService,
+    @InjectRepository(Role) private repository: Repository<Role>,
+    @Inject() private log: LogService,
   ) {}
 
   async findAll(): Promise<void> {

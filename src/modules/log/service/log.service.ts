@@ -13,8 +13,7 @@ export interface AuthRequest extends Request {
 @Injectable({ scope: Scope.REQUEST })
 export class LogService {
   constructor(
-    @InjectModel(Log.name)
-    private repository: Model<LogDocument>,
+    @InjectModel(Log.name) private repository: Model<LogDocument>,
     @Inject(REQUEST) private request: Request,
   ) {}
 

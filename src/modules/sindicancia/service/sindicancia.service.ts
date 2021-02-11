@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { LogService } from '../../log/service/log.service';
@@ -10,9 +10,8 @@ import { Sindicancia } from '../entity/sindicancia.entity';
 @Injectable()
 export class SindicanciaService {
   constructor(
-    @InjectRepository(Sindicancia)
-    private repository: Repository<Sindicancia>,
-    private log: LogService, // private connection: Connection
+    @InjectRepository(Sindicancia) private repository: Repository<Sindicancia>,
+    @Inject() private log: LogService, // private connection: Connection
   ) {}
 
   getNextRefYear(data: CreateSindicanciaDto): number {

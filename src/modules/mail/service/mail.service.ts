@@ -11,8 +11,7 @@ import { Mail, MailDocument } from '../schema/mail.schema';
 @Injectable()
 export class MailService {
   constructor(
-    @InjectModel(Mail.name)
-    private repository: Model<MailDocument>,
+    @InjectModel(Mail.name) private repository: Model<MailDocument>,
     @InjectQueue('mail') private readonly mailQueue: Queue,
   ) {}
 

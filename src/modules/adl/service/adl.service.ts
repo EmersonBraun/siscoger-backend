@@ -9,10 +9,8 @@ import Adl from '../entity/adl.entity';
 @Injectable()
 export class AdlService {
   constructor(
-    @InjectRepository(Adl)
-    private repository: Repository<Adl>,
-    @Inject()
-    private log: LogService,
+    @InjectRepository(Adl) private repository: Repository<Adl>,
+    @Inject() private log: LogService,
   ) {}
 
   async findAll(): Promise<void> {

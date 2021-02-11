@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { LogService } from '../../log/service/log.service';
@@ -11,6 +11,7 @@ export class ApfdService {
   constructor(
     @InjectRepository(Apfd)
     private repository: Repository<Apfd>,
+    @Inject()
     private log: LogService,
   ) {}
 

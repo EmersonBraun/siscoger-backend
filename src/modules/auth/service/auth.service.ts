@@ -1,9 +1,10 @@
 import {
   HttpException,
   HttpStatus,
+  Inject,
   Injectable,
   Logger,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
@@ -16,10 +17,10 @@ export class AuthService {
   private logger = new Logger('HTTP');
 
   constructor(
-    private readonly usersService: UserService,
-    private readonly jwtService: JwtService,
-    private readonly redisCacheService: RedisCacheService,
-    private log: LogService,
+    @Inject() private readonly usersService: UserService,
+    @Inject() private readonly jwtService: JwtService,
+    @Inject() private readonly redisCacheService: RedisCacheService,
+    @Inject() private log: LogService,
   ) {}
 
   async validateUser(rg: string, pass: string): Promise<any> {
