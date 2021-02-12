@@ -8,9 +8,9 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
-import { RedisCacheService } from '../../cache/redis-cache.service';
-import { LogService } from '../../log/service/log.service';
+import { User } from 'src/modules/user/entity/user.entity';
 import { UserService } from '../../user/service/user.service';
+import { getCleanDataOfUser } from './mapper.service';
 
 @Injectable()
 export class AuthService {
@@ -18,9 +18,7 @@ export class AuthService {
 
   constructor(
     @Inject() private readonly usersService: UserService,
-    @Inject() private readonly jwtService: JwtService,
-    @Inject() private readonly redisCacheService: RedisCacheService,
-    @Inject() private log: LogService,
+    @Inject() private readonly jwtService: JwtService, // @Inject() private log: LogService,
   ) {}
 
   async validateUser(rg: string, pass: string): Promise<any> {
@@ -47,51 +45,10 @@ export class AuthService {
     }
   }
 
-<<<<<<< HEAD
-  async login({rg, password}) {
-    const userData = await this.validateUser(rg, password)
-    const {user, roles, permissions} = this.getCleanDataOfUser(userData)
-    const token = this._createToken(user)
-    await this.redisCacheService.set(user.rg,{user, roles, permissions},86400)
-    await this.log.create({ module: 'login', action: 'login', data: user,})
-    return {token, user, roles, permissions}
-=======
   async login(userData: { user: { [x: string]: User; roles: any } }) {
-    const { user, roles, permissions } = this.getCleanDataOfUser(userData);
-    const token = this._createToken(user);
-    await this.redisCacheService.set(
-      user.rg,
-      { user, roles, permissions },
-      86400,
-    );
-    await this.log.create({ module: 'login', action: 'login', data: user });
+    const { user, roles, permissions } = getCleanDataOfUser(userData);
+    const token = this._createToken({ ...user, roles, permissions });
+    // await this.log.create({ module: 'login', action: 'login', data: user });
     return { token, user, roles, permissions };
->>>>>>> f3570f884e2cdcf6d9de59e2803ba90a53e52660
-  }
-
-  getCleanDataOfUser(userData: any) {
-    const permissionsData: string[] = [];
-    let rolesData = [];
-    const { roles, ...user } = userData.user;
-    if (roles.length) {
-      rolesData = roles.map(
-        (role: { role?: string; permissions?: unknown[] }) => {
-          const { permissions } = role;
-          if (permissions.length) {
-            const p = permissions.map(
-              (permission: { permission: string }) => permission.permission,
-            );
-            permissionsData.push(...p);
-          }
-          return role.role;
-        },
-      );
-    }
-
-    let cleanDuplicatedPermissions = [];
-    if (permissionsData.length) {
-      cleanDuplicatedPermissions = [...new Set(permissionsData)];
-    }
-    return { user, roles: rolesData, permissions: cleanDuplicatedPermissions };
   }
 }

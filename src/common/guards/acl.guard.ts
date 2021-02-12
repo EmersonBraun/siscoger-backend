@@ -6,14 +6,10 @@ import {
   UnauthorizedException
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { RedisCacheService } from '../../modules/cache/redis-cache.service';
 
 @Injectable()
 export default class ACLGuard implements CanActivate {
-  constructor(
-    private reflector: Reflector,
-    private readonly redisCacheService: RedisCacheService,
-  ) {}
+  constructor(private reflector: Reflector) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const acl = this.reflector.get('acl', context.getHandler());
@@ -25,12 +21,12 @@ export default class ACLGuard implements CanActivate {
     if (!request?.user) {
       throw new UnauthorizedException('Not logged');
     }
-    const { rg } = request.user;
-    const userData = await this.redisCacheService.get(rg);
-    const getVerifiedRoles = this.verifyIfHasAnyRole(acl.roles, userData.roles);
+    const { roles, permissions } = request.user;
+
+    const getVerifiedRoles = this.verifyIfHasAnyRole(acl.roles, roles);
     const getVerifiedPermission = this.verifyIfHasAnyPermission(
       acl.permissions,
-      userData.permissions,
+      permissions,
     );
 
     return getVerifiedRoles && getVerifiedPermission;
@@ -39,7 +35,7 @@ export default class ACLGuard implements CanActivate {
   verifyIfHasAnyRole(aclRoles: string[], useRoles: string[]): boolean {
     if (!aclRoles.length) return true;
     let hasAnyRole = false;
-    aclRoles.map(role => {
+    aclRoles.forEach(role => {
       if (useRoles.includes(role)) hasAnyRole = true;
     });
     return hasAnyRole;
@@ -51,7 +47,7 @@ export default class ACLGuard implements CanActivate {
   ): boolean {
     if (!aclPermissions.length) return true;
     let hasAnyPermission = false;
-    aclPermissions.map((role: string): void => {
+    aclPermissions.forEach((role: string): void => {
       if (usePermissions.includes(role)) hasAnyPermission = true;
     });
     return hasAnyPermission;
