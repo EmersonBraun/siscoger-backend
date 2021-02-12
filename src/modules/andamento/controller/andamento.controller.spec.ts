@@ -25,7 +25,7 @@ describe('AndamentoController', () => {
     }).compile();
 
     controller = module.get<AndamentoController>(AndamentoController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -81,23 +81,17 @@ describe('AndamentoController', () => {
   describe('when update a Andamento', () => {
     it('should update a existing Andamento and return it', async () => {
       const AndamentoUpdate: UpdateAndamentoDto = mockRegistry;
-      AndamentoUpdate.andamento = 'Update Andamento '
+      AndamentoUpdate.andamento = 'Update Andamento ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
         ...AndamentoUpdate,
       });
 
-      const updatedAndamento = await controller.update(
-        '1',
-        AndamentoUpdate,
-      );
+      const updatedAndamento = await controller.update('1', AndamentoUpdate);
 
       expect(updatedAndamento).toMatchObject(AndamentoUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        AndamentoUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', AndamentoUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

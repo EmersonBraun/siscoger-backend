@@ -6,6 +6,6 @@ describe('ArquivoFactory', () => {
   it('should create a factory and return it', async () => {
     const Arquivo: CreateArquivoDto = fakerRegistry();
 
-    expect(Arquivo).toBe(Arquivo)
+    expect(Arquivo).toBe(Arquivo);
   });
 });

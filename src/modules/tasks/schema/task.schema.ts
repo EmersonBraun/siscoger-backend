@@ -2,14 +2,15 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { Any } from 'typeorm';
 
-export type TasksDocument = Tasks & Document; 
-
-@Schema({timestamps: true})
+@Schema({ timestamps: true })
 export class Tasks {
-  @Prop() name: string
-  @Prop() start: string
-  @Prop() end: string
-  @Prop([Any]) taskErrors: any[]
+  @Prop() name: string;
 
+  @Prop() start: string;
+
+  @Prop() end: string;
+
+  @Prop([Any]) taskErrors: any[];
 }
-export const TasksSchema = SchemaFactory.createForClass(Tasks)
+export type TasksDocument = Tasks & Document;
+export const TasksSchema = SchemaFactory.createForClass(Tasks);

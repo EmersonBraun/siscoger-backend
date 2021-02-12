@@ -28,7 +28,7 @@ describe('ApfdService', () => {
     }).compile();
 
     service = module.get<ApfdService>(ApfdService);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -49,12 +49,12 @@ describe('ApfdService', () => {
       mockRepository.create.mockReturnValueOnce(mockRegistry);
       mockRepository.save.mockReturnValueOnce(mockRegistry);
 
-      const Apfd: CreateApfdDto = mockRegistry;
+      const ApfdVariable: CreateApfdDto = mockRegistry;
 
-      const savedApfd = await service.create(Apfd);
+      const savedApfd = await service.create(ApfdVariable);
 
       expect(savedApfd).toMatchObject(mockRegistry);
-      expect(mockRepository.create).toBeCalledWith(Apfd);
+      expect(mockRepository.create).toBeCalledWith(ApfdVariable);
       expect(mockRepository.create).toBeCalledTimes(1);
       expect(mockRepository.save).toBeCalledTimes(1);
     });
@@ -64,9 +64,9 @@ describe('ApfdService', () => {
     it('should list all Apfd', async () => {
       mockRepository.find.mockReturnValue([mockRegistry]);
 
-      const Apfd = await service.findAll();
+      const ApfdVariable = await service.findAll();
 
-      expect(Apfd).toHaveLength(1);
+      expect(ApfdVariable).toHaveLength(1);
       expect(mockRepository.find).toBeCalledTimes(1);
     });
   });
@@ -75,9 +75,9 @@ describe('ApfdService', () => {
     it('should find a existing Apfd', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
 
-      const Apfd = await service.findById('1');
+      const ApfdVariable = await service.findById('1');
 
-      expect(Apfd).toMatchObject(mockRegistry);
+      expect(ApfdVariable).toMatchObject(mockRegistry);
       expect(mockRepository.findOne).toBeCalledWith('1');
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
@@ -97,7 +97,7 @@ describe('ApfdService', () => {
   describe('when update a Apfd', () => {
     it('should update a existing Apfd', async () => {
       const ApfdUpdate: UpdateApfdDto = mockRegistry;
-      ApfdUpdate.doc_numero = 'Update Apfd '
+      ApfdUpdate.doc_numero = 'Update Apfd ';
 
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.update.mockReturnValue({
@@ -109,10 +109,7 @@ describe('ApfdService', () => {
         ...ApfdUpdate,
       });
 
-      const updatedApfd = await service.update(
-        '1',
-        ApfdUpdate,
-      );
+      const updatedApfd = await service.update('1', ApfdUpdate);
 
       expect(updatedApfd).toMatchObject(ApfdUpdate);
       expect(mockRepository.findOne).toBeCalledWith('1');

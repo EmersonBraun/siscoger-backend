@@ -31,15 +31,19 @@ export class ComportamentoService {
     return registry;
   }
 
-  async update(id: string, data: UpdateComportamentoDto): Promise<Comportamento> {
+  async update(
+    id: string,
+    data: UpdateComportamentoDto,
+  ): Promise<Comportamento> {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
 
     return this.repository.create({ ...registry, ...data });
   }
 
-  async delete(id: string): Promise<void> {
-    await this.findById(id);
+  async delete(id: string): Promise<Comportamento> {
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

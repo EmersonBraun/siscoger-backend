@@ -2,8 +2,8 @@ import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateMovimentoDto, UpdateMovimentoDto } from '../dtos';
-import { fakerRegistry } from '../factory/movimento.factory';
 import { Movimento } from '../entity/movimento.entity';
+import { fakerRegistry } from '../factory/movimento.factory';
 import { MovimentoService } from './movimento.service';
 
 describe('MovimentoService', () => {
@@ -29,7 +29,7 @@ describe('MovimentoService', () => {
     }).compile();
 
     service = module.get<MovimentoService>(MovimentoService);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -52,12 +52,12 @@ describe('MovimentoService', () => {
       mockRepository.create.mockReturnValueOnce(mockRegistry);
       mockRepository.save.mockReturnValueOnce(mockRegistry);
 
-      const Movimento: CreateMovimentoDto = mockRegistry;
+      const MovimentoVariable: CreateMovimentoDto = mockRegistry;
 
-      const savedMovimento = await service.create(Movimento);
+      const savedMovimento = await service.create(MovimentoVariable);
 
       expect(savedMovimento).toMatchObject(mockRegistry);
-      expect(mockRepository.create).toBeCalledWith(Movimento);
+      expect(mockRepository.create).toBeCalledWith(MovimentoVariable);
       expect(mockRepository.create).toBeCalledTimes(1);
       expect(mockRepository.save).toBeCalledTimes(1);
     });
@@ -67,9 +67,9 @@ describe('MovimentoService', () => {
     it('should list all Movimento', async () => {
       mockRepository.find.mockReturnValue([mockRegistry]);
 
-      const Movimento = await service.findAll();
+      const MovimentoVariable = await service.findAll();
 
-      expect(Movimento).toHaveLength(1);
+      expect(MovimentoVariable).toHaveLength(1);
       expect(mockRepository.find).toBeCalledTimes(1);
     });
   });
@@ -91,9 +91,9 @@ describe('MovimentoService', () => {
     it('should find a existing Movimento', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
 
-      const Movimento = await service.findById('1');
+      const MovimentoVariable = await service.findById('1');
 
-      expect(Movimento).toMatchObject(mockRegistry);
+      expect(MovimentoVariable).toMatchObject(mockRegistry);
       expect(mockRepository.findOne).toBeCalledWith('1');
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
@@ -113,7 +113,7 @@ describe('MovimentoService', () => {
   describe('when update a Movimento', () => {
     it('should update a existing Movimento', async () => {
       const MovimentoUpdate: UpdateMovimentoDto = mockRegistry;
-      MovimentoUpdate.descricao = 'Update Movimento '
+      MovimentoUpdate.descricao = 'Update Movimento ';
 
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.update.mockReturnValue({
@@ -125,10 +125,7 @@ describe('MovimentoService', () => {
         ...MovimentoUpdate,
       });
 
-      const updatedMovimento = await service.update(
-        '1',
-        MovimentoUpdate,
-      );
+      const updatedMovimento = await service.update('1', MovimentoUpdate);
 
       expect(updatedMovimento).toMatchObject(MovimentoUpdate);
       expect(mockRepository.findOne).toBeCalledWith('1');

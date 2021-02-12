@@ -9,11 +9,11 @@ import { Pendencia, PendenciaDocument } from '../schema/pendencia.schema';
 export class PendenciaService {
   constructor(
     @InjectModel(Pendencia.name)
-    private repository: Model<PendenciaDocument>
+    private repository: Model<PendenciaDocument>,
   ) {}
 
   async findAll(): Promise<Pendencia[]> {
-    return await this.repository.find().exec()
+    return await this.repository.find().exec();
   }
 
   async search(data: CreatePendenciaDto): Promise<Pendencia[]> {
@@ -35,7 +35,9 @@ export class PendenciaService {
   }
 
   async update(id: string, data: UpdatePendenciaDto): Promise<Pendencia> {
-    return await this.repository.findOneAndUpdate({ _id: id }, { ...data }, { new: true }).exec();
+    return await this.repository
+      .findOneAndUpdate({ _id: id }, { ...data }, { new: true })
+      .exec();
   }
 
   async delete(id: string): Promise<void> {

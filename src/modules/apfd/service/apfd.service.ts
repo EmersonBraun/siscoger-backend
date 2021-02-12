@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LogService } from '../../log/service/log.service';
 import { CreateApfdDto } from '../dtos/create.dto';
 import { UpdateApfdDto } from '../dtos/update.dto';
 import { Apfd } from '../entity/apfd.entity';
@@ -11,7 +10,6 @@ export class ApfdService {
   constructor(
     @InjectRepository(Apfd)
     private repository: Repository<Apfd>,
-    private log: LogService
   ) {}
 
   async findAll(): Promise<Apfd[]> {
@@ -20,9 +18,7 @@ export class ApfdService {
 
   async create(data: CreateApfdDto): Promise<Apfd> {
     const registry = this.repository.create(data);
-    const saveData = await this.repository.save(registry);
-    await this.log.create({ module: 'apfd', action: 'create', data: saveData,})
-    return saveData
+    return await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<Apfd> {
@@ -38,15 +34,12 @@ export class ApfdService {
   async update(id: string, data: UpdateApfdDto): Promise<Apfd> {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
-    const saveData = this.repository.create({ ...registry, ...data });
-    await this.log.create({module: 'apfd',action: 'update',data: saveData,old: registry,})
-    
-    return saveData
+    return this.repository.create({ ...registry, ...data });
   }
 
-  async delete(id: string): Promise<void> {
-    const saveData = await this.findById(id);
-    await this.log.create({module: 'apfd',action: 'delete',data: saveData})
+  async delete(id: string): Promise<Apfd> {
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

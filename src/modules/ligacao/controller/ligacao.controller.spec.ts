@@ -26,7 +26,7 @@ describe('LigacaoController', () => {
     }).compile();
 
     controller = module.get<LigacaoController>(LigacaoController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -95,23 +95,17 @@ describe('LigacaoController', () => {
   describe('when update a Ligacao', () => {
     it('should update a existing Ligacao and return it', async () => {
       const LigacaoUpdate: UpdateLigacaoDto = mockRegistry;
-      LigacaoUpdate.destino_proc = 'Update Ligacao '
+      LigacaoUpdate.destino_proc = 'Update Ligacao ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
         ...LigacaoUpdate,
       });
 
-      const updatedLigacao = await controller.update(
-        '1',
-        LigacaoUpdate,
-      );
+      const updatedLigacao = await controller.update('1', LigacaoUpdate);
 
       expect(updatedLigacao).toMatchObject(LigacaoUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        LigacaoUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', LigacaoUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

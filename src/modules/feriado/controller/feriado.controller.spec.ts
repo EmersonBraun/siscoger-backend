@@ -25,7 +25,7 @@ describe('FeriadoController', () => {
     }).compile();
 
     controller = module.get<FeriadoController>(FeriadoController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -81,23 +81,17 @@ describe('FeriadoController', () => {
   describe('when update a Feriado', () => {
     it('should update a existing Feriado and return it', async () => {
       const FeriadoUpdate: UpdateFeriadoDto = mockRegistry;
-      FeriadoUpdate.feriado = 'Update Feriado '
+      FeriadoUpdate.feriado = 'Update Feriado ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
         ...FeriadoUpdate,
       });
 
-      const updatedFeriado = await controller.update(
-        '1',
-        FeriadoUpdate,
-      );
+      const updatedFeriado = await controller.update('1', FeriadoUpdate);
 
       expect(updatedFeriado).toMatchObject(FeriadoUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        FeriadoUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', FeriadoUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

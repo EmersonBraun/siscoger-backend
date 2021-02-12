@@ -31,7 +31,10 @@ export class MotivoconselhoService {
     return registry;
   }
 
-  async update(id: string, data: UpdateMotivoconselhoDto): Promise<Motivoconselho> {
+  async update(
+    id: string,
+    data: UpdateMotivoconselhoDto,
+  ): Promise<Motivoconselho> {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
 

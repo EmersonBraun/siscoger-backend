@@ -2,8 +2,8 @@ import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateComportamentoDto, UpdateComportamentoDto } from '../dtos';
-import { fakerRegistry } from '../factory/comportamento.factory';
 import { Comportamento } from '../entity/comportamento.entity';
+import { fakerRegistry } from '../factory/comportamento.factory';
 import { ComportamentoService } from './comportamento.service';
 
 describe('ComportamentoService', () => {
@@ -23,12 +23,15 @@ describe('ComportamentoService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ComportamentoService,
-        { provide: getRepositoryToken(Comportamento), useValue: mockRepository },
+        {
+          provide: getRepositoryToken(Comportamento),
+          useValue: mockRepository,
+        },
       ],
     }).compile();
 
     service = module.get<ComportamentoService>(ComportamentoService);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -50,12 +53,12 @@ describe('ComportamentoService', () => {
       mockRepository.create.mockReturnValueOnce(mockRegistry);
       mockRepository.save.mockReturnValueOnce(mockRegistry);
 
-      const Comportamento: CreateComportamentoDto = mockRegistry;
+      const ComportamentoVariable: CreateComportamentoDto = mockRegistry;
 
-      const savedComportamento = await service.create(Comportamento);
+      const savedComportamento = await service.create(ComportamentoVariable);
 
       expect(savedComportamento).toMatchObject(mockRegistry);
-      expect(mockRepository.create).toBeCalledWith(Comportamento);
+      expect(mockRepository.create).toBeCalledWith(ComportamentoVariable);
       expect(mockRepository.create).toBeCalledTimes(1);
       expect(mockRepository.save).toBeCalledTimes(1);
     });
@@ -65,9 +68,9 @@ describe('ComportamentoService', () => {
     it('should list all Comportamento', async () => {
       mockRepository.find.mockReturnValue([mockRegistry]);
 
-      const Comportamento = await service.findAll();
+      const ComportamentoVariable = await service.findAll();
 
-      expect(Comportamento).toHaveLength(1);
+      expect(ComportamentoVariable).toHaveLength(1);
       expect(mockRepository.find).toBeCalledTimes(1);
     });
   });
@@ -76,9 +79,9 @@ describe('ComportamentoService', () => {
     it('should find a existing Comportamento', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
 
-      const Comportamento = await service.findById('1');
+      const ComportamentoVariable = await service.findById('1');
 
-      expect(Comportamento).toMatchObject(mockRegistry);
+      expect(ComportamentoVariable).toMatchObject(mockRegistry);
       expect(mockRepository.findOne).toBeCalledWith('1');
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
@@ -98,7 +101,7 @@ describe('ComportamentoService', () => {
   describe('when update a Comportamento', () => {
     it('should update a existing Comportamento', async () => {
       const ComportamentoUpdate: UpdateComportamentoDto = mockRegistry;
-      ComportamentoUpdate.comportamento = 'Update Comportamento '
+      ComportamentoUpdate.comportamento = 'Update Comportamento ';
 
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.update.mockReturnValue({

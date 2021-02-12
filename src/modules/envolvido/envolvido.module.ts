@@ -1,4 +1,3 @@
-
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EnvolvidoController } from './controller/envolvido.controller';
@@ -9,6 +8,6 @@ import { EnvolvidoService } from './service/envolvido.service';
   imports: [TypeOrmModule.forFeature([Envolvido])],
   providers: [EnvolvidoService],
   controllers: [EnvolvidoController],
-  exports: [EnvolvidoService]
+  exports: [EnvolvidoService],
 })
 export class EnvolvidoModule {}

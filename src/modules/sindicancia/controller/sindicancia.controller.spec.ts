@@ -25,7 +25,7 @@ describe('SindicanciaController', () => {
     }).compile();
 
     controller = module.get<SindicanciaController>(SindicanciaController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -81,7 +81,7 @@ describe('SindicanciaController', () => {
   describe('when update a sindicancia', () => {
     it('should update a existing sindicancia and return it', async () => {
       const sindicanciaUpdate: UpdateSindicanciaDto = mockRegistry;
-      sindicanciaUpdate.sintese_txt = 'Update sindicancia '
+      sindicanciaUpdate.sintese_txt = 'Update sindicancia ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
@@ -94,10 +94,7 @@ describe('SindicanciaController', () => {
       );
 
       expect(updatedsindicancia).toMatchObject(sindicanciaUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        sindicanciaUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', sindicanciaUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

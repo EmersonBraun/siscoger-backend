@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LogService } from '../../log/service/log.service';
 import { CreateFalecimentoDto } from '../dtos/create.dto';
 import { UpdateFalecimentoDto } from '../dtos/update.dto';
 import { Falecimento } from '../entity/falecimento.entity';
@@ -9,9 +8,7 @@ import { Falecimento } from '../entity/falecimento.entity';
 @Injectable()
 export class FalecimentoService {
   constructor(
-    @InjectRepository(Falecimento)
-    private repository: Repository<Falecimento>,
-    private log: LogService
+    @InjectRepository(Falecimento) private repository: Repository<Falecimento>,
   ) {}
 
   async findAll(): Promise<Falecimento[]> {
@@ -20,9 +17,7 @@ export class FalecimentoService {
 
   async create(data: CreateFalecimentoDto): Promise<Falecimento> {
     const registry = this.repository.create(data);
-    const saveData = await this.repository.save(registry);
-    await this.log.create({ module: 'falecimento', action: 'create', data: saveData,})
-    return saveData
+    return await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<Falecimento> {
@@ -38,15 +33,12 @@ export class FalecimentoService {
   async update(id: string, data: UpdateFalecimentoDto): Promise<Falecimento> {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
-    const saveData = this.repository.create({ ...registry, ...data });
-    await this.log.create({module: 'falecimento',action: 'update',data: saveData,old: registry,})
-    
-    return saveData
+    return this.repository.create({ ...registry, ...data });
   }
 
-  async delete(id: string): Promise<void> {
-    const saveData = await this.findById(id);
-    await this.log.create({module: 'falecimento',action: 'delete',data: saveData})
+  async delete(id: string): Promise<Falecimento> {
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

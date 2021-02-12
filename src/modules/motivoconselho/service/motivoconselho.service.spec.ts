@@ -2,8 +2,8 @@ import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateMotivoconselhoDto, UpdateMotivoconselhoDto } from '../dtos';
-import { fakerRegistry } from '../factory/motivoconselho.factory';
 import { Motivoconselho } from '../entity/motivoconselho.entity';
+import { fakerRegistry } from '../factory/motivoconselho.factory';
 import { MotivoconselhoService } from './motivoconselho.service';
 
 describe('MotivoconselhoService', () => {
@@ -23,12 +23,15 @@ describe('MotivoconselhoService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         MotivoconselhoService,
-        { provide: getRepositoryToken(Motivoconselho), useValue: mockRepository },
+        {
+          provide: getRepositoryToken(Motivoconselho),
+          useValue: mockRepository,
+        },
       ],
     }).compile();
 
     service = module.get<MotivoconselhoService>(MotivoconselhoService);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -50,12 +53,12 @@ describe('MotivoconselhoService', () => {
       mockRepository.create.mockReturnValueOnce(mockRegistry);
       mockRepository.save.mockReturnValueOnce(mockRegistry);
 
-      const Motivoconselho: CreateMotivoconselhoDto = mockRegistry;
+      const MotivoconselhoVariable: CreateMotivoconselhoDto = mockRegistry;
 
-      const savedMotivoconselho = await service.create(Motivoconselho);
+      const savedMotivoconselho = await service.create(MotivoconselhoVariable);
 
       expect(savedMotivoconselho).toMatchObject(mockRegistry);
-      expect(mockRepository.create).toBeCalledWith(Motivoconselho);
+      expect(mockRepository.create).toBeCalledWith(MotivoconselhoVariable);
       expect(mockRepository.create).toBeCalledTimes(1);
       expect(mockRepository.save).toBeCalledTimes(1);
     });
@@ -65,9 +68,9 @@ describe('MotivoconselhoService', () => {
     it('should list all Motivoconselho', async () => {
       mockRepository.find.mockReturnValue([mockRegistry]);
 
-      const Motivoconselho = await service.findAll();
+      const MotivoconselhoVariable = await service.findAll();
 
-      expect(Motivoconselho).toHaveLength(1);
+      expect(MotivoconselhoVariable).toHaveLength(1);
       expect(mockRepository.find).toBeCalledTimes(1);
     });
   });
@@ -76,9 +79,9 @@ describe('MotivoconselhoService', () => {
     it('should find a existing Motivoconselho', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
 
-      const Motivoconselho = await service.findById('1');
+      const MotivoconselhoVariable = await service.findById('1');
 
-      expect(Motivoconselho).toMatchObject(mockRegistry);
+      expect(MotivoconselhoVariable).toMatchObject(mockRegistry);
       expect(mockRepository.findOne).toBeCalledWith('1');
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
@@ -98,7 +101,7 @@ describe('MotivoconselhoService', () => {
   describe('when update a Motivoconselho', () => {
     it('should update a existing Motivoconselho', async () => {
       const MotivoconselhoUpdate: UpdateMotivoconselhoDto = mockRegistry;
-      MotivoconselhoUpdate.motivoconselho = 'Update Motivoconselho '
+      MotivoconselhoUpdate.motivoconselho = 'Update Motivoconselho ';
 
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.update.mockReturnValue({

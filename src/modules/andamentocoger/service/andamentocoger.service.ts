@@ -31,7 +31,10 @@ export class AndamentocogerService {
     return registry;
   }
 
-  async update(id: string, data: UpdateAndamentocogerDto): Promise<Andamentocoger> {
+  async update(
+    id: string,
+    data: UpdateAndamentocogerDto,
+  ): Promise<Andamentocoger> {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
 

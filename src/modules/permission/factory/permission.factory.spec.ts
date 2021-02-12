@@ -6,6 +6,6 @@ describe('permissionFactory', () => {
   it('should create a factory and return it', async () => {
     const permission: CreatePermissionDto = fakerRegistry();
 
-    expect(permission).toBe(permission)
+    expect(permission).toBe(permission);
   });
 });

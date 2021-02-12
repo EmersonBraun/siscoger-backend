@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LogService } from '../../log/service/log.service';
 import { CreateLigacaoDto } from '../dtos/create.dto';
 import { UpdateLigacaoDto } from '../dtos/update.dto';
 import { Ligacao } from '../entity/ligacao.entity';
@@ -9,9 +8,7 @@ import { Ligacao } from '../entity/ligacao.entity';
 @Injectable()
 export class LigacaoService {
   constructor(
-    @InjectRepository(Ligacao)
-    private repository: Repository<Ligacao>,
-    private log: LogService
+    @InjectRepository(Ligacao) private repository: Repository<Ligacao>,
   ) {}
 
   async findAll(): Promise<Ligacao[]> {
@@ -24,9 +21,7 @@ export class LigacaoService {
 
   async create(data: CreateLigacaoDto): Promise<Ligacao> {
     const registry = this.repository.create(data);
-    const saveData = await this.repository.save(registry);
-    await this.log.create({ module: 'ligacao', action: 'create', data: saveData,})
-    return saveData
+    return await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<Ligacao> {
@@ -42,15 +37,12 @@ export class LigacaoService {
   async update(id: string, data: UpdateLigacaoDto): Promise<Ligacao> {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
-    const saveData = this.repository.create({ ...registry, ...data });
-    await this.log.create({module: 'ligacao',action: 'update',data: saveData,old: registry,})
-    
-    return saveData
+    return this.repository.create({ ...registry, ...data });
   }
 
-  async delete(id: string): Promise<void> {
-    const saveData = await this.findById(id);
-    await this.log.create({module: 'ligacao',action: 'delete',data: saveData})
+  async delete(id: string): Promise<Ligacao> {
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

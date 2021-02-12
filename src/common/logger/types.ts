@@ -16,7 +16,7 @@ declare type ForegroundColor =
   | 'blueBright'
   | 'magentaBright'
   | 'cyanBright'
-  | 'whiteBright'
+  | 'whiteBright';
 
 declare type FigureSet =
   | 'tick'
@@ -75,17 +75,17 @@ declare type FigureSet =
   | 'fourFifths'
   | 'fiveSixths'
   | 'fiveEighths'
-  | 'sevenEighth'
+  | 'sevenEighth';
 
 export interface Options {
-  icon?: FigureSet
-  iconColor?: ForegroundColor
-  iconUnderlined?: boolean
-  title?: string
-  titleSpace?: number
-  titleColor?: ForegroundColor
-  titleUnderlined?: boolean
-  messageSpace?: number
-  messageColor?: ForegroundColor
-  messageUnderlined?: boolean
+  icon?: FigureSet;
+  iconColor?: ForegroundColor;
+  iconUnderlined?: boolean;
+  title?: string;
+  titleSpace?: number;
+  titleColor?: ForegroundColor;
+  titleUnderlined?: boolean;
+  messageSpace?: number;
+  messageColor?: ForegroundColor;
+  messageUnderlined?: boolean;
 }

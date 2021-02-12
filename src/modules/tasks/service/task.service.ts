@@ -9,11 +9,11 @@ import { Tasks, TasksDocument } from '../schema/task.schema';
 export class TasksService {
   constructor(
     @InjectModel(Tasks.name)
-    private repository: Model<TasksDocument>
+    private repository: Model<TasksDocument>,
   ) {}
 
   async findAll(): Promise<Tasks[]> {
-    return await this.repository.find().exec()
+    return await this.repository.find().exec();
   }
 
   async search(data: CreateTasksDto): Promise<Tasks[]> {
@@ -34,8 +34,10 @@ export class TasksService {
     return registry;
   }
 
-  async update(id: string, data: UpdateTasksDto): Promise<Tasks> {
-    return await this.repository.findOneAndUpdate({ _id: id }, { ...data }, { new: true }).exec();
+  async update(id: string, data: UpdateTasksDto): Promise<any> {
+    await this.repository
+      .findOneAndUpdate({ _id: id }, { ...data }, { new: true })
+      .exec();
   }
 
   async delete(id: string): Promise<void> {

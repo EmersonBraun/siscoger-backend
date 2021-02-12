@@ -2,8 +2,8 @@ import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateOfendidoDto, UpdateOfendidoDto } from '../dtos';
-import { fakerRegistry } from '../factory/ofendido.factory';
 import { Ofendido } from '../entity/ofendido.entity';
+import { fakerRegistry } from '../factory/ofendido.factory';
 import { OfendidoService } from './ofendido.service';
 
 describe('OfendidoService', () => {
@@ -29,7 +29,7 @@ describe('OfendidoService', () => {
     }).compile();
 
     service = module.get<OfendidoService>(OfendidoService);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -52,12 +52,12 @@ describe('OfendidoService', () => {
       mockRepository.create.mockReturnValueOnce(mockRegistry);
       mockRepository.save.mockReturnValueOnce(mockRegistry);
 
-      const Ofendido: CreateOfendidoDto = mockRegistry;
+      const OfendidoVariable: CreateOfendidoDto = mockRegistry;
 
-      const savedOfendido = await service.create(Ofendido);
+      const savedOfendido = await service.create(OfendidoVariable);
 
       expect(savedOfendido).toMatchObject(mockRegistry);
-      expect(mockRepository.create).toBeCalledWith(Ofendido);
+      expect(mockRepository.create).toBeCalledWith(OfendidoVariable);
       expect(mockRepository.create).toBeCalledTimes(1);
       expect(mockRepository.save).toBeCalledTimes(1);
     });
@@ -67,9 +67,9 @@ describe('OfendidoService', () => {
     it('should list all Ofendido', async () => {
       mockRepository.find.mockReturnValue([mockRegistry]);
 
-      const Ofendido = await service.findAll();
+      const OfendidoVariable = await service.findAll();
 
-      expect(Ofendido).toHaveLength(1);
+      expect(OfendidoVariable).toHaveLength(1);
       expect(mockRepository.find).toBeCalledTimes(1);
     });
   });
@@ -91,9 +91,9 @@ describe('OfendidoService', () => {
     it('should find a existing Ofendido', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
 
-      const Ofendido = await service.findById('1');
+      const OfendidoVariable = await service.findById('1');
 
-      expect(Ofendido).toMatchObject(mockRegistry);
+      expect(OfendidoVariable).toMatchObject(mockRegistry);
       expect(mockRepository.findOne).toBeCalledWith('1');
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
@@ -113,7 +113,7 @@ describe('OfendidoService', () => {
   describe('when update a Ofendido', () => {
     it('should update a existing Ofendido', async () => {
       const OfendidoUpdate: UpdateOfendidoDto = mockRegistry;
-      OfendidoUpdate.email = 'Update Ofendido '
+      OfendidoUpdate.email = 'Update Ofendido ';
 
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.update.mockReturnValue({
@@ -125,10 +125,7 @@ describe('OfendidoService', () => {
         ...OfendidoUpdate,
       });
 
-      const updatedOfendido = await service.update(
-        '1',
-        OfendidoUpdate,
-      );
+      const updatedOfendido = await service.update('1', OfendidoUpdate);
 
       expect(updatedOfendido).toMatchObject(OfendidoUpdate);
       expect(mockRepository.findOne).toBeCalledWith('1');

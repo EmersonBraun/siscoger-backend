@@ -9,6 +9,6 @@ import { LogService } from './service/log.service';
   imports: [MongooseModule.forFeature([{ name: Log.name, schema: LogSchema }])],
   providers: [LogService],
   controllers: [LogController],
-  exports: [LogService]
+  exports: [LogService],
 })
 export class LogModule {}

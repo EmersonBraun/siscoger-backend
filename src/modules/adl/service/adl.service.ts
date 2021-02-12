@@ -1,17 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LogService } from '../../log/service/log.service';
+// import { LogService } from '../../log/service/log.service';
 import { CreateAdlDto } from '../dtos/create.dto';
 import { UpdateAdlDto } from '../dtos/update.dto';
-import { Adl } from '../entity/adl.entity';
+import Adl from '../entity/adl.entity';
 
 @Injectable()
 export class AdlService {
   constructor(
-    @InjectRepository(Adl)
-    private repository: Repository<Adl>,
-    private log: LogService
+    @InjectRepository(Adl) private repository: Repository<Adl>, // @Inject() private readonly log: LogService,
   ) {}
 
   async findAll(): Promise<Adl[]> {
@@ -20,9 +18,7 @@ export class AdlService {
 
   async create(data: CreateAdlDto): Promise<Adl> {
     const registry = this.repository.create(data);
-    const saveData = await this.repository.save(registry);
-    await this.log.create({ module: 'adl', action: 'create', data: saveData,})
-    return saveData
+    return await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<Adl> {
@@ -35,18 +31,16 @@ export class AdlService {
     return registry;
   }
 
-  async update(id: string, data: UpdateAdlDto): Promise<Adl> {
-    const registry = await this.findById(id);
+  async update(id: string, data: UpdateAdlDto) {
+    const old = await this.findById(id);
     await this.repository.update(id, { ...data });
-    const saveData = this.repository.create({ ...registry, ...data });
-    await this.log.create({module: 'adl',action: 'update',data: saveData,old: registry,})
-    
-    return saveData
+    const saveData = this.repository.create({ ...old, ...data });
+    return saveData;
   }
 
-  async delete(id: string): Promise<void> {
-    const saveData = await this.findById(id);
-    await this.log.create({module: 'adl',action: 'delete',data: saveData})
+  async delete(id: string): Promise<Adl> {
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

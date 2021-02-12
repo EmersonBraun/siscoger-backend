@@ -1,7 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { extname } from 'path';
 
-export const PDFFileFilter = (_req: any, file: { originalname: string; }, callback: (arg0: HttpException, arg1: boolean) => void) => {
+export const PDFFileFilter = (
+  _req: unknown,
+  file: { originalname: string },
+  callback: (arg0: HttpException, arg1: boolean) => void,
+) => {
   if (!file.originalname.match(/\.(pdf)$/)) {
     return callback(
       new HttpException(
@@ -14,7 +19,11 @@ export const PDFFileFilter = (_req: any, file: { originalname: string; }, callba
   callback(null, true);
 };
 
-export const imageFileFilter = (_req: any, file: { originalname: string; }, callback: (arg0: HttpException, arg1: boolean) => void) => {
+export const imageFileFilter = (
+  _req: any,
+  file: { originalname: string },
+  callback: (arg0: HttpException, arg1: boolean) => void,
+) => {
   if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
     return callback(
       new HttpException(
@@ -27,7 +36,11 @@ export const imageFileFilter = (_req: any, file: { originalname: string; }, call
   callback(null, true);
 };
 
-export const editFileName = (_req: any, file: { originalname: string; }, callback: (arg0: any, arg1: string) => void) => {
+export const editFileName = (
+  _req: any,
+  file: { originalname: string },
+  callback: (arg0: any, arg1: string) => void,
+) => {
   const name = file.originalname.split('.')[0];
   const fileExtName = extname(file.originalname);
   const randomName = Array(4)

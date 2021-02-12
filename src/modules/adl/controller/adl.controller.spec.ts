@@ -1,9 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { closeInMongodConnection } from '../../../../test/utils';
 import { RedisCacheModule } from '../../cache/redis-cache.module';
 import { CreateAdlDto, UpdateAdlDto } from '../dtos';
-import { fakerRegistry } from '../factory/adl.factory';
+import fakerRegistry from '../factory/adl.factory';
 import { AdlService } from '../service/adl.service';
-import { AdlController } from './adl.controller';
+import AdlController from './adl.controller';
 
 describe('AdlController', () => {
   let controller: AdlController;
@@ -25,7 +26,7 @@ describe('AdlController', () => {
     }).compile();
 
     controller = module.get<AdlController>(AdlController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -36,6 +37,10 @@ describe('AdlController', () => {
     mockService.delete.mockReset();
   });
 
+  afterAll(async () => {
+    await closeInMongodConnection();
+  });
+
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
@@ -43,13 +48,11 @@ describe('AdlController', () => {
   describe('when create Adl', () => {
     it('should create a Adl and return it', async () => {
       mockService.create.mockReturnValue(mockRegistry);
+      const adl: CreateAdlDto = mockRegistry;
 
-      const Adl: CreateAdlDto = mockRegistry;
-
-      const createdAdl = await controller.create(Adl);
-
+      const createdAdl = await controller.create(adl);
       expect(createdAdl).toMatchObject(mockRegistry);
-      expect(mockService.create).toBeCalledWith(Adl);
+      expect(mockService.create).toBeCalledWith(adl);
       expect(mockService.create).toBeCalledTimes(1);
     });
   });
@@ -81,23 +84,16 @@ describe('AdlController', () => {
   describe('when update a Adl', () => {
     it('should update a existing Adl and return it', async () => {
       const AdlUpdate: UpdateAdlDto = mockRegistry;
-      AdlUpdate.doc_numero = 'Update Adl '
+      AdlUpdate.doc_numero = 'Update Adl ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
         ...AdlUpdate,
       });
 
-      const updatedAdl = await controller.update(
-        '1',
-        AdlUpdate,
-      );
-
+      const updatedAdl = await controller.update('1', AdlUpdate);
       expect(updatedAdl).toMatchObject(AdlUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        AdlUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', AdlUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

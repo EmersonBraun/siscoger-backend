@@ -25,7 +25,7 @@ describe('MotivoconselhoController', () => {
     }).compile();
 
     controller = module.get<MotivoconselhoController>(MotivoconselhoController);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -81,7 +81,7 @@ describe('MotivoconselhoController', () => {
   describe('when update a Motivoconselho', () => {
     it('should update a existing Motivoconselho and return it', async () => {
       const MotivoconselhoUpdate: UpdateMotivoconselhoDto = mockRegistry;
-      MotivoconselhoUpdate.motivoconselho = 'Update Motivoconselho '
+      MotivoconselhoUpdate.motivoconselho = 'Update Motivoconselho ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
@@ -94,10 +94,7 @@ describe('MotivoconselhoController', () => {
       );
 
       expect(updatedMotivoconselho).toMatchObject(MotivoconselhoUpdate);
-      expect(mockService.update).toBeCalledWith(
-        '1',
-        MotivoconselhoUpdate,
-      );
+      expect(mockService.update).toBeCalledWith('1', MotivoconselhoUpdate);
       expect(mockService.update).toBeCalledTimes(1);
     });
   });

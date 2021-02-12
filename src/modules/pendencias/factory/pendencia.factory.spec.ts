@@ -6,6 +6,6 @@ describe('PendenciaFactory', () => {
   it('should create a factory and return it', async () => {
     const Pendencia: CreatePendenciaDto = fakerRegistry();
 
-    expect(Pendencia).toBe(Pendencia)
+    expect(Pendencia).toBe(Pendencia);
   });
 });

@@ -2,8 +2,8 @@ import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateFeriadoDto, UpdateFeriadoDto } from '../dtos';
-import { fakerRegistry } from '../factory/feriado.factory';
 import { Feriado } from '../entity/feriado.entity';
+import { fakerRegistry } from '../factory/feriado.factory';
 import { FeriadoService } from './feriado.service';
 
 describe('FeriadoService', () => {
@@ -28,7 +28,7 @@ describe('FeriadoService', () => {
     }).compile();
 
     service = module.get<FeriadoService>(FeriadoService);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -50,12 +50,12 @@ describe('FeriadoService', () => {
       mockRepository.create.mockReturnValueOnce(mockRegistry);
       mockRepository.save.mockReturnValueOnce(mockRegistry);
 
-      const Feriado: CreateFeriadoDto = mockRegistry;
+      const FeriadoVariable: CreateFeriadoDto = mockRegistry;
 
-      const savedFeriado = await service.create(Feriado);
+      const savedFeriado = await service.create(FeriadoVariable);
 
       expect(savedFeriado).toMatchObject(mockRegistry);
-      expect(mockRepository.create).toBeCalledWith(Feriado);
+      expect(mockRepository.create).toBeCalledWith(FeriadoVariable);
       expect(mockRepository.create).toBeCalledTimes(1);
       expect(mockRepository.save).toBeCalledTimes(1);
     });
@@ -65,9 +65,9 @@ describe('FeriadoService', () => {
     it('should list all Feriado', async () => {
       mockRepository.find.mockReturnValue([mockRegistry]);
 
-      const Feriado = await service.findAll();
+      const FeriadoVariable = await service.findAll();
 
-      expect(Feriado).toHaveLength(1);
+      expect(FeriadoVariable).toHaveLength(1);
       expect(mockRepository.find).toBeCalledTimes(1);
     });
   });
@@ -76,9 +76,9 @@ describe('FeriadoService', () => {
     it('should find a existing Feriado', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
 
-      const Feriado = await service.findById('1');
+      const FeriadoVariable = await service.findById('1');
 
-      expect(Feriado).toMatchObject(mockRegistry);
+      expect(FeriadoVariable).toMatchObject(mockRegistry);
       expect(mockRepository.findOne).toBeCalledWith('1');
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
@@ -98,7 +98,7 @@ describe('FeriadoService', () => {
   describe('when update a Feriado', () => {
     it('should update a existing Feriado', async () => {
       const FeriadoUpdate: UpdateFeriadoDto = mockRegistry;
-      FeriadoUpdate.feriado = 'Update Feriado '
+      FeriadoUpdate.feriado = 'Update Feriado ';
 
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.update.mockReturnValue({
@@ -110,10 +110,7 @@ describe('FeriadoService', () => {
         ...FeriadoUpdate,
       });
 
-      const updatedFeriado = await service.update(
-        '1',
-        FeriadoUpdate,
-      );
+      const updatedFeriado = await service.update('1', FeriadoUpdate);
 
       expect(updatedFeriado).toMatchObject(FeriadoUpdate);
       expect(mockRepository.findOne).toBeCalledWith('1');

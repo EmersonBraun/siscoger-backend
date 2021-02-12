@@ -1,14 +1,15 @@
 // /* eslint-disable @typescript-eslint/no-unused-vars */
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { RedisCacheService } from '../../modules/cache/redis-cache.service';
 
 @Injectable()
-export class ACLGuard implements CanActivate {
-  constructor(
-    private reflector: Reflector,
-    private readonly redisCacheService: RedisCacheService,
-  ) {}
+export default class ACLGuard implements CanActivate {
+  constructor(private reflector: Reflector) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const acl = this.reflector.get('acl', context.getHandler());
@@ -18,34 +19,37 @@ export class ACLGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest();
     if (!request?.user) {
-      throw new UnauthorizedException('Not logged')
+      throw new UnauthorizedException('Not logged');
     }
-    const { rg } = request.user;
-    const userData = await this.redisCacheService.get(rg)
-    const getVerifiedRoles = this.verifyIfHasAnyRole(acl.roles, userData.roles)
-    const getVerifiedPermission = this.verifyIfHasAnyPermission(acl.permissions, userData.permissions)
+    const { roles, permissions } = request.user;
 
-    return getVerifiedRoles && getVerifiedPermission
+    const getVerifiedRoles = this.verifyIfHasAnyRole(acl.roles, roles);
+    const getVerifiedPermission = this.verifyIfHasAnyPermission(
+      acl.permissions,
+      permissions,
+    );
+
+    return getVerifiedRoles && getVerifiedPermission;
   }
 
-  verifyIfHasAnyRole(aclRoles: string[], useRoles: string[]) {
-    if (!aclRoles.length) return true
-    let hasAnyRole = false
-    aclRoles.map((role) => {
-      if (useRoles.includes(role)) hasAnyRole = true
-    })
-    return hasAnyRole
+  verifyIfHasAnyRole(aclRoles: string[], useRoles: string[]): boolean {
+    if (!aclRoles.length) return true;
+    let hasAnyRole = false;
+    aclRoles.forEach(role => {
+      if (useRoles.includes(role)) hasAnyRole = true;
+    });
+    return hasAnyRole;
   }
 
-  verifyIfHasAnyPermission(aclPermissions: string[], usePermissions: string[]) {
-    if (!aclPermissions.length) return true
-    let hasAnyPermission = false
-    aclPermissions.map((role) => {
-      if (usePermissions.includes(role)) hasAnyPermission = true
-    })
-    return hasAnyPermission
+  verifyIfHasAnyPermission(
+    aclPermissions: string[],
+    usePermissions: string[],
+  ): boolean {
+    if (!aclPermissions.length) return true;
+    let hasAnyPermission = false;
+    aclPermissions.forEach((role: string): void => {
+      if (usePermissions.includes(role)) hasAnyPermission = true;
+    });
+    return hasAnyPermission;
   }
-
-
-
 }

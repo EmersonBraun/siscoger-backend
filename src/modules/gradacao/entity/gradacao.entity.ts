@@ -1,8 +1,4 @@
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('gradacoes')
 export class Gradacao {
@@ -10,8 +6,8 @@ export class Gradacao {
   id: number;
 
   @Column({ nullable: true })
-  gradacao: string
-  
+  gradacao: string;
+
   @Column({ nullable: true })
-  rel: string
+  rel: string;
 }

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { resolve } from 'path';
+
 require('dotenv').config();
 
 export const typeOrmOptions: TypeOrmModuleOptions = {
@@ -17,14 +18,10 @@ export const typeOrmOptions: TypeOrmModuleOptions = {
     'migration',
     // 'query',
     'schema',
-    'warn'
+    'warn',
   ],
-  entities: [
-    resolve(__dirname, 'modules', '**', 'entity', '*.entity.{ts,js}'),
-  ],
-  migrations: [
-    resolve(__dirname, 'modules', '**', 'migrations', '*.{ts,js}'),
-  ],
+  entities: [resolve(__dirname, 'modules', '**', 'entity', '*.entity.{ts,js}')],
+  migrations: [resolve(__dirname, 'modules', '**', 'migrations', '*.{ts,js}')],
   synchronize: process.env.DB_SYNC === 'true',
 };
 

@@ -1,4 +1,3 @@
-
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AndamentocogerController } from './controller/andamentocoger.controller';
@@ -9,6 +8,6 @@ import { AndamentocogerService } from './service/andamentocoger.service';
   imports: [TypeOrmModule.forFeature([Andamentocoger])],
   providers: [AndamentocogerService],
   controllers: [AndamentocogerController],
-  exports: [AndamentocogerService]
+  exports: [AndamentocogerService],
 })
 export class AndamentocogerModule {}

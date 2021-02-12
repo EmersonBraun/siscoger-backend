@@ -2,8 +2,8 @@ import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateFalecimentoDto, UpdateFalecimentoDto } from '../dtos';
-import { fakerRegistry } from '../factory/falecimento.factory';
 import { Falecimento } from '../entity/falecimento.entity';
+import { fakerRegistry } from '../factory/falecimento.factory';
 import { FalecimentoService } from './falecimento.service';
 
 describe('FalecimentoService', () => {
@@ -28,7 +28,7 @@ describe('FalecimentoService', () => {
     }).compile();
 
     service = module.get<FalecimentoService>(FalecimentoService);
-    mockRegistry = fakerRegistry()
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -50,12 +50,12 @@ describe('FalecimentoService', () => {
       mockRepository.create.mockReturnValueOnce(mockRegistry);
       mockRepository.save.mockReturnValueOnce(mockRegistry);
 
-      const Falecimento: CreateFalecimentoDto = mockRegistry;
+      const FalecimentoVariable: CreateFalecimentoDto = mockRegistry;
 
-      const savedFalecimento = await service.create(Falecimento);
+      const savedFalecimento = await service.create(FalecimentoVariable);
 
       expect(savedFalecimento).toMatchObject(mockRegistry);
-      expect(mockRepository.create).toBeCalledWith(Falecimento);
+      expect(mockRepository.create).toBeCalledWith(FalecimentoVariable);
       expect(mockRepository.create).toBeCalledTimes(1);
       expect(mockRepository.save).toBeCalledTimes(1);
     });
@@ -65,9 +65,9 @@ describe('FalecimentoService', () => {
     it('should list all Falecimento', async () => {
       mockRepository.find.mockReturnValue([mockRegistry]);
 
-      const Falecimento = await service.findAll();
+      const FalecimentoVariable = await service.findAll();
 
-      expect(Falecimento).toHaveLength(1);
+      expect(FalecimentoVariable).toHaveLength(1);
       expect(mockRepository.find).toBeCalledTimes(1);
     });
   });
@@ -76,9 +76,9 @@ describe('FalecimentoService', () => {
     it('should find a existing Falecimento', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
 
-      const Falecimento = await service.findById('1');
+      const FalecimentoVariable = await service.findById('1');
 
-      expect(Falecimento).toMatchObject(mockRegistry);
+      expect(FalecimentoVariable).toMatchObject(mockRegistry);
       expect(mockRepository.findOne).toBeCalledWith('1');
       expect(mockRepository.findOne).toBeCalledTimes(1);
     });
@@ -98,7 +98,7 @@ describe('FalecimentoService', () => {
   describe('when update a Falecimento', () => {
     it('should update a existing Falecimento', async () => {
       const FalecimentoUpdate: UpdateFalecimentoDto = mockRegistry;
-      FalecimentoUpdate.cargo = 'Update Falecimento '
+      FalecimentoUpdate.cargo = 'Update Falecimento ';
 
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.update.mockReturnValue({
@@ -110,10 +110,7 @@ describe('FalecimentoService', () => {
         ...FalecimentoUpdate,
       });
 
-      const updatedFalecimento = await service.update(
-        '1',
-        FalecimentoUpdate,
-      );
+      const updatedFalecimento = await service.update('1', FalecimentoUpdate);
 
       expect(updatedFalecimento).toMatchObject(FalecimentoUpdate);
       expect(mockRepository.findOne).toBeCalledWith('1');

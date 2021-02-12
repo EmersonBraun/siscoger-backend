@@ -6,6 +6,6 @@ describe('MailFactory', () => {
   it('should create a factory and return it', async () => {
     const Mail: CreateMailDto = fakerRegistry();
 
-    expect(Mail).toBe(Mail)
+    expect(Mail).toBe(Mail);
   });
 });
