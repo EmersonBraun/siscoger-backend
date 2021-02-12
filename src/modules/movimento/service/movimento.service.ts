@@ -11,12 +11,12 @@ export class MovimentoService {
     @InjectRepository(Movimento) private repository: Repository<Movimento>,
   ) {}
 
-  async findAll(): Promise<void> {
-    await this.repository.find();
+  async findAll(): Promise<Movimento[]> {
+    return await this.repository.find();
   }
 
-  async search(data: CreateMovimentoDto): Promise<void> {
-    await this.repository.find({ where: { ...data } });
+  async search(data: CreateMovimentoDto): Promise<Movimento[]> {
+    return await this.repository.find({ where: { ...data } });
   }
 
   async create(data: CreateMovimentoDto): Promise<Movimento> {
@@ -40,7 +40,9 @@ export class MovimentoService {
     return this.repository.create({ ...registry, ...data });
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<Movimento> {
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

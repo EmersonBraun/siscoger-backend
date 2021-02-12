@@ -9,8 +9,8 @@ import { User } from '../entity/user.entity';
 export class UserService {
   constructor(@InjectRepository(User) private repository: Repository<User>) {}
 
-  async findAll(): Promise<void> {
-    await this.repository.find();
+  async findAll(): Promise<User[]> {
+    return await this.repository.find();
   }
 
   async findOne(data?: any): Promise<CreateUserDto> {
@@ -34,8 +34,8 @@ export class UserService {
     return user;
   }
 
-  async search(data: CreateUserDto): Promise<void> {
-    await this.repository.find({ where: { ...data } });
+  async search(data: CreateUserDto): Promise<User[]> {
+    return await this.repository.find({ where: { ...data } });
   }
 
   async create(data: CreateUserDto): Promise<User> {
@@ -69,7 +69,9 @@ export class UserService {
     return this.repository.save({ ...registry, ...rest });
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<User> {
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

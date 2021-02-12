@@ -12,13 +12,13 @@ export class AndamentoService {
     private repository: Repository<Andamento>,
   ) {}
 
-  async findAll(): Promise<void> {
-    await this.repository.find();
+  async findAll(): Promise<Andamento[]> {
+    return await this.repository.find();
   }
 
-  async create(data: CreateAndamentoDto): Promise<void> {
+  async create(data: CreateAndamentoDto): Promise<Andamento> {
     const registry = this.repository.create(data);
-    await this.repository.save(registry);
+    return await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<Andamento> {

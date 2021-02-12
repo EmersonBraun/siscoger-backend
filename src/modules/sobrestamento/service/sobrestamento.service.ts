@@ -16,12 +16,12 @@ export class SobrestamentoService {
     private feriadoService: FeriadoService,
   ) {}
 
-  async findAll(): Promise<void> {
-    await this.repository.find();
+  async findAll(): Promise<Sobrestamento[]> {
+    return await this.repository.find();
   }
 
-  async search(data: SearchSobrestamentoDto): Promise<void> {
-    await this.repository.find({ where: { ...data } });
+  async search(data: SearchSobrestamentoDto): Promise<Sobrestamento[]> {
+    return await this.repository.find({ where: { ...data } });
   }
 
   async betweenDates(
@@ -45,8 +45,8 @@ export class SobrestamentoService {
   async getMotive(procData: {
     field: any;
     value: any;
-  }): Promise<Sobrestamento | void> {
-    await this.repository
+  }): Promise<Sobrestamento> {
+    return await this.repository
       .createQueryBuilder()
       .where(':id_proc = :value ', {
         id_proc: procData.field,
@@ -76,24 +76,13 @@ export class SobrestamentoService {
   ): Promise<Sobrestamento> {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
-    const saveData = this.repository.create({ ...registry, ...data });
-    // await this.log.create({
-    //   module: 'sobrestamento',
-    //   action: 'update',
-    //   data: saveData,
-    //   old: registry,
-    // });
-
-    return saveData;
+    return this.repository.create({ ...registry, ...data });
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<Sobrestamento> {
     const saveData = await this.findById(id);
-    // await this.log.create({
-    //   module: 'sobrestamento',
-    //   action: 'delete',
-    //   data: saveData,
-    // });
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

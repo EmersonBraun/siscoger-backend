@@ -2,8 +2,8 @@ import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateLigacaoDto, UpdateLigacaoDto } from '../dtos';
-import { fakerRegistry } from '../factory/ligacao.factory';
 import { Ligacao } from '../entity/ligacao.entity';
+import { fakerRegistry } from '../factory/ligacao.factory';
 import { LigacaoService } from './ligacao.service';
 
 describe('LigacaoService', () => {
@@ -57,7 +57,7 @@ describe('LigacaoService', () => {
       const savedLigacao = await service.create(LigacaoVariable);
 
       expect(savedLigacao).toMatchObject(mockRegistry);
-      expect(mockRepository.create).toBeCalledWith(Ligacao);
+      expect(mockRepository.create).toBeCalledWith(LigacaoVariable);
       expect(mockRepository.create).toBeCalledTimes(1);
       expect(mockRepository.save).toBeCalledTimes(1);
     });

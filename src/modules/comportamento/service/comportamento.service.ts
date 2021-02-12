@@ -12,13 +12,13 @@ export class ComportamentoService {
     private repository: Repository<Comportamento>,
   ) {}
 
-  async findAll(): Promise<void> {
-    await this.repository.find();
+  async findAll(): Promise<Comportamento[]> {
+    return await this.repository.find();
   }
 
-  async create(data: CreateComportamentoDto): Promise<void> {
+  async create(data: CreateComportamentoDto): Promise<Comportamento> {
     const registry = this.repository.create(data);
-    await this.repository.save(registry);
+    return await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<Comportamento> {
@@ -41,8 +41,9 @@ export class ComportamentoService {
     return this.repository.create({ ...registry, ...data });
   }
 
-  async delete(id: string): Promise<void> {
-    await this.findById(id);
+  async delete(id: string): Promise<Comportamento> {
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

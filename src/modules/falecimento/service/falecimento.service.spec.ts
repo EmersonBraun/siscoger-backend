@@ -2,8 +2,8 @@ import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateFalecimentoDto, UpdateFalecimentoDto } from '../dtos';
-import { fakerRegistry } from '../factory/falecimento.factory';
 import { Falecimento } from '../entity/falecimento.entity';
+import { fakerRegistry } from '../factory/falecimento.factory';
 import { FalecimentoService } from './falecimento.service';
 
 describe('FalecimentoService', () => {
@@ -55,7 +55,7 @@ describe('FalecimentoService', () => {
       const savedFalecimento = await service.create(FalecimentoVariable);
 
       expect(savedFalecimento).toMatchObject(mockRegistry);
-      expect(mockRepository.create).toBeCalledWith(Falecimento);
+      expect(mockRepository.create).toBeCalledWith(FalecimentoVariable);
       expect(mockRepository.create).toBeCalledTimes(1);
       expect(mockRepository.save).toBeCalledTimes(1);
     });

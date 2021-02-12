@@ -100,7 +100,7 @@ export class PermissionController {
     description: 'The found permission',
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<void> {
+  async findById(@Param('id') id: string): Promise<Permission> {
     return await this.service.findById(id);
   }
 

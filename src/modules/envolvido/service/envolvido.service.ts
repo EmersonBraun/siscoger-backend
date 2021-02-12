@@ -11,12 +11,12 @@ export class EnvolvidoService {
     @InjectRepository(Envolvido) private repository: Repository<Envolvido>,
   ) {}
 
-  async findAll(): Promise<void> {
-    await this.repository.find();
+  async findAll(): Promise<Envolvido[]> {
+    return await this.repository.find();
   }
 
-  async search(data: CreateEnvolvidoDto): Promise<void> {
-    await this.repository.find({ where: { ...data } });
+  async search(data: CreateEnvolvidoDto): Promise<Envolvido[]> {
+    return await this.repository.find({ where: { ...data } });
   }
 
   async create(data: CreateEnvolvidoDto): Promise<Envolvido> {
@@ -40,7 +40,9 @@ export class EnvolvidoService {
     return this.repository.create({ ...registry, ...data });
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<Envolvido> {
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

@@ -12,16 +12,16 @@ export class PendenciaService {
     private repository: Model<PendenciaDocument>,
   ) {}
 
-  async findAll(): Promise<void> {
-    await this.repository.find().exec();
+  async findAll(): Promise<Pendencia[]> {
+    return await this.repository.find().exec();
   }
 
-  async search(data: CreatePendenciaDto): Promise<void> {
-    await this.repository.find({ ...data });
+  async search(data: CreatePendenciaDto): Promise<Pendencia[]> {
+    return await this.repository.find({ ...data });
   }
 
-  async create(data: CreatePendenciaDto): Promise<void> {
-    await this.repository.create(data);
+  async create(data: CreatePendenciaDto): Promise<Pendencia> {
+    return await this.repository.create(data);
   }
 
   async findById(id: string): Promise<Pendencia> {
@@ -34,8 +34,8 @@ export class PendenciaService {
     return registry;
   }
 
-  async update(id: string, data: UpdatePendenciaDto): Promise<void> {
-    await this.repository
+  async update(id: string, data: UpdatePendenciaDto): Promise<Pendencia> {
+    return await this.repository
       .findOneAndUpdate({ _id: id }, { ...data }, { new: true })
       .exec();
   }

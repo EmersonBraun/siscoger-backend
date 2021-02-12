@@ -24,9 +24,9 @@ import JwtAuthGuard from '../../../common/guards/jwt.guard';
 import { ErrorResponse } from '../../../common/responses/error';
 import { CreatePendenciaDto } from '../dtos';
 import { UpdatePendenciaDto } from '../dtos/update.dto';
+import { Pendencia } from '../schema/pendencia.schema';
 // import { Pendencia } from '../schema/pendencia.schema';
 import { PendenciaService } from '../service/pendencia.service';
-
 
 @ApiTags('Pendencia')
 @Controller('pendencias')
@@ -42,8 +42,8 @@ export class PendenciaController {
     type: [CreatePendenciaDto],
     description: 'The found Pendencia',
   })
-  async findAll(): Promise<void> {
-    await this.service.findAll();
+  async findAll(): Promise<Pendencia[]> {
+    return await this.service.findAll();
   }
 
   @Post('search')
@@ -56,8 +56,8 @@ export class PendenciaController {
     description: 'Searched Pendencia',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async search(@Body() data: CreatePendenciaDto): Promise<void> {
-    await this.service.search(data);
+  async search(@Body() data: CreatePendenciaDto): Promise<Pendencia[]> {
+    return await this.service.search(data);
   }
 
   @Post()
@@ -70,8 +70,8 @@ export class PendenciaController {
     description: 'Created Pendencia',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreatePendenciaDto): Promise<void> {
-    await this.service.create(data);
+  async create(@Body() data: CreatePendenciaDto): Promise<Pendencia> {
+    return await this.service.create(data);
   }
 
   @Get(':id')
@@ -84,8 +84,8 @@ export class PendenciaController {
     description: 'The found Pendencia',
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<void> {
-    await this.service.findById(id);
+  async findById(@Param('id') id: string): Promise<Pendencia> {
+    return await this.service.findById(id);
   }
 
   @Put(':id')
@@ -98,7 +98,7 @@ export class PendenciaController {
   async update(
     @Param('id') id: string,
     @Body() data: UpdatePendenciaDto,
-  ): Promise<void> {
+  ): Promise<Pendencia> {
     return this.service.update(id, data);
   }
 

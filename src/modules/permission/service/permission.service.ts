@@ -11,13 +11,13 @@ export class PermissionService {
     @InjectRepository(Permission) private repository: Repository<Permission>,
   ) {}
 
-  async findAll(): Promise<void> {
-    await this.repository.find();
+  async findAll(): Promise<Permission[]> {
+    return await this.repository.find();
   }
 
-  async search(data: CreatePermissionDto): Promise<void> {
+  async search(data: CreatePermissionDto): Promise<Permission[]> {
     const { roles, ...rest } = data;
-    await this.repository.find({ where: { ...rest } });
+    return await this.repository.find({ where: { ...rest } });
   }
 
   async create(data: CreatePermissionDto): Promise<Permission> {
@@ -53,7 +53,9 @@ export class PermissionService {
     return this.repository.save({ ...registry, ...rest });
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<Permission> {
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

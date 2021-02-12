@@ -9,12 +9,12 @@ import { Role } from '../entity/role.entity';
 export class RoleService {
   constructor(@InjectRepository(Role) private repository: Repository<Role>) {}
 
-  async findAll(): Promise<void> {
-    await this.repository.find();
+  async findAll(): Promise<Role[]> {
+    return await this.repository.find();
   }
 
-  async search(data: CreateRoleDto): Promise<void> {
-    await this.repository.find({ where: { ...data } });
+  async search(data: CreateRoleDto): Promise<Role[]> {
+    return await this.repository.find({ where: { ...data } });
   }
 
   async create(data: CreateRoleDto): Promise<Role> {
@@ -53,7 +53,9 @@ export class RoleService {
     return this.repository.save({ ...registry, ...rest });
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<Role> {
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

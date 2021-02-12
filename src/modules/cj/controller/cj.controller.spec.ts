@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { RedisCacheModule } from '../../cache/redis-cache.module';
+import { closeInMongodConnection } from '../../../../test/utils';
 import { CreateCjDto, UpdateCjDto } from '../dtos';
 import { fakerRegister } from '../factory/cj.factory';
 import { CjService } from '../service/cj.service';
@@ -19,7 +19,6 @@ describe('CjController', () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [RedisCacheModule],
       controllers: [CjController],
       providers: [{ provide: CjService, useValue: mockService }],
     }).compile();
@@ -34,6 +33,10 @@ describe('CjController', () => {
     mockService.findById.mockReset();
     mockService.update.mockReset();
     mockService.delete.mockReset();
+  });
+
+  afterAll(async () => {
+    await closeInMongodConnection();
   });
 
   it('should be defined', () => {

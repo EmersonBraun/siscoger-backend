@@ -11,8 +11,8 @@ export class FalecimentoService {
     @InjectRepository(Falecimento) private repository: Repository<Falecimento>,
   ) {}
 
-  async findAll(): Promise<void> {
-    await this.repository.find();
+  async findAll(): Promise<Falecimento[]> {
+    return await this.repository.find();
   }
 
   async create(data: CreateFalecimentoDto): Promise<Falecimento> {
@@ -36,7 +36,9 @@ export class FalecimentoService {
     return this.repository.create({ ...registry, ...data });
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<Falecimento> {
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

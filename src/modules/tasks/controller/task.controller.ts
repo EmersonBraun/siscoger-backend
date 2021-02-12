@@ -22,7 +22,6 @@ import { UpdateTasksDto } from '../dtos/update.dto';
 import { Tasks } from '../schema/task.schema';
 import { TasksService } from '../service/task.service';
 
-
 @ApiTags('Tasks')
 @Controller('tasks')
 export class TasksController {
@@ -34,8 +33,8 @@ export class TasksController {
   @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Search all Tasks' })
   @ApiOkResponse({ type: [CreateTasksDto], description: 'The found Tasks' })
-  async findAll(): Promise<Tasks | void> {
-    await this.service.findAll();
+  async findAll(): Promise<Tasks[]> {
+    return await this.service.findAll();
   }
 
   @Post('search')
@@ -45,7 +44,7 @@ export class TasksController {
   @ApiOperation({ summary: 'Search Tasks' })
   @ApiCreatedResponse({ type: UpdateTasksDto, description: 'Searched Tasks' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async search(@Body() data: CreateTasksDto): Promise<Tasks | void> {
-    await this.service.search(data);
+  async search(@Body() data: CreateTasksDto): Promise<Tasks[]> {
+    return await this.service.search(data);
   }
 }

@@ -83,7 +83,7 @@ export class FalecimentoController {
     description: 'The found Falecimento',
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<void> {
+  async findById(@Param('id') id: string): Promise<Falecimento> {
     return await this.service.findById(id);
   }
 

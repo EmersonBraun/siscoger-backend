@@ -27,7 +27,6 @@ import { UpdateComportamentoDto } from '../dtos/update.dto';
 import { Comportamento } from '../entity/comportamento.entity';
 import { ComportamentoService } from '../service/comportamento.service';
 
-
 @ApiTags('Comportamento')
 @Controller('comportamentos')
 export class ComportamentoController {
@@ -42,8 +41,8 @@ export class ComportamentoController {
     type: [CreateComportamentoDto],
     description: 'The found Comportamento',
   })
-  async findAll(): Promise<void> {
-    await this.service.findAll();
+  async findAll(): Promise<Comportamento[]> {
+    return await this.service.findAll();
   }
 
   @Post()
@@ -56,8 +55,8 @@ export class ComportamentoController {
     description: 'Created Comportamento',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreateComportamentoDto): Promise<void> {
-    await this.service.create(data);
+  async create(@Body() data: CreateComportamentoDto): Promise<Comportamento> {
+    return await this.service.create(data);
   }
 
   @Get(':id')
@@ -70,8 +69,8 @@ export class ComportamentoController {
     description: 'The found Comportamento',
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<void> {
-    await this.service.findById(id);
+  async findById(@Param('id') id: string): Promise<Comportamento> {
+    return await this.service.findById(id);
   }
 
   @Put(':id')

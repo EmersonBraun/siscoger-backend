@@ -26,9 +26,9 @@ export class SindicanciaService {
     return registry?.max ? ++registry.max : 1;
   }
 
-  async findAll(): Promise<Sindicancia[] | any> {
+  async findAll(): Promise<Sindicancia[]> {
     // if (canSeeAllOpm()) {
-    await this.repository.find({
+    return await this.repository.find({
       where: { completo: true },
       order: { sjd_ref: 'DESC' },
     });
@@ -36,9 +36,9 @@ export class SindicanciaService {
     // return await this.repository.find({where: { cdopm: Like(`${codeBase(user.cdopm)}%`), completo: true }});
   }
 
-  async findByYear(year = new Date().getFullYear()): Promise<void> {
+  async findByYear(year = new Date().getFullYear()): Promise<Sindicancia[]> {
     // if (canSeeAllOpm()) {
-    await this.repository.find({
+    return await this.repository.find({
       where: { sjd_ref_ano: year, completo: true },
       order: { sjd_ref: 'DESC' },
     });
@@ -290,9 +290,9 @@ export class SindicanciaService {
   //   }
   // }
 
-  async findPortaria(params: SearchPortariaDto): Promise<void> {
+  async findPortaria(params: SearchPortariaDto): Promise<any> {
     const { cdopm, portaria_numero } = params;
-    await this.repository.findOne({ cdopm, portaria_numero });
+    return await this.repository.findOne({ cdopm, portaria_numero });
   }
 
   async create(data: CreateSindicanciaDto): Promise<Sindicancia> {
@@ -319,7 +319,9 @@ export class SindicanciaService {
     return this.repository.create({ ...registry, ...data });
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<Sindicancia> {
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

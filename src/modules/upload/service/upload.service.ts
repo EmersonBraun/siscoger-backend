@@ -11,12 +11,12 @@ export class UploadService {
     @InjectModel(Upload.name) private repository: Model<UploadDocument>,
   ) {}
 
-  async findAll(): Promise<void> {
-    await this.repository.find().exec();
+  async findAll(): Promise<Upload[]> {
+    return await this.repository.find().exec();
   }
 
-  async search(data: CreateUploadDto): Promise<void> {
-    await this.repository.find({ ...data });
+  async search(data: CreateUploadDto): Promise<Upload[]> {
+    return await this.repository.find({ ...data });
   }
 
   async create(data: CreateUploadDto): Promise<Upload> {

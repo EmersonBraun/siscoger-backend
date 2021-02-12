@@ -60,7 +60,7 @@ export class EnvolvidoController {
   async search(
     @Body() data: CreateEnvolvidoDto,
     @Request() request?: any,
-  ): Promise<void> {
+  ): Promise<Envolvido[]> {
     return await this.service.search(data);
   }
 
@@ -74,7 +74,10 @@ export class EnvolvidoController {
     description: 'Created Envolvido',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreateEnvolvidoDto): Promise<void> {
+  async create(
+    @Body() data: CreateEnvolvidoDto,
+    @Request() request?: any,
+  ): Promise<Envolvido> {
     const response = await this.service.create(data);
 
     await activityLog({
@@ -97,7 +100,7 @@ export class EnvolvidoController {
     description: 'The found Envolvido',
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<void> {
+  async findById(@Param('id') id: string): Promise<Envolvido> {
     return await this.service.findById(id);
   }
 

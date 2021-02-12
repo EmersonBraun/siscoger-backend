@@ -2,8 +2,8 @@ import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateOfendidoDto, UpdateOfendidoDto } from '../dtos';
-import { fakerRegistry } from '../factory/ofendido.factory';
 import { Ofendido } from '../entity/ofendido.entity';
+import { fakerRegistry } from '../factory/ofendido.factory';
 import { OfendidoService } from './ofendido.service';
 
 describe('OfendidoService', () => {
@@ -57,7 +57,7 @@ describe('OfendidoService', () => {
       const savedOfendido = await service.create(OfendidoVariable);
 
       expect(savedOfendido).toMatchObject(mockRegistry);
-      expect(mockRepository.create).toBeCalledWith(Ofendido);
+      expect(mockRepository.create).toBeCalledWith(OfendidoVariable);
       expect(mockRepository.create).toBeCalledTimes(1);
       expect(mockRepository.save).toBeCalledTimes(1);
     });

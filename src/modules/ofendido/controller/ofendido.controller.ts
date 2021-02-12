@@ -43,7 +43,7 @@ export class OfendidoController {
     type: [CreateOfendidoDto],
     description: 'The found Ofendido',
   })
-  async findAll(): Promise<void> {
+  async findAll(): Promise<Ofendido[]> {
     return await this.service.findAll();
   }
 
@@ -57,7 +57,7 @@ export class OfendidoController {
     description: 'Searched Ligacao',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async search(@Body() data: CreateOfendidoDto): Promise<void> {
+  async search(@Body() data: CreateOfendidoDto): Promise<Ofendido[]> {
     return await this.service.search(data);
   }
 
@@ -74,7 +74,7 @@ export class OfendidoController {
   async create(
     @Body() data: CreateOfendidoDto,
     @Request() request?: any,
-  ): Promise<void> {
+  ): Promise<Ofendido> {
     const response = await this.service.create(data);
 
     await activityLog({
@@ -94,7 +94,7 @@ export class OfendidoController {
   @ApiOperation({ summary: 'Search a Ofendido by id' })
   @ApiOkResponse({ type: UpdateOfendidoDto, description: 'The found Ofendido' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<void> {
+  async findById(@Param('id') id: string): Promise<Ofendido> {
     return await this.service.findById(id);
   }
 

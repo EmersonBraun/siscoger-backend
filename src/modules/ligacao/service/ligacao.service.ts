@@ -11,12 +11,12 @@ export class LigacaoService {
     @InjectRepository(Ligacao) private repository: Repository<Ligacao>,
   ) {}
 
-  async findAll(): Promise<void> {
-    await this.repository.find();
+  async findAll(): Promise<Ligacao[]> {
+    return await this.repository.find();
   }
 
-  async search(data: CreateLigacaoDto): Promise<void> {
-    await this.repository.find({ where: { ...data } });
+  async search(data: CreateLigacaoDto): Promise<Ligacao[]> {
+    return await this.repository.find({ where: { ...data } });
   }
 
   async create(data: CreateLigacaoDto): Promise<Ligacao> {
@@ -40,7 +40,9 @@ export class LigacaoService {
     return this.repository.create({ ...registry, ...data });
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<Ligacao> {
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

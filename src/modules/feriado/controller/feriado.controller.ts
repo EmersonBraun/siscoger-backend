@@ -28,7 +28,6 @@ import { UpdateFeriadoDto } from '../dtos/update.dto';
 import { Feriado } from '../entity/feriado.entity';
 import { FeriadoService } from '../service/feriado.service';
 
-
 @ApiTags('Feriado')
 @Controller('feriados')
 export class FeriadoController {
@@ -40,8 +39,8 @@ export class FeriadoController {
   @ACLPolice({ roles: ['admin'], permissions: [] })
   @ApiOperation({ summary: 'Search all Feriado' })
   @ApiOkResponse({ type: [CreateFeriadoDto], description: 'The found Feriado' })
-  async findAll(): Promise<void> {
-    await this.service.findAll();
+  async findAll(): Promise<Feriado[]> {
+    return await this.service.findAll();
   }
 
   @Post()
@@ -54,8 +53,8 @@ export class FeriadoController {
     description: 'Created Feriado',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreateFeriadoDto): Promise<void> {
-    await this.service.create(data);
+  async create(@Body() data: CreateFeriadoDto): Promise<Feriado> {
+    return await this.service.create(data);
   }
 
   @Post('/between-dates')
@@ -65,9 +64,9 @@ export class FeriadoController {
   @ApiOperation({ summary: 'Verify countable days' })
   @ApiCreatedResponse({ type: 'number', description: 'Countable Days' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async betweenDates(@Body() data: SearchFeriadoDto): Promise<void> {
+  async betweenDates(@Body() data: SearchFeriadoDto): Promise<number> {
     const { init, end } = data;
-    await this.service.betweenDates(init, end);
+    return await this.service.betweenDates(init, end);
   }
 
   @Get(':id')
@@ -77,8 +76,8 @@ export class FeriadoController {
   @ApiOperation({ summary: 'Search a Feriado by id' })
   @ApiOkResponse({ type: UpdateFeriadoDto, description: 'The found Feriado' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<void> {
-    await this.service.findById(id);
+  async findById(@Param('id') id: string): Promise<Feriado> {
+    return await this.service.findById(id);
   }
 
   @Put(':id')

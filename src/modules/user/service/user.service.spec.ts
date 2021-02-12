@@ -57,7 +57,7 @@ describe('UserService', () => {
       const savedUser = await service.create(UserVariable);
 
       expect(savedUser).toMatchObject(mockRegistry);
-      expect(mockRepository.create).toBeCalledWith(User);
+      expect(mockRepository.create).toBeCalledWith(UserVariable);
       expect(mockRepository.create).toBeCalledTimes(1);
       expect(mockRepository.save).toBeCalledTimes(1);
     });
@@ -119,12 +119,12 @@ describe('UserService', () => {
       const UserUpdate: UpdateUserDto = mockRegistry;
       UserUpdate.class = 'Update User ';
 
-      mockRepository.findOne.mockReturnValue(mockRegistry);
+      mockRepository.findOne.mockReturnValue(UserUpdate);
       mockRepository.update.mockReturnValue({
         ...mockRegistry,
         ...UserUpdate,
       });
-      mockRepository.create.mockReturnValue({
+      mockRepository.save.mockReturnValue({
         ...mockRegistry,
         ...UserUpdate,
       });
@@ -138,11 +138,11 @@ describe('UserService', () => {
       expect(mockRepository.findOne).toBeCalledTimes(1);
       expect(mockRepository.update).toBeCalledWith('1', UserUpdate);
       expect(mockRepository.update).toBeCalledTimes(1);
-      // expect(mockRepository.create).toBeCalledWith({
-      //   ...mockRegistry,
-      //   ...UserUpdate,
-      // });
-      // expect(mockRepository.create).toBeCalledTimes(1);
+      expect(mockRepository.save).toBeCalledWith({
+        ...mockRegistry,
+        ...UserUpdate,
+      });
+      expect(mockRepository.save).toBeCalledTimes(1);
     });
   });
 

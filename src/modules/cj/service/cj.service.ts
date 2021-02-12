@@ -9,8 +9,8 @@ import { Cj } from '../entity/cj.entity';
 export class CjService {
   constructor(@InjectRepository(Cj) private repository: Repository<Cj>) {}
 
-  async findAll(): Promise<Cj[] | void> {
-    await this.repository.find();
+  async findAll(): Promise<Cj[]> {
+    return await this.repository.find();
   }
 
   async create(data: CreateCjDto): Promise<Cj> {
@@ -34,7 +34,9 @@ export class CjService {
     return this.repository.create({ ...registry, ...data });
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<Cj> {
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

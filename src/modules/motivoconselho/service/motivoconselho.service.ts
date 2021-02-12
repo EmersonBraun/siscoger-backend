@@ -12,13 +12,13 @@ export class MotivoconselhoService {
     private repository: Repository<Motivoconselho>,
   ) {}
 
-  async findAll(): Promise<void> {
-    await this.repository.find();
+  async findAll(): Promise<Motivoconselho[]> {
+    return await this.repository.find();
   }
 
-  async create(data: CreateMotivoconselhoDto): Promise<void> {
+  async create(data: CreateMotivoconselhoDto): Promise<Motivoconselho> {
     const registry = this.repository.create(data);
-    await this.repository.save(registry);
+    return await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<Motivoconselho> {

@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import {
   getCurrentDate,
   getDaysOfFDS,
-  getDiffDateInDays,
+  getDiffDateInDays
 } from '../../../common/utils/date.utils';
 import { CreateFeriadoDto } from '../dtos/create.dto';
 import { UpdateFeriadoDto } from '../dtos/update.dto';
@@ -17,8 +17,8 @@ export class FeriadoService {
     private repository: Repository<Feriado>,
   ) {}
 
-  async findAll(): Promise<void> {
-    await this.repository.find();
+  async findAll(): Promise<Feriado[]> {
+    return await this.repository.find();
   }
 
   async betweenDates(
@@ -32,9 +32,9 @@ export class FeriadoService {
     return getDiffDateInDays(init, end) - getDaysOfFDS(init, end) - feriados;
   }
 
-  async create(data: CreateFeriadoDto): Promise<void> {
+  async create(data: CreateFeriadoDto): Promise<Feriado> {
     const registry = this.repository.create(data);
-    await this.repository.save(registry);
+    return await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<Feriado> {

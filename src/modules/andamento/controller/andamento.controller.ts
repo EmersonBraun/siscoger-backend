@@ -41,8 +41,8 @@ export class AndamentoController {
     type: [CreateAndamentoDto],
     description: 'The found Andamento',
   })
-  async findAll(): Promise<void> {
-    await this.service.findAll();
+  async findAll(): Promise<Andamento[]> {
+    return await this.service.findAll();
   }
 
   @Post()
@@ -55,8 +55,8 @@ export class AndamentoController {
     description: 'Created Andamento',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreateAndamentoDto): Promise<void> {
-    await this.service.create(data);
+  async create(@Body() data: CreateAndamentoDto): Promise<Andamento> {
+    return await this.service.create(data);
   }
 
   @Get(':id')
@@ -69,8 +69,8 @@ export class AndamentoController {
     description: 'The found Andamento',
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<void> {
-    await this.service.findById(id);
+  async findById(@Param('id') id: string): Promise<Andamento> {
+    return await this.service.findById(id);
   }
 
   @Put(':id')

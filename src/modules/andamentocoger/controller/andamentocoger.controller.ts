@@ -27,7 +27,6 @@ import { UpdateAndamentocogerDto } from '../dtos/update.dto';
 import { Andamentocoger } from '../entity/andamentocoger.entity';
 import { AndamentocogerService } from '../service/andamentocoger.service';
 
-
 @ApiTags('Andamentocoger')
 @Controller('andamentoscoger')
 export class AndamentocogerController {
@@ -42,8 +41,8 @@ export class AndamentocogerController {
     type: [CreateAndamentocogerDto],
     description: 'The found Andamentocoger',
   })
-  async findAll(): Promise<void> {
-    await this.service.findAll();
+  async findAll(): Promise<Andamentocoger[]> {
+    return await this.service.findAll();
   }
 
   @Post()
@@ -56,8 +55,8 @@ export class AndamentocogerController {
     description: 'Created Andamentocoger',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreateAndamentocogerDto): Promise<void> {
-    await this.service.create(data);
+  async create(@Body() data: CreateAndamentocogerDto): Promise<Andamentocoger> {
+    return await this.service.create(data);
   }
 
   @Get(':id')
@@ -70,8 +69,8 @@ export class AndamentocogerController {
     description: 'The found Andamentocoger',
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<void> {
-    await this.service.findById(id);
+  async findById(@Param('id') id: string): Promise<Andamentocoger> {
+    return await this.service.findById(id);
   }
 
   @Put(':id')

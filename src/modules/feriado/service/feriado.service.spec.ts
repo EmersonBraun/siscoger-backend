@@ -2,8 +2,8 @@ import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateFeriadoDto, UpdateFeriadoDto } from '../dtos';
-import { fakerRegistry } from '../factory/feriado.factory';
 import { Feriado } from '../entity/feriado.entity';
+import { fakerRegistry } from '../factory/feriado.factory';
 import { FeriadoService } from './feriado.service';
 
 describe('FeriadoService', () => {
@@ -55,7 +55,7 @@ describe('FeriadoService', () => {
       const savedFeriado = await service.create(FeriadoVariable);
 
       expect(savedFeriado).toMatchObject(mockRegistry);
-      expect(mockRepository.create).toBeCalledWith(Feriado);
+      expect(mockRepository.create).toBeCalledWith(FeriadoVariable);
       expect(mockRepository.create).toBeCalledTimes(1);
       expect(mockRepository.save).toBeCalledTimes(1);
     });

@@ -27,7 +27,6 @@ import { UpdateMotivoconselhoDto } from '../dtos/update.dto';
 import { Motivoconselho } from '../entity/motivoconselho.entity';
 import { MotivoconselhoService } from '../service/motivoconselho.service';
 
-
 @ApiTags('Motivoconselho')
 @Controller('motivosconselho')
 export class MotivoconselhoController {
@@ -42,8 +41,8 @@ export class MotivoconselhoController {
     type: [CreateMotivoconselhoDto],
     description: 'The found Motivoconselho',
   })
-  async findAll(): Promise<void> {
-    await this.service.findAll();
+  async findAll(): Promise<Motivoconselho[]> {
+    return await this.service.findAll();
   }
 
   @Post()
@@ -56,8 +55,8 @@ export class MotivoconselhoController {
     description: 'Created Motivoconselho',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreateMotivoconselhoDto): Promise<void> {
-    await this.service.create(data);
+  async create(@Body() data: CreateMotivoconselhoDto): Promise<Motivoconselho> {
+    return await this.service.create(data);
   }
 
   @Get(':id')
@@ -70,8 +69,8 @@ export class MotivoconselhoController {
     description: 'The found Motivoconselho',
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<void> {
-    await this.service.findById(id);
+  async findById(@Param('id') id: string): Promise<Motivoconselho> {
+    return await this.service.findById(id);
   }
 
   @Put(':id')

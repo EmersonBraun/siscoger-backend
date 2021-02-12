@@ -91,7 +91,7 @@ export class LigacaoController {
   @ApiOperation({ summary: 'Search a Ligacao by id' })
   @ApiOkResponse({ type: UpdateLigacaoDto, description: 'The found Ligacao' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<void> {
+  async findById(@Param('id') id: string): Promise<Ligacao> {
     return await this.service.findById(id);
   }
 

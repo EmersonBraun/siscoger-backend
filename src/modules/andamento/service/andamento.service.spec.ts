@@ -2,8 +2,8 @@ import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateAndamentoDto, UpdateAndamentoDto } from '../dtos';
-import { fakerRegistry } from '../factory/andamento.factory';
 import { Andamento } from '../entity/andamento.entity';
+import { fakerRegistry } from '../factory/andamento.factory';
 import { AndamentoService } from './andamento.service';
 
 describe('AndamentoService', () => {
@@ -55,7 +55,7 @@ describe('AndamentoService', () => {
       const savedAndamento = await service.create(AndamentoVariable);
 
       expect(savedAndamento).toMatchObject(mockRegistry);
-      expect(mockRepository.create).toBeCalledWith(Andamento);
+      expect(mockRepository.create).toBeCalledWith(AndamentoVariable);
       expect(mockRepository.create).toBeCalledTimes(1);
       expect(mockRepository.save).toBeCalledTimes(1);
     });

@@ -97,7 +97,7 @@ export class MovimentoController {
     description: 'The found Movimento',
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<void> {
+  async findById(@Param('id') id: string): Promise<Movimento> {
     return await this.service.findById(id);
   }
 

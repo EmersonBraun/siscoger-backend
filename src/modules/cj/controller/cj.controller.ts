@@ -43,7 +43,7 @@ export class CjController {
     type: [CreateCjDto],
     description: 'The found CD',
   })
-  async findAll(): Promise<Cj> {
+  async findAll(): Promise<Cj[]> {
     return await this.service.findAll();
   }
 
@@ -83,8 +83,8 @@ export class CjController {
     description: 'The found CJ',
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<void> {
-    retunr await this.service.findById(id);
+  async findById(@Param('id') id: string): Promise<Cj> {
+    return await this.service.findById(id);
   }
 
   @Put(':id')
