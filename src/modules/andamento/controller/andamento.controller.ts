@@ -7,7 +7,7 @@ import {
   Param,
   Post,
   Put,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -16,12 +16,12 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
 import ACLPolice from '../../../common/decorators/acl.decorator';
 import ACLGuard from '../../../common/guards/acl.guard';
 import JwtAuthGuard from '../../../common/guards/jwt.guard';
-import ErrorResponse from '../../../common/responses/error';
+import { ErrorResponse } from '../../../common/responses/error';
 import { CreateAndamentoDto } from '../dtos/create.dto';
 import { UpdateAndamentoDto } from '../dtos/update.dto';
 import { Andamento } from '../entity/andamento.entity';

@@ -9,7 +9,7 @@ import {
   Put,
   UploadedFile,
   UseGuards,
-  UseInterceptors,
+  UseInterceptors
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
@@ -19,18 +19,19 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
-import { fileUploadConfig } from '../../../config';
 import ACLPolice from '../../../common/decorators/acl.decorator';
 import ACLGuard from '../../../common/guards/acl.guard';
 import JwtAuthGuard from '../../../common/guards/jwt.guard';
-import ErrorResponse from '../../../common/responses/error';
+import { ErrorResponse } from '../../../common/responses/error';
 import { PDFFileFilter } from '../../../common/utils/file-upload.utils';
+import { fileUploadConfig } from '../../../config';
 import { CreateUploadDto } from '../dtos';
 import { UpdateUploadDto } from '../dtos/update.dto';
 import { Upload } from '../schema/upload.schema';
 import { UploadService } from '../service/upload.service';
+
 
 @ApiTags('Upload')
 @Controller('uploads')

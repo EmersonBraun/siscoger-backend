@@ -7,7 +7,7 @@ import {
   Param,
   Post,
   Put,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -16,17 +16,18 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
 import ACLPolice from '../../../common/decorators/acl.decorator';
 import ACLGuard from '../../../common/guards/acl.guard';
 import JwtAuthGuard from '../../../common/guards/jwt.guard';
-import ErrorResponse from '../../../common/responses/error';
+import { ErrorResponse } from '../../../common/responses/error';
 import { SearchArquivoDto } from '../dtos';
 import { CreateArquivoDto } from '../dtos/create.dto';
 import { UpdateArquivoDto } from '../dtos/update.dto';
 import { Arquivo } from '../entity/arquivo.entity';
 import { ArquivoService } from '../service/arquivo.service';
+
 
 @ApiTags('Arquivo')
 @Controller('arquivos')

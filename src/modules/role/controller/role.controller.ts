@@ -7,7 +7,7 @@ import {
   Param,
   Post,
   Put,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -16,16 +16,17 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
 import ACLPolice from '../../../common/decorators/acl.decorator';
 import ACLGuard from '../../../common/guards/acl.guard';
 import JwtAuthGuard from '../../../common/guards/jwt.guard';
-import ErrorResponse from '../../../common/responses/error';
+import { ErrorResponse } from '../../../common/responses/error';
 import { CreateRoleDto } from '../dtos/create.dto';
 import { UpdateRoleDto } from '../dtos/update.dto';
 import { Role } from '../entity/role.entity';
 import { RoleService } from '../service/role.service';
+
 
 @ApiTags('role')
 @Controller('roles')

@@ -7,7 +7,7 @@ import {
   Param,
   Post,
   Put,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -16,16 +16,17 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
 import ACLPolice from '../../../common/decorators/acl.decorator';
 import ACLGuard from '../../../common/guards/acl.guard';
 import JwtAuthGuard from '../../../common/guards/jwt.guard';
-import ErrorResponse from '../../../common/responses/error';
+import { ErrorResponse } from '../../../common/responses/error';
 import { CreateMovimentoDto } from '../dtos/create.dto';
 import { UpdateMovimentoDto } from '../dtos/update.dto';
 import { Movimento } from '../entity/movimento.entity';
 import { MovimentoService } from '../service/movimento.service';
+
 
 @ApiTags('Movimento')
 @Controller('movimentos')

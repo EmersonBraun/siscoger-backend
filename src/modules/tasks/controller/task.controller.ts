@@ -4,23 +4,24 @@ import {
   Get,
   HttpCode,
   Post,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
 import ACLPolice from '../../../common/decorators/acl.decorator';
 import ACLGuard from '../../../common/guards/acl.guard';
 import JwtAuthGuard from '../../../common/guards/jwt.guard';
-import ErrorResponse from '../../../common/responses/error';
+import { ErrorResponse } from '../../../common/responses/error';
 import { CreateTasksDto } from '../dtos/create.dto';
 import { UpdateTasksDto } from '../dtos/update.dto';
 import { Tasks } from '../schema/task.schema';
 import { TasksService } from '../service/task.service';
+
 
 @ApiTags('Tasks')
 @Controller('tasks')

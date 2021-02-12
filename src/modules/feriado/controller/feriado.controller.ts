@@ -7,7 +7,7 @@ import {
   Param,
   Post,
   Put,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -16,17 +16,18 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
 import ACLPolice from '../../../common/decorators/acl.decorator';
 import ACLGuard from '../../../common/guards/acl.guard';
 import JwtAuthGuard from '../../../common/guards/jwt.guard';
-import ErrorResponse from '../../../common/responses/error';
+import { ErrorResponse } from '../../../common/responses/error';
 import { CreateFeriadoDto } from '../dtos/create.dto';
 import { SearchFeriadoDto } from '../dtos/search.dto';
 import { UpdateFeriadoDto } from '../dtos/update.dto';
 import { Feriado } from '../entity/feriado.entity';
 import { FeriadoService } from '../service/feriado.service';
+
 
 @ApiTags('Feriado')
 @Controller('feriados')
