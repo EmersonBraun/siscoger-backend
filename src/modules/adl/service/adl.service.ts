@@ -18,9 +18,7 @@ export class AdlService {
 
   async create(data: CreateAdlDto): Promise<Adl> {
     const registry = this.repository.create(data);
-    const saveData = await this.repository.save(registry);
-    // await this.log.create({ module: 'adl', action: 'create', data: saveData });
-    return saveData;
+    return await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<Adl> {
@@ -33,23 +31,16 @@ export class AdlService {
     return registry;
   }
 
-  async update(id: string, data: UpdateAdlDto): Promise<Adl> {
-    const registry = await this.findById(id);
+  async update(id: string, data: UpdateAdlDto) {
+    const old = await this.findById(id);
     await this.repository.update(id, { ...data });
-    const saveData = this.repository.create({ ...registry, ...data });
-    // await this.log.create({
-    //   module: 'adl',
-    //   action: 'update',
-    //   data: saveData,
-    //   old: registry,
-    // });
-
+    const saveData = this.repository.create({ ...old, ...data });
     return saveData;
   }
 
-  async delete(id: string): Promise<void> {
-    const saveData = await this.findById(id);
-    // await this.log.create({ module: 'adl', action: 'delete', data: saveData });
+  async delete(id: string): Promise<Adl> {
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

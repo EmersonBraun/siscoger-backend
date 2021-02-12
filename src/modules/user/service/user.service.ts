@@ -1,7 +1,6 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LogService } from '../../log/service/log.service';
 import { CreateUserDto } from '../dtos/create.dto';
 import { UpdateUserDto } from '../dtos/update.dto';
 import { User } from '../entity/user.entity';
@@ -9,8 +8,7 @@ import { User } from '../entity/user.entity';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private repository: Repository<User>,
-    @Inject() private log: LogService,
+    @InjectRepository(User) private repository: Repository<User>, // @Inject() private log: LogService,
   ) {}
 
   async findAll(): Promise<void> {
@@ -45,7 +43,7 @@ export class UserService {
   async create(data: CreateUserDto): Promise<User> {
     const registry = this.repository.create(data);
     const saveData = await this.repository.save(registry);
-    await this.log.create({ module: 'user', action: 'create', data: saveData });
+    // await this.log.create({ module: 'user', action: 'create', data: saveData });
     return saveData;
   }
 
@@ -73,19 +71,19 @@ export class UserService {
     await this.repository.update(id, { ...rest });
 
     const saveData = this.repository.save({ ...registry, ...rest });
-    await this.log.create({
-      module: 'user',
-      action: 'update',
-      data: saveData,
-      old: registry,
-    });
+    // await this.log.create({
+    //   module: 'user',
+    //   action: 'update',
+    //   data: saveData,
+    //   old: registry,
+    // });
 
     return saveData;
   }
 
   async delete(id: string): Promise<void> {
     const saveData = await this.findById(id);
-    await this.log.create({ module: 'user', action: 'delete', data: saveData });
+    // await this.log.create({ module: 'user', action: 'delete', data: saveData });
     await this.repository.delete(id);
   }
 }

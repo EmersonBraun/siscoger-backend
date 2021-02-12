@@ -1,7 +1,6 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LogService } from '../../log/service/log.service';
 import { CreateSindicanciaDto } from '../dtos/create.dto';
 import { SearchPortariaDto } from '../dtos/search-portaria.dto';
 import { UpdateSindicanciaDto } from '../dtos/update.dto';
@@ -10,8 +9,7 @@ import { Sindicancia } from '../entity/sindicancia.entity';
 @Injectable()
 export class SindicanciaService {
   constructor(
-    @InjectRepository(Sindicancia) private repository: Repository<Sindicancia>,
-    @Inject() private log: LogService, // private connection: Connection
+    @InjectRepository(Sindicancia) private repository: Repository<Sindicancia>, // @Inject() private log: LogService, // private connection: Connection
   ) {}
 
   getNextRefYear(data: CreateSindicanciaDto): number {
@@ -302,11 +300,11 @@ export class SindicanciaService {
     registry.sjd_ref_ano = this.getNextRefYear(data);
     registry.sjd_ref = await this.getNextRef(data);
     const saveData = await this.repository.save(registry);
-    await this.log.create({
-      module: 'sindicancia',
-      action: 'create',
-      data: saveData,
-    });
+    // await this.log.create({
+    //   module: 'sindicancia',
+    //   action: 'create',
+    //   data: saveData,
+    // });
     return saveData;
   }
 
@@ -325,23 +323,23 @@ export class SindicanciaService {
     await this.repository.update(id, { ...data });
 
     const saveData = this.repository.create({ ...registry, ...data });
-    await this.log.create({
-      module: 'sindicancia',
-      action: 'update',
-      data: saveData,
-      old: registry,
-    });
+    // await this.log.create({
+    //   module: 'sindicancia',
+    //   action: 'update',
+    //   data: saveData,
+    //   old: registry,
+    // });
 
     return saveData;
   }
 
   async delete(id: string): Promise<void> {
     const saveData = await this.findById(id);
-    await this.log.create({
-      module: 'sindicancia',
-      action: 'delete',
-      data: saveData,
-    });
+    // await this.log.create({
+    //   module: 'sindicancia',
+    //   action: 'delete',
+    //   data: saveData,
+    // });
     await this.repository.delete(id);
   }
 }

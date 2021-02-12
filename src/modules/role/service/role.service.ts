@@ -1,7 +1,6 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LogService } from '../../log/service/log.service';
 import { CreateRoleDto } from '../dtos/create.dto';
 import { UpdateRoleDto } from '../dtos/update.dto';
 import { Role } from '../entity/role.entity';
@@ -9,8 +8,7 @@ import { Role } from '../entity/role.entity';
 @Injectable()
 export class RoleService {
   constructor(
-    @InjectRepository(Role) private repository: Repository<Role>,
-    @Inject() private log: LogService,
+    @InjectRepository(Role) private repository: Repository<Role>, // @Inject() private log: LogService,
   ) {}
 
   async findAll(): Promise<void> {
@@ -27,7 +25,7 @@ export class RoleService {
     if (permissions?.length) registry.permissions = [...permissions];
     if (users?.length) registry.users = [...users];
     const saveData = await this.repository.save(registry);
-    await this.log.create({ module: 'adl', action: 'create', data: saveData });
+    // await this.log.create({ module: 'adl', action: 'create', data: saveData });
     return saveData;
   }
 
@@ -56,19 +54,19 @@ export class RoleService {
     await this.repository.update(id, { ...rest });
 
     const saveData = this.repository.save({ ...registry, ...rest });
-    await this.log.create({
-      module: 'adl',
-      action: 'update',
-      data: saveData,
-      old: registry,
-    });
+    // await this.log.create({
+    //   module: 'adl',
+    //   action: 'update',
+    //   data: saveData,
+    //   old: registry,
+    // });
 
     return saveData;
   }
 
   async delete(id: string): Promise<void> {
     const saveData = await this.findById(id);
-    await this.log.create({ module: 'adl', action: 'delete', data: saveData });
+    // await this.log.create({ module: 'adl', action: 'delete', data: saveData });
     await this.repository.delete(id);
   }
 }

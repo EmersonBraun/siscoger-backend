@@ -1,7 +1,6 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LogService } from '../../log/service/log.service';
 import { CreateMovimentoDto } from '../dtos/create.dto';
 import { UpdateMovimentoDto } from '../dtos/update.dto';
 import { Movimento } from '../entity/movimento.entity';
@@ -9,8 +8,7 @@ import { Movimento } from '../entity/movimento.entity';
 @Injectable()
 export class MovimentoService {
   constructor(
-    @InjectRepository(Movimento) private repository: Repository<Movimento>,
-    @Inject() private log: LogService,
+    @InjectRepository(Movimento) private repository: Repository<Movimento>, // @Inject() private log: LogService,
   ) {}
 
   async findAll(): Promise<void> {
@@ -24,11 +22,11 @@ export class MovimentoService {
   async create(data: CreateMovimentoDto): Promise<Movimento> {
     const registry = this.repository.create(data);
     const saveData = await this.repository.save(registry);
-    await this.log.create({
-      module: 'movimento',
-      action: 'create',
-      data: saveData,
-    });
+    // await this.log.create({
+    //   module: 'movimento',
+    //   action: 'create',
+    //   data: saveData,
+    // });
     return saveData;
   }
 
@@ -46,23 +44,23 @@ export class MovimentoService {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
     const saveData = this.repository.create({ ...registry, ...data });
-    await this.log.create({
-      module: 'movimento',
-      action: 'update',
-      data: saveData,
-      old: registry,
-    });
+    // await this.log.create({
+    //   module: 'movimento',
+    //   action: 'update',
+    //   data: saveData,
+    //   old: registry,
+    // });
 
     return saveData;
   }
 
   async delete(id: string): Promise<void> {
     const saveData = await this.findById(id);
-    await this.log.create({
-      module: 'movimento',
-      action: 'delete',
-      data: saveData,
-    });
+    // await this.log.create({
+    //   module: 'movimento',
+    //   action: 'delete',
+    //   data: saveData,
+    // });
     await this.repository.delete(id);
   }
 }

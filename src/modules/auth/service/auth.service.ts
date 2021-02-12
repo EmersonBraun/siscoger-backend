@@ -1,14 +1,13 @@
 import {
   HttpException,
   HttpStatus,
-  Inject,
   Injectable,
   Logger,
   NotFoundException
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
-import { User } from 'src/modules/user/entity/user.entity';
+import { activityLog } from '../../../common/activiti-log';
 import { UserService } from '../../user/service/user.service';
 import { getCleanDataOfUser } from './mapper.service';
 
@@ -17,8 +16,8 @@ export class AuthService {
   private logger = new Logger('HTTP');
 
   constructor(
-    @Inject() private readonly usersService: UserService,
-    @Inject() private readonly jwtService: JwtService, // @Inject() private log: LogService,
+    private readonly usersService: UserService,
+    private readonly jwtService: JwtService, // @Inject() private log: LogService,
   ) {}
 
   async validateUser(rg: string, pass: string): Promise<any> {
@@ -45,10 +44,11 @@ export class AuthService {
     }
   }
 
-  async login(userData: { user: { [x: string]: User; roles: any } }) {
+  async login({ rg, password }) {
+    const userData = await this.validateUser(rg, password);
     const { user, roles, permissions } = getCleanDataOfUser(userData);
     const token = this._createToken({ ...user, roles, permissions });
-    // await this.log.create({ module: 'login', action: 'login', data: user });
+    await activityLog({ module: 'login', action: 'login', data: user, user });
     return { token, user, roles, permissions };
   }
 }

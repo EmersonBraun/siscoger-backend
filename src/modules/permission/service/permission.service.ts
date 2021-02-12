@@ -1,7 +1,6 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LogService } from '../../log/service/log.service';
 import { CreatePermissionDto } from '../dtos/create.dto';
 import { UpdatePermissionDto } from '../dtos/update.dto';
 import { Permission } from '../entity/permission.entity';
@@ -9,8 +8,7 @@ import { Permission } from '../entity/permission.entity';
 @Injectable()
 export class PermissionService {
   constructor(
-    @InjectRepository(Permission) private repository: Repository<Permission>,
-    @Inject() private log: LogService,
+    @InjectRepository(Permission) private repository: Repository<Permission>, // @Inject() private log: LogService,
   ) {}
 
   async findAll(): Promise<void> {
@@ -27,11 +25,11 @@ export class PermissionService {
     const registry = this.repository.create(rest);
     if (roles?.length) registry.roles = [...roles];
     const saveData = await this.repository.save(registry);
-    await this.log.create({
-      module: 'permission',
-      action: 'create',
-      data: saveData,
-    });
+    // await this.log.create({
+    //   module: 'permission',
+    //   action: 'create',
+    //   data: saveData,
+    // });
     return saveData;
   }
 
@@ -59,23 +57,23 @@ export class PermissionService {
     await this.repository.update(id, { ...rest });
 
     const saveData = this.repository.save({ ...registry, ...rest });
-    await this.log.create({
-      module: 'permission',
-      action: 'update',
-      data: saveData,
-      old: registry,
-    });
+    // await this.log.create({
+    //   module: 'permission',
+    //   action: 'update',
+    //   data: saveData,
+    //   old: registry,
+    // });
 
     return saveData;
   }
 
   async delete(id: string): Promise<void> {
     const saveData = await this.findById(id);
-    await this.log.create({
-      module: 'permission',
-      action: 'delete',
-      data: saveData,
-    });
+    // await this.log.create({
+    //   module: 'permission',
+    //   action: 'delete',
+    //   data: saveData,
+    // });
     await this.repository.delete(id);
   }
 }

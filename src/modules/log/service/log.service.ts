@@ -17,8 +17,8 @@ export class LogService {
     @Inject(REQUEST) private request: Request,
   ) {}
 
-  async findAll(): Promise<void> {
-    await this.repository.find().exec();
+  async findAll(): Promise<Log[]> {
+    return await this.repository.find().exec();
   }
 
   async search(data: CreateLogDto): Promise<void> {

@@ -1,9 +1,8 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { getCurrentDate } from '../../../common/utils/date.utils';
 import { FeriadoService } from '../../feriado/service/feriado.service';
-import { LogService } from '../../log/service/log.service';
 import { SearchSobrestamentoDto } from '../dtos';
 import { CreateSobrestamentoDto } from '../dtos/create.dto';
 import { UpdateSobrestamentoDto } from '../dtos/update.dto';
@@ -14,8 +13,7 @@ export class SobrestamentoService {
   constructor(
     @InjectRepository(Sobrestamento)
     private repository: Repository<Sobrestamento>,
-    @Inject() private feriadoService: FeriadoService,
-    @Inject() private log: LogService,
+    private feriadoService: FeriadoService, // @Inject() private log: LogService,
   ) {}
 
   async findAll(): Promise<void> {
@@ -60,11 +58,11 @@ export class SobrestamentoService {
   async create(data: CreateSobrestamentoDto): Promise<Sobrestamento> {
     const registry = this.repository.create(data);
     const saveData = await this.repository.save(registry);
-    await this.log.create({
-      module: 'sobrestamento',
-      action: 'create',
-      data: saveData,
-    });
+    // await this.log.create({
+    //   module: 'sobrestamento',
+    //   action: 'create',
+    //   data: saveData,
+    // });
     return saveData;
   }
 
@@ -85,23 +83,23 @@ export class SobrestamentoService {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
     const saveData = this.repository.create({ ...registry, ...data });
-    await this.log.create({
-      module: 'sobrestamento',
-      action: 'update',
-      data: saveData,
-      old: registry,
-    });
+    // await this.log.create({
+    //   module: 'sobrestamento',
+    //   action: 'update',
+    //   data: saveData,
+    //   old: registry,
+    // });
 
     return saveData;
   }
 
   async delete(id: string): Promise<void> {
     const saveData = await this.findById(id);
-    await this.log.create({
-      module: 'sobrestamento',
-      action: 'delete',
-      data: saveData,
-    });
+    // await this.log.create({
+    //   module: 'sobrestamento',
+    //   action: 'delete',
+    //   data: saveData,
+    // });
     await this.repository.delete(id);
   }
 }

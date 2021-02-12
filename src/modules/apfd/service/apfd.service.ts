@@ -1,7 +1,6 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LogService } from '../../log/service/log.service';
 import { CreateApfdDto } from '../dtos/create.dto';
 import { UpdateApfdDto } from '../dtos/update.dto';
 import { Apfd } from '../entity/apfd.entity';
@@ -10,9 +9,7 @@ import { Apfd } from '../entity/apfd.entity';
 export class ApfdService {
   constructor(
     @InjectRepository(Apfd)
-    private repository: Repository<Apfd>,
-    @Inject()
-    private log: LogService,
+    private repository: Repository<Apfd>, // @Inject() // private log: LogService,
   ) {}
 
   async findAll(): Promise<void> {
@@ -22,7 +19,7 @@ export class ApfdService {
   async create(data: CreateApfdDto): Promise<Apfd> {
     const registry = this.repository.create(data);
     const saveData = await this.repository.save(registry);
-    await this.log.create({ module: 'apfd', action: 'create', data: saveData });
+    // await this.log.create({ module: 'apfd', action: 'create', data: saveData });
     return saveData;
   }
 
@@ -40,19 +37,19 @@ export class ApfdService {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
     const saveData = this.repository.create({ ...registry, ...data });
-    await this.log.create({
-      module: 'apfd',
-      action: 'update',
-      data: saveData,
-      old: registry,
-    });
+    // await this.log.create({
+    //   module: 'apfd',
+    //   action: 'update',
+    //   data: saveData,
+    //   old: registry,
+    // });
 
     return saveData;
   }
 
   async delete(id: string): Promise<void> {
     const saveData = await this.findById(id);
-    await this.log.create({ module: 'apfd', action: 'delete', data: saveData });
+    // await this.log.create({ module: 'apfd', action: 'delete', data: saveData });
     await this.repository.delete(id);
   }
 }

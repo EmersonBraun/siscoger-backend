@@ -13,6 +13,8 @@ export class Log {
   @Prop([Any]) data: any;
 
   @Prop([Any]) old: any;
+
+  @Prop([Any]) changes: any;
 }
 export type LogDocument = Log & Document;
 export const LogSchema = SchemaFactory.createForClass(Log);
