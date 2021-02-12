@@ -9,8 +9,8 @@ import { Cd } from '../entity/cd.entity';
 export class CdService {
   constructor(@InjectRepository(Cd) private repository: Repository<Cd>) {}
 
-  async findAll(): Promise<Cd[] | void> {
-    await this.repository.find();
+  async findAll(): Promise<Cd[]> {
+    return await this.repository.find();
   }
 
   async create(data: CreateCdDto): Promise<Cd> {
@@ -34,7 +34,9 @@ export class CdService {
     return this.repository.create({ ...registry, ...data });
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<Cd> {
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

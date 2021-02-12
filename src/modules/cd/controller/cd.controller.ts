@@ -43,7 +43,7 @@ export class CdController {
     type: [CreateCdDto],
     description: 'The found CD',
   })
-  async findAll(): Promise<Cd> {
+  async findAll(): Promise<Cd[]> {
     return await this.service.findAll();
   }
 
@@ -60,7 +60,7 @@ export class CdController {
   async create(
     @Body() data: CreateCdDto,
     @Request() request?: any,
-  ): Promise<void> {
+  ): Promise<Cd> {
     const response = await this.service.create(data);
 
     await activityLog({
@@ -83,7 +83,7 @@ export class CdController {
     description: 'The found CD',
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<void> {
+  async findById(@Param('id') id: string): Promise<Cd> {
     return await this.service.findById(id);
   }
 
