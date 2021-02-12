@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.41.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.40.1...v0.41.0) (2021-02-12)
+
+
+### Features
+
+* apfd Module and update eslint ([c578c2e](https://github.com/EmersonBraun/siscoger-backend-v2/commit/c578c2e58b2a47487a42c56b919fb695bce91259))
+* create module CD ([aebb9d5](https://github.com/EmersonBraun/siscoger-backend-v2/commit/aebb9d50e0e5e532367c4736382a339170e3e51e))
+* create module CJ ([697abd6](https://github.com/EmersonBraun/siscoger-backend-v2/commit/697abd615b53fdbe6f2ee87991473095bab6f1f7))
+* create mongo-test-utils ([7a08bc4](https://github.com/EmersonBraun/siscoger-backend-v2/commit/7a08bc4af636bee9c603916431f536d996fd4917))
+* solve all test problems ([c79272b](https://github.com/EmersonBraun/siscoger-backend-v2/commit/c79272b2e81fd0eb83d7cb01ac80499d3242d4fd))
+
+
+### Bug Fixes
+
+* cd service issues resolved ([025457a](https://github.com/EmersonBraun/siscoger-backend-v2/commit/025457a85bda6d8c238707c46fdca55ba9c21717))
+* change errorResponse import ([9beb70b](https://github.com/EmersonBraun/siscoger-backend-v2/commit/9beb70b7a4e6ce27b505b25df19909c69519ba17))
+* change main log import ([2c0ce00](https://github.com/EmersonBraun/siscoger-backend-v2/commit/2c0ce00e6ed4acfd4888b827dfc691c96f2993e1))
+* eslint configuration ([f3570f8](https://github.com/EmersonBraun/siscoger-backend-v2/commit/f3570f884e2cdcf6d9de59e2803ba90a53e52660))
+* merge with costa-dev ([3915ad3](https://github.com/EmersonBraun/siscoger-backend-v2/commit/3915ad3c28dfbfc1ba2733cd97b9d9d20e60754f))
+* merge with master ([930daf2](https://github.com/EmersonBraun/siscoger-backend-v2/commit/930daf23f8bf9bbe0ad31f9b43c4800ec73a9dd7))
+* problems in adl ([edf7da0](https://github.com/EmersonBraun/siscoger-backend-v2/commit/edf7da03b97cfd7a67b48511d8bcbd4d20e85903))
+* solve guards problems ([dcaf030](https://github.com/EmersonBraun/siscoger-backend-v2/commit/dcaf0306d2fce874d7c262878578e7930625c0a1))
+* solve logger types ([e498d3b](https://github.com/EmersonBraun/siscoger-backend-v2/commit/e498d3bf6568cc8e745437092cbf3a65c08a1b4c))
+* solve part of tests ([e3bf9a7](https://github.com/EmersonBraun/siscoger-backend-v2/commit/e3bf9a7d244a37fab7320bbe61defb0ce56af69e))
+* solve part of tests ([8071522](https://github.com/EmersonBraun/siscoger-backend-v2/commit/80715220e2b46dc99edb49154ae05fd543c6b5f5))
+* solve types of utils ([f4223ff](https://github.com/EmersonBraun/siscoger-backend-v2/commit/f4223ffb6a87f192a3107dbbea7eb9e26b774549))
+* udpate Promise in the module sindicancia ([5c6e320](https://github.com/EmersonBraun/siscoger-backend-v2/commit/5c6e320bb731e7da7616bfa3db25d61f1dbeaeeb))
+* update module sindicancia ([033b22e](https://github.com/EmersonBraun/siscoger-backend-v2/commit/033b22ec8d4ee1a6ac66dab40bdcbee33cfbca20))
+* update service Sobrestamento ([b4a9389](https://github.com/EmersonBraun/siscoger-backend-v2/commit/b4a9389134faf7f2c8e653f53b0a352dea179bb5))
+* update service Sobrestamento ([d70454e](https://github.com/EmersonBraun/siscoger-backend-v2/commit/d70454e11ba664352b0d1c10a42ef3589a1372e6))
+* uploadModule import ([bc6e631](https://github.com/EmersonBraun/siscoger-backend-v2/commit/bc6e631fb1c2e3aedd4ba2a476a5c302d118e80a))
+* user seeder ([34df7c5](https://github.com/EmersonBraun/siscoger-backend-v2/commit/34df7c5af7dc01e4c1a0a552cdd2d4c50190cb65))
+
 ### [0.40.1](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.40.0...v0.40.1) (2021-02-10)
 
 
