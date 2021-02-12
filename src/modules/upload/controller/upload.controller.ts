@@ -22,7 +22,7 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
-import { activityLog } from 'src/common/activiti-log';
+import { activityLog } from '../../../common/activiti-log';
 import ACLPolice from '../../../common/decorators/acl.decorator';
 import ACLGuard from '../../../common/guards/acl.guard';
 import JwtAuthGuard from '../../../common/guards/jwt.guard';

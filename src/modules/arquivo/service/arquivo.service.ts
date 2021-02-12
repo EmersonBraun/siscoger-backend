@@ -13,12 +13,12 @@ export class ArquivoService {
     private repository: Repository<Arquivo>,
   ) {}
 
-  async findAll(): Promise<void> {
-    await this.repository.find();
+  async findAll(): Promise<Arquivo[]> {
+    return await this.repository.find();
   }
 
-  async search(data: SearchArquivoDto): Promise<void> {
-    await this.repository.find({ where: { ...data } });
+  async search(data: SearchArquivoDto): Promise<Arquivo[]> {
+    return await this.repository.find({ where: { ...data } });
   }
 
   async create(data: CreateArquivoDto): Promise<Arquivo> {
@@ -42,7 +42,9 @@ export class ArquivoService {
     return this.repository.create({ ...registry, ...data });
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<Arquivo> {
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

@@ -56,7 +56,7 @@ describe('ArquivoService', () => {
       const savedArquivo = await service.create(ArquivoVariable);
 
       expect(savedArquivo).toMatchObject(mockRegistry);
-      expect(mockRepository.create).toBeCalledWith(Arquivo);
+      expect(mockRepository.create).toBeCalledWith(savedArquivo);
       expect(mockRepository.create).toBeCalledTimes(1);
       expect(mockRepository.save).toBeCalledTimes(1);
     });

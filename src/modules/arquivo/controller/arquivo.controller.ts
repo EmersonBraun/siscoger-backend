@@ -19,7 +19,7 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
-import { activityLog } from 'src/common/activiti-log';
+import { activityLog } from '../../../common/activiti-log';
 import ACLPolice from '../../../common/decorators/acl.decorator';
 import ACLGuard from '../../../common/guards/acl.guard';
 import JwtAuthGuard from '../../../common/guards/jwt.guard';
@@ -72,7 +72,7 @@ export class ArquivoController {
   async create(
     @Body() data: CreateArquivoDto,
     @Request() request?: any,
-  ): Promise<void> {
+  ): Promise<Arquivo> {
     const response = await this.service.create(data);
 
     await activityLog({
@@ -92,8 +92,8 @@ export class ArquivoController {
   @ApiOperation({ summary: 'Search a Arquivo by id' })
   @ApiOkResponse({ type: UpdateArquivoDto, description: 'The found Arquivo' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<void> {
-    await this.service.findById(id);
+  async findById(@Param('id') id: string): Promise<Arquivo> {
+    return await this.service.findById(id);
   }
 
   @Put(':id')
