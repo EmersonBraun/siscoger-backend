@@ -17,7 +17,7 @@ export class AuthService {
 
   constructor(
     private readonly usersService: UserService,
-    private readonly jwtService: JwtService, // @Inject() private log: LogService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async validateUser(rg: string, pass: string): Promise<any> {
@@ -48,7 +48,9 @@ export class AuthService {
     const userData = await this.validateUser(rg, password);
     const { user, roles, permissions } = getCleanDataOfUser(userData);
     const token = this._createToken({ ...user, roles, permissions });
+
     await activityLog({ module: 'login', action: 'login', data: user, user });
+
     return { token, user, roles, permissions };
   }
 }

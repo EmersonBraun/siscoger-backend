@@ -8,7 +8,7 @@ import { Permission } from '../entity/permission.entity';
 @Injectable()
 export class PermissionService {
   constructor(
-    @InjectRepository(Permission) private repository: Repository<Permission>, // @Inject() private log: LogService,
+    @InjectRepository(Permission) private repository: Repository<Permission>,
   ) {}
 
   async findAll(): Promise<void> {
@@ -24,13 +24,7 @@ export class PermissionService {
     const { roles, ...rest } = data;
     const registry = this.repository.create(rest);
     if (roles?.length) registry.roles = [...roles];
-    const saveData = await this.repository.save(registry);
-    // await this.log.create({
-    //   module: 'permission',
-    //   action: 'create',
-    //   data: saveData,
-    // });
-    return saveData;
+    return await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<Permission> {
@@ -56,24 +50,10 @@ export class PermissionService {
     if (roles?.length) registry.roles = [...roles];
     await this.repository.update(id, { ...rest });
 
-    const saveData = this.repository.save({ ...registry, ...rest });
-    // await this.log.create({
-    //   module: 'permission',
-    //   action: 'update',
-    //   data: saveData,
-    //   old: registry,
-    // });
-
-    return saveData;
+    return this.repository.save({ ...registry, ...rest });
   }
 
   async delete(id: string): Promise<void> {
-    const saveData = await this.findById(id);
-    // await this.log.create({
-    //   module: 'permission',
-    //   action: 'delete',
-    //   data: saveData,
-    // });
     await this.repository.delete(id);
   }
 }

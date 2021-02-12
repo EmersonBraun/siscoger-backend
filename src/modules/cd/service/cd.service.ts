@@ -7,9 +7,7 @@ import { Cd } from '../entity/cd.entity';
 
 @Injectable()
 export class CdService {
-  constructor(
-    @InjectRepository(Cd) private repository: Repository<Cd>, // @Inject() private log: LogService,
-  ) {}
+  constructor(@InjectRepository(Cd) private repository: Repository<Cd>) {}
 
   async findAll(): Promise<Cd[] | void> {
     await this.repository.find();
@@ -17,9 +15,7 @@ export class CdService {
 
   async create(data: CreateCdDto): Promise<Cd> {
     const registry = this.repository.create(data);
-    const saveData = await this.repository.save(registry);
-    // await this.log.create({ module: 'cd', action: 'create', data: saveData });
-    return saveData;
+    return await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<Cd> {
@@ -35,20 +31,10 @@ export class CdService {
   async update(id: string, data: UpdateCdDto): Promise<Cd> {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
-    const saveData = this.repository.create({ ...registry, ...data });
-    // await this.log.create({
-    //   module: 'cd',
-    //   action: 'update',
-    //   data: saveData,
-    //   old: registry,
-    // });
-
-    return saveData;
+    return this.repository.create({ ...registry, ...data });
   }
 
   async delete(id: string): Promise<void> {
-    const saveData = await this.findById(id);
-    // await this.log.create({ module: 'cd', action: 'delete', data: saveData });
     await this.repository.delete(id);
   }
 }

@@ -9,7 +9,7 @@ import { Sindicancia } from '../entity/sindicancia.entity';
 @Injectable()
 export class SindicanciaService {
   constructor(
-    @InjectRepository(Sindicancia) private repository: Repository<Sindicancia>, // @Inject() private log: LogService, // private connection: Connection
+    @InjectRepository(Sindicancia) private repository: Repository<Sindicancia>,
   ) {}
 
   getNextRefYear(data: CreateSindicanciaDto): number {
@@ -299,13 +299,7 @@ export class SindicanciaService {
     const registry = this.repository.create(data);
     registry.sjd_ref_ano = this.getNextRefYear(data);
     registry.sjd_ref = await this.getNextRef(data);
-    const saveData = await this.repository.save(registry);
-    // await this.log.create({
-    //   module: 'sindicancia',
-    //   action: 'create',
-    //   data: saveData,
-    // });
-    return saveData;
+    return await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<Sindicancia> {
@@ -322,24 +316,10 @@ export class SindicanciaService {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
 
-    const saveData = this.repository.create({ ...registry, ...data });
-    // await this.log.create({
-    //   module: 'sindicancia',
-    //   action: 'update',
-    //   data: saveData,
-    //   old: registry,
-    // });
-
-    return saveData;
+    return this.repository.create({ ...registry, ...data });
   }
 
   async delete(id: string): Promise<void> {
-    const saveData = await this.findById(id);
-    // await this.log.create({
-    //   module: 'sindicancia',
-    //   action: 'delete',
-    //   data: saveData,
-    // });
     await this.repository.delete(id);
   }
 }

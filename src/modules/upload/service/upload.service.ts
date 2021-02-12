@@ -8,7 +8,7 @@ import { Upload, UploadDocument } from '../schema/upload.schema';
 @Injectable()
 export class UploadService {
   constructor(
-    @InjectModel(Upload.name) private repository: Model<UploadDocument>, // @Inject() private log: LogService,
+    @InjectModel(Upload.name) private repository: Model<UploadDocument>,
   ) {}
 
   async findAll(): Promise<void> {
@@ -20,13 +20,7 @@ export class UploadService {
   }
 
   async create(data: CreateUploadDto): Promise<Upload> {
-    const saveData = await this.repository.create(data);
-    // await this.log.create({
-    //   module: 'upload',
-    //   action: 'create',
-    //   data: saveData,
-    // });
-    return saveData;
+    return await this.repository.create(data);
   }
 
   async findById(id: string): Promise<Upload> {
@@ -40,24 +34,12 @@ export class UploadService {
   }
 
   async update(id: string, data: UpdateUploadDto): Promise<Upload> {
-    const saveData = await this.repository
+    return await this.repository
       .findOneAndUpdate({ _id: id }, { ...data }, { new: true })
       .exec();
-    // await this.log.create({
-    //   module: 'upload',
-    //   action: 'update',
-    //   data: saveData,
-    // });
-
-    return saveData;
   }
 
   async delete(id: string): Promise<void> {
-    const saveData = await this.repository.findOneAndDelete({ _id: id }).exec();
-    // await this.log.create({
-    //   module: 'upload',
-    //   action: 'delete',
-    //   data: saveData,
-    // });
+    await this.repository.findOneAndDelete({ _id: id }).exec();
   }
 }

@@ -7,9 +7,7 @@ import { User } from '../entity/user.entity';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectRepository(User) private repository: Repository<User>, // @Inject() private log: LogService,
-  ) {}
+  constructor(@InjectRepository(User) private repository: Repository<User>) {}
 
   async findAll(): Promise<void> {
     await this.repository.find();
@@ -42,9 +40,7 @@ export class UserService {
 
   async create(data: CreateUserDto): Promise<User> {
     const registry = this.repository.create(data);
-    const saveData = await this.repository.save(registry);
-    // await this.log.create({ module: 'user', action: 'create', data: saveData });
-    return saveData;
+    return await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<User> {
@@ -70,20 +66,10 @@ export class UserService {
     if (roles?.length) registry.roles = [...roles];
     await this.repository.update(id, { ...rest });
 
-    const saveData = this.repository.save({ ...registry, ...rest });
-    // await this.log.create({
-    //   module: 'user',
-    //   action: 'update',
-    //   data: saveData,
-    //   old: registry,
-    // });
-
-    return saveData;
+    return this.repository.save({ ...registry, ...rest });
   }
 
   async delete(id: string): Promise<void> {
-    const saveData = await this.findById(id);
-    // await this.log.create({ module: 'user', action: 'delete', data: saveData });
     await this.repository.delete(id);
   }
 }

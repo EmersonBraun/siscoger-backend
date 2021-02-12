@@ -10,7 +10,7 @@ import { Arquivo } from '../entity/arquivo.entity';
 export class ArquivoService {
   constructor(
     @InjectRepository(Arquivo)
-    private repository: Repository<Arquivo>, // @Inject() // private log: LogService,
+    private repository: Repository<Arquivo>,
   ) {}
 
   async findAll(): Promise<void> {
@@ -23,13 +23,7 @@ export class ArquivoService {
 
   async create(data: CreateArquivoDto): Promise<Arquivo> {
     const registry = this.repository.create(data);
-    const saveData = await this.repository.save(registry);
-    // await this.log.create({
-    //   module: 'arquivo',
-    //   action: 'create',
-    //   data: saveData,
-    // });
-    return saveData;
+    return await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<Arquivo> {
@@ -45,24 +39,10 @@ export class ArquivoService {
   async update(id: string, data: UpdateArquivoDto): Promise<Arquivo> {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });
-    const saveData = this.repository.create({ ...registry, ...data });
-    // await this.log.create({
-    //   module: 'arquivo',
-    //   action: 'update',
-    //   data: saveData,
-    //   old: registry,
-    // });
-
-    return saveData;
+    return this.repository.create({ ...registry, ...data });
   }
 
   async delete(id: string): Promise<void> {
-    const saveData = await this.findById(id);
-    // await this.log.create({
-    //   module: 'arquivo',
-    //   action: 'delete',
-    //   data: saveData,
-    // });
     await this.repository.delete(id);
   }
 }

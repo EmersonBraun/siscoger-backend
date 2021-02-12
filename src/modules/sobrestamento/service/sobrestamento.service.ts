@@ -13,7 +13,7 @@ export class SobrestamentoService {
   constructor(
     @InjectRepository(Sobrestamento)
     private repository: Repository<Sobrestamento>,
-    private feriadoService: FeriadoService, // @Inject() private log: LogService,
+    private feriadoService: FeriadoService,
   ) {}
 
   async findAll(): Promise<void> {
@@ -57,13 +57,7 @@ export class SobrestamentoService {
 
   async create(data: CreateSobrestamentoDto): Promise<Sobrestamento> {
     const registry = this.repository.create(data);
-    const saveData = await this.repository.save(registry);
-    // await this.log.create({
-    //   module: 'sobrestamento',
-    //   action: 'create',
-    //   data: saveData,
-    // });
-    return saveData;
+    return await this.repository.save(registry);
   }
 
   async findById(id: string): Promise<Sobrestamento> {

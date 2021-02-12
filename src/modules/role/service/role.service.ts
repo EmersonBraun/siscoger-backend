@@ -7,9 +7,7 @@ import { Role } from '../entity/role.entity';
 
 @Injectable()
 export class RoleService {
-  constructor(
-    @InjectRepository(Role) private repository: Repository<Role>, // @Inject() private log: LogService,
-  ) {}
+  constructor(@InjectRepository(Role) private repository: Repository<Role>) {}
 
   async findAll(): Promise<void> {
     await this.repository.find();
@@ -25,7 +23,6 @@ export class RoleService {
     if (permissions?.length) registry.permissions = [...permissions];
     if (users?.length) registry.users = [...users];
     const saveData = await this.repository.save(registry);
-    // await this.log.create({ module: 'adl', action: 'create', data: saveData });
     return saveData;
   }
 
@@ -53,20 +50,10 @@ export class RoleService {
     if (users?.length) registry.users = [...users];
     await this.repository.update(id, { ...rest });
 
-    const saveData = this.repository.save({ ...registry, ...rest });
-    // await this.log.create({
-    //   module: 'adl',
-    //   action: 'update',
-    //   data: saveData,
-    //   old: registry,
-    // });
-
-    return saveData;
+    return this.repository.save({ ...registry, ...rest });
   }
 
   async delete(id: string): Promise<void> {
-    const saveData = await this.findById(id);
-    // await this.log.create({ module: 'adl', action: 'delete', data: saveData });
     await this.repository.delete(id);
   }
 }
