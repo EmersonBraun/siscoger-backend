@@ -18,12 +18,7 @@ export default class CreateUsers implements Seeder {
       ])
       .execute();
 
-<<<<<<< HEAD
-      console.log(user)
-      // await factory(User)().createMany(10)
-=======
     console.log(user);
-    await factory(User)().createMany(10);
->>>>>>> f3570f884e2cdcf6d9de59e2803ba90a53e52660
+    // await factory(User)().createMany(10)
   }
 }
