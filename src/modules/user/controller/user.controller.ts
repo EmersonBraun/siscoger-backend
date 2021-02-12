@@ -19,6 +19,7 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
+import { activityLog } from 'src/common/activiti-log';
 import ACLPolice from '../../../common/decorators/acl.decorator';
 import ACLGuard from '../../../common/guards/acl.guard';
 import JwtAuthGuard from '../../../common/guards/jwt.guard';
@@ -39,8 +40,8 @@ export class UserController {
   @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Search all User' })
   @ApiOkResponse({ type: [CreateUserDto], description: 'The found User' })
-  async findAll(): Promise<void> {
-    await this.service.findAll();
+  async findAll(): Promise<User[]> {
+    return await this.service.findAll();
   }
 
   @Post('search')
@@ -50,8 +51,8 @@ export class UserController {
   @ApiOperation({ summary: 'Search User' })
   @ApiCreatedResponse({ type: UpdateUserDto, description: 'Searched User' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async search(@Body() data: CreateUserDto): Promise<void> {
-    await this.service.search(data);
+  async search(@Body() data: CreateUserDto): Promise<User[]> {
+    return await this.service.search(data);
   }
 
   @Post()
@@ -64,8 +65,17 @@ export class UserController {
   async create(
     @Body() data: CreateUserDto,
     @Request() request?: any,
-  ): Promise<void> {
-    await this.service.create(data);
+  ): Promise<User> {
+    const response = await this.service.create(data);
+
+    await activityLog({
+      module: 'user',
+      action: 'create',
+      data: response,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Get(':id')
@@ -75,8 +85,8 @@ export class UserController {
   @ApiOperation({ summary: 'Search a User by id' })
   @ApiOkResponse({ type: UpdateUserDto, description: 'The found User' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<void> {
-    await this.service.findById(id);
+  async findById(@Param('id') id: string): Promise<User> {
+    return await this.service.findById(id);
   }
 
   @Put(':id')
@@ -91,7 +101,18 @@ export class UserController {
     @Body() data: UpdateUserDto,
     @Request() request?: any,
   ): Promise<User> {
-    return this.service.update(id, data);
+    const old = await this.service.findById(id);
+    const response = await this.service.update(id, data);
+
+    await activityLog({
+      module: 'user',
+      action: 'update',
+      data: response,
+      old,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Delete(':id')
@@ -105,6 +126,13 @@ export class UserController {
     @Param('id') id: string,
     @Request() request?: any,
   ): Promise<void> {
-    await this.service.delete(id);
+    const data = await this.service.delete(id);
+
+    await activityLog({
+      module: 'user',
+      action: 'delete',
+      data,
+      user: request?.user,
+    });
   }
 }

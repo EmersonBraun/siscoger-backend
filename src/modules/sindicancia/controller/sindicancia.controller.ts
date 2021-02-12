@@ -19,6 +19,7 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
+import { activityLog } from 'src/common/activiti-log';
 import ACLPolice from '../../../common/decorators/acl.decorator';
 import ACLGuard from '../../../common/guards/acl.guard';
 import JwtAuthGuard from '../../../common/guards/jwt.guard';
@@ -43,8 +44,8 @@ export class SindicanciaController {
     type: [CreateSindicanciaDto],
     description: 'The found Sindicancia',
   })
-  async findAll(): Promise<void> {
-    await this.service.findAll();
+  async findAll(): Promise<Sindicancia[]> {
+    return await this.service.findAll();
   }
 
   // @Get('/andamento')
@@ -65,8 +66,8 @@ export class SindicanciaController {
     description: 'Found Sindicancia',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async findPortaria(@Body() data: SearchPortariaDto): Promise<void> {
-    await this.service.findPortaria(data);
+  async findPortaria(@Body() data: SearchPortariaDto): Promise<any> {
+    return await this.service.findPortaria(data);
   }
 
   @Post()
@@ -82,8 +83,17 @@ export class SindicanciaController {
   async create(
     @Body() data: CreateSindicanciaDto,
     @Request() request?: any,
-  ): Promise<void> {
-    await this.service.create(data);
+  ): Promise<Sindicancia> {
+    const response = await this.service.create(data);
+
+    await activityLog({
+      module: 'sindicancia',
+      action: 'create',
+      data: response,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Get(':id')
@@ -96,8 +106,8 @@ export class SindicanciaController {
     description: 'The found Sindicancia',
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<void> {
-    await this.service.findById(id);
+  async findById(@Param('id') id: string): Promise<Sindicancia> {
+    return await this.service.findById(id);
   }
 
   @Put(':id')
@@ -115,7 +125,18 @@ export class SindicanciaController {
     @Body() data: UpdateSindicanciaDto,
     @Request() request?: any,
   ): Promise<Sindicancia> {
-    return this.service.update(id, data);
+    const old = await this.service.findById(id);
+    const response = await this.service.update(id, data);
+
+    await activityLog({
+      module: 'sindicancia',
+      action: 'update',
+      data: response,
+      old,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Delete(':id')
@@ -129,6 +150,13 @@ export class SindicanciaController {
     @Param('id') id: string,
     @Request() request?: any,
   ): Promise<void> {
-    await this.service.delete(id);
+    const data = await this.service.delete(id);
+
+    await activityLog({
+      module: 'sindicancia',
+      action: 'delete',
+      data,
+      user: request?.user,
+    });
   }
 }

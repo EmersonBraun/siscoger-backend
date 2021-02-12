@@ -19,6 +19,7 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
+import { activityLog } from 'src/common/activiti-log';
 import ACLPolice from '../../../common/decorators/acl.decorator';
 import ACLGuard from '../../../common/guards/acl.guard';
 import JwtAuthGuard from '../../../common/guards/jwt.guard';
@@ -39,8 +40,8 @@ export class LigacaoController {
   @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Search all Ligacao' })
   @ApiOkResponse({ type: [CreateLigacaoDto], description: 'The found Ligacao' })
-  async findAll(): Promise<void> {
-    await this.service.findAll();
+  async findAll(): Promise<Ligacao[]> {
+    return await this.service.findAll();
   }
 
   @Post('search')
@@ -53,8 +54,8 @@ export class LigacaoController {
     description: 'Searched Ligacao',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async search(@Body() data: CreateLigacaoDto): Promise<void> {
-    await this.service.search(data);
+  async search(@Body() data: CreateLigacaoDto): Promise<Ligacao[]> {
+    return await this.service.search(data);
   }
 
   @Post()
@@ -70,8 +71,17 @@ export class LigacaoController {
   async create(
     @Body() data: CreateLigacaoDto,
     @Request() request?: any,
-  ): Promise<void> {
-    await this.service.create(data);
+  ): Promise<Ligacao> {
+    const response = await this.service.create(data);
+
+    await activityLog({
+      module: 'ligacao',
+      action: 'create',
+      data: response,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Get(':id')
@@ -82,7 +92,7 @@ export class LigacaoController {
   @ApiOkResponse({ type: UpdateLigacaoDto, description: 'The found Ligacao' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
   async findById(@Param('id') id: string): Promise<void> {
-    await this.service.findById(id);
+    return await this.service.findById(id);
   }
 
   @Put(':id')
@@ -95,7 +105,18 @@ export class LigacaoController {
     @Body() data: UpdateLigacaoDto,
     @Request() request?: any,
   ): Promise<Ligacao> {
-    return this.service.update(id, data);
+    const old = await this.service.findById(id);
+    const response = await this.service.update(id, data);
+
+    await activityLog({
+      module: 'ligacao',
+      action: 'update',
+      data: response,
+      old,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Delete(':id')
@@ -107,6 +128,13 @@ export class LigacaoController {
     @Param('id') id: string,
     @Request() request?: any,
   ): Promise<void> {
-    await this.service.delete(id);
+    const data = await this.service.delete(id);
+
+    await activityLog({
+      module: 'ligacao',
+      action: 'delete',
+      data,
+      user: request?.user,
+    });
   }
 }

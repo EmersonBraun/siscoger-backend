@@ -19,6 +19,7 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
+import { activityLog } from 'src/common/activiti-log';
 import ACLPolice from '../../../common/decorators/acl.decorator';
 import ACLGuard from '../../../common/guards/acl.guard';
 import JwtAuthGuard from '../../../common/guards/jwt.guard';
@@ -42,8 +43,8 @@ export class CdController {
     type: [CreateCdDto],
     description: 'The found CD',
   })
-  async findAll(): Promise<void> {
-    await this.service.findAll();
+  async findAll(): Promise<Cd> {
+    return await this.service.findAll();
   }
 
   @Post()
@@ -60,7 +61,16 @@ export class CdController {
     @Body() data: CreateCdDto,
     @Request() request?: any,
   ): Promise<void> {
-    await this.service.create(data);
+    const response = await this.service.create(data);
+
+    await activityLog({
+      module: 'cd',
+      action: 'create',
+      data: response,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Get(':id')
@@ -74,7 +84,7 @@ export class CdController {
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
   async findById(@Param('id') id: string): Promise<void> {
-    await this.service.findById(id);
+    return await this.service.findById(id);
   }
 
   @Put(':id')
@@ -92,7 +102,18 @@ export class CdController {
     @Body() data: UpdateCdDto,
     @Request() request?: any,
   ): Promise<Cd> {
-    return this.service.update(id, data);
+    const old = await this.service.findById(id);
+    const response = await this.service.update(id, data);
+
+    await activityLog({
+      module: 'cd',
+      action: 'update',
+      data: response,
+      old,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Delete(':id')
@@ -106,6 +127,13 @@ export class CdController {
     @Param('id') id: string,
     @Request() request?: any,
   ): Promise<void> {
-    await this.service.delete(id);
+    const data = await this.service.delete(id);
+
+    await activityLog({
+      module: 'cd',
+      action: 'delete',
+      data,
+      user: request?.user,
+    });
   }
 }

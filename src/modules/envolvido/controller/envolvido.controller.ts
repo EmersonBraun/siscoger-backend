@@ -19,6 +19,7 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
+import { activityLog } from 'src/common/activiti-log';
 import ACLPolice from '../../../common/decorators/acl.decorator';
 import ACLGuard from '../../../common/guards/acl.guard';
 import JwtAuthGuard from '../../../common/guards/jwt.guard';
@@ -42,8 +43,8 @@ export class EnvolvidoController {
     type: [CreateEnvolvidoDto],
     description: 'The found Envolvido',
   })
-  async findAll(): Promise<void> {
-    await this.service.findAll();
+  async findAll(): Promise<Envolvido[]> {
+    return await this.service.findAll();
   }
 
   @Post('search')
@@ -60,7 +61,7 @@ export class EnvolvidoController {
     @Body() data: CreateEnvolvidoDto,
     @Request() request?: any,
   ): Promise<void> {
-    await this.service.search(data);
+    return await this.service.search(data);
   }
 
   @Post()
@@ -74,7 +75,16 @@ export class EnvolvidoController {
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
   async create(@Body() data: CreateEnvolvidoDto): Promise<void> {
-    await this.service.create(data);
+    const response = await this.service.create(data);
+
+    await activityLog({
+      module: 'envolvido',
+      action: 'create',
+      data: response,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Get(':id')
@@ -88,7 +98,7 @@ export class EnvolvidoController {
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
   async findById(@Param('id') id: string): Promise<void> {
-    await this.service.findById(id);
+    return await this.service.findById(id);
   }
 
   @Put(':id')
@@ -103,7 +113,18 @@ export class EnvolvidoController {
     @Body() data: UpdateEnvolvidoDto,
     @Request() request?: any,
   ): Promise<Envolvido> {
-    return this.service.update(id, data);
+    const old = await this.service.findById(id);
+    const response = await this.service.update(id, data);
+
+    await activityLog({
+      module: 'envolvido',
+      action: 'update',
+      data: response,
+      old,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Delete(':id')
@@ -117,6 +138,13 @@ export class EnvolvidoController {
     @Param('id') id: string,
     @Request() request?: any,
   ): Promise<void> {
-    await this.service.delete(id);
+    const data = await this.service.delete(id);
+
+    await activityLog({
+      module: 'envolvido',
+      action: 'delete',
+      data,
+      user: request?.user,
+    });
   }
 }

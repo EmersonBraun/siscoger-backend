@@ -19,6 +19,7 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
+import { activityLog } from 'src/common/activiti-log';
 import ACLPolice from '../../../common/decorators/acl.decorator';
 import ACLGuard from '../../../common/guards/acl.guard';
 import JwtAuthGuard from '../../../common/guards/jwt.guard';
@@ -44,8 +45,8 @@ export class SobrestamentoController {
     type: [CreateSobrestamentoDto],
     description: 'The found Sobrestamento',
   })
-  async findAll(): Promise<void> {
-    await this.service.findAll();
+  async findAll(): Promise<Sobrestamento[]> {
+    return await this.service.findAll();
   }
 
   @Post('search')
@@ -58,8 +59,8 @@ export class SobrestamentoController {
     description: 'Searched Sobrestamento',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async search(@Body() data: SearchSobrestamentoDto): Promise<void> {
-    await this.service.search(data);
+  async search(@Body() data: SearchSobrestamentoDto): Promise<Sobrestamento[]> {
+    return await this.service.search(data);
   }
 
   @Post('/between-dates')
@@ -69,9 +70,9 @@ export class SobrestamentoController {
   @ApiOperation({ summary: 'Verify countable days' })
   @ApiCreatedResponse({ type: 'number', description: 'Countable Days' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async betweenDates(@Body() data: BetweenDatesDto): Promise<void> {
+  async betweenDates(@Body() data: BetweenDatesDto): Promise<any> {
     const { init, end, procData } = data;
-    await this.service.betweenDates(init, end, procData);
+    return await this.service.betweenDates(init, end, procData);
   }
 
   @Post()
@@ -87,8 +88,17 @@ export class SobrestamentoController {
   async create(
     @Body() data: CreateSobrestamentoDto,
     @Request() request?: any,
-  ): Promise<void> {
-    await this.service.create(data);
+  ): Promise<Sobrestamento> {
+    const response = await this.service.create(data);
+
+    await activityLog({
+      module: 'sobrestamento',
+      action: 'create',
+      data: response,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Get(':id')
@@ -101,8 +111,8 @@ export class SobrestamentoController {
     description: 'The found Sobrestamento',
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<void> {
-    await this.service.findById(id);
+  async findById(@Param('id') id: string): Promise<Sobrestamento> {
+    return await this.service.findById(id);
   }
 
   @Put(':id')
@@ -120,7 +130,18 @@ export class SobrestamentoController {
     @Body() data: UpdateSobrestamentoDto,
     @Request() request?: any,
   ): Promise<Sobrestamento> {
-    return this.service.update(id, data);
+    const old = await this.service.findById(id);
+    const response = await this.service.update(id, data);
+
+    await activityLog({
+      module: 'sobrestamento',
+      action: 'update',
+      data: response,
+      old,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Delete(':id')
@@ -134,6 +155,13 @@ export class SobrestamentoController {
     @Param('id') id: string,
     @Request() request?: any,
   ): Promise<void> {
-    await this.service.delete(id);
+    const data = await this.service.delete(id);
+
+    await activityLog({
+      module: 'sobrestamento',
+      action: 'delete',
+      data,
+      user: request?.user,
+    });
   }
 }
