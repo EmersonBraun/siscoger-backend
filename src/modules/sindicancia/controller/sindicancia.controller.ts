@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Request,
   UseGuards
 } from '@nestjs/common';
 import {
@@ -27,7 +28,6 @@ import { SearchPortariaDto } from '../dtos/search-portaria.dto';
 import { UpdateSindicanciaDto } from '../dtos/update.dto';
 import { Sindicancia } from '../entity/sindicancia.entity';
 import { SindicanciaService } from '../service/sindicancia.service';
-
 
 @ApiTags('Sindicancia')
 @Controller('sindicancias')
@@ -79,7 +79,10 @@ export class SindicanciaController {
     description: 'Created Sindicancia',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreateSindicanciaDto): Promise<void> {
+  async create(
+    @Body() data: CreateSindicanciaDto,
+    @Request() request?: any,
+  ): Promise<void> {
     await this.service.create(data);
   }
 
@@ -110,6 +113,7 @@ export class SindicanciaController {
   async update(
     @Param('id') id: string,
     @Body() data: UpdateSindicanciaDto,
+    @Request() request?: any,
   ): Promise<Sindicancia> {
     return this.service.update(id, data);
   }
@@ -121,7 +125,10 @@ export class SindicanciaController {
   @ApiOperation({ summary: 'Delete a Sindicancia' })
   @ApiNoContentResponse({ description: 'Deleted Sindicancia' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async delete(@Param('id') id: string): Promise<void> {
+  async delete(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<void> {
     await this.service.delete(id);
   }
 }

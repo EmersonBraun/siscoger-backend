@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Request,
   UseGuards
 } from '@nestjs/common';
 import {
@@ -27,7 +28,6 @@ import { CreateArquivoDto } from '../dtos/create.dto';
 import { UpdateArquivoDto } from '../dtos/update.dto';
 import { Arquivo } from '../entity/arquivo.entity';
 import { ArquivoService } from '../service/arquivo.service';
-
 
 @ApiTags('Arquivo')
 @Controller('arquivos')
@@ -68,7 +68,10 @@ export class ArquivoController {
     description: 'Created Arquivo',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreateArquivoDto): Promise<void> {
+  async create(
+    @Body() data: CreateArquivoDto,
+    @Request() request?: any,
+  ): Promise<void> {
     await this.service.create(data);
   }
 
@@ -93,6 +96,7 @@ export class ArquivoController {
   async update(
     @Param('id') id: string,
     @Body() data: UpdateArquivoDto,
+    @Request() request?: any,
   ): Promise<Arquivo> {
     return this.service.update(id, data);
   }
@@ -104,7 +108,10 @@ export class ArquivoController {
   @ApiOperation({ summary: 'Delete a Arquivo' })
   @ApiNoContentResponse({ description: 'Deleted Arquivo' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async delete(@Param('id') id: string): Promise<void> {
+  async delete(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<void> {
     await this.service.delete(id);
   }
 }

@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Request,
   UseGuards
 } from '@nestjs/common';
 import {
@@ -26,7 +27,6 @@ import { CreatePermissionDto } from '../dtos/create.dto';
 import { UpdatePermissionDto } from '../dtos/update.dto';
 import { Permission } from '../entity/permission.entity';
 import { PermissionService } from '../service/permission.service';
-
 
 @ApiTags('permission')
 @Controller('permissions')
@@ -72,7 +72,10 @@ export class PermissionController {
     description: 'Created permission',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreatePermissionDto): Promise<void> {
+  async create(
+    @Body() data: CreatePermissionDto,
+    @Request() request?: any,
+  ): Promise<void> {
     await this.service.create(data);
   }
 
@@ -105,6 +108,7 @@ export class PermissionController {
   async update(
     @Param('id') id: string,
     @Body() data: UpdatePermissionDto,
+    @Request() request?: any,
   ): Promise<Permission> {
     return this.service.update(id, data);
   }
@@ -117,7 +121,10 @@ export class PermissionController {
   @ApiOperation({ summary: 'Delete a permission' })
   @ApiNoContentResponse({ description: 'Deleted permission' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async delete(@Param('id') id: string): Promise<void> {
+  async delete(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<void> {
     await this.service.delete(id);
   }
 }

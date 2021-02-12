@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Request,
   UseGuards
 } from '@nestjs/common';
 import {
@@ -26,7 +27,6 @@ import { CreateLigacaoDto } from '../dtos/create.dto';
 import { UpdateLigacaoDto } from '../dtos/update.dto';
 import { Ligacao } from '../entity/ligacao.entity';
 import { LigacaoService } from '../service/ligacao.service';
-
 
 @ApiTags('Ligacao')
 @Controller('ligacoes')
@@ -67,7 +67,10 @@ export class LigacaoController {
     description: 'Created Ligacao',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreateLigacaoDto): Promise<void> {
+  async create(
+    @Body() data: CreateLigacaoDto,
+    @Request() request?: any,
+  ): Promise<void> {
     await this.service.create(data);
   }
 
@@ -90,6 +93,7 @@ export class LigacaoController {
   async update(
     @Param('id') id: string,
     @Body() data: UpdateLigacaoDto,
+    @Request() request?: any,
   ): Promise<Ligacao> {
     return this.service.update(id, data);
   }
@@ -99,7 +103,10 @@ export class LigacaoController {
   @ApiOperation({ summary: 'Delete a Ligacao' })
   @ApiNoContentResponse({ description: 'Deleted Ligacao' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async delete(@Param('id') id: string): Promise<void> {
+  async delete(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<void> {
     await this.service.delete(id);
   }
 }

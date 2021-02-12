@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Request,
   UseGuards
 } from '@nestjs/common';
 import {
@@ -26,7 +27,6 @@ import { CreateRoleDto } from '../dtos/create.dto';
 import { UpdateRoleDto } from '../dtos/update.dto';
 import { Role } from '../entity/role.entity';
 import { RoleService } from '../service/role.service';
-
 
 @ApiTags('role')
 @Controller('roles')
@@ -62,7 +62,10 @@ export class RoleController {
   @ApiOperation({ summary: 'Create a new role' })
   @ApiCreatedResponse({ type: UpdateRoleDto, description: 'Created role' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreateRoleDto): Promise<void> {
+  async create(
+    @Body() data: CreateRoleDto,
+    @Request() request?: any,
+  ): Promise<void> {
     await this.service.create(data);
   }
 
@@ -87,6 +90,7 @@ export class RoleController {
   async update(
     @Param('id') id: string,
     @Body() data: UpdateRoleDto,
+    @Request() request?: any,
   ): Promise<Role> {
     return this.service.update(id, data);
   }
@@ -98,7 +102,10 @@ export class RoleController {
   @ApiOperation({ summary: 'Delete a role' })
   @ApiNoContentResponse({ description: 'Deleted role' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async delete(@Param('id') id: string): Promise<void> {
+  async delete(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<void> {
     await this.service.delete(id);
   }
 }

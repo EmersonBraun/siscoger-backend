@@ -114,12 +114,12 @@ export default class AdlController {
     @Param('id') id: string,
     @Request() request?: any,
   ): Promise<void> {
-    const response = await this.service.delete(id);
+    const data = await this.service.delete(id);
 
     await activityLog({
       module: 'adl',
       action: 'delete',
-      data: response,
+      data,
       user: request?.user,
     });
   }

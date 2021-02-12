@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Request,
   UseGuards
 } from '@nestjs/common';
 import {
@@ -26,7 +27,6 @@ import { CreateMovimentoDto } from '../dtos/create.dto';
 import { UpdateMovimentoDto } from '../dtos/update.dto';
 import { Movimento } from '../entity/movimento.entity';
 import { MovimentoService } from '../service/movimento.service';
-
 
 @ApiTags('Movimento')
 @Controller('movimentos')
@@ -70,7 +70,10 @@ export class MovimentoController {
     description: 'Created Movimento',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreateMovimentoDto): Promise<void> {
+  async create(
+    @Body() data: CreateMovimentoDto,
+    @Request() request?: any,
+  ): Promise<void> {
     await this.service.create(data);
   }
 
@@ -98,6 +101,7 @@ export class MovimentoController {
   async update(
     @Param('id') id: string,
     @Body() data: UpdateMovimentoDto,
+    @Request() request?: any,
   ): Promise<Movimento> {
     return this.service.update(id, data);
   }
@@ -109,7 +113,10 @@ export class MovimentoController {
   @ApiOperation({ summary: 'Delete a Movimento' })
   @ApiNoContentResponse({ description: 'Deleted Movimento' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async delete(@Param('id') id: string): Promise<void> {
+  async delete(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<void> {
     await this.service.delete(id);
   }
 }

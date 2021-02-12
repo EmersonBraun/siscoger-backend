@@ -92,7 +92,6 @@ describe('AdlController', () => {
       });
 
       const updatedAdl = await controller.update('1', AdlUpdate);
-      console.log({ AdlUpdate, updatedAdl });
       expect(updatedAdl).toMatchObject(AdlUpdate);
       expect(mockService.update).toBeCalledWith('1', AdlUpdate);
       expect(mockService.update).toBeCalledTimes(1);

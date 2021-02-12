@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Request,
   UseGuards
 } from '@nestjs/common';
 import {
@@ -26,7 +27,6 @@ import { CreateCjDto } from '../dtos/create.dto';
 import { UpdateCjDto } from '../dtos/update.dto';
 import { Cj } from '../entity/cj.entity';
 import { CjService } from '../service/cj.service';
-
 
 @ApiTags('Cj')
 @Controller('cj')
@@ -56,7 +56,10 @@ export class CjController {
     description: 'Created CJ',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreateCjDto): Promise<void> {
+  async create(
+    @Body() data: CreateCjDto,
+    @Request() request?: any,
+  ): Promise<void> {
     await this.service.create(data);
   }
 
@@ -87,6 +90,7 @@ export class CjController {
   async update(
     @Param('id') id: string,
     @Body() data: UpdateCjDto,
+    @Request() request?: any,
   ): Promise<Cj> {
     return this.service.update(id, data);
   }
@@ -98,7 +102,10 @@ export class CjController {
   @ApiOperation({ summary: 'Delete a Cj' })
   @ApiNoContentResponse({ description: 'Deleted Cj' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async delete(@Param('id') id: string): Promise<void> {
+  async delete(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<void> {
     await this.service.delete(id);
   }
 }

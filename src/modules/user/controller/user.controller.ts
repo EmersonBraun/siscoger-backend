@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Request,
   UseGuards
 } from '@nestjs/common';
 import {
@@ -26,7 +27,6 @@ import { CreateUserDto } from '../dtos/create.dto';
 import { UpdateUserDto } from '../dtos/update.dto';
 import { User } from '../entity/user.entity';
 import { UserService } from '../service/user.service';
-
 
 @ApiTags('User')
 @Controller('users')
@@ -61,7 +61,10 @@ export class UserController {
   @ApiOperation({ summary: 'Create a new User' })
   @ApiCreatedResponse({ type: UpdateUserDto, description: 'Created User' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreateUserDto): Promise<void> {
+  async create(
+    @Body() data: CreateUserDto,
+    @Request() request?: any,
+  ): Promise<void> {
     await this.service.create(data);
   }
 
@@ -86,6 +89,7 @@ export class UserController {
   async update(
     @Param('id') id: string,
     @Body() data: UpdateUserDto,
+    @Request() request?: any,
   ): Promise<User> {
     return this.service.update(id, data);
   }
@@ -97,7 +101,10 @@ export class UserController {
   @ApiOperation({ summary: 'Delete a User' })
   @ApiNoContentResponse({ description: 'Deleted User' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async delete(@Param('id') id: string): Promise<void> {
+  async delete(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<void> {
     await this.service.delete(id);
   }
 }

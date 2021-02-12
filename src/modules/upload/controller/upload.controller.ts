@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Request,
   UploadedFile,
   UseGuards,
   UseInterceptors
@@ -31,7 +32,6 @@ import { CreateUploadDto } from '../dtos';
 import { UpdateUploadDto } from '../dtos/update.dto';
 import { Upload } from '../schema/upload.schema';
 import { UploadService } from '../service/upload.service';
-
 
 @ApiTags('Upload')
 @Controller('uploads')
@@ -70,6 +70,7 @@ export class UploadController {
   async create(
     @UploadedFile() file,
     @Body() body: CreateUploadDto,
+    @Request() request?: any,
   ): Promise<void> {
     const { originalname: name, mimetype: mime, path, size } = file;
     await this.service.create({ name, mime, path, size, ...body });
@@ -96,6 +97,7 @@ export class UploadController {
   async update(
     @Param('id') id: string,
     @Body() data: UpdateUploadDto,
+    @Request() request?: any,
   ): Promise<Upload> {
     return this.service.update(id, data);
   }
@@ -107,7 +109,10 @@ export class UploadController {
   @ApiOperation({ summary: 'Delete a Upload' })
   @ApiNoContentResponse({ description: 'Deleted Upload' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async delete(@Param('id') id: string): Promise<void> {
+  async delete(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<void> {
     await this.service.delete(id);
   }
 }

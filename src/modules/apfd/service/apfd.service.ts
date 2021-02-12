@@ -12,8 +12,8 @@ export class ApfdService {
     private repository: Repository<Apfd>,
   ) {}
 
-  async findAll(): Promise<void> {
-    await this.repository.find();
+  async findAll(): Promise<Apfd[]> {
+    return await this.repository.find();
   }
 
   async create(data: CreateApfdDto): Promise<Apfd> {
@@ -37,7 +37,9 @@ export class ApfdService {
     return this.repository.create({ ...registry, ...data });
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<Apfd> {
+    const data = await this.findById(id);
     await this.repository.delete(id);
+    return data;
   }
 }

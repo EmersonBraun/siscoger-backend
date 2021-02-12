@@ -54,7 +54,7 @@ describe('ApfdService', () => {
       const savedApfd = await service.create(ApfdVariable);
 
       expect(savedApfd).toMatchObject(mockRegistry);
-      expect(mockRepository.create).toBeCalledWith(Apfd);
+      expect(mockRepository.create).toBeCalledWith(ApfdVariable);
       expect(mockRepository.create).toBeCalledTimes(1);
       expect(mockRepository.save).toBeCalledTimes(1);
     });
