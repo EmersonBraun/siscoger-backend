@@ -45,6 +45,7 @@
     "consistent-return": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "no-return-await": "off",
+    "lines-between-class-members": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
