@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import {
   getCurrentDate,
   getDaysOfFDS,
-  getDiffDateInDays
+  getDiffDateInDays,
 } from '../../../common/utils/date.utils';
 import { CreateFeriadoDto } from '../dtos/create.dto';
 import { UpdateFeriadoDto } from '../dtos/update.dto';

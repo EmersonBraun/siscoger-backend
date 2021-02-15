@@ -7,7 +7,7 @@ import {
   Param,
   Post,
   Put,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -16,7 +16,7 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags
+  ApiTags,
 } from '@nestjs/swagger';
 import ACLPolice from '../../../common/decorators/acl.decorator';
 import ACLGuard from '../../../common/guards/acl.guard';
@@ -26,7 +26,6 @@ import { CreateMailDto } from '../dtos';
 import { UpdateMailDto } from '../dtos/update.dto';
 // import { Mail } from '../schema/mail.schema';
 import { MailService } from '../service/mail.service';
-
 
 @ApiTags('Mail')
 @Controller('mails')

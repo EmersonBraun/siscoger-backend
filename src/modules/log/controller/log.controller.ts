@@ -5,7 +5,7 @@ import {
   HttpCode,
   Param,
   Post,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -13,7 +13,7 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags
+  ApiTags,
 } from '@nestjs/swagger';
 import ACLPolice from '../../../common/decorators/acl.decorator';
 import ACLGuard from '../../../common/guards/acl.guard';
@@ -22,7 +22,6 @@ import { ErrorResponse } from '../../../common/responses/error';
 import { CreateLogDto } from '../dtos';
 import { UpdateLogDto } from '../dtos/update.dto';
 import { LogService } from '../service/log.service';
-
 
 @ApiTags('Log')
 @Controller('logs')

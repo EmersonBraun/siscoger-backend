@@ -5,13 +5,13 @@ import {
   HttpCode,
   Post,
   Request,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiOperation,
-  ApiTags
+  ApiTags,
 } from '@nestjs/swagger';
 import JwtAuthGuard from '../../../common/guards/jwt.guard';
 import { ErrorResponse } from '../../../common/responses/error';
