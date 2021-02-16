@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.42.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.41.0...v0.42.0) (2021-02-16)
+
+
+### Features
+
+* add types of all entities ([564c07c](https://github.com/EmersonBraun/siscoger-backend-v2/commit/564c07cdfd70ffd809ab798153ee4110fcde2bc8))
+* create module decorrenciaconselho ([2c7c5f7](https://github.com/EmersonBraun/siscoger-backend-v2/commit/2c7c5f707e6389d0601e6215b232e8ec8e07ab9c))
+* create module denunciacivil ([cfb2429](https://github.com/EmersonBraun/siscoger-backend-v2/commit/cfb242977d7c9545aceac9ee1dcf273e6e66b6e7))
+* create module desercao ([364aa70](https://github.com/EmersonBraun/siscoger-backend-v2/commit/364aa7022978b521c62b1658e96049cd4f99614b))
+* create module exclusaojudicial ([075fdee](https://github.com/EmersonBraun/siscoger-backend-v2/commit/075fdee6d6bef484355ee2e90e730c88e61e4393))
+* create module fatd ([98063ae](https://github.com/EmersonBraun/siscoger-backend-v2/commit/98063ae7b7bc8d9abc073669a496c8dca4c7de23))
+* create module ipm ([25a54a7](https://github.com/EmersonBraun/siscoger-backend-v2/commit/25a54a7ec26a527d3d7a391e4911207de078436d))
+* create module iso ([7c86300](https://github.com/EmersonBraun/siscoger-backend-v2/commit/7c86300eaf7ef62964a5c255ae56c82f9509b55a))
+* create module pad ([296bed9](https://github.com/EmersonBraun/siscoger-backend-v2/commit/296bed9be4c4653ad2e42d11ae91d2d4466ecb4d))
+* create module pj ([0abd7b4](https://github.com/EmersonBraun/siscoger-backend-v2/commit/0abd7b40d910a65b509df32ab8a3a9a43b8ccf3f))
+* create module posto ([e867794](https://github.com/EmersonBraun/siscoger-backend-v2/commit/e8677941968b3dec8588119659f1818ef11c85fe))
+* create module preso ([1a6a1ea](https://github.com/EmersonBraun/siscoger-backend-v2/commit/1a6a1eabcc09b4f7aded012feef3d09d49943753))
+* create module presotipo ([def5733](https://github.com/EmersonBraun/siscoger-backend-v2/commit/def57335cf53e9baeed8d1fd669a3d28c4aae267))
+* create module procoutros ([2129901](https://github.com/EmersonBraun/siscoger-backend-v2/commit/2129901a8688fdb2133034546fa765bf309e5f91))
+* create module recurso ([7cc65b1](https://github.com/EmersonBraun/siscoger-backend-v2/commit/7cc65b11a81ebc383fbafcb494a98cdc8b11ab62))
+* create module reintegrado ([63c4f22](https://github.com/EmersonBraun/siscoger-backend-v2/commit/63c4f224a4cb935c106ab51474fd786500875cc4))
+* create module respcivil ([53dd039](https://github.com/EmersonBraun/siscoger-backend-v2/commit/53dd039db7146a0469cb01085bb1cda2bdce4628))
+* create module restricao ([c01610d](https://github.com/EmersonBraun/siscoger-backend-v2/commit/c01610d7fe3a6f5e7e8405a7928a0a9c54fd1836))
+* create module resultado ([7ec1858](https://github.com/EmersonBraun/siscoger-backend-v2/commit/7ec18583f9104561ce78a6ebca0b6faaf0ba8984))
+* create module sai ([1c808da](https://github.com/EmersonBraun/siscoger-backend-v2/commit/1c808da74347ed77cf818b78365b25566e6bd4fe))
+* create module saidiligencias ([eb16fa2](https://github.com/EmersonBraun/siscoger-backend-v2/commit/eb16fa2981675e5323e3d7b204860e7955132095))
+* create module situacao ([b5ea48d](https://github.com/EmersonBraun/siscoger-backend-v2/commit/b5ea48df920383339d283aaf5ac4824394c25067))
+* update readme ([2653169](https://github.com/EmersonBraun/siscoger-backend-v2/commit/265316994866d6076bdb61cd1e1c98103ae742e0))
+
 ## [0.41.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.40.1...v0.41.0) (2021-02-12)
 
 
