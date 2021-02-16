@@ -3,38 +3,18 @@ import { Document } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Upload {
-  @Prop()
-  campo: string;
-
-  @Prop()
-  rg: string;
-
-  @Prop()
-  id_proc: number;
-
-  @Prop()
-  proc: string;
-
-  @Prop()
-  obs: string;
-
-  @Prop()
-  is_old_file: boolean;
-
-  @Prop()
-  data_arquivo: string;
-
-  @Prop()
-  name: string;
-
-  @Prop()
-  mime: string;
-
-  @Prop()
-  path: string;
-
-  @Prop()
-  size: string;
+  @Prop() campo: string;
+  @Prop() rg: string;
+  @Prop() id_proc: number;
+  @Prop() proc: string;
+  @Prop() obs: string;
+  @Prop() is_old_file: boolean;
+  @Prop() data_arquivo: string;
+  @Prop() name: string;
+  @Prop() mime: string;
+  @Prop() path: string;
+  @Prop() size: string;
 }
+
 export type UploadDocument = Upload & Document;
 export const UploadSchema = SchemaFactory.createForClass(Upload);
