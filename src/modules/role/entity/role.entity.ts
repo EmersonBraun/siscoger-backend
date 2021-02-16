@@ -14,13 +14,9 @@ import { User } from '../../user/entity/user.entity';
 @Entity('roles')
 export class Role {
   @PrimaryGeneratedColumn() id: number;
-
   @Column({ nullable: true }) role: string;
-
   @CreateDateColumn({ name: 'created_at' }) createdAt: Date;
-
   @UpdateDateColumn({ name: 'updated_at' }) updatedAt: Date;
-
   @DeleteDateColumn({ name: 'deleted_at' }) deletedAt: Date;
 
   @ManyToMany(() => User, user => user.roles, { cascade: true })
