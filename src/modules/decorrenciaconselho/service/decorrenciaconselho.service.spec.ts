@@ -1,10 +1,10 @@
 // import { NotFoundException } from '@nestjs/common';
 // import { Test, TestingModule } from '@nestjs/testing';
 // import { getRepositoryToken } from '@nestjs/typeorm';
-// import { Create{{moduleName | toCamelCase}}Dto, Update{{moduleName | toCamelCase}}Dto } from '../dtos';
-// import { fakerRegistry } from '../factory/{{moduleName | toLowerCase}}.factory';
-// import { {{moduleName | toCamelCase}} } from '../entity/{{moduleName | toLowerCase}}.entity';
-// import { {{moduleName | toCamelCase}}Service } from './{{moduleName | toLowerCase}}.service';
+// import { CreateDecorrenciaConselhoDto, UpdateDecorrenciaConselhoDto } from '../dtos';
+// import { fakerRegistry } from '../factory/decorrenciaconselho.factory';
+// import { DecorrenciaConselho } from '../entity/decorrenciaconselho.entity';
+// import { DecorrenciaConselhoService } from './decorrenciaconselho.service';
 
 describe('Test Latter', () => {
   it('-', () => {
@@ -12,9 +12,9 @@ describe('Test Latter', () => {
     expect(a).toBe(1);
   });
 });
-// describe('{{moduleName | toCamelCase}}Service', () => {
-//   let service: {{moduleName | toCamelCase}}Service;
-//   let mockRegistry: Create{{moduleName | toCamelCase}}Dto;
+// describe('DecorrenciaConselhoService', () => {
+//   let service: DecorrenciaConselhoService;
+//   let mockRegistry: CreateDecorrenciaConselhoDto;
 
 //   const mockRepository = {
 //     create: jest.fn(),
@@ -29,12 +29,12 @@ describe('Test Latter', () => {
 //   beforeAll(async () => {
 //     const module: TestingModule = await Test.createTestingModule({
 //       providers: [
-//         {{moduleName | toCamelCase}}Service,
-//         { provide: getRepositoryToken({{moduleName | toCamelCase}}), useValue: mockRepository },
+//         DecorrenciaConselhoService,
+//         { provide: getRepositoryToken(DecorrenciaConselho), useValue: mockRepository },
 //       ],
 //     }).compile();
 
-//     service = module.get<{{moduleName | toCamelCase}}Service>({{moduleName | toCamelCase}}Service);
+//     service = module.get<DecorrenciaConselhoService>(DecorrenciaConselhoService);
 //     mockRegistry = fakerRegistry()
 //   });
 
@@ -53,58 +53,58 @@ describe('Test Latter', () => {
 //   });
 
 //   // need to solve
-//   describe('when create {{moduleName | toCamelCase}}', () => {
-//     it('should create a {{moduleName | toCamelCase}}', async () => {
+//   describe('when create DecorrenciaConselho', () => {
+//     it('should create a DecorrenciaConselho', async () => {
 //       mockRepository.create.mockReturnValueOnce(mockRegistry);
 //       mockRepository.save.mockReturnValueOnce(mockRegistry);
 
-//       const {{moduleName | toCamelCase}}: Create{{moduleName | toCamelCase}}Dto = mockRegistry;
+//       const DecorrenciaConselho: CreateDecorrenciaConselhoDto = mockRegistry;
 
-//       const saved{{moduleName | toCamelCase}} = await service.create({{moduleName | toCamelCase}});
+//       const savedDecorrenciaConselho = await service.create(DecorrenciaConselho);
 
-//       expect(saved{{moduleName | toCamelCase}}).toMatchObject(mockRegistry);
-//       expect(mockRepository.create).toBeCalledWith({{moduleName | toCamelCase}});
+//       expect(savedDecorrenciaConselho).toMatchObject(mockRegistry);
+//       expect(mockRepository.create).toBeCalledWith(DecorrenciaConselho);
 //       expect(mockRepository.create).toBeCalledTimes(1);
 //       expect(mockRepository.save).toBeCalledTimes(1);
 //     });
 //   });
 
-//   describe('when search all {{moduleName | toCamelCase}}', () => {
-//     it('should list all {{moduleName | toCamelCase}}', async () => {
+//   describe('when search all DecorrenciaConselho', () => {
+//     it('should list all DecorrenciaConselho', async () => {
 //       mockRepository.find.mockReturnValue([mockRegistry]);
 
-//       const {{moduleName | toCamelCase}} = await service.findAll();
+//       const DecorrenciaConselho = await service.findAll();
 
-//       expect({{moduleName | toCamelCase}}).toHaveLength(1);
+//       expect(DecorrenciaConselho).toHaveLength(1);
 //       expect(mockRepository.find).toBeCalledTimes(1);
 //     });
 //   });
 
-//   // describe('when search one {{moduleName | toCamelCase}}', () => {
-//   //   it('should list one {{moduleName | toCamelCase}}', async () => {
+//   // describe('when search one DecorrenciaConselho', () => {
+//   //   it('should list one DecorrenciaConselho', async () => {
 //   //     mockRepository.create.mockReturnValueOnce(mockRegistry);
 //   //     mockRepository.save.mockReturnValueOnce(mockRegistry);
 
-//   //     const {{moduleName | toCamelCase}}Update: Update{{moduleName | toCamelCase}}Dto = mockRegistry;
-//   //     const {{moduleName | toCamelCase}} = await service.search({{moduleName | toCamelCase}}Update);
+//   //     const DecorrenciaConselhoUpdate: UpdateDecorrenciaConselhoDto = mockRegistry;
+//   //     const DecorrenciaConselho = await service.search(DecorrenciaConselhoUpdate);
 
-//   //     expect({{moduleName | toCamelCase}}).toMatchObject(mockRegistry);
+//   //     expect(DecorrenciaConselho).toMatchObject(mockRegistry);
 //   //     expect(mockRepository.find).toBeCalledTimes(1);
 //   //   });
 //   // });
 
-//   describe('when search {{moduleName | toCamelCase}} by id', () => {
-//     it('should find a existing {{moduleName | toCamelCase}}', async () => {
+//   describe('when search DecorrenciaConselho by id', () => {
+//     it('should find a existing DecorrenciaConselho', async () => {
 //       mockRepository.findOne.mockReturnValue(mockRegistry);
 
-//       const {{moduleName | toCamelCase}} = await service.findById('1');
+//       const DecorrenciaConselho = await service.findById('1');
 
-//       expect({{moduleName | toCamelCase}}).toMatchObject(mockRegistry);
+//       expect(DecorrenciaConselho).toMatchObject(mockRegistry);
 //       expect(mockRepository.findOne).toBeCalledWith('1');
 //       expect(mockRepository.findOne).toBeCalledTimes(1);
 //     });
 
-//     it('should return a exception when does not to find a {{moduleName | toCamelCase}}', async () => {
+//     it('should return a exception when does not to find a DecorrenciaConselho', async () => {
 //       mockRepository.findOne.mockReturnValue(null);
 
 //       await service.findById('3').catch(error => {
@@ -116,41 +116,41 @@ describe('Test Latter', () => {
 //     });
 //   });
 
-//   describe('when update a {{moduleName | toCamelCase}}', () => {
-//     it('should update a existing {{moduleName | toCamelCase}}', async () => {
-//       const {{moduleName | toCamelCase}}Update: Update{{moduleName | toCamelCase}}Dto = mockRegistry;
-//       {{moduleName | toCamelCase}}Update.descricao = 'Update {{moduleName | toCamelCase}} '
+//   describe('when update a DecorrenciaConselho', () => {
+//     it('should update a existing DecorrenciaConselho', async () => {
+//       const DecorrenciaConselhoUpdate: UpdateDecorrenciaConselhoDto = mockRegistry;
+//       DecorrenciaConselhoUpdate.descricao = 'Update DecorrenciaConselho '
 
 //       mockRepository.findOne.mockReturnValue(mockRegistry);
 //       mockRepository.update.mockReturnValue({
 //         ...mockRegistry,
-//         ...{{moduleName | toCamelCase}}Update,
+//         ...DecorrenciaConselhoUpdate,
 //       });
 //       mockRepository.create.mockReturnValue({
 //         ...mockRegistry,
-//         ...{{moduleName | toCamelCase}}Update,
+//         ...DecorrenciaConselhoUpdate,
 //       });
 
-//       const updated{{moduleName | toCamelCase}} = await service.update(
+//       const updatedDecorrenciaConselho = await service.update(
 //         '1',
-//         {{moduleName | toCamelCase}}Update,
+//         DecorrenciaConselhoUpdate,
 //       );
 
-//       expect(updated{{moduleName | toCamelCase}}).toMatchObject({{moduleName | toCamelCase}}Update);
+//       expect(updatedDecorrenciaConselho).toMatchObject(DecorrenciaConselhoUpdate);
 //       expect(mockRepository.findOne).toBeCalledWith('1');
 //       expect(mockRepository.findOne).toBeCalledTimes(1);
-//       expect(mockRepository.update).toBeCalledWith('1', {{moduleName | toCamelCase}}Update);
+//       expect(mockRepository.update).toBeCalledWith('1', DecorrenciaConselhoUpdate);
 //       expect(mockRepository.update).toBeCalledTimes(1);
 //       expect(mockRepository.create).toBeCalledWith({
 //         ...mockRegistry,
-//         ...{{moduleName | toCamelCase}}Update,
+//         ...DecorrenciaConselhoUpdate,
 //       });
 //       expect(mockRepository.create).toBeCalledTimes(1);
 //     });
 //   });
 
-//   describe('when delete a {{moduleName | toCamelCase}}', () => {
-//     it('should delete a existing {{moduleName | toCamelCase}}', async () => {
+//   describe('when delete a DecorrenciaConselho', () => {
+//     it('should delete a existing DecorrenciaConselho', async () => {
 //       mockRepository.findOne.mockReturnValue(mockRegistry);
 //       mockRepository.delete.mockReturnValue(mockRegistry);
 

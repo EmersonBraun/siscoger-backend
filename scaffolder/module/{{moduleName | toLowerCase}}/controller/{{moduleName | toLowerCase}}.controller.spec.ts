@@ -4,6 +4,13 @@
 // import { {{moduleName | toCamelCase}}Service } from '../service/{{moduleName | toLowerCase}}.service';
 // import { {{moduleName | toCamelCase}}Controller } from './{{moduleName | toLowerCase}}.controller';
 
+describe('Test Latter', () => {
+  it('-', () => {
+    const a = 1;
+    expect(a).toBe(1);
+  });
+});
+
 // describe('{{moduleName | toCamelCase}}Controller', () => {
 //   let controller: {{moduleName | toCamelCase}}Controller;
 //   let mockRegistry: Create{{moduleName | toCamelCase}}Dto;
