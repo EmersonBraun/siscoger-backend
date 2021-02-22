@@ -5,7 +5,7 @@ module.exports = {
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: 'siscoger',
-  logging: true,
+  logging: false,
   entities: ['dist/src/modules/**/entity/*.entity.js'],
   migrations: ['dist/src/modules/**/migrations/*.js'],
   seeds: ['dist/src/modules/**/seeds/*.js'],

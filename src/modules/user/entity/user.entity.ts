@@ -1,6 +1,5 @@
-import bcrypt from 'bcrypt';
+// import bcrypt from 'bcrypt';
 import {
-  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -30,10 +29,11 @@ export class User {
   @CreateDateColumn({ name: 'created_at' }) createdAt: Date;
   @UpdateDateColumn({ name: 'updated_at' }) updatedAt: Date;
 
-  @BeforeInsert()
-  async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 10);
-  }
+  // @BeforeInsert()
+  // @BeforeUpdate()
+  // async hashPassword(): Promise<void> {
+  //   this.password = await bcrypt.hash(this.password, 10);
+  // }
 
   @ManyToMany(() => Role, role => role.users)
   @JoinTable()

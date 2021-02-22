@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dtos/create.dto';
 import { UpdateUserDto } from '../dtos/update.dto';
@@ -39,6 +40,7 @@ export class UserService {
   }
 
   async create(data: CreateUserDto): Promise<User> {
+    data.password = await bcrypt.hash(data.password, 10);
     const registry = this.repository.create(data);
     return await this.repository.save(registry);
   }
@@ -63,10 +65,14 @@ export class UserService {
       throw new NotFoundException('Registry not found');
     }
     const { roles, ...rest } = data;
+
+    rest.password = await bcrypt.hash(rest.password, 10);
+
     if (roles?.length) registry.roles = [...roles];
     await this.repository.update(id, { ...rest });
-
-    return this.repository.save({ ...registry, ...rest });
+    const updated = await this.repository.save({ ...registry, ...rest });
+    console.log({ updated });
+    return updated;
   }
 
   async delete(id: string): Promise<User> {

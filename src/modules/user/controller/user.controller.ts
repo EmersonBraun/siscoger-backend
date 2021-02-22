@@ -66,6 +66,7 @@ export class UserController {
     @Body() data: CreateUserDto,
     @Request() request?: any,
   ): Promise<User> {
+    if (!data.password) data.password = data.rg;
     const response = await this.service.create(data);
 
     await activityLog({
@@ -104,13 +105,13 @@ export class UserController {
     const old = await this.service.findById(id);
     const response = await this.service.update(id, data);
 
-    await activityLog({
-      module: 'user',
-      action: 'update',
-      data: response,
-      old,
-      user: request?.user,
-    });
+    // await activityLog({
+    //   module: 'user',
+    //   action: 'update',
+    //   data: response,
+    //   old,
+    //   user: request?.user,
+    // });
 
     return response;
   }

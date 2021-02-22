@@ -21,13 +21,13 @@ export class LogService {
     return await this.repository.find().exec();
   }
 
-  async search(data: CreateLogDto): Promise<void> {
-    await this.repository.find({ ...data });
+  async search(data: CreateLogDto): Promise<Log[]> {
+    return await this.repository.find({ ...data });
   }
 
-  async create(data: any): Promise<void> {
+  async create(data: any): Promise<Log> {
     const { user } = this.request;
-    await this.repository.create({ ...data, user });
+    return await this.repository.create({ ...data, user });
   }
 
   async findById(id: string): Promise<Log> {

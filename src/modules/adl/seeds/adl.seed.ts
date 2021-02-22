@@ -3,6 +3,11 @@ import Adl from '../entity/adl.entity';
 
 export default class CreateAdls implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    await factory(Adl)().createMany(10);
+    try {
+      await factory(Adl)().createMany(10);
+      console.log('Adl run OK');
+    } catch (error) {
+      console.log('Adl', error);
+    }
   }
 }

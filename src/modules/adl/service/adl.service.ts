@@ -13,7 +13,7 @@ export class AdlService {
   ) {}
 
   async findAll(): Promise<Adl[]> {
-    return await this.repository.find();
+    return await this.repository.find({ order: { id: 'ASC' } });
   }
 
   async create(data: CreateAdlDto): Promise<Adl> {

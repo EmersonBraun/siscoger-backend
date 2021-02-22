@@ -8,5 +8,5 @@ export type Pendencia = {
   sjd_ref_ano: number;
   proc: string;
   pendencias: string[];
-  state: any[];
+  state: any;
 };

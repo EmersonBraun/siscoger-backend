@@ -10,7 +10,7 @@ export class Pendencia {
   @Prop() sjd_ref_ano: number;
   @Prop() proc: string;
   @Prop([String]) pendencias: string[];
-  @Prop([Any]) state: any[];
+  @Prop([Any]) state: any;
 }
 
 export type PendenciaDocument = Pendencia & Document;

@@ -3,6 +3,11 @@ import { Arquivo } from '../entity/arquivo.entity';
 
 export default class CreateArquivos implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    await factory(Arquivo)().createMany(10);
+    try {
+      await factory(Arquivo)().createMany(10);
+      console.log('Arquivo run OK');
+    } catch (error) {
+      console.log('Arquivo', error);
+    }
   }
 }

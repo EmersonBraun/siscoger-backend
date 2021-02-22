@@ -14,6 +14,8 @@ import { Role } from '../../role/entity/role.entity';
 export class Permission {
   @PrimaryGeneratedColumn() id: number;
   @Column({ nullable: true }) permission: string;
+  @Column({ nullable: true }) group?: string;
+  @Column({ nullable: true }) description?: string;
   @CreateDateColumn({ name: 'created_at' }) createdAt: Date;
   @UpdateDateColumn({ name: 'updated_at' }) updatedAt: Date;
   @DeleteDateColumn({ name: 'deleted_at' }) deletedAt: Date;

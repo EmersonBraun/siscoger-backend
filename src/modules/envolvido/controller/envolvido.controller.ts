@@ -37,7 +37,7 @@ export class EnvolvidoController {
   @Get()
   @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({ roles: ['admin'], permissions: ['ver-envolvido'] })
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Search all Envolvido' })
   @ApiOkResponse({
     type: [CreateEnvolvidoDto],
@@ -50,7 +50,7 @@ export class EnvolvidoController {
   @Post('search')
   @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({ roles: ['admin'], permissions: ['ver-envolvido'] })
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Search Envolvido' })
   @ApiCreatedResponse({
     type: UpdateEnvolvidoDto,
@@ -67,7 +67,7 @@ export class EnvolvidoController {
   @Post()
   @HttpCode(201)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({ roles: ['admin'], permissions: ['criar-envolvido'] })
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Create a new Envolvido' })
   @ApiCreatedResponse({
     type: UpdateEnvolvidoDto,
@@ -93,7 +93,7 @@ export class EnvolvidoController {
   @Get(':id')
   @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({ roles: ['admin'], permissions: ['ver-envolvido'] })
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Search a Envolvido by id' })
   @ApiOkResponse({
     type: UpdateEnvolvidoDto,
@@ -107,7 +107,7 @@ export class EnvolvidoController {
   @Put(':id')
   @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({ roles: ['admin'], permissions: ['editar-envolvido'] })
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Update a Envolvido' })
   @ApiOkResponse({ type: UpdateEnvolvidoDto, description: 'Updated Envolvido' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -133,7 +133,7 @@ export class EnvolvidoController {
   @Delete(':id')
   @HttpCode(204)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({ roles: ['admin'], permissions: ['apagar-envolvido'] })
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Delete a Envolvido' })
   @ApiNoContentResponse({ description: 'Deleted Envolvido' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })

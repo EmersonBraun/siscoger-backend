@@ -17,7 +17,11 @@ export class PendenciaService {
   }
 
   async search(data: CreatePendenciaDto): Promise<Pendencia[]> {
-    return await this.repository.find({ ...data });
+    const { pendencias, ...rest } = data;
+    return await this.repository.find({
+      ...rest,
+      pendencias: { $in: pendencias },
+    });
   }
 
   async create(data: CreatePendenciaDto): Promise<Pendencia> {
