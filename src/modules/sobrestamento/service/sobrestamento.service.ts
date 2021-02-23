@@ -80,7 +80,6 @@ export class SobrestamentoService {
   }
 
   async delete(id: string): Promise<Sobrestamento> {
-    const saveData = await this.findById(id);
     const data = await this.findById(id);
     await this.repository.delete(id);
     return data;

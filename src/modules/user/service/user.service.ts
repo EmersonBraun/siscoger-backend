@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dtos/create.dto';
 import { UpdateUserDto } from '../dtos/update.dto';
@@ -39,8 +38,29 @@ export class UserService {
     return await this.repository.find({ where: { ...data } });
   }
 
+  async block(data: CreateUserDto): Promise<User> {
+    const registry = await this.repository.findOne({ where: { ...data } });
+    if (!registry) {
+      throw new NotFoundException('Registry not found');
+    }
+
+    await this.repository.update(registry.id, { ...registry, block: true });
+    const updated = await this.repository.save({ ...registry, block: true });
+    return updated;
+  }
+
+  async unblock(data: CreateUserDto): Promise<User> {
+    const registry = await this.repository.findOne({ where: { ...data } });
+    if (!registry) {
+      throw new NotFoundException('Registry not found');
+    }
+
+    await this.repository.update(registry.id, { ...registry, block: false });
+    const updated = await this.repository.save({ ...registry, block: false });
+    return updated;
+  }
+
   async create(data: CreateUserDto): Promise<User> {
-    data.password = await bcrypt.hash(data.password, 10);
     const registry = this.repository.create(data);
     return await this.repository.save(registry);
   }
@@ -61,17 +81,15 @@ export class UserService {
     const registry = await this.repository.findOne(id, {
       relations: ['roles'],
     });
+
     if (!registry) {
       throw new NotFoundException('Registry not found');
     }
     const { roles, ...rest } = data;
 
-    rest.password = await bcrypt.hash(rest.password, 10);
-
     if (roles?.length) registry.roles = [...roles];
     await this.repository.update(id, { ...rest });
-    const updated = await this.repository.save({ ...registry, ...rest });
-    console.log({ updated });
+    const updated = this.repository.save({ ...registry, ...rest });
     return updated;
   }
 

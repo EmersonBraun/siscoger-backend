@@ -4,6 +4,7 @@ import { Role } from '../../role/entity/role.entity';
 
 export class CreatePermissionDto {
   @IsString() @ApiProperty() permission: string;
-
+  @IsString() @ApiProperty() group?: string;
+  @IsString() @ApiProperty() description?: string;
   @IsOptional() @ApiProperty() roles?: Role[];
 }

@@ -66,7 +66,6 @@ export class PermissionController {
   @HttpCode(201)
   @UseGuards(JwtAuthGuard, ACLGuard)
   @ACLPolice({ roles: [], permissions: [] })
-  @ApiOperation({ summary: 'Search all permission' })
   @ApiOperation({ summary: 'Create a new permission' })
   @ApiCreatedResponse({
     type: UpdatePermissionDto,
@@ -78,6 +77,32 @@ export class PermissionController {
     @Request() request?: any,
   ): Promise<Permission> {
     const response = await this.service.create(data);
+
+    await activityLog({
+      module: 'permission',
+      action: 'create',
+      data: response,
+      user: request?.user,
+    });
+
+    return response;
+  }
+
+  @Post('/group')
+  @HttpCode(201)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Create a group of new permission' })
+  @ApiCreatedResponse({
+    type: UpdatePermissionDto,
+    description: 'Created permission',
+  })
+  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
+  async group(
+    @Body() data: CreatePermissionDto,
+    @Request() request?: any,
+  ): Promise<Permission[]> {
+    const response = await this.service.group(data);
 
     await activityLog({
       module: 'permission',

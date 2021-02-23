@@ -38,7 +38,7 @@ export class ArquivoController {
   @Get()
   @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({ roles: ['admin'], permissions: ['criar-arquivo'] })
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Search all Arquivo' })
   @ApiOkResponse({ type: [CreateArquivoDto], description: 'The found Arquivo' })
   async findAll(): Promise<Arquivo[]> {
@@ -48,7 +48,7 @@ export class ArquivoController {
   @Post('search')
   @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({ roles: ['admin'], permissions: ['criar-arquivo'] })
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Search Arquivo' })
   @ApiCreatedResponse({
     type: SearchArquivoDto,
@@ -62,7 +62,7 @@ export class ArquivoController {
   @Post()
   @HttpCode(201)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({ roles: ['admin'], permissions: ['criar-arquivo'] })
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Create a new Arquivo' })
   @ApiCreatedResponse({
     type: UpdateArquivoDto,
@@ -88,7 +88,7 @@ export class ArquivoController {
   @Get(':id')
   @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({ roles: ['admin'], permissions: ['criar-arquivo'] })
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Search a Arquivo by id' })
   @ApiOkResponse({ type: UpdateArquivoDto, description: 'The found Arquivo' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -99,7 +99,7 @@ export class ArquivoController {
   @Put(':id')
   @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({ roles: ['admin'], permissions: ['editar-arquivo'] })
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Update a Arquivo' })
   @ApiOkResponse({ type: UpdateArquivoDto, description: 'Updated Arquivo' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
@@ -125,7 +125,7 @@ export class ArquivoController {
   @Delete(':id')
   @HttpCode(204)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({ roles: ['admin'], permissions: ['apagar-arquivo'] })
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Delete a Arquivo' })
   @ApiNoContentResponse({ description: 'Deleted Arquivo' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })

@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -12,7 +14,7 @@ export class PermissionService {
   ) {}
 
   async findAll(): Promise<Permission[]> {
-    return await this.repository.find();
+    return await this.repository.find({ order: { id: 'DESC' } });
   }
 
   async search(data: CreatePermissionDto): Promise<Permission[]> {
@@ -25,6 +27,23 @@ export class PermissionService {
     const registry = this.repository.create(rest);
     if (roles?.length) registry.roles = [...roles];
     return await this.repository.save(registry);
+  }
+
+  async group(data: CreatePermissionDto): Promise<Permission[]> {
+    const { roles, ...rest } = data;
+    const response = [];
+    const groups = ['listar', 'ver', 'criar', 'editar', 'apagar'];
+    for (const [id, group] of groups.entries()) {
+      const registry = this.repository.create({
+        permission: `${group}-${rest.group}`,
+        group: rest.group,
+        description: rest.description,
+      });
+      if (roles?.length) registry.roles = [...roles];
+      response.push(await this.repository.save(registry));
+    }
+
+    return response;
   }
 
   async findById(id: string): Promise<Permission> {
@@ -49,7 +68,6 @@ export class PermissionService {
     const { roles, ...rest } = data;
     if (roles?.length) registry.roles = [...roles];
     await this.repository.update(id, { ...rest });
-
     return this.repository.save({ ...registry, ...rest });
   }
 

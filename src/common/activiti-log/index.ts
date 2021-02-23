@@ -8,6 +8,8 @@ type LogActivity = {
   module: string;
   action:
     | 'login'
+    | 'block'
+    | 'unblock'
     | 'show'
     | 'create'
     | 'update'
