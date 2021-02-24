@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Connection, IsNull, Not, Repository } from 'typeorm';
 import { CreateSindicanciaDto } from '../dtos/create.dto';
 import { SearchPortariaDto } from '../dtos/search-portaria.dto';
 import { UpdateSindicanciaDto } from '../dtos/update.dto';
@@ -10,6 +10,7 @@ import { Sindicancia } from '../entity/sindicancia.entity';
 export class SindicanciaService {
   constructor(
     @InjectRepository(Sindicancia) private repository: Repository<Sindicancia>,
+    private connection: Connection,
   ) {}
 
   getNextRefYear(data: CreateSindicanciaDto): number {
@@ -36,6 +37,17 @@ export class SindicanciaService {
     // return await this.repository.find({where: { cdopm: Like(`${codeBase(user.cdopm)}%`), completo: true }});
   }
 
+  async listDeleted(): Promise<Sindicancia[]> {
+    // if (canSeeAllOpm()) {
+    return await this.repository.find({
+      where: { completo: true, deletedAt: Not(IsNull()) },
+      withDeleted: true,
+      order: { sjd_ref: 'DESC' },
+    });
+    // }
+    // return await this.repository.find({where: { cdopm: Like(`${codeBase(user.cdopm)}%`), completo: true }});
+  }
+
   async findByYear(year = new Date().getFullYear()): Promise<Sindicancia[]> {
     // if (canSeeAllOpm()) {
     return await this.repository.find({
@@ -46,20 +58,20 @@ export class SindicanciaService {
     // return await this.repository.find({where: { sjd_ref_ano: year, cdopm: Like(`${codeBase(user.cdopm)}%`), completo: true }});
   }
 
-  async findAndamento() /*: Promise<Sindicancia[]> */ {
+  async findAndamento(): Promise<any[]> {
     // if (canSeeAllOpm()) {
-    // return await this.connection.query(`
-    //   SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.cargo, andamentoscoger.andamentocoger
-    //     FROM sindicancias
-    //   LEFT JOIN andamentos ON
-    //     sindicancias.id_andamento = andamentos.id
-    //   LEFT JOIN andamentoscoger ON
-    //     sindicancias.id_andamentocoger = andamentoscoger.id
-    //   LEFT JOIN envolvidos ON
-    //     envolvidos.id_sindicancia=sindicancias.id
-    //   ORDER BY sindicancias.id DESC
-    //   `)
-    return { TODO: 'TODO' };
+    return await this.connection.query(`
+      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM sindicancias
+      LEFT JOIN andamentos ON
+        sindicancias.id_andamento = andamentos.id
+      LEFT JOIN andamentoscoger ON
+        sindicancias.id_andamentocoger = andamentoscoger.id
+      LEFT JOIN envolvidos ON
+        envolvidos.id_sindicancia=sindicancias.id
+      ORDER BY sindicancias.id DESC
+      `);
+
     // }
     // return await this.connection.query(`
     //   SELECT sindicancia.*, andamento, encarregado.nome, encarregado.cargo, andamentocoger.andamentocoger
@@ -108,31 +120,43 @@ export class SindicanciaService {
     //   `,[year, cdopm])
   }
 
-  // async resultado() {
-  //   // if (canSeeAllOpm()) {
-  //     return await this.connection.query(`
-  //     SELECT sindicancia.*, andamento, envolvido.rg, envolvido.nome, envolvido.cargo, envolvido.resultado
-  //     FROM sindicancia
-  //     LEFT JOIN andamento ON
-  //       sindicancia.id_andamento = andamento.id_andamento
-  //     INNER JOIN envolvido ON
-  //       envolvido.id_sindicancia!=0 AND envolvido.id_sindicancia=sindicancia.id
-  //     WHERE  envolvido.situacao=?
-  //     ORDER BY sindicancia.id DESC
-  //     `,['Sindicado'])
-  //     // }
-  //     // return await this.connection.query(`
-  //     //   SELECT sindicancia.*, andamento, envolvido.rg, envolvido.nome, envolvido.cargo, envolvido.resultado
-  //     //   FROM sindicancia
-  //     //   LEFT JOIN andamento ON
-  //     //     sindicancia.id_andamento = andamento.id_andamento
-  //     //   INNER JOIN envolvido ON
-  //     //     envolvido.id_sindicancia!=0 AND envolvido.id_sindicancia=sindicancia.id
-  //     //   WHERE  envolvido.situacao=?
-  //     //   AND  sindicancia.cdopm = ?
-  //     //   ORDER BY sindicancia.id DESC
-  //     //   `,['Sindicado', cdopm])
-  // }
+  async resultado(situation = 'Sindicado') {
+    // if (canSeeAllOpm()) {
+    return await this.connection.query(
+      `
+      SELECT sindicancias.*, andamentos.*, envolvidos.*
+      FROM sindicancias
+      LEFT JOIN andamentos ON
+        sindicancias.id_andamento = andamentos.id
+      INNER JOIN envolvidos ON
+        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+      WHERE  envolvidos.situacao= $1
+      ORDER BY sindicancias.id DESC
+      `,
+      // `
+      // SELECT sindicancias.*, andamentos.*, envolvidos.*
+      // FROM sindicancias
+      // LEFT JOIN andamentos ON
+      //   sindicancias.id_andamento = andamentos.id
+      // LEFT JOIN envolvidos ON
+      //   envolvidos.id_sindicancia=sindicancias.id
+      // ORDER BY sindicancias.id DESC
+      // `,
+      [situation],
+    );
+    // }
+    // return await this.connection.query(`
+    //   SELECT sindicancia.*, andamento, envolvido.rg, envolvido.nome, envolvido.cargo, envolvido.resultado
+    //   FROM sindicancia
+    //   LEFT JOIN andamento ON
+    //     sindicancia.id_andamento = andamento.id_andamento
+    //   INNER JOIN envolvido ON
+    //     envolvido.id_sindicancia!=0 AND envolvido.id_sindicancia=sindicancia.id
+    //   WHERE  envolvido.situacao=?
+    //   AND  sindicancia.cdopm = ?
+    //   ORDER BY sindicancia.id DESC
+    //   `,['Sindicado', cdopm])
+  }
 
   // async resultadoYear(year = new Date().getFullYear()) {
   //   // if (canSeeAllOpm()) {
@@ -303,7 +327,7 @@ export class SindicanciaService {
   }
 
   async findById(id: string): Promise<Sindicancia> {
-    const registry = await this.repository.findOne(id);
+    const registry = await this.repository.findOne(id, { withDeleted: true });
 
     if (!registry) {
       throw new NotFoundException('Registry not found');
@@ -320,6 +344,20 @@ export class SindicanciaService {
   }
 
   async delete(id: string): Promise<Sindicancia> {
+    const registry = await this.findById(id);
+    await this.repository.update(id, { deletedAt: new Date() });
+
+    return this.repository.create({ ...registry, deletedAt: new Date() });
+  }
+
+  async restore(id: string): Promise<Sindicancia> {
+    const registry = await this.findById(id);
+    await this.repository.update(id, { deletedAt: null });
+
+    return this.repository.create({ ...registry, deletedAt: null });
+  }
+
+  async forceDelete(id: string): Promise<Sindicancia> {
     const data = await this.findById(id);
     await this.repository.delete(id);
     return data;

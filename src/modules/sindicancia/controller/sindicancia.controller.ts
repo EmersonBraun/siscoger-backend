@@ -1,14 +1,22 @@
 import {
   Body,
+
   Controller,
   Delete,
   Get,
   HttpCode,
   Param,
   Post,
-  Put,
+  Put, Query,
+
+
+
+
+
+
+
   Request,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -17,7 +25,7 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
 import { activityLog } from '../../../common/activiti-log';
 import ACLPolice from '../../../common/decorators/acl.decorator';
@@ -48,13 +56,34 @@ export class SindicanciaController {
     return await this.service.findAll();
   }
 
-  // @Get('/andamento')
-  // @HttpCode(200)
-  // @ApiOperation({ summary: 'Search all Sindicancia' })
-  // @ApiOkResponse({ type: [CreateSindicanciaDto], description: 'The found Sindicancia' })
-  // async andamento(): Promise<Sindicancia[]> {
-  //   return await this.service.findAndamento();
-  // }
+  @Get('/deleted')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all deleted Sindicancia' })
+  @ApiOkResponse({
+    type: [CreateSindicanciaDto],
+    description: 'The found deleted Sindicancia',
+  })
+  async listDeleted(): Promise<Sindicancia[]> {
+    return await this.service.listDeleted();
+  }
+
+  @Get('/andamento')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Search all Sindicancia' })
+  // @ApiOkResponse({ type: [any], description: 'The found Sindicancia' })
+  async andamento(): Promise<any[]> {
+    return await this.service.findAndamento();
+  }
+
+  @Get('/resultado')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Search all Sindicancia' })
+  // @ApiOkResponse({ type: [any], description: 'The found Sindicancia' })
+  async resultado(@Query() query: string): Promise<any[]> {
+    return await this.service.resultado(query);
+  }
 
   @Post('portarias')
   @HttpCode(200)
@@ -139,8 +168,30 @@ export class SindicanciaController {
     return response;
   }
 
+  @Put(':id/restore')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Delete a Sindicancia' })
+  @ApiNoContentResponse({ description: 'Deleted Sindicancia' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async restore(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<Sindicancia> {
+    const data = await this.service.restore(id);
+
+    await activityLog({
+      module: 'sindicancia',
+      action: 'restore',
+      data,
+      user: request?.user,
+    });
+    return data;
+  }
+
   @Delete(':id')
-  @HttpCode(204)
+  @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
   @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Delete a Sindicancia' })
@@ -149,7 +200,7 @@ export class SindicanciaController {
   async delete(
     @Param('id') id: string,
     @Request() request?: any,
-  ): Promise<void> {
+  ): Promise<Sindicancia> {
     const data = await this.service.delete(id);
 
     await activityLog({
@@ -158,5 +209,28 @@ export class SindicanciaController {
       data,
       user: request?.user,
     });
+    return data;
+  }
+
+  @Delete(':id/force')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Delete definitive a Sindicancia' })
+  @ApiNoContentResponse({ description: 'Deleted definitive Sindicancia' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async forceDelete(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<Sindicancia> {
+    const data = await this.service.forceDelete(id);
+
+    await activityLog({
+      module: 'sindicancia',
+      action: 'forceDelete',
+      data,
+      user: request?.user,
+    });
+    return data;
   }
 }
