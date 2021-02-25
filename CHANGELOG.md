@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.45.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.44.0...v0.45.0) (2021-02-25)
+
+
+### Features
+
+* ensure soft delete to user and roles ([00316eb](https://github.com/EmersonBraun/siscoger-backend-v2/commit/00316eba3632e34299dc7cacc4d6a7a7ec274fab))
+
 ## [0.44.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.43.0...v0.44.0) (2021-02-24)
 
 
