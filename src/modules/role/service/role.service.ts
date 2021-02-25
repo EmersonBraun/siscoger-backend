@@ -54,6 +54,20 @@ export class RoleService {
   }
 
   async delete(id: string): Promise<Role> {
+    const registry = await this.findById(id);
+    await this.repository.update(id, { deletedAt: new Date() });
+
+    return this.repository.create({ ...registry, deletedAt: new Date() });
+  }
+
+  async restore(id: string): Promise<Role> {
+    const registry = await this.findById(id);
+    await this.repository.update(id, { deletedAt: null });
+
+    return this.repository.create({ ...registry, deletedAt: null });
+  }
+
+  async forceDelete(id: string): Promise<Role> {
     const data = await this.findById(id);
     await this.repository.delete(id);
     return data;

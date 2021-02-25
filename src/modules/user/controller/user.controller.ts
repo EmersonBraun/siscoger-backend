@@ -162,8 +162,30 @@ export class UserController {
     return response;
   }
 
+  @Put(':id/restore')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Delete a User' })
+  @ApiNoContentResponse({ description: 'Deleted User' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async restore(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<User> {
+    const data = await this.service.restore(id);
+
+    await activityLog({
+      module: 'user',
+      action: 'restore',
+      data,
+      user: request?.user,
+    });
+    return data;
+  }
+
   @Delete(':id')
-  @HttpCode(204)
+  @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
   @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Delete a User' })
@@ -172,7 +194,7 @@ export class UserController {
   async delete(
     @Param('id') id: string,
     @Request() request?: any,
-  ): Promise<void> {
+  ): Promise<User> {
     const data = await this.service.delete(id);
 
     await activityLog({
@@ -181,5 +203,28 @@ export class UserController {
       data,
       user: request?.user,
     });
+    return data;
+  }
+
+  @Delete(':id/force')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Delete definitive a User' })
+  @ApiNoContentResponse({ description: 'Deleted definitive User' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async forceDelete(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<User> {
+    const data = await this.service.forceDelete(id);
+
+    await activityLog({
+      module: 'user',
+      action: 'forceDelete',
+      data,
+      user: request?.user,
+    });
+    return data;
   }
 }

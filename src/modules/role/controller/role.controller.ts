@@ -116,17 +116,39 @@ export class RoleController {
     return response;
   }
 
-  @Delete(':id')
-  @HttpCode(204)
+  @Put(':id/restore')
+  @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
   @ACLPolice({ roles: [], permissions: [] })
-  @ApiOperation({ summary: 'Delete a role' })
-  @ApiNoContentResponse({ description: 'Deleted role' })
+  @ApiOperation({ summary: 'Delete a Role' })
+  @ApiNoContentResponse({ description: 'Deleted Role' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async restore(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<Role> {
+    const data = await this.service.restore(id);
+
+    await activityLog({
+      module: 'role',
+      action: 'restore',
+      data,
+      user: request?.user,
+    });
+    return data;
+  }
+
+  @Delete(':id')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Delete a Role' })
+  @ApiNoContentResponse({ description: 'Deleted Role' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
   async delete(
     @Param('id') id: string,
     @Request() request?: any,
-  ): Promise<void> {
+  ): Promise<Role> {
     const data = await this.service.delete(id);
 
     await activityLog({
@@ -135,5 +157,28 @@ export class RoleController {
       data,
       user: request?.user,
     });
+    return data;
+  }
+
+  @Delete(':id/force')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Delete definitive a Role' })
+  @ApiNoContentResponse({ description: 'Deleted definitive Role' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async forceDelete(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<Role> {
+    const data = await this.service.forceDelete(id);
+
+    await activityLog({
+      module: 'role',
+      action: 'forceDelete',
+      data,
+      user: request?.user,
+    });
+    return data;
   }
 }
