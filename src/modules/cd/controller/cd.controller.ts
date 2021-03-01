@@ -116,17 +116,36 @@ export class CdController {
     return response;
   }
 
-  @Delete(':id')
-  @HttpCode(204)
+  @Put(':id/restore')
+  @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
   @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Delete a Cd' })
   @ApiNoContentResponse({ description: 'Deleted Cd' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async delete(
+  async restore(
     @Param('id') id: string,
     @Request() request?: any,
-  ): Promise<void> {
+  ): Promise<Cd> {
+    const data = await this.service.restore(id);
+
+    await activityLog({
+      module: 'cd',
+      action: 'restore',
+      data,
+      user: request?.user,
+    });
+    return data;
+  }
+
+  @Delete(':id')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Delete a Cd' })
+  @ApiNoContentResponse({ description: 'Deleted Cd' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async delete(@Param('id') id: string, @Request() request?: any): Promise<Cd> {
     const data = await this.service.delete(id);
 
     await activityLog({
@@ -135,5 +154,28 @@ export class CdController {
       data,
       user: request?.user,
     });
+    return data;
+  }
+
+  @Delete(':id/force')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Delete definitive a Cd' })
+  @ApiNoContentResponse({ description: 'Deleted definitive Cd' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async forceDelete(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<Cd> {
+    const data = await this.service.forceDelete(id);
+
+    await activityLog({
+      module: 'cd',
+      action: 'forceDelete',
+      data,
+      user: request?.user,
+    });
+    return data;
   }
 }

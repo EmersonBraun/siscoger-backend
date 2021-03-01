@@ -6,7 +6,7 @@ import {
   IsOptional,
   IsPositive,
   IsString,
-  MinLength
+  MinLength,
 } from 'class-validator';
 
 export class CreateSindicanciaDto {

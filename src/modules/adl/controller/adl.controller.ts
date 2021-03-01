@@ -103,8 +103,30 @@ export default class AdlController {
     return response;
   }
 
+  @Put(':id/restore')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Delete a Adl' })
+  @ApiNoContentResponse({ description: 'Deleted Adl' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async restore(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<Adl> {
+    const data = await this.service.restore(id);
+
+    await activityLog({
+      module: 'adl',
+      action: 'restore',
+      data,
+      user: request?.user,
+    });
+    return data;
+  }
+
   @Delete(':id')
-  @HttpCode(204)
+  @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
   @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Delete a Adl' })
@@ -113,7 +135,7 @@ export default class AdlController {
   async delete(
     @Param('id') id: string,
     @Request() request?: any,
-  ): Promise<void> {
+  ): Promise<Adl> {
     const data = await this.service.delete(id);
 
     await activityLog({
@@ -122,5 +144,28 @@ export default class AdlController {
       data,
       user: request?.user,
     });
+    return data;
+  }
+
+  @Delete(':id/force')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Delete definitive a Adl' })
+  @ApiNoContentResponse({ description: 'Deleted definitive Adl' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async forceDelete(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<Adl> {
+    const data = await this.service.forceDelete(id);
+
+    await activityLog({
+      module: 'adl',
+      action: 'forceDelete',
+      data,
+      user: request?.user,
+    });
+    return data;
   }
 }

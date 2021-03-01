@@ -1,8 +1,6 @@
-import { User } from '../../modules/user/entity/user.entity';
-
-const codeBase = (user: User) => {
+const codeBase = (cdopm: string) => {
   // TODO
-  return user.cdopm;
+  return cdopm;
 };
 
 export default codeBase;

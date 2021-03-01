@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('apfd')
 export class Apfd {
@@ -20,4 +27,7 @@ export class Apfd {
   @Column({ nullable: true }) opm_meta4: string;
   @Column({ nullable: true }) referenciavajme: string;
   @Column({ nullable: true }) prioridade: number;
+  @CreateDateColumn({ name: 'created_at' }) createdAt: Date;
+  @UpdateDateColumn({ name: 'updated_at' }) updatedAt: Date;
+  @DeleteDateColumn({ name: 'deleted_at' }) deletedAt: Date;
 }

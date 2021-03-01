@@ -1,22 +1,15 @@
 import {
   Body,
-
   Controller,
   Delete,
   Get,
   HttpCode,
   Param,
   Post,
-  Put, Query,
-
-
-
-
-
-
-
+  Put,
+  Query,
   Request,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -25,7 +18,7 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags
+  ApiTags,
 } from '@nestjs/swagger';
 import { activityLog } from '../../../common/activiti-log';
 import ACLPolice from '../../../common/decorators/acl.decorator';
@@ -81,8 +74,8 @@ export class SindicanciaController {
   @HttpCode(200)
   @ApiOperation({ summary: 'Search all Sindicancia' })
   // @ApiOkResponse({ type: [any], description: 'The found Sindicancia' })
-  async resultado(@Query() query: string): Promise<any[]> {
-    return await this.service.resultado(query);
+  async resultado(@Query() situation: string): Promise<any[]> {
+    return await this.service.resultado({ situation });
   }
 
   @Post('portarias')

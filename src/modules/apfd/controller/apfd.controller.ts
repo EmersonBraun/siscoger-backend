@@ -104,17 +104,39 @@ export class ApfdController {
     return response;
   }
 
-  @Delete(':id')
-  @HttpCode(204)
+  @Put(':id/restore')
+  @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({ roles: ['admin'], permissions: ['apagar-apfd'] })
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Delete a Apfd' })
+  @ApiNoContentResponse({ description: 'Deleted Apfd' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async restore(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<Apfd> {
+    const data = await this.service.restore(id);
+
+    await activityLog({
+      module: 'apfd',
+      action: 'restore',
+      data,
+      user: request?.user,
+    });
+    return data;
+  }
+
+  @Delete(':id')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Delete a Apfd' })
   @ApiNoContentResponse({ description: 'Deleted Apfd' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
   async delete(
     @Param('id') id: string,
     @Request() request?: any,
-  ): Promise<void> {
+  ): Promise<Apfd> {
     const data = await this.service.delete(id);
 
     await activityLog({
@@ -123,5 +145,28 @@ export class ApfdController {
       data,
       user: request?.user,
     });
+    return data;
+  }
+
+  @Delete(':id/force')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Delete definitive a Apfd' })
+  @ApiNoContentResponse({ description: 'Deleted definitive Apfd' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async forceDelete(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<Apfd> {
+    const data = await this.service.forceDelete(id);
+
+    await activityLog({
+      module: 'apfd',
+      action: 'forceDelete',
+      data,
+      user: request?.user,
+    });
+    return data;
   }
 }
