@@ -1,17 +1,17 @@
-// import * as Faker from 'faker'
-// import { define } from 'typeorm-seeding'
-// import { DecorrenciaConselho } from '../entity/decorrenciaconselho.entity';
-// import { CreateDecorrenciaConselhoDto } from '../dtos/create.dto';
+import * as Faker from 'faker';
+import { define } from 'typeorm-seeding';
+import { CreateDecorrenciaConselhoDto } from '../dtos/create.dto';
+import { DecorrenciaConselho } from '../entity/decorrenciaconselho.entity';
 
-// define(DecorrenciaConselho, (faker: typeof Faker) => {
-//   const factory = new DecorrenciaConselho()
-//   // factory.data = faker.date.future(1)
-//   return factory
-// })
+define(DecorrenciaConselho, (faker: typeof Faker) => {
+  const factory = new DecorrenciaConselho();
+  factory.decorrenciaconselho = faker.name.findName();
+  return factory;
+});
 
-// export const fakerRegistry = ():CreateDecorrenciaConselhoDto => {
-//   const faker = Faker
-//   return {
-//     // data: faker.date.past(1),
-//   }
-// }
+export const fakerRegistry = (): CreateDecorrenciaConselhoDto => {
+  const faker = Faker;
+  return {
+    decorrenciaconselho: faker.name.findName(),
+  };
+};
