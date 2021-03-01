@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.47.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.46.0...v0.47.0) (2021-03-01)
+
+
+### Features
+
+* add decorrenciaconselho module ([965dc82](https://github.com/EmersonBraun/siscoger-backend-v2/commit/965dc8239aaef891137b78d61283417a0b264c4c))
+
 ## [0.46.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.45.0...v0.46.0) (2021-03-01)
 
 
