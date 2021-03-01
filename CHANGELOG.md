@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.47.1](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.47.0...v0.47.1) (2021-03-01)
+
+
+### Bug Fixes
+
+* solve tests in adl, cd and cj ([761f5e7](https://github.com/EmersonBraun/siscoger-backend-v2/commit/761f5e79b1785cbb40eb960e612e0d206e7bd525))
+
 ## [0.47.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.46.0...v0.47.0) (2021-03-01)
 
 
