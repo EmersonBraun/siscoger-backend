@@ -22,6 +22,7 @@ describe('SindicanciaService', () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
+        // Connection,
         SindicanciaService,
         { provide: getRepositoryToken(Sindicancia), useValue: mockRepository },
       ],

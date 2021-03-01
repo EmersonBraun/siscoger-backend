@@ -1,7 +1,7 @@
 import * as Faker from 'faker';
 import { define } from 'typeorm-seeding';
 import { CreateApfdDto } from '../dtos/create.dto';
-import { Apfd } from '../entity/apfd.entity';
+import Apfd from '../entity/apfd.entity';
 
 define(Apfd, (faker: typeof Faker) => {
   const factory = new Apfd();

@@ -4,7 +4,7 @@ import {
   DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 
 @Entity('adls')
@@ -42,6 +42,7 @@ export default class Adl {
   @Column({ nullable: true }) tjpr_file: string;
   @Column({ nullable: true }) stj_file: string;
   @Column({ nullable: true }) prioridade: number;
+  @Column({ nullable: true }) completo: boolean;
   @CreateDateColumn({ name: 'created_at' }) createdAt: Date;
   @UpdateDateColumn({ name: 'updated_at' }) updatedAt: Date;
   @DeleteDateColumn({ name: 'deleted_at' }) deletedAt: Date;

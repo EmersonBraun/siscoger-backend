@@ -1,16 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import codeBase from 'src/common/services/opm.service';
 import { Connection, IsNull, Like, Not, Repository } from 'typeorm';
+import codeBase from '../../../common/services/opm.service';
 import { CreateCdDto } from '../dtos/create.dto';
 import { UpdateCdDto } from '../dtos/update.dto';
-import { Cd } from '../entity/cd.entity';
+import Cd from '../entity/cd.entity';
 
 @Injectable()
 export class CdService {
   constructor(
     @InjectRepository(Cd) private repository: Repository<Cd>,
-    private connection: Connection,
+    @Inject('CONNECTION') private connection: Connection,
   ) {}
 
   getNextRefYear(data: CreateCdDto): number {

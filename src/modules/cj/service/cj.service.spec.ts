@@ -1,17 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
-import { CreateCdDto, UpdateCdDto } from '../dtos/index';
-import Cd from '../entity/cd.entity';
-import { fakerRegistry } from '../factory/cd.factory';
-import { CdService } from './cd.service';
+import { CreateCjDto, UpdateCjDto } from '../dtos/index';
+import Cj from '../entity/cj.entity';
+import { fakerRegistry } from '../factory/cj.factory';
+import { CjService } from './cj.service';
 
-describe('CdService', () => {
+describe('CjService', () => {
   let db: Connection;
 
-  let service: CdService;
+  let service: CjService;
   // let repository: any;
-  let mockRegistry: CreateCdDto;
+  let mockRegistry: CreateCjDto;
 
   const mockRepository = {
     getNextRefYear: jest.fn(),
@@ -34,14 +34,14 @@ describe('CdService', () => {
   };
 
   beforeAll(async () => {
-    // db = await rootTypeormTestModule([Cd]);
-    // repository = await db.getRepository(Cd);
-    // service = new CdService(repository, db);
+    // db = await rootTypeormTestModule([Cj]);
+    // repository = await db.getRepository(Cj);
+    // service = new CjService(repository, db);
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        CdService,
+        CjService,
         {
-          provide: getRepositoryToken(Cd),
+          provide: getRepositoryToken(Cj),
           useValue: mockRepository,
         },
         {
@@ -51,7 +51,7 @@ describe('CdService', () => {
       ],
     }).compile();
 
-    service = module.get<CdService>(CdService);
+    service = module.get<CjService>(CjService);
     mockRegistry = fakerRegistry();
   });
 
@@ -81,7 +81,7 @@ describe('CdService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should getNextRefYear from a Cd', async () => {
+  it('should getNextRefYear from a Cj', async () => {
     mockRepository.getNextRefYear.mockReturnValueOnce(1);
 
     const saved = await mockRepository.getNextRefYear(mockRegistry);
@@ -91,7 +91,7 @@ describe('CdService', () => {
     expect(mockRepository.getNextRefYear).toBeCalledTimes(1);
   });
 
-  it('should getNextRef from a Cd', async () => {
+  it('should getNextRef from a Cj', async () => {
     mockRepository.getNextRef.mockReturnValueOnce(1);
 
     const saved = await mockRepository.getNextRef(mockRegistry);
@@ -101,8 +101,8 @@ describe('CdService', () => {
     expect(mockRepository.getNextRef).toBeCalledTimes(1);
   });
 
-  describe('when findAll Cd', () => {
-    it('should findAll Cd', async () => {
+  describe('when findAll Cj', () => {
+    it('should findAll Cj', async () => {
       mockRepository.findAll.mockReturnValueOnce([mockRegistry]);
       const registry = await mockRepository.findAll();
 
@@ -110,7 +110,7 @@ describe('CdService', () => {
       expect(mockRepository.findAll).toBeCalledTimes(1);
       expect(registry).toHaveLength(1);
     });
-    it('should findAll Cd passed cdopm', async () => {
+    it('should findAll Cj passed cdopm', async () => {
       mockRepository.findAll.mockReturnValueOnce([mockRegistry]);
       const registry = await mockRepository.findAll(mockRegistry.cdopm);
 
@@ -120,8 +120,8 @@ describe('CdService', () => {
     });
   });
 
-  describe('when findByYear Cd', () => {
-    it('should findByYear Cd', async () => {
+  describe('when findByYear Cj', () => {
+    it('should findByYear Cj', async () => {
       mockRepository.findByYear.mockReturnValueOnce([mockRegistry]);
       const registry = await mockRepository.findByYear();
 
@@ -129,7 +129,7 @@ describe('CdService', () => {
       expect(mockRepository.findByYear).toBeCalledTimes(1);
       expect(registry).toHaveLength(1);
     });
-    it('should findByYear Cd pass year', async () => {
+    it('should findByYear Cj pass year', async () => {
       mockRepository.findByYear.mockReturnValueOnce([mockRegistry]);
       const { sjd_ref_ano: year } = mockRegistry;
       const registry = await mockRepository.findByYear({ year });
@@ -138,7 +138,7 @@ describe('CdService', () => {
       expect(mockRepository.findByYear).toBeCalledTimes(1);
       expect(registry).toHaveLength(1);
     });
-    it('should findByYear Cd passed year and cdopm', async () => {
+    it('should findByYear Cj passed year and cdopm', async () => {
       mockRepository.findByYear.mockReturnValueOnce([mockRegistry]);
       const { sjd_ref_ano: year, cdopm } = mockRegistry;
       const registry = await mockRepository.findByYear({ year, cdopm });
@@ -149,8 +149,8 @@ describe('CdService', () => {
     });
   });
 
-  describe('when findAndamento Cd', () => {
-    it('should findAndamento Cd', async () => {
+  describe('when findAndamento Cj', () => {
+    it('should findAndamento Cj', async () => {
       mockRepository.findAndamento.mockReturnValueOnce([mockRegistry]);
       const registry = await mockRepository.findAndamento();
 
@@ -158,7 +158,7 @@ describe('CdService', () => {
       expect(mockRepository.findAndamento).toBeCalledTimes(1);
       expect(registry).toHaveLength(1);
     });
-    it('should findAndamento Cd passes cdopm', async () => {
+    it('should findAndamento Cj passes cdopm', async () => {
       mockRepository.findAndamento.mockReturnValueOnce([mockRegistry]);
       const { cdopm } = mockRegistry;
       const registry = await mockRepository.findAndamento({ cdopm });
@@ -169,8 +169,8 @@ describe('CdService', () => {
     });
   });
 
-  describe('when findAndamentoYear Cd', () => {
-    it('should findAndamentoYear Cd', async () => {
+  describe('when findAndamentoYear Cj', () => {
+    it('should findAndamentoYear Cj', async () => {
       mockRepository.findAndamentoYear.mockReturnValueOnce([mockRegistry]);
       const registry = await mockRepository.findAndamentoYear();
 
@@ -178,7 +178,7 @@ describe('CdService', () => {
       expect(mockRepository.findAndamentoYear).toBeCalledTimes(1);
       expect(registry).toHaveLength(1);
     });
-    it('should findAndamentoYear Cd passes cdopm', async () => {
+    it('should findAndamentoYear Cj passes cdopm', async () => {
       mockRepository.findAndamentoYear.mockReturnValueOnce([mockRegistry]);
       const { cdopm } = mockRegistry;
       const registry = await mockRepository.findAndamentoYear({ cdopm });
@@ -187,7 +187,7 @@ describe('CdService', () => {
       expect(mockRepository.findAndamentoYear).toBeCalledTimes(1);
       expect(registry).toHaveLength(1);
     });
-    it('should findAndamentoYear Cd passes year and cdopm', async () => {
+    it('should findAndamentoYear Cj passes year and cdopm', async () => {
       mockRepository.findAndamentoYear.mockReturnValueOnce([mockRegistry]);
       const { sjd_ref_ano: year, cdopm } = mockRegistry;
       const registry = await mockRepository.findAndamentoYear({ year, cdopm });
@@ -198,8 +198,8 @@ describe('CdService', () => {
     });
   });
 
-  describe('when resultado Cd', () => {
-    it('should resultado Cd', async () => {
+  describe('when resultado Cj', () => {
+    it('should resultado Cj', async () => {
       mockRepository.resultado.mockReturnValueOnce([mockRegistry]);
       const registry = await mockRepository.resultado();
 
@@ -207,7 +207,7 @@ describe('CdService', () => {
       expect(mockRepository.resultado).toBeCalledTimes(1);
       expect(registry).toHaveLength(1);
     });
-    it('should resultado Cd passes cdopm', async () => {
+    it('should resultado Cj passes cdopm', async () => {
       mockRepository.resultado.mockReturnValueOnce([mockRegistry]);
       const { cdopm } = mockRegistry;
       const registry = await mockRepository.resultado({ cdopm });
@@ -218,8 +218,8 @@ describe('CdService', () => {
     });
   });
 
-  describe('when resultadoYear Cd', () => {
-    it('should resultadoYear Cd', async () => {
+  describe('when resultadoYear Cj', () => {
+    it('should resultadoYear Cj', async () => {
       mockRepository.resultadoYear.mockReturnValueOnce([mockRegistry]);
       const registry = await mockRepository.resultadoYear();
 
@@ -227,7 +227,7 @@ describe('CdService', () => {
       expect(mockRepository.resultadoYear).toBeCalledTimes(1);
       expect(registry).toHaveLength(1);
     });
-    it('should resultadoYear Cd passes cdopm', async () => {
+    it('should resultadoYear Cj passes cdopm', async () => {
       mockRepository.resultadoYear.mockReturnValueOnce([mockRegistry]);
       const { cdopm } = mockRegistry;
       const registry = await mockRepository.resultadoYear({ cdopm });
@@ -236,7 +236,7 @@ describe('CdService', () => {
       expect(mockRepository.resultadoYear).toBeCalledTimes(1);
       expect(registry).toHaveLength(1);
     });
-    it('should resultadoYear Cd passes year and cdopm', async () => {
+    it('should resultadoYear Cj passes year and cdopm', async () => {
       mockRepository.resultadoYear.mockReturnValueOnce([mockRegistry]);
       const { sjd_ref_ano: year, cdopm } = mockRegistry;
       const registry = await mockRepository.resultadoYear({ year, cdopm });
@@ -247,10 +247,10 @@ describe('CdService', () => {
     });
   });
 
-  describe('when create Cd', () => {
-    it('should create a Cd', async () => {
+  describe('when create Cj', () => {
+    it('should create a Cj', async () => {
       mockRepository.create.mockReturnValueOnce(mockRegistry);
-      const data: CreateCdDto = mockRegistry;
+      const data: CreateCjDto = mockRegistry;
       const registry = await mockRepository.create(data);
 
       mockRepository.save.mockReturnValueOnce(registry);
@@ -264,38 +264,38 @@ describe('CdService', () => {
     });
   });
 
-  describe('when update a Cd', () => {
-    it('should update a existing Cd', async () => {
-      const CdUpdate: UpdateCdDto = mockRegistry;
-      CdUpdate.doc_numero = 'Update Cd ';
+  describe('when update a Cj', () => {
+    it('should update a existing Cj', async () => {
+      const CjUpdate: UpdateCjDto = mockRegistry;
+      CjUpdate.doc_numero = 'Update Cj ';
 
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.update.mockReturnValue({
         ...mockRegistry,
-        ...CdUpdate,
+        ...CjUpdate,
       });
       mockRepository.create.mockReturnValue({
         ...mockRegistry,
-        ...CdUpdate,
+        ...CjUpdate,
       });
 
-      const updatedCd = await service.update('1', CdUpdate);
+      const updatedCj = await service.update('1', CjUpdate);
 
-      expect(updatedCd).toMatchObject(CdUpdate);
+      expect(updatedCj).toMatchObject(CjUpdate);
       expect(mockRepository.findOne).toBeCalledWith('1', { withDeleted: true });
       expect(mockRepository.findOne).toBeCalledTimes(1);
-      expect(mockRepository.update).toBeCalledWith('1', CdUpdate);
+      expect(mockRepository.update).toBeCalledWith('1', CjUpdate);
       expect(mockRepository.update).toBeCalledTimes(1);
       expect(mockRepository.create).toBeCalledWith({
         ...mockRegistry,
-        ...CdUpdate,
+        ...CjUpdate,
       });
       expect(mockRepository.create).toBeCalledTimes(1);
     });
   });
 
-  describe('when softdelete a Cd', () => {
-    it('should delete a existing Cd', async () => {
+  describe('when softdelete a Cj', () => {
+    it('should delete a existing Cj', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
       const deleted = {
         ...mockRegistry,
@@ -304,9 +304,9 @@ describe('CdService', () => {
       mockRepository.update.mockReturnValue(deleted);
       mockRepository.create.mockReturnValue(deleted);
 
-      const cdDeleted = await service.delete('1');
+      const cjDeleted = await service.delete('1');
 
-      expect(cdDeleted).toMatchObject(deleted);
+      expect(cjDeleted).toMatchObject(deleted);
       expect(mockRepository.findOne).toBeCalledWith('1', { withDeleted: true });
       expect(mockRepository.findOne).toBeCalledTimes(1);
       expect(mockRepository.update).toBeCalledWith('1', {
@@ -318,8 +318,8 @@ describe('CdService', () => {
     });
   });
 
-  describe('when restore a Cd', () => {
-    it('should restore a existing Cd', async () => {
+  describe('when restore a Cj', () => {
+    it('should restore a existing Cj', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
       const deleted = {
         ...mockRegistry,
@@ -328,9 +328,9 @@ describe('CdService', () => {
       mockRepository.update.mockReturnValue(deleted);
       mockRepository.create.mockReturnValue(deleted);
 
-      const cdDeleted = await service.delete('1');
+      const cjDeleted = await service.delete('1');
 
-      expect(cdDeleted).toMatchObject(deleted);
+      expect(cjDeleted).toMatchObject(deleted);
       expect(mockRepository.findOne).toBeCalledWith('1', { withDeleted: true });
       expect(mockRepository.findOne).toBeCalledTimes(1);
       expect(mockRepository.update).toBeCalledTimes(1);
@@ -338,8 +338,8 @@ describe('CdService', () => {
     });
   });
 
-  describe('when forceDelete a Cd', () => {
-    it('should delete a existing Cd', async () => {
+  describe('when forceDelete a Cj', () => {
+    it('should delete a existing Cj', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.delete.mockReturnValue(mockRegistry);
 

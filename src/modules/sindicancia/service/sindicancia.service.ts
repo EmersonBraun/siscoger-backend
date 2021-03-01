@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import codeBase from 'src/common/services/opm.service';
 import { Connection, IsNull, Like, Not, Repository } from 'typeorm';
+import codeBase from '../../../common/services/opm.service';
 import { CreateSindicanciaDto } from '../dtos/create.dto';
 import { SearchPortariaDto } from '../dtos/search-portaria.dto';
 import { UpdateSindicanciaDto } from '../dtos/update.dto';

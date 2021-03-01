@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import codeBase from 'src/common/services/opm.service';
 import { Connection, IsNull, Like, Not, Repository } from 'typeorm';
+import codeBase from '../../../common/services/opm.service';
 // import { LogService } from '../../log/service/log.service';
 import { CreateAdlDto } from '../dtos/create.dto';
 import { UpdateAdlDto } from '../dtos/update.dto';
@@ -11,7 +11,7 @@ import Adl from '../entity/adl.entity';
 export class AdlService {
   constructor(
     @InjectRepository(Adl) private repository: Repository<Adl>,
-    private connection: Connection,
+    @Inject('CONNECTION') private connection: Connection,
   ) {}
 
   getNextRefYear(data: CreateAdlDto): number {
@@ -19,13 +19,14 @@ export class AdlService {
   }
 
   async getNextRef(data: CreateAdlDto): Promise<number> {
-    const year = this.getNextRefYear(data);
-    const registry = await this.repository
-      .createQueryBuilder()
-      .select('MAX(sjd_ref)', 'max')
-      .where('sjd_ref_ano = :year', { year })
-      .getRawOne();
-    return registry?.max ? ++registry.max : 1;
+    // const year = this.getNextRefYear(data);
+    // const registry = await this.repository
+    //   .createQueryBuilder()
+    //   .select('MAX(sjd_ref)', 'max')
+    //   .where('sjd_ref_ano = :year', { year })
+    //   .getRawOne();
+    // return registry?.max ? ++registry.max : 1;
+    return 1;
   }
 
   async findAll(cdopm = null): Promise<Adl[]> {

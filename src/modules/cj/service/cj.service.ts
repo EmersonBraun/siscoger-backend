@@ -1,16 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import codeBase from 'src/common/services/opm.service';
 import { Connection, IsNull, Like, Not, Repository } from 'typeorm';
+import codeBase from '../../../common/services/opm.service';
 import { CreateCjDto } from '../dtos/create.dto';
 import { UpdateCjDto } from '../dtos/update.dto';
-import { Cj } from '../entity/cj.entity';
+import Cj from '../entity/cj.entity';
 
 @Injectable()
 export class CjService {
   constructor(
     @InjectRepository(Cj) private repository: Repository<Cj>,
-    private connection: Connection,
+    @Inject('CONNECTION') private connection: Connection,
   ) {}
 
   getNextRefYear(data: CreateCjDto): number {

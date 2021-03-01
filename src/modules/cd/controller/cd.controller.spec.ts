@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreateCdDto, UpdateCdDto } from '../dtos';
-import { fakerRegister } from '../factory/cd.factory';
+import { fakerRegistry } from '../factory/cd.factory';
 import { CdService } from '../service/cd.service';
 import { CdController } from './cd.controller';
 
@@ -23,7 +23,7 @@ describe('CdController', () => {
     }).compile();
 
     controller = module.get<CdController>(CdController);
-    mockRegistry = fakerRegister();
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {

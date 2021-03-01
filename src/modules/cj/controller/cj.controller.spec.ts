@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { closeInMongodConnection } from '../../../../test/utils';
 import { CreateCjDto, UpdateCjDto } from '../dtos';
-import { fakerRegister } from '../factory/cj.factory';
+import { fakerRegistry } from '../factory/cj.factory';
 import { CjService } from '../service/cj.service';
 import { CjController } from './cj.controller';
 
@@ -24,7 +23,7 @@ describe('CjController', () => {
     }).compile();
 
     controller = module.get<CjController>(CjController);
-    mockRegistry = fakerRegister();
+    mockRegistry = fakerRegistry();
   });
 
   beforeEach(() => {
@@ -35,16 +34,12 @@ describe('CjController', () => {
     mockService.delete.mockReset();
   });
 
-  afterAll(async () => {
-    await closeInMongodConnection();
-  });
-
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
 
-  describe('when create CJ', () => {
-    it('should create a CJ and return it', async () => {
+  describe('when create Cj', () => {
+    it('should create a Cj and return it', async () => {
       mockService.create.mockReturnValue(mockRegistry);
 
       const cjVariable: CreateCjDto = mockRegistry;
@@ -57,8 +52,8 @@ describe('CjController', () => {
     });
   });
 
-  describe('when search all CJ', () => {
-    it('should search all CJ and return them', async () => {
+  describe('when search all Cj', () => {
+    it('should search all Cj and return them', async () => {
       mockService.findAll.mockReturnValue([mockRegistry]);
 
       const cjVariable = await controller.findAll();
@@ -69,8 +64,8 @@ describe('CjController', () => {
     });
   });
 
-  describe('when search CJ by id', () => {
-    it('should find a existing CJ and return it', async () => {
+  describe('when search Cj by id', () => {
+    it('should find a existing Cj and return it', async () => {
       mockService.findById.mockReturnValue(mockRegistry);
 
       const cjVariable = await controller.findById('1');
@@ -81,10 +76,10 @@ describe('CjController', () => {
     });
   });
 
-  describe('when update a CJ', () => {
-    it('should update a existing CJ and return it', async () => {
+  describe('when update a Cj', () => {
+    it('should update a existing Cj and return it', async () => {
       const cjUpdate: UpdateCjDto = mockRegistry;
-      cjUpdate.sintese_text = 'Update CJ ';
+      cjUpdate.sintese_text = 'Update Cj ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
@@ -99,8 +94,8 @@ describe('CjController', () => {
     });
   });
 
-  describe('when delete a CJ', () => {
-    it('should delete a existing CJ', async () => {
+  describe('when delete a Cj', () => {
+    it('should delete a existing Cj', async () => {
       await controller.delete('1');
 
       expect(mockService.delete).toBeCalledWith('1');

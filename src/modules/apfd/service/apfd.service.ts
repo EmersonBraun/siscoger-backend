@@ -1,16 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import codeBase from 'src/common/services/opm.service';
 import { Connection, IsNull, Like, Not, Repository } from 'typeorm';
+import codeBase from '../../../common/services/opm.service';
 import { CreateApfdDto } from '../dtos/create.dto';
 import { UpdateApfdDto } from '../dtos/update.dto';
-import { Apfd } from '../entity/apfd.entity';
+import Apfd from '../entity/apfd.entity';
 
 @Injectable()
 export class ApfdService {
   constructor(
     @InjectRepository(Apfd) private repository: Repository<Apfd>,
-    private connection: Connection,
+    @Inject('CONNECTION') private connection: Connection,
   ) {}
 
   getNextRefYear(data: CreateApfdDto): number {

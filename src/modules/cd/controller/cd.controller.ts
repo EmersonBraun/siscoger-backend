@@ -8,7 +8,7 @@ import {
   Post,
   Put,
   Request,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -17,7 +17,7 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
 import { activityLog } from '../../../common/activiti-log';
 import ACLPolice from '../../../common/decorators/acl.decorator';
@@ -26,7 +26,7 @@ import JwtAuthGuard from '../../../common/guards/jwt.guard';
 import { ErrorResponse } from '../../../common/responses/error';
 import { CreateCdDto } from '../dtos/create.dto';
 import { UpdateCdDto } from '../dtos/update.dto';
-import { Cd } from '../entity/cd.entity';
+import Cd from '../entity/cd.entity';
 import { CdService } from '../service/cd.service';
 
 @ApiTags('Cd')

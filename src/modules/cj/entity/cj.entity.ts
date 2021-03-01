@@ -4,11 +4,11 @@ import {
   DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 
 @Entity('cj')
-export class Cj {
+export default class Cj {
   @PrimaryGeneratedColumn() id: number;
   @Column({ type: 'int', nullable: true }) id_andamentocoger: number;
   @Column({ type: 'int', nullable: true }) id_andamento: number;
