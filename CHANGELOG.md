@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.46.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.45.0...v0.46.0) (2021-03-01)
+
+
+### Features
+
+* add softDelete to Adl, Apfd, Cd and Cj ([7c44e1a](https://github.com/EmersonBraun/siscoger-backend-v2/commit/7c44e1a50354e703e723050d28d03d77e610883d))
+
 ## [0.45.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.44.0...v0.45.0) (2021-02-25)
 
 
