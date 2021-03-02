@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.49.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.48.1...v0.49.0) (2021-03-02)
+
+
+### Features
+
+* add posto module ([bc9541c](https://github.com/EmersonBraun/siscoger-backend-v2/commit/bc9541cbcd53a794a36403e28bc2a4e8e95a2692))
+
 ### [0.48.1](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.48.0...v0.48.1) (2021-03-02)
 
 
