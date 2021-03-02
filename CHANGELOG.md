@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.55.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.54.0...v0.55.0) (2021-03-02)
+
+
+### Features
+
+* add module iso ([0ef7187](https://github.com/EmersonBraun/siscoger-backend-v2/commit/0ef7187ca5acbbee3ef0715ce9432496a79b564c))
+
 ## [0.54.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.53.0...v0.54.0) (2021-03-02)
 
 
