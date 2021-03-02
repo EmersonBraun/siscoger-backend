@@ -1,12 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Connection, IsNull, Like, Not, Repository } from 'typeorm';
+import codeBase from '../../../common/services/opm.service';
+import { CreateIsoDto } from '../dtos/create.dto';
+import { SearchPortariaDto } from '../dtos/search-portaria.dto';
+import { UpdateIsoDto } from '../dtos/update.dto';
+import Iso from '../entity/iso.entity';
 
 @Injectable()
-export class isoService {
+export class IsoService {
   constructor(
     @InjectRepository(Iso) private repository: Repository<Iso>,
-    private connection: Connection,
+    @Inject('CONNECTION') private connection: Connection,
   ) {}
 
   getNextRefYear(data: CreateIsoDto): number {
@@ -21,6 +26,13 @@ export class isoService {
       .where('sjd_ref_ano = :year', { year })
       .getRawOne();
     return registry?.max ? ++registry.max : 1;
+  }
+
+  async search(data: CreateIsoDto): Promise<Iso[]> {
+    return await this.repository.find({
+      where: { ...data },
+      order: { sjd_ref: 'DESC' },
+    });
   }
 
   async findAll(cdopm = null): Promise<Iso[]> {
@@ -63,7 +75,7 @@ export class isoService {
     cdopm,
   }: {
     year: string;
-    cdopm: string;
+    cdopm?: string;
   }): Promise<Iso[]> {
     year ?? new Date().getFullYear();
     const query = cdopm
@@ -87,31 +99,31 @@ export class isoService {
     if (cdopm) {
       return await this.connection.query(
         `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT isos.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM isos
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        isos.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        isos.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
-      WHERE sindicancias.cdopm like "$1%"
-      ORDER BY sindicancias.id DESC
+        envolvidos.id_iso=isos.id
+      WHERE isos.cdopm like "$1%"
+      ORDER BY isos.id DESC
       `,
         [cdopm],
       );
     }
 
     return await this.connection.query(`
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT isos.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM isos
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        isos.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        isos.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
-      ORDER BY sindicancias.id DESC
+        envolvidos.id_iso=isos.id
+      ORDER BY isos.id DESC
       `);
   }
 
@@ -120,25 +132,25 @@ export class isoService {
     year,
   }: {
     year: string;
-    cdopm: string;
+    cdopm?: string;
   }): Promise<any[]> {
     year ?? new Date().getFullYear();
     if (cdopm) {
       return await this.connection.query(
         `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT isos.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM isos
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        isos.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        isos.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_iso=isos.id
       WHERE 
-        sindicancias.cdopm like "$1%"
+        isos.cdopm like "$1%"
       AND
-        sindicancias.sjd_ref_ano = "$2%"
-      ORDER BY sindicancias.id DESC
+        isos.sjd_ref_ano = "$2%"
+      ORDER BY isos.id DESC
       `,
         [cdopm, year],
       );
@@ -146,39 +158,45 @@ export class isoService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT isos.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM isos
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        isos.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        isos.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_iso=isos.id
       WHERE
-        sindicancias.sjd_ref_ano = "$1%"
-      ORDER BY sindicancias.id DESC
+        isos.sjd_ref_ano = "$1%"
+      ORDER BY isos.id DESC
       `,
       [year],
     );
   }
 
-  async resultado({ situation, cdopm }: { situation: string; cdopm: string }) {
+  async resultado({
+    situation,
+    cdopm,
+  }: {
+    situation?: string;
+    cdopm?: string;
+  }) {
     situation ?? 'Sindicado';
 
     if (cdopm) {
       return await this.connection.query(
         `
-        SELECT sindicancias.*, andamentos.*, envolvidos.*
-        FROM sindicancias
+        SELECT isos.*, andamentos.*, envolvidos.*
+        FROM isos
         LEFT JOIN andamentos ON
-          sindicancias.id_andamento = andamentos.id
+          isos.id_andamento = andamentos.id
         INNER JOIN envolvidos ON
-          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+          envolvidos.id_iso!=0 AND envolvidos.id_iso=isos.id
         WHERE 
           envolvidos.situacao= $1
         AND
-          sindicancias.cdopm LIKE "$2%"
-        ORDER BY sindicancias.id DESC
+          isos.cdopm LIKE "$2%"
+        ORDER BY isos.id DESC
         `,
         [situation, cdopm],
       );
@@ -186,14 +204,14 @@ export class isoService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.*
-      FROM sindicancias
+      SELECT isos.*, andamentos.*, envolvidos.*
+      FROM isos
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        isos.id_andamento = andamentos.id
       INNER JOIN envolvidos ON
-        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_iso!=0 AND envolvidos.id_iso=isos.id
       WHERE  envolvidos.situacao= $1
-      ORDER BY sindicancias.id DESC
+      ORDER BY isos.id DESC
       `,
       [situation],
     );
@@ -205,7 +223,7 @@ export class isoService {
     year,
   }: {
     situation: string;
-    cdopm: string;
+    cdopm?: string;
     year: string;
   }) {
     situation ?? 'Sindicado';
@@ -214,19 +232,19 @@ export class isoService {
     if (cdopm) {
       return await this.connection.query(
         `
-        SELECT sindicancias.*, andamentos.*, envolvidos.*
-        FROM sindicancias
+        SELECT isos.*, andamentos.*, envolvidos.*
+        FROM isos
         LEFT JOIN andamentos ON
-          sindicancias.id_andamento = andamentos.id
+          isos.id_andamento = andamentos.id
         INNER JOIN envolvidos ON
-          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+          envolvidos.id_iso!=0 AND envolvidos.id_iso=isos.id
         WHERE 
           envolvidos.situacao= $1
         AND
-          sindicancias.cdopm LIKE "$2%"
+          isos.cdopm LIKE "$2%"
         AND
-          sindicancias.sjd_ref_ano = $3
-        ORDER BY sindicancias.id DESC
+          isos.sjd_ref_ano = $3
+        ORDER BY isos.id DESC
         `,
         [situation, cdopm, year],
       );
@@ -234,17 +252,17 @@ export class isoService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.*
-      FROM sindicancias
+      SELECT isos.*, andamentos.*, envolvidos.*
+      FROM isos
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        isos.id_andamento = andamentos.id
       INNER JOIN envolvidos ON
-        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_iso!=0 AND envolvidos.id_iso=isos.id
       WHERE 
         envolvidos.situacao= $1
       AND
-        sindicancias.sjd_ref_ano = $2
-      ORDER BY sindicancias.id DESC
+        isos.sjd_ref_ano = $2
+      ORDER BY isos.id DESC
       `,
       [situation, year],
     );

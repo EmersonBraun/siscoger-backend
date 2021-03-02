@@ -1,8 +1,8 @@
-// import { iso } from '../entity/iso.entity';
 import { Factory, Seeder } from 'typeorm-seeding';
+import Iso from '../entity/iso.entity';
 
-export default class Createisos implements Seeder {
+export default class CreateIsos implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    //     await factory(iso)().createMany(10)
+    await factory(Iso)().createMany(10);
   }
 }
