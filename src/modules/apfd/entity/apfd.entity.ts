@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('apfd')
+@Entity('apfds')
 export default class Apfd {
   @PrimaryGeneratedColumn() id: number;
   @Column({ nullable: true }) id_andamento: number;

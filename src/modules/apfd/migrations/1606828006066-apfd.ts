@@ -4,7 +4,7 @@ export class apfd1606828006066 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'apfd',
+        name: 'apfds',
         columns: [
           {
             name: 'id',

@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('ExclusaoJudicials')
+@Entity('exclusoesjudicias')
 export default class ExclusaoJudicial {
   @PrimaryGeneratedColumn() id: number;
   @Column({ nullable: true }) rg: string;

@@ -10,7 +10,6 @@ import {
 @Entity('desercoes')
 export default class Desercao {
   @PrimaryGeneratedColumn() id: number;
-  @Column({ nullable: true }) decorrenciaconselho: string;
   @Column({ nullable: true }) id_andamento: number;
   @Column({ nullable: true }) id_andamentocoger: number;
   @Column({ nullable: true }) sjd_ref: number;

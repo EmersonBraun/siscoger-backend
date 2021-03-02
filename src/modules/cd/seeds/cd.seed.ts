@@ -1,5 +1,5 @@
 import { Factory, Seeder } from 'typeorm-seeding';
-import { Cd } from '../entity/cd.entity';
+import Cd from '../entity/cd.entity';
 
 export default class CreateSindicancias implements Seeder {
   public async run(factory: Factory): Promise<void> {
