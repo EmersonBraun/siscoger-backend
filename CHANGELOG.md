@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.52.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.51.0...v0.52.0) (2021-03-02)
+
+
+### Features
+
+* add situacao module ([306f7d3](https://github.com/EmersonBraun/siscoger-backend-v2/commit/306f7d3cb796c81f9abb776f1306f59f9049d3c6))
+
 ## [0.51.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.50.0...v0.51.0) (2021-03-02)
 
 
