@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.48.1](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.48.0...v0.48.1) (2021-03-02)
+
+
+### Bug Fixes
+
+* solve migrations and seeders of adl, apfd, decorrenciaconselho, desercao and exclusaojudicial ([68d6ce1](https://github.com/EmersonBraun/siscoger-backend-v2/commit/68d6ce1f535805c65b864726eedc893c3ffbdedf))
+
 ## [0.48.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.47.2...v0.48.0) (2021-03-02)
 
 
