@@ -1,13 +1,13 @@
-// import { Module } from '@nestjs/common';
-// import { TypeOrmModule } from '@nestjs/typeorm';
-// import { fatdController } from './controller/fatd.controller';
-// import { fatd } from './entity/fatd.entity';
-// import { fatdService } from './service/fatd.service';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { FatdController } from './controller/fatd.controller';
+import Fatd from './entity/fatd.entity';
+import { FatdService } from './service/fatd.service';
 
-// @Module({
-//   imports: [TypeOrmModule.forFeature([fatd])],
-//   providers: [fatdService],
-//   controllers: [fatdController],
-//   exports: [fatdService],
-// })
-// export class fatdModule {}
+@Module({
+  imports: [TypeOrmModule.forFeature([Fatd])],
+  providers: [FatdService],
+  controllers: [FatdController],
+  exports: [FatdService],
+})
+export class FatdModule {}
