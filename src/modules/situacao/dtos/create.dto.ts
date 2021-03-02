@@ -1,14 +1,7 @@
-// import { ApiProperty } from '@nestjs/swagger';
-// import {
-//   IsNumber,
-//   IsOptional,
-//   IsPositive,
-//   IsString,
-// } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString } from 'class-validator';
 
-// export class CreatesituacaoDto {
-//   // @IsOptional()
-//   // @ApiProperty()
-//   // data?: string | Date
-
-// }
+export class CreateSituacaoDto {
+  @ApiProperty() @IsString() situacao: string;
+  @ApiProperty() @IsString() situacao_abreviada: string;
+}
