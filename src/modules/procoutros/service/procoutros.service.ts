@@ -1,50 +1,301 @@
-// import { Injectable, NotFoundException } from '@nestjs/common';
-// import { InjectRepository } from '@nestjs/typeorm';
-// import { Repository } from 'typeorm';
-// import { CreateprocoutrosDto } from '../dtos/create.dto';
-// import { UpdateprocoutrosDto } from '../dtos/update.dto';
-// import { procoutros } from '../entity/procoutros.entity';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
-// @Injectable()
-// export class procoutrosService {
-//   constructor(
-//     @InjectRepository(procoutros)
-//     private repository: Repository<procoutros>,
-//   ) {}
+@Injectable()
+export class procoutrosService {
+  constructor(
+    @InjectRepository(ProcOutros) private repository: Repository<ProcOutros>,
+    private connection: Connection,
+  ) {}
 
-//   async findAll(): Promise<procoutros[]> {
-//     return await this.repository.find();
-//   }
+  getNextRefYear(data: CreateProcOutrosDto): number {
+    return data.sjd_ref_ano || new Date().getFullYear();
+  }
 
-//   async search(data: CreateprocoutrosDto): Promise<procoutros[]> {
-//     console.log(data)
-//     return await this.repository.find({ where: { ...data } });
-//   }
+  async getNextRef(data: CreateProcOutrosDto): Promise<number> {
+    const year = this.getNextRefYear(data);
+    const registry = await this.repository
+      .createQueryBuilder()
+      .select('MAX(sjd_ref)', 'max')
+      .where('sjd_ref_ano = :year', { year })
+      .getRawOne();
+    return registry?.max ? ++registry.max : 1;
+  }
 
-//   async create(data: CreateprocoutrosDto): Promise<procoutros> {
-//     const registry = this.repository.create(data);
-//     return await this.repository.save(registry);
-//   }
+  async findAll(cdopm = null): Promise<ProcOutros[]> {
+    const query = cdopm
+      ? {
+          cdopm: Like(`${codeBase(cdopm)}%`),
+          completo: true,
+        }
+      : {
+          completo: true,
+        };
 
-//   async findById(id: string): Promise<procoutros> {
-//     const registry = await this.repository.findOne(id);
+    return await this.repository.find({
+      where: { ...query },
+      order: { sjd_ref: 'DESC' },
+    });
+  }
 
-//     if (!registry) {
-//       throw new NotFoundException('Registry not found');
-//     }
+  async listDeleted(cdopm = null): Promise<ProcOutros[]> {
+    const query = cdopm
+      ? {
+          cdopm: Like(`${codeBase(cdopm)}%`),
+          completo: true,
+          deletedAt: Not(IsNull()),
+        }
+      : {
+          completo: true,
+          deletedAt: Not(IsNull()),
+        };
 
-//     return registry;
-//   }
+    return await this.repository.find({
+      where: { ...query },
+      withDeleted: true,
+      order: { sjd_ref: 'DESC' },
+    });
+  }
 
-//   async update(id: string, data: UpdateprocoutrosDto): Promise<procoutros> {
-//     const registry = await this.findById(id);
-//     await this.repository.update(id, { ...data });
+  async findByYear({
+    year,
+    cdopm,
+  }: {
+    year: string;
+    cdopm: string;
+  }): Promise<ProcOutros[]> {
+    year ?? new Date().getFullYear();
+    const query = cdopm
+      ? {
+          cdopm: Like(`${codeBase(cdopm)}%`),
+          sjd_ref_ano: year,
+          completo: true,
+        }
+      : {
+          sjd_ref_ano: year,
+          completo: true,
+        };
 
-//     return this.repository.create({ ...registry, ...data });
-//   }
+    return await this.repository.find({
+      where: { ...query },
+      order: { sjd_ref: 'DESC' },
+    });
+  }
 
-//   async delete(id: string): Promise<void> {
-//     await this.findById(id);
-//     await this.repository.delete(id);
-//   }
-// }
+  async findAndamento(cdopm = null): Promise<any[]> {
+    if (cdopm) {
+      return await this.connection.query(
+        `
+      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM sindicancias
+      LEFT JOIN andamentos ON
+        sindicancias.id_andamento = andamentos.id
+      LEFT JOIN andamentoscoger ON
+        sindicancias.id_andamentocoger = andamentoscoger.id
+      LEFT JOIN envolvidos ON
+        envolvidos.id_sindicancia=sindicancias.id
+      WHERE sindicancias.cdopm like "$1%"
+      ORDER BY sindicancias.id DESC
+      `,
+        [cdopm],
+      );
+    }
+
+    return await this.connection.query(`
+      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM sindicancias
+      LEFT JOIN andamentos ON
+        sindicancias.id_andamento = andamentos.id
+      LEFT JOIN andamentoscoger ON
+        sindicancias.id_andamentocoger = andamentoscoger.id
+      LEFT JOIN envolvidos ON
+        envolvidos.id_sindicancia=sindicancias.id
+      ORDER BY sindicancias.id DESC
+      `);
+  }
+
+  async findAndamentoYear({
+    cdopm,
+    year,
+  }: {
+    year: string;
+    cdopm: string;
+  }): Promise<any[]> {
+    year ?? new Date().getFullYear();
+    if (cdopm) {
+      return await this.connection.query(
+        `
+      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM sindicancias
+      LEFT JOIN andamentos ON
+        sindicancias.id_andamento = andamentos.id
+      LEFT JOIN andamentoscoger ON
+        sindicancias.id_andamentocoger = andamentoscoger.id
+      LEFT JOIN envolvidos ON
+        envolvidos.id_sindicancia=sindicancias.id
+      WHERE 
+        sindicancias.cdopm like "$1%"
+      AND
+        sindicancias.sjd_ref_ano = "$2%"
+      ORDER BY sindicancias.id DESC
+      `,
+        [cdopm, year],
+      );
+    }
+
+    return await this.connection.query(
+      `
+      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM sindicancias
+      LEFT JOIN andamentos ON
+        sindicancias.id_andamento = andamentos.id
+      LEFT JOIN andamentoscoger ON
+        sindicancias.id_andamentocoger = andamentoscoger.id
+      LEFT JOIN envolvidos ON
+        envolvidos.id_sindicancia=sindicancias.id
+      WHERE
+        sindicancias.sjd_ref_ano = "$1%"
+      ORDER BY sindicancias.id DESC
+      `,
+      [year],
+    );
+  }
+
+  async resultado({ situation, cdopm }: { situation: string; cdopm: string }) {
+    situation ?? 'Sindicado';
+
+    if (cdopm) {
+      return await this.connection.query(
+        `
+        SELECT sindicancias.*, andamentos.*, envolvidos.*
+        FROM sindicancias
+        LEFT JOIN andamentos ON
+          sindicancias.id_andamento = andamentos.id
+        INNER JOIN envolvidos ON
+          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        WHERE 
+          envolvidos.situacao= $1
+        AND
+          sindicancias.cdopm LIKE "$2%"
+        ORDER BY sindicancias.id DESC
+        `,
+        [situation, cdopm],
+      );
+    }
+
+    return await this.connection.query(
+      `
+      SELECT sindicancias.*, andamentos.*, envolvidos.*
+      FROM sindicancias
+      LEFT JOIN andamentos ON
+        sindicancias.id_andamento = andamentos.id
+      INNER JOIN envolvidos ON
+        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+      WHERE  envolvidos.situacao= $1
+      ORDER BY sindicancias.id DESC
+      `,
+      [situation],
+    );
+  }
+
+  async resultadoYear({
+    situation,
+    cdopm,
+    year,
+  }: {
+    situation: string;
+    cdopm: string;
+    year: string;
+  }) {
+    situation ?? 'Sindicado';
+    year ?? new Date().getFullYear();
+
+    if (cdopm) {
+      return await this.connection.query(
+        `
+        SELECT sindicancias.*, andamentos.*, envolvidos.*
+        FROM sindicancias
+        LEFT JOIN andamentos ON
+          sindicancias.id_andamento = andamentos.id
+        INNER JOIN envolvidos ON
+          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        WHERE 
+          envolvidos.situacao= $1
+        AND
+          sindicancias.cdopm LIKE "$2%"
+        AND
+          sindicancias.sjd_ref_ano = $3
+        ORDER BY sindicancias.id DESC
+        `,
+        [situation, cdopm, year],
+      );
+    }
+
+    return await this.connection.query(
+      `
+      SELECT sindicancias.*, andamentos.*, envolvidos.*
+      FROM sindicancias
+      LEFT JOIN andamentos ON
+        sindicancias.id_andamento = andamentos.id
+      INNER JOIN envolvidos ON
+        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+      WHERE 
+        envolvidos.situacao= $1
+      AND
+        sindicancias.sjd_ref_ano = $2
+      ORDER BY sindicancias.id DESC
+      `,
+      [situation, year],
+    );
+  }
+
+  async findPortaria(params: SearchPortariaDto): Promise<any> {
+    const { cdopm, portaria_numero } = params;
+    return await this.repository.findOne({ cdopm, portaria_numero });
+  }
+
+  async create(data: CreateProcOutrosDto): Promise<ProcOutros> {
+    const registry = this.repository.create(data);
+    registry.sjd_ref_ano = this.getNextRefYear(data);
+    registry.sjd_ref = await this.getNextRef(data);
+    return await this.repository.save(registry);
+  }
+
+  async findById(id: string): Promise<ProcOutros> {
+    const registry = await this.repository.findOne(id, { withDeleted: true });
+
+    if (!registry) {
+      throw new NotFoundException('Registry not found');
+    }
+
+    return registry;
+  }
+
+  async update(id: string, data: UpdateProcOutrosDto): Promise<ProcOutros> {
+    const registry = await this.findById(id);
+    await this.repository.update(id, { ...data });
+
+    return this.repository.create({ ...registry, ...data });
+  }
+
+  async delete(id: string): Promise<ProcOutros> {
+    const registry = await this.findById(id);
+    await this.repository.update(id, { deletedAt: new Date() });
+
+    return this.repository.create({ ...registry, deletedAt: new Date() });
+  }
+
+  async restore(id: string): Promise<ProcOutros> {
+    const registry = await this.findById(id);
+    await this.repository.update(id, { deletedAt: null });
+
+    return this.repository.create({ ...registry, deletedAt: null });
+  }
+
+  async forceDelete(id: string): Promise<ProcOutros> {
+    const data = await this.findById(id);
+    await this.repository.delete(id);
+    return data;
+  }
+}

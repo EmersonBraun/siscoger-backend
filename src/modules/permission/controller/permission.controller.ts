@@ -159,18 +159,39 @@ export class PermissionController {
     return response;
   }
 
-  @Delete(':id')
-  @HttpCode(204)
+  @Put(':id/restore')
+  @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
   @ACLPolice({ roles: [], permissions: [] })
-  @ApiOperation({ summary: 'Search all permission' })
-  @ApiOperation({ summary: 'Delete a permission' })
-  @ApiNoContentResponse({ description: 'Deleted permission' })
+  @ApiOperation({ summary: 'Delete a Permission' })
+  @ApiNoContentResponse({ description: 'Deleted Permission' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async restore(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<Permission> {
+    const data = await this.service.restore(id);
+
+    await activityLog({
+      module: 'permission',
+      action: 'restore',
+      data,
+      user: request?.user,
+    });
+    return data;
+  }
+
+  @Delete(':id')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Delete a Permission' })
+  @ApiNoContentResponse({ description: 'Deleted Permission' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
   async delete(
     @Param('id') id: string,
     @Request() request?: any,
-  ): Promise<void> {
+  ): Promise<Permission> {
     const data = await this.service.delete(id);
 
     await activityLog({
@@ -179,5 +200,28 @@ export class PermissionController {
       data,
       user: request?.user,
     });
+    return data;
+  }
+
+  @Delete(':id/force')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Delete definitive a Permission' })
+  @ApiNoContentResponse({ description: 'Deleted definitive Permission' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async forceDelete(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<Permission> {
+    const data = await this.service.forceDelete(id);
+
+    await activityLog({
+      module: 'permission',
+      action: 'forceDelete',
+      data,
+      user: request?.user,
+    });
+    return data;
   }
 }

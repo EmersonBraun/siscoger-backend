@@ -1,8 +1,8 @@
-// import { denunciacivil } from '../entity/denunciacivil.entity';
 import { Factory, Seeder } from 'typeorm-seeding';
+import Denunciacivil from '../entity/denunciacivil.entity';
 
-export default class Createdenunciacivils implements Seeder {
+export default class CreateDenunciacivils implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    //     await factory(denunciacivil)().createMany(10)
+    await factory(Denunciacivil)().createMany(10);
   }
 }

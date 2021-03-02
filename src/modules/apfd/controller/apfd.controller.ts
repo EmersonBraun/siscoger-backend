@@ -26,7 +26,7 @@ import JwtAuthGuard from '../../../common/guards/jwt.guard';
 import { ErrorResponse } from '../../../common/responses/error';
 import { CreateApfdDto } from '../dtos/create.dto';
 import { UpdateApfdDto } from '../dtos/update.dto';
-import { Apfd } from '../entity/apfd.entity';
+import Apfd from '../entity/apfd.entity';
 import { ApfdService } from '../service/apfd.service';
 
 @ApiTags('Apfd')

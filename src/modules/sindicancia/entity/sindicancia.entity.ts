@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 @Entity('sindicancias')
-export class Sindicancia {
+export default class Sindicancia {
   @PrimaryGeneratedColumn() id: number;
   @Column({ type: 'int', nullable: true }) id_andamentocoger: number;
   @Column({ type: 'int', nullable: true }) id_andamento: number;

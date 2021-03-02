@@ -91,6 +91,8 @@ describe('UserController', () => {
       });
 
       const updatedUser = await controller.update('1', UserUpdate);
+      delete updatedUser.password;
+      delete mockRegistry.password;
 
       expect(updatedUser).toMatchObject(UserUpdate);
       expect(mockService.update).toBeCalledWith('1', UserUpdate);

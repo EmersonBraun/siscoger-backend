@@ -1,17 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, IsNull, Like, Not, Repository } from 'typeorm';
 import codeBase from '../../../common/services/opm.service';
 import { CreateSindicanciaDto } from '../dtos/create.dto';
 import { SearchPortariaDto } from '../dtos/search-portaria.dto';
 import { UpdateSindicanciaDto } from '../dtos/update.dto';
-import { Sindicancia } from '../entity/sindicancia.entity';
+import Sindicancia from '../entity/sindicancia.entity';
 
 @Injectable()
 export class SindicanciaService {
   constructor(
     @InjectRepository(Sindicancia) private repository: Repository<Sindicancia>,
-    private connection: Connection,
+    @Inject('CONNECTION') private connection: Connection,
   ) {}
 
   getNextRefYear(data: CreateSindicanciaDto): number {
@@ -26,6 +26,13 @@ export class SindicanciaService {
       .where('sjd_ref_ano = :year', { year })
       .getRawOne();
     return registry?.max ? ++registry.max : 1;
+  }
+
+  async search(data: CreateSindicanciaDto): Promise<Sindicancia[]> {
+    return await this.repository.find({
+      where: { ...data },
+      order: { sjd_ref: 'DESC' },
+    });
   }
 
   async findAll(cdopm = null): Promise<Sindicancia[]> {

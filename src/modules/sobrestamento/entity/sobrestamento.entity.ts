@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -26,4 +27,5 @@ export class Sobrestamento {
   @Column({ nullable: true }) doc_controle_termino?: string;
   @CreateDateColumn({ name: 'created_at' }) createdAt: Date;
   @UpdateDateColumn({ name: 'updated_at' }) updatedAt: Date;
+  @DeleteDateColumn({ name: 'deleted_at' }) deletedAt: Date;
 }

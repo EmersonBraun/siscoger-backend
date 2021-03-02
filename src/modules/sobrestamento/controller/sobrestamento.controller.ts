@@ -144,8 +144,30 @@ export class SobrestamentoController {
     return response;
   }
 
+  @Put(':id/restore')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Delete a Sobrestamento' })
+  @ApiNoContentResponse({ description: 'Deleted Sobrestamento' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async restore(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<Sobrestamento> {
+    const data = await this.service.restore(id);
+
+    await activityLog({
+      module: 'sobrestamento',
+      action: 'restore',
+      data,
+      user: request?.user,
+    });
+    return data;
+  }
+
   @Delete(':id')
-  @HttpCode(204)
+  @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
   @ACLPolice({ roles: [], permissions: [] })
   @ApiOperation({ summary: 'Delete a Sobrestamento' })
@@ -154,7 +176,7 @@ export class SobrestamentoController {
   async delete(
     @Param('id') id: string,
     @Request() request?: any,
-  ): Promise<void> {
+  ): Promise<Sobrestamento> {
     const data = await this.service.delete(id);
 
     await activityLog({
@@ -163,5 +185,28 @@ export class SobrestamentoController {
       data,
       user: request?.user,
     });
+    return data;
+  }
+
+  @Delete(':id/force')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Delete definitive a Sobrestamento' })
+  @ApiNoContentResponse({ description: 'Deleted definitive Sobrestamento' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async forceDelete(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<Sobrestamento> {
+    const data = await this.service.forceDelete(id);
+
+    await activityLog({
+      module: 'sobrestamento',
+      action: 'forceDelete',
+      data,
+      user: request?.user,
+    });
+    return data;
   }
 }

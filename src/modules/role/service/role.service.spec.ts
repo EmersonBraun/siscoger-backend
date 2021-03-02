@@ -146,19 +146,56 @@ describe('roleService', () => {
     });
   });
 
-  describe('when delete a role', () => {
-    it('should delete a existing role', async () => {
+  describe('when softdelete a Role', () => {
+    it('should delete a existing Role', async () => {
+      mockRepository.findOne.mockReturnValue(mockRegistry);
+      const deleted = {
+        ...mockRegistry,
+        deletedAt: new Date(),
+      };
+      mockRepository.update.mockReturnValue(deleted);
+      mockRepository.create.mockReturnValue(deleted);
+
+      const sindicanciaDeleted = await service.delete('1');
+
+      expect(sindicanciaDeleted).toMatchObject(deleted);
+      expect(mockRepository.findOne).toBeCalledWith('1', {
+        relations: ['permissions', 'users'],
+      });
+      expect(mockRepository.findOne).toBeCalledTimes(1);
+      expect(mockRepository.update).toBeCalledTimes(1);
+      expect(mockRepository.create).toBeCalledWith(deleted);
+      expect(mockRepository.create).toBeCalledTimes(1);
+    });
+  });
+
+  describe('when restore a Role', () => {
+    it('should restore a existing Role', async () => {
+      mockRepository.findOne.mockReturnValue(mockRegistry);
+      const deleted = {
+        ...mockRegistry,
+        deletedAt: null,
+      };
+      mockRepository.update.mockReturnValue(deleted);
+      mockRepository.create.mockReturnValue(deleted);
+
+      const sindicanciaDeleted = await service.delete('1');
+
+      expect(sindicanciaDeleted).toMatchObject(deleted);
+      expect(mockRepository.findOne).toBeCalledTimes(1);
+      expect(mockRepository.update).toBeCalledTimes(1);
+      expect(mockRepository.create).toBeCalledTimes(1);
+    });
+  });
+
+  describe('when forceDelete a Role', () => {
+    it('should delete a existing Role', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.delete.mockReturnValue(mockRegistry);
 
       await service.delete('1');
 
-      expect(mockRepository.findOne).toBeCalledWith('1', {
-        relations: ['permissions', 'users'],
-      });
       expect(mockRepository.findOne).toBeCalledTimes(1);
-      expect(mockRepository.delete).toBeCalledWith('1');
-      expect(mockRepository.delete).toBeCalledTimes(1);
     });
   });
 });

@@ -56,6 +56,9 @@ describe('UserService', () => {
 
       const savedUser = await service.create(UserVariable);
 
+      delete savedUser.password;
+      delete mockRegistry.password;
+
       expect(savedUser).toMatchObject(mockRegistry);
       expect(mockRepository.create).toBeCalledWith(UserVariable);
       expect(mockRepository.create).toBeCalledTimes(1);
@@ -131,7 +134,10 @@ describe('UserService', () => {
 
       const updatedUser = await service.update('1', UserUpdate);
 
-      // expect(updatedUser).toMatchObject(UserUpdate);
+      delete updatedUser.password;
+      delete mockRegistry.password;
+
+      expect(updatedUser).toMatchObject(UserUpdate);
       expect(mockRepository.findOne).toBeCalledWith('1', {
         relations: ['roles'],
       });
@@ -146,19 +152,56 @@ describe('UserService', () => {
     });
   });
 
-  describe('when delete a User', () => {
+  describe('when softdelete a User', () => {
+    it('should delete a existing User', async () => {
+      mockRepository.findOne.mockReturnValue(mockRegistry);
+      const deleted = {
+        ...mockRegistry,
+        deletedAt: new Date(),
+      };
+      mockRepository.update.mockReturnValue(deleted);
+      mockRepository.create.mockReturnValue(deleted);
+
+      const sindicanciaDeleted = await service.delete('1');
+
+      expect(sindicanciaDeleted).toMatchObject(deleted);
+      expect(mockRepository.findOne).toBeCalledTimes(1);
+      expect(mockRepository.update).toBeCalledWith('1', {
+        deletedAt: deleted.deletedAt,
+      });
+      expect(mockRepository.update).toBeCalledTimes(1);
+      expect(mockRepository.create).toBeCalledWith(deleted);
+      expect(mockRepository.create).toBeCalledTimes(1);
+    });
+  });
+
+  describe('when restore a User', () => {
+    it('should restore a existing User', async () => {
+      mockRepository.findOne.mockReturnValue(mockRegistry);
+      const deleted = {
+        ...mockRegistry,
+        deletedAt: null,
+      };
+      mockRepository.update.mockReturnValue(deleted);
+      mockRepository.create.mockReturnValue(deleted);
+
+      const sindicanciaDeleted = await service.delete('1');
+
+      expect(sindicanciaDeleted).toMatchObject(deleted);
+      expect(mockRepository.findOne).toBeCalledTimes(1);
+      expect(mockRepository.update).toBeCalledTimes(1);
+      expect(mockRepository.create).toBeCalledTimes(1);
+    });
+  });
+
+  describe('when forceDelete a User', () => {
     it('should delete a existing User', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.delete.mockReturnValue(mockRegistry);
 
       await service.delete('1');
 
-      expect(mockRepository.findOne).toBeCalledWith('1', {
-        relations: ['roles'],
-      });
       expect(mockRepository.findOne).toBeCalledTimes(1);
-      expect(mockRepository.delete).toBeCalledWith('1');
-      expect(mockRepository.delete).toBeCalledTimes(1);
     });
   });
 });

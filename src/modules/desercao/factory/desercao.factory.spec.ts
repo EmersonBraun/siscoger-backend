@@ -1,17 +1,11 @@
-// // import { Test, TestingModule } from '@nestjs/testing';
-// import { CreatedesercaoDto } from '../dtos';
-// import { fakerRegistry } from './desercao.factory'
+// import { Test, TestingModule } from '@nestjs/testing';
+import { CreateDesercaoDto } from '../dtos';
+import { fakerRegistry } from './desercao.factory';
 
-describe('Test Latter', () => {
-  it('-', () => {
-    const a = 1;
-    expect(a).toBe(1);
+describe('DesercaoFactory', () => {
+  it('should create a factory and return it', async () => {
+    const Desercao: CreateDesercaoDto = fakerRegistry();
+
+    expect(Desercao).toBe(Desercao);
   });
 });
-// describe('desercaoFactory', () => {
-//   it('should create a factory and return it', async () => {
-//     const desercao: CreatedesercaoDto = fakerRegistry();
-
-//     expect(desercao).toBe(desercao)
-//   });
-// });

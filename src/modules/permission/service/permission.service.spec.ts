@@ -147,19 +147,72 @@ describe('PermissionService', () => {
     });
   });
 
-  describe('when delete a permission', () => {
-    it('should delete a existing permission', async () => {
+  // describe('when delete a permission', () => {
+  //   it('should delete a existing permission', async () => {
+  //     mockRepository.findOne.mockReturnValue(mockRegistry);
+  //     mockRepository.delete.mockReturnValue(mockRegistry);
+
+  //     await service.delete('1');
+
+  //     expect(mockRepository.findOne).toBeCalledWith('1', {
+  //       relations: ['roles'],
+  //     });
+  //     expect(mockRepository.findOne).toBeCalledTimes(1);
+  //     expect(mockRepository.delete).toBeCalledWith('1');
+  //     expect(mockRepository.delete).toBeCalledTimes(1);
+  //   });
+  // });
+
+  describe('when softdelete a Permission', () => {
+    it('should delete a existing Permission', async () => {
+      mockRepository.findOne.mockReturnValue(mockRegistry);
+      const deleted = {
+        ...mockRegistry,
+        deletedAt: new Date(),
+      };
+      mockRepository.update.mockReturnValue(deleted);
+      mockRepository.create.mockReturnValue(deleted);
+
+      const sindicanciaDeleted = await service.delete('1');
+
+      expect(sindicanciaDeleted).toMatchObject(deleted);
+      expect(mockRepository.findOne).toBeCalledWith('1', {
+        relations: ['roles'],
+      });
+      expect(mockRepository.findOne).toBeCalledTimes(1);
+      expect(mockRepository.update).toBeCalledTimes(1);
+      expect(mockRepository.create).toBeCalledWith(deleted);
+      expect(mockRepository.create).toBeCalledTimes(1);
+    });
+  });
+
+  describe('when restore a Permission', () => {
+    it('should restore a existing Permission', async () => {
+      mockRepository.findOne.mockReturnValue(mockRegistry);
+      const deleted = {
+        ...mockRegistry,
+        deletedAt: null,
+      };
+      mockRepository.update.mockReturnValue(deleted);
+      mockRepository.create.mockReturnValue(deleted);
+
+      const sindicanciaDeleted = await service.delete('1');
+
+      expect(sindicanciaDeleted).toMatchObject(deleted);
+      expect(mockRepository.findOne).toBeCalledTimes(1);
+      expect(mockRepository.update).toBeCalledTimes(1);
+      expect(mockRepository.create).toBeCalledTimes(1);
+    });
+  });
+
+  describe('when forceDelete a Permission', () => {
+    it('should delete a existing Permission', async () => {
       mockRepository.findOne.mockReturnValue(mockRegistry);
       mockRepository.delete.mockReturnValue(mockRegistry);
 
       await service.delete('1');
 
-      expect(mockRepository.findOne).toBeCalledWith('1', {
-        relations: ['roles'],
-      });
       expect(mockRepository.findOne).toBeCalledTimes(1);
-      expect(mockRepository.delete).toBeCalledWith('1');
-      expect(mockRepository.delete).toBeCalledTimes(1);
     });
   });
 });

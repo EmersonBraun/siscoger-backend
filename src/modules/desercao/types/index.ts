@@ -1,12 +1,11 @@
 export type Desercao = {
   id?: number;
-  decorrenciaconselho: string;
   id_andamento: number;
   id_andamentocoger: number;
   sjd_ref: number;
   sjd_ref_ano: number;
   cdopm: string;
-  fato_data: Date;
+  fato_data: string | Date;
   doc_tipo: string;
   doc_numero: string;
   termo_exclusao: string;
