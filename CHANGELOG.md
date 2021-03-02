@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.47.2](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.47.1...v0.47.2) (2021-03-02)
+
+
+### Bug Fixes
+
+* solve tests in apfd, denunciacivil, desercao, fatd, ipm, permission, roles, recursos ([2528c47](https://github.com/EmersonBraun/siscoger-backend-v2/commit/2528c47d4ea42f1ac2924e636004b9f911da5857))
+
 ### [0.47.1](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.47.0...v0.47.1) (2021-03-01)
 
 
