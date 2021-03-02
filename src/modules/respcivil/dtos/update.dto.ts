@@ -1,14 +1,6 @@
-// import { ApiProperty } from '@nestjs/swagger';
-// import {
-//   IsNumber,
-//   IsOptional,
-//   IsPositive,
-//   IsString,
-// } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString } from 'class-validator';
 
-// export class UpdaterespcivilDto {
-//   @IsOptional()
-//   @ApiProperty()
-//   data?: string | Date
-
-// }
+export class UpdateRespCivilDto {
+  @ApiProperty() @IsString() resp_civil: string;
+}

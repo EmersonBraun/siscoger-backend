@@ -1,13 +1,13 @@
-// import { Module } from '@nestjs/common';
-// import { TypeOrmModule } from '@nestjs/typeorm';
-// import { respcivilController } from './controller/respcivil.controller';
-// import { respcivil } from './entity/respcivil.entity';
-// import { respcivilService } from './service/respcivil.service';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { RespCivilController } from './controller/respcivil.controller';
+import RespCivil from './entity/respcivil.entity';
+import { RespCivilService } from './service/respcivil.service';
 
-// @Module({
-//   imports: [TypeOrmModule.forFeature([respcivil])],
-//   providers: [respcivilService],
-//   controllers: [respcivilController],
-//   exports: [respcivilService],
-// })
-// export class respcivilModule {}
+@Module({
+  imports: [TypeOrmModule.forFeature([RespCivil])],
+  providers: [RespCivilService],
+  controllers: [RespCivilController],
+  exports: [RespCivilService],
+})
+export class RespCivilModule {}

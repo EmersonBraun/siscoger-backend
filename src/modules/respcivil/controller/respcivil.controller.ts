@@ -18,138 +18,82 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { ErrorResponse } from '../../../common/responses';
-import { CreaterespcivilDto } from '../dtos/create.dto';
-import { UpdaterespcivilDto } from '../dtos/update.dto';
-import { respcivil } from '../entity/respcivil.entity';
-import { respcivilService } from '../service/respcivil.service';
+import { CreateRespCivilDto } from '../dtos/create.dto';
+import { UpdateRespCivilDto } from '../dtos/update.dto';
+import RespCivil from '../entity/respcivil.entity';
+import { RespCivilService } from '../service/respcivil.service';
 
-@ApiTags('respcivil')
-@Controller('respcivils')
-export class respcivilController {
-  constructor(private service: respcivilService) {}
+@ApiTags('RespCivil')
+@Controller('RespCivils')
+export class RespCivilController {
+  constructor(private service: RespCivilService) {}
 
   @Get()
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search all respcivil' })
+  @ApiOperation({ summary: 'Search all RespCivil' })
   @ApiOkResponse({
-    type: [CreaterespcivilDto],
-    description: 'The found respcivil',
+    type: [CreateRespCivilDto],
+    description: 'The found RespCivil',
   })
-  async findAll(): Promise<respcivil[]> {
+  async findAll(): Promise<RespCivil[]> {
     return await this.service.findAll();
   }
 
-  @Post('search')
-  @HttpCode(200)
-  @ApiOperation({ summary: 'Search respcivil' })
-  @ApiCreatedResponse({
-    type: UpdaterespcivilDto,
-    description: 'Searched respcivil',
-  })
-  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async search(@Body() data: CreaterespcivilDto): Promise<respcivil[]> {
-    return await this.service.search(data);
-  }
+  // @Post('search')
+  // @HttpCode(200)
+  // @ApiOperation({ summary: 'Search RespCivil' })
+  // @ApiCreatedResponse({
+  //   type: UpdateRespCivilDto,
+  //   description: 'Searched RespCivil',
+  // })
+  // @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
+  // async search(@Body() data: CreateRespCivilDto): Promise<RespCivil[]> {
+  //   return await this.service.search(data);
+  // }
 
   @Post()
   @HttpCode(201)
-  @ApiOperation({ summary: 'Create a new respcivil' })
+  @ApiOperation({ summary: 'Create a new RespCivil' })
   @ApiCreatedResponse({
-    type: UpdaterespcivilDto,
-    description: 'Created respcivil',
+    type: UpdateRespCivilDto,
+    description: 'Created RespCivil',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreaterespcivilDto): Promise<respcivil> {
+  async create(@Body() data: CreateRespCivilDto): Promise<RespCivil> {
     return await this.service.create(data);
   }
 
   @Get(':id')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search a respcivil by id' })
+  @ApiOperation({ summary: 'Search a RespCivil by id' })
   @ApiOkResponse({
-    type: UpdaterespcivilDto,
-    description: 'The found respcivil',
+    type: UpdateRespCivilDto,
+    description: 'The found RespCivil',
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<respcivil> {
+  async findById(@Param('id') id: string): Promise<RespCivil> {
     return await this.service.findById(id);
   }
 
   @Put(':id')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Update a respcivil' })
-  @ApiOkResponse({ type: UpdaterespcivilDto, description: 'Updated respcivil' })
+  @ApiOperation({ summary: 'Update a RespCivil' })
+  @ApiOkResponse({ type: UpdateRespCivilDto, description: 'Updated RespCivil' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
   async update(
     @Param('id') id: string,
-    @Body() data: UpdaterespcivilDto,
-  ): Promise<respcivil> {
+    @Body() data: UpdateRespCivilDto,
+  ): Promise<RespCivil> {
     return this.service.update(id, data);
   }
 
-  @Put(':id/restore')
-  @HttpCode(200)
-  @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({ roles: [], permissions: [] })
-  @ApiOperation({ summary: 'Delete a RespCivil' })
-  @ApiNoContentResponse({ description: 'Deleted RespCivil' })
-  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async restore(
-    @Param('id') id: string,
-    @Request() request?: any,
-  ): Promise<RespCivil> {
-    const data = await this.service.restore(id);
-
-    await activityLog({
-      module: 'respcivil',
-      action: 'restore',
-      data,
-      user: request?.user,
-    });
-    return data;
-  }
-
   @Delete(':id')
-  @HttpCode(200)
-  @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({ roles: [], permissions: [] })
+  @HttpCode(204)
   @ApiOperation({ summary: 'Delete a RespCivil' })
   @ApiNoContentResponse({ description: 'Deleted RespCivil' })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async delete(
-    @Param('id') id: string,
-    @Request() request?: any,
-  ): Promise<RespCivil> {
+  async delete(@Param('id') id: string): Promise<RespCivil> {
     const data = await this.service.delete(id);
-
-    await activityLog({
-      module: 'respcivil',
-      action: 'delete',
-      data,
-      user: request?.user,
-    });
-    return data;
-  }
-
-  @Delete(':id/force')
-  @HttpCode(200)
-  @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({ roles: [], permissions: [] })
-  @ApiOperation({ summary: 'Delete definitive a RespCivil' })
-  @ApiNoContentResponse({ description: 'Deleted definitive RespCivil' })
-  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async forceDelete(
-    @Param('id') id: string,
-    @Request() request?: any,
-  ): Promise<RespCivil> {
-    const data = await this.service.forceDelete(id);
-
-    await activityLog({
-      module: 'respcivil',
-      action: 'forceDelete',
-      data,
-      user: request?.user,
-    });
     return data;
   }
 }

@@ -1,17 +1,17 @@
-// import * as Faker from 'faker'
-// import { define } from 'typeorm-seeding'
-// import { respcivil } from '../entity/respcivil.entity';
-// import { CreaterespcivilDto } from '../dtos/create.dto';
+import * as Faker from 'faker';
+import { define } from 'typeorm-seeding';
+import { CreateRespCivilDto } from '../dtos/create.dto';
+import RespCivil from '../entity/respcivil.entity';
 
-// define(respcivil, (faker: typeof Faker) => {
-//   const factory = new respcivil()
-//   // factory.data = faker.date.future(1)
-//   return factory
-// })
+define(RespCivil, (faker: typeof Faker) => {
+  const factory = new RespCivil();
+  factory.resp_civil = faker.name.findName();
+  return factory;
+});
 
-// export const fakerRegistry = ():CreaterespcivilDto => {
-//   const faker = Faker
-//   return {
-//     // data: faker.date.past(1),
-//   }
-// }
+export const fakerRegistry = (): CreateRespCivilDto => {
+  const faker = Faker;
+  return {
+    resp_civil: faker.name.findName(),
+  };
+};

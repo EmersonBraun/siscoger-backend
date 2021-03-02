@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class presotipo1614687172217 implements MigrationInterface {
+export class respcivil1614689098764 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'presotipos',
+        name: 'respcivis',
         columns: [
           {
             name: 'id',
@@ -13,7 +13,7 @@ export class presotipo1614687172217 implements MigrationInterface {
             isGenerated: true,
             generationStrategy: 'increment',
           },
-          { name: 'posto', type: 'varchar', isNullable: true },
+          { name: 'resp_civil', type: 'varchar', isNullable: true },
           { name: 'created_at', type: 'timestamp', default: 'now()' },
           { name: 'updated_at', type: 'timestamp', isNullable: true },
           {
@@ -28,6 +28,6 @@ export class presotipo1614687172217 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('presotipos');
+    await queryRunner.dropTable('respcivis');
   }
 }
