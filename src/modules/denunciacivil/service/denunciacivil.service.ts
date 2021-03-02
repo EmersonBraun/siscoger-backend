@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateDenunciacivilDto, UpdateDenunciacivilDto } from '../dtos';
+import { CreateDenunciaCivilDto, UpdateDenunciaCivilDto } from '../dtos';
 import DenunciaCivil from '../entity/denunciacivil.entity';
 
 @Injectable()
@@ -15,12 +15,12 @@ export class DenunciaCivilService {
     return await this.repository.find();
   }
 
-  async search(data: CreateDenunciacivilDto): Promise<DenunciaCivil[]> {
+  async search(data: CreateDenunciaCivilDto): Promise<DenunciaCivil[]> {
     console.log(data);
     return await this.repository.find({ where: { ...data } });
   }
 
-  async create(data: CreateDenunciacivilDto): Promise<DenunciaCivil> {
+  async create(data: CreateDenunciaCivilDto): Promise<DenunciaCivil> {
     const registry = this.repository.create(data);
     return await this.repository.save(registry);
   }
@@ -37,7 +37,7 @@ export class DenunciaCivilService {
 
   async update(
     id: string,
-    data: UpdateDenunciacivilDto,
+    data: UpdateDenunciaCivilDto,
   ): Promise<DenunciaCivil> {
     const registry = await this.findById(id);
     await this.repository.update(id, { ...data });

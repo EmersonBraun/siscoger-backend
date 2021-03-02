@@ -1,24 +1,15 @@
-// import {
-//   Column,
-//   CreateDateColumn,
-//   Entity,
-//   PrimaryGeneratedColumn,
-//   UpdateDateColumn,
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-// } from 'typeorm';
-
-// @Entity('postos')
-// export class posto {
-//   // @PrimaryGeneratedColumn()
-//   // id: number;
-
-//   // @CreateDateColumn()
-//   // data: Date
-
-//   // @CreateDateColumn({ name: 'created_at' })
-//   // createdAt: Date
-
-//   // @UpdateDateColumn({ name: 'updated_at' })
-//   // updatedAt: Date
-
-// }
+@Entity('postos')
+export default class Posto {
+  @PrimaryGeneratedColumn() id: number;
+  @Column({ nullable: true }) posto: string;
+  @CreateDateColumn({ name: 'created_at' }) createdAt: Date;
+  @UpdateDateColumn({ name: 'updated_at' }) updatedAt: Date;
+}

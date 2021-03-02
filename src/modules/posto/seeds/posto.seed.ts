@@ -1,8 +1,8 @@
-// import { posto } from '../entity/posto.entity';
 import { Factory, Seeder } from 'typeorm-seeding';
+import Posto from '../entity/posto.entity';
 
-export default class Createpostos implements Seeder {
+export default class CreatePostos implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    //     await factory(posto)().createMany(10)
+    await factory(Posto)().createMany(10);
   }
 }
