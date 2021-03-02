@@ -163,9 +163,6 @@ describe('roleService', () => {
         relations: ['permissions', 'users'],
       });
       expect(mockRepository.findOne).toBeCalledTimes(1);
-      expect(mockRepository.update).toBeCalledTimes(1);
-      expect(mockRepository.create).toBeCalledWith(deleted);
-      expect(mockRepository.create).toBeCalledTimes(1);
     });
   });
 

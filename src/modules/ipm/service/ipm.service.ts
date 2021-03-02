@@ -1,12 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Connection, IsNull, Like, Not, Repository } from 'typeorm';
+import codeBase from '../../../common/services/opm.service';
+import { CreateIpmDto } from '../dtos/create.dto';
+import { SearchPortariaDto } from '../dtos/search-portaria.dto';
+import { UpdateIpmDto } from '../dtos/update.dto';
+import Ipm from '../entity/ipm.entity';
 
 @Injectable()
-export class ipmService {
+export class IpmService {
   constructor(
     @InjectRepository(Ipm) private repository: Repository<Ipm>,
-    private connection: Connection,
+    @Inject('CONNECTION') private connection: Connection,
   ) {}
 
   getNextRefYear(data: CreateIpmDto): number {
@@ -21,6 +26,13 @@ export class ipmService {
       .where('sjd_ref_ano = :year', { year })
       .getRawOne();
     return registry?.max ? ++registry.max : 1;
+  }
+
+  async search(data: CreateIpmDto): Promise<Ipm[]> {
+    return await this.repository.find({
+      where: { ...data },
+      order: { sjd_ref: 'DESC' },
+    });
   }
 
   async findAll(cdopm = null): Promise<Ipm[]> {
@@ -63,7 +75,7 @@ export class ipmService {
     cdopm,
   }: {
     year: string;
-    cdopm: string;
+    cdopm?: string;
   }): Promise<Ipm[]> {
     year ?? new Date().getFullYear();
     const query = cdopm
@@ -87,31 +99,31 @@ export class ipmService {
     if (cdopm) {
       return await this.connection.query(
         `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT ipms.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM ipms
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        ipms.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        ipms.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
-      WHERE sindicancias.cdopm like "$1%"
-      ORDER BY sindicancias.id DESC
+        envolvidos.id_ipm=ipms.id
+      WHERE ipms.cdopm like "$1%"
+      ORDER BY ipms.id DESC
       `,
         [cdopm],
       );
     }
 
     return await this.connection.query(`
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT ipms.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM ipms
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        ipms.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        ipms.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
-      ORDER BY sindicancias.id DESC
+        envolvidos.id_ipm=ipms.id
+      ORDER BY ipms.id DESC
       `);
   }
 
@@ -120,25 +132,25 @@ export class ipmService {
     year,
   }: {
     year: string;
-    cdopm: string;
+    cdopm?: string;
   }): Promise<any[]> {
     year ?? new Date().getFullYear();
     if (cdopm) {
       return await this.connection.query(
         `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT ipms.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM ipms
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        ipms.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        ipms.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_ipm=ipms.id
       WHERE 
-        sindicancias.cdopm like "$1%"
+        ipms.cdopm like "$1%"
       AND
-        sindicancias.sjd_ref_ano = "$2%"
-      ORDER BY sindicancias.id DESC
+        ipms.sjd_ref_ano = "$2%"
+      ORDER BY ipms.id DESC
       `,
         [cdopm, year],
       );
@@ -146,39 +158,45 @@ export class ipmService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT ipms.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM ipms
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        ipms.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        ipms.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_ipm=ipms.id
       WHERE
-        sindicancias.sjd_ref_ano = "$1%"
-      ORDER BY sindicancias.id DESC
+        ipms.sjd_ref_ano = "$1%"
+      ORDER BY ipms.id DESC
       `,
       [year],
     );
   }
 
-  async resultado({ situation, cdopm }: { situation: string; cdopm: string }) {
+  async resultado({
+    situation,
+    cdopm,
+  }: {
+    situation?: string;
+    cdopm?: string;
+  }) {
     situation ?? 'Sindicado';
 
     if (cdopm) {
       return await this.connection.query(
         `
-        SELECT sindicancias.*, andamentos.*, envolvidos.*
-        FROM sindicancias
+        SELECT ipms.*, andamentos.*, envolvidos.*
+        FROM ipms
         LEFT JOIN andamentos ON
-          sindicancias.id_andamento = andamentos.id
+          ipms.id_andamento = andamentos.id
         INNER JOIN envolvidos ON
-          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+          envolvidos.id_ipm!=0 AND envolvidos.id_ipm=ipms.id
         WHERE 
           envolvidos.situacao= $1
         AND
-          sindicancias.cdopm LIKE "$2%"
-        ORDER BY sindicancias.id DESC
+          ipms.cdopm LIKE "$2%"
+        ORDER BY ipms.id DESC
         `,
         [situation, cdopm],
       );
@@ -186,14 +204,14 @@ export class ipmService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.*
-      FROM sindicancias
+      SELECT ipms.*, andamentos.*, envolvidos.*
+      FROM ipms
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        ipms.id_andamento = andamentos.id
       INNER JOIN envolvidos ON
-        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_ipm!=0 AND envolvidos.id_ipm=ipms.id
       WHERE  envolvidos.situacao= $1
-      ORDER BY sindicancias.id DESC
+      ORDER BY ipms.id DESC
       `,
       [situation],
     );
@@ -205,7 +223,7 @@ export class ipmService {
     year,
   }: {
     situation: string;
-    cdopm: string;
+    cdopm?: string;
     year: string;
   }) {
     situation ?? 'Sindicado';
@@ -214,19 +232,19 @@ export class ipmService {
     if (cdopm) {
       return await this.connection.query(
         `
-        SELECT sindicancias.*, andamentos.*, envolvidos.*
-        FROM sindicancias
+        SELECT ipms.*, andamentos.*, envolvidos.*
+        FROM ipms
         LEFT JOIN andamentos ON
-          sindicancias.id_andamento = andamentos.id
+          ipms.id_andamento = andamentos.id
         INNER JOIN envolvidos ON
-          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+          envolvidos.id_ipm!=0 AND envolvidos.id_ipm=ipms.id
         WHERE 
           envolvidos.situacao= $1
         AND
-          sindicancias.cdopm LIKE "$2%"
+          ipms.cdopm LIKE "$2%"
         AND
-          sindicancias.sjd_ref_ano = $3
-        ORDER BY sindicancias.id DESC
+          ipms.sjd_ref_ano = $3
+        ORDER BY ipms.id DESC
         `,
         [situation, cdopm, year],
       );
@@ -234,17 +252,17 @@ export class ipmService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.*
-      FROM sindicancias
+      SELECT ipms.*, andamentos.*, envolvidos.*
+      FROM ipms
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        ipms.id_andamento = andamentos.id
       INNER JOIN envolvidos ON
-        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_ipm!=0 AND envolvidos.id_ipm=ipms.id
       WHERE 
         envolvidos.situacao= $1
       AND
-        sindicancias.sjd_ref_ano = $2
-      ORDER BY sindicancias.id DESC
+        ipms.sjd_ref_ano = $2
+      ORDER BY ipms.id DESC
       `,
       [situation, year],
     );

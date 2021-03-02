@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class CreateIpmDto {
+export class SearchPortariaDto {
   @IsOptional() @ApiProperty() @IsNumber() id_andamento: number;
   @IsOptional() @ApiProperty() @IsNumber() id_andamentocoger: number;
   @IsOptional() @ApiProperty() @IsNumber() id_municipio: number;

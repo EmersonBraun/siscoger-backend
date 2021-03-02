@@ -31,5 +31,4 @@ export class CreateFatdDto {
   @IsOptional() @ApiProperty() @IsString() situacao_fatd: string;
   @IsOptional() @ApiProperty() @IsString() motivo_fatd: string;
   @IsOptional() @ApiProperty() @IsString() motivo_outros: string;
-  @IsOptional() @ApiProperty() @IsString() deletedAt: string | null;
 }

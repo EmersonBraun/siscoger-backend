@@ -91,31 +91,31 @@ export class ApfdService {
     if (cdopm) {
       return await this.connection.query(
         `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT apfds.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM apfds
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        apfds.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        apfds.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
-      WHERE sindicancias.cdopm like "$1%"
-      ORDER BY sindicancias.id DESC
+        envolvidos.id_sindicancia=apfds.id
+      WHERE apfds.cdopm like "$1%"
+      ORDER BY apfds.id DESC
       `,
         [cdopm],
       );
     }
 
     return await this.connection.query(`
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT apfds.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM apfds
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        apfds.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        apfds.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
-      ORDER BY sindicancias.id DESC
+        envolvidos.id_sindicancia=apfds.id
+      ORDER BY apfds.id DESC
       `);
   }
 
@@ -130,19 +130,19 @@ export class ApfdService {
     if (cdopm) {
       return await this.connection.query(
         `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT apfds.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM apfds
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        apfds.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        apfds.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia=apfds.id
       WHERE 
-        sindicancias.cdopm like "$1%"
+        apfds.cdopm like "$1%"
       AND
-        sindicancias.sjd_ref_ano = "$2%"
-      ORDER BY sindicancias.id DESC
+        apfds.sjd_ref_ano = "$2%"
+      ORDER BY apfds.id DESC
       `,
         [cdopm, year],
       );
@@ -150,17 +150,17 @@ export class ApfdService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT apfds.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM apfds
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        apfds.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        apfds.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia=apfds.id
       WHERE
-        sindicancias.sjd_ref_ano = "$1%"
-      ORDER BY sindicancias.id DESC
+        apfds.sjd_ref_ano = "$1%"
+      ORDER BY apfds.id DESC
       `,
       [year],
     );
@@ -172,17 +172,17 @@ export class ApfdService {
     if (cdopm) {
       return await this.connection.query(
         `
-        SELECT sindicancias.*, andamentos.*, envolvidos.*
-        FROM sindicancias
+        SELECT apfds.*, andamentos.*, envolvidos.*
+        FROM apfds
         LEFT JOIN andamentos ON
-          sindicancias.id_andamento = andamentos.id
+          apfds.id_andamento = andamentos.id
         INNER JOIN envolvidos ON
-          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=apfds.id
         WHERE 
           envolvidos.situacao= $1
         AND
-          sindicancias.cdopm LIKE "$2%"
-        ORDER BY sindicancias.id DESC
+          apfds.cdopm LIKE "$2%"
+        ORDER BY apfds.id DESC
         `,
         [situation, cdopm],
       );
@@ -190,14 +190,14 @@ export class ApfdService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.*
-      FROM sindicancias
+      SELECT apfds.*, andamentos.*, envolvidos.*
+      FROM apfds
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        apfds.id_andamento = andamentos.id
       INNER JOIN envolvidos ON
-        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=apfds.id
       WHERE  envolvidos.situacao= $1
-      ORDER BY sindicancias.id DESC
+      ORDER BY apfds.id DESC
       `,
       [situation],
     );
@@ -218,19 +218,19 @@ export class ApfdService {
     if (cdopm) {
       return await this.connection.query(
         `
-        SELECT sindicancias.*, andamentos.*, envolvidos.*
-        FROM sindicancias
+        SELECT apfds.*, andamentos.*, envolvidos.*
+        FROM apfds
         LEFT JOIN andamentos ON
-          sindicancias.id_andamento = andamentos.id
+          apfds.id_andamento = andamentos.id
         INNER JOIN envolvidos ON
-          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=apfds.id
         WHERE 
           envolvidos.situacao= $1
         AND
-          sindicancias.cdopm LIKE "$2%"
+          apfds.cdopm LIKE "$2%"
         AND
-          sindicancias.sjd_ref_ano = $3
-        ORDER BY sindicancias.id DESC
+          apfds.sjd_ref_ano = $3
+        ORDER BY apfds.id DESC
         `,
         [situation, cdopm, year],
       );
@@ -238,17 +238,17 @@ export class ApfdService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.*
-      FROM sindicancias
+      SELECT apfds.*, andamentos.*, envolvidos.*
+      FROM apfds
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        apfds.id_andamento = andamentos.id
       INNER JOIN envolvidos ON
-        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=apfds.id
       WHERE 
         envolvidos.situacao= $1
       AND
-        sindicancias.sjd_ref_ano = $2
-      ORDER BY sindicancias.id DESC
+        apfds.sjd_ref_ano = $2
+      ORDER BY apfds.id DESC
       `,
       [situation, year],
     );

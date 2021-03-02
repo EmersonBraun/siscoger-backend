@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class fatd1614692762496 implements MigrationInterface {
+export class ipm1614694549577 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'fatds',
+        name: 'ipms',
         columns: [
           {
             name: 'id',
@@ -25,16 +25,36 @@ export class fatd1614692762496 implements MigrationInterface {
             default: null,
             isNullable: true,
           },
-          { name: 'sjd_ref', type: 'integer', default: null, isNullable: true },
           {
-            name: 'sjd_ref_ano',
+            name: 'id_municipio',
             type: 'integer',
             default: null,
             isNullable: true,
           },
           {
-            name: 'fato_data',
-            type: 'timestamp',
+            name: 'id_situacao',
+            type: 'integer',
+            default: null,
+            isNullable: true,
+          },
+          { name: 'cdopm', type: 'varchar', default: null, isNullable: true },
+          {
+            name: 'opm_sigla',
+            type: 'varchar',
+            default: null,
+            isNullable: true,
+          },
+          { name: 'opm_ref', type: 'integer', default: null, isNullable: true },
+          {
+            name: 'opm_ref_ano',
+            type: 'integer',
+            default: null,
+            isNullable: true,
+          },
+          { name: 'sjd_ref', type: 'integer', default: null, isNullable: true },
+          {
+            name: 'sjd_ref_ano',
+            type: 'integer',
             default: null,
             isNullable: true,
           },
@@ -45,87 +65,149 @@ export class fatd1614692762496 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: 'sintese_txt',
-            type: 'text',
-            default: null,
-            isNullable: true,
-          },
-          { name: 'cdopm', type: 'varchar', default: null, isNullable: true },
-          {
-            name: 'doc_tipo',
-            type: 'varchar',
-            default: null,
-            isNullable: true,
-          },
-          {
-            name: 'doc_numero',
-            type: 'varchar',
-            default: null,
-            isNullable: true,
-          },
-          {
-            name: 'doc_origem_txt',
-            type: 'text',
-            default: null,
-            isNullable: true,
-          },
-          {
-            name: 'despacho_numero',
-            type: 'varchar',
-            default: null,
-            isNullable: true,
-          },
-          {
-            name: 'portaria_data',
+            name: 'fato_data',
             type: 'timestamp',
             default: null,
             isNullable: true,
           },
           {
-            name: 'fato_file',
+            name: 'autuacao_data',
+            type: 'timestamp',
+            default: null,
+            isNullable: true,
+          },
+          { name: 'crime', type: 'varchar', default: null, isNullable: true },
+          { name: 'tentado', type: 'varchar', default: null, isNullable: true },
+          {
+            name: 'crime_especificar',
             type: 'varchar',
             default: null,
             isNullable: true,
           },
           {
-            name: 'relatorio_file',
+            name: 'sintese_txt',
+            type: 'text',
+            default: null,
+            isNullable: true,
+          },
+          {
+            name: 'relato_enc',
             type: 'varchar',
             default: null,
             isNullable: true,
           },
           {
-            name: 'sol_cmt_file',
+            name: 'relato_enc_data',
+            type: 'timestamp',
+            default: null,
+            isNullable: true,
+          },
+          {
+            name: 'relato_cmtopm',
             type: 'varchar',
             default: null,
             isNullable: true,
           },
           {
-            name: 'sol_cg_file',
+            name: 'relato_cmtopm_data',
+            type: 'timestamp',
+            default: null,
+            isNullable: true,
+          },
+          {
+            name: 'relato_cmtgeral',
             type: 'varchar',
             default: null,
             isNullable: true,
           },
           {
-            name: 'rec_ato_file',
+            name: 'relato_cmtgeral_data',
+            type: 'timestamp',
+            default: null,
+            isNullable: true,
+          },
+          {
+            name: 'vajme_ref',
             type: 'varchar',
             default: null,
             isNullable: true,
           },
           {
-            name: 'rec_cmt_file',
+            name: 'justicacomum_ref',
+            type: 'varchar',
+            default: null,
+            isNullable: true,
+          },
+          { name: 'vitima', type: 'varchar', default: null, isNullable: true },
+          {
+            name: 'confronto_armado_bl',
             type: 'varchar',
             default: null,
             isNullable: true,
           },
           {
-            name: 'rec_crpm_file',
+            name: 'vitima_qtdd',
+            type: 'integer',
+            default: null,
+            isNullable: true,
+          },
+          {
+            name: 'julgamento',
             type: 'varchar',
             default: null,
             isNullable: true,
           },
           {
-            name: 'rec_cg_file',
+            name: 'portaria_numero',
             type: 'varchar',
+            default: null,
+            isNullable: true,
+          },
+          {
+            name: 'exclusao_txt',
+            type: 'text',
+            default: null,
+            isNullable: true,
+          },
+          {
+            name: 'relato_enc_file',
+            type: 'varchar',
+            default: null,
+            isNullable: true,
+          },
+          {
+            name: 'relato_cmtopm_file',
+            type: 'varchar',
+            default: null,
+            isNullable: true,
+          },
+          {
+            name: 'relato_cmtgeral_file',
+            type: 'varchar',
+            default: null,
+            isNullable: true,
+          },
+          {
+            name: 'defensor_oab',
+            type: 'varchar',
+            default: null,
+            isNullable: true,
+          },
+          {
+            name: 'defensor_nome',
+            type: 'varchar',
+            default: null,
+            isNullable: true,
+          },
+          {
+            name: 'relcomplementar_file',
+            type: 'varchar',
+            default: null,
+            isNullable: true,
+          },
+          {
+            name: 'relcomplementar_data',
+            type: 'timestamp',
             default: null,
             isNullable: true,
           },
@@ -135,15 +217,10 @@ export class fatd1614692762496 implements MigrationInterface {
             default: null,
             isNullable: true,
           },
+          { name: 'bou_ano', type: 'integer', default: null, isNullable: true },
           {
-            name: 'notapunicao_file',
-            type: 'varchar',
-            default: null,
-            isNullable: true,
-          },
-          {
-            name: 'publicacaonp',
-            type: 'varchar',
+            name: 'bou_numero',
+            type: 'integer',
             default: null,
             isNullable: true,
           },
@@ -153,25 +230,6 @@ export class fatd1614692762496 implements MigrationInterface {
             default: null,
             isNullable: true,
           },
-          {
-            name: 'situacao_fatd',
-            type: 'varchar',
-            default: null,
-            isNullable: true,
-          },
-          {
-            name: 'motivo_fatd',
-            type: 'varchar',
-            default: null,
-            isNullable: true,
-          },
-          {
-            name: 'motivo_outros',
-            type: 'varchar',
-            default: null,
-            isNullable: true,
-          },
-
           { name: 'created_at', type: 'timestamp', default: 'now()' },
           { name: 'updated_at', type: 'timestamp', isNullable: true },
           {
@@ -187,6 +245,6 @@ export class fatd1614692762496 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('fatds');
+    await queryRunner.dropTable('ipms');
   }
 }

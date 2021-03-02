@@ -1,8 +1,8 @@
-// import { ipm } from '../entity/ipm.entity';
 import { Factory, Seeder } from 'typeorm-seeding';
+import Ipm from '../entity/ipm.entity';
 
-export default class Createipms implements Seeder {
+export default class CreateIpms implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    //     await factory(ipm)().createMany(10)
+    await factory(Ipm)().createMany(10);
   }
 }
