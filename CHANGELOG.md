@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.51.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.50.0...v0.51.0) (2021-03-02)
+
+
+### Features
+
+* add respcivil module ([8b8ca76](https://github.com/EmersonBraun/siscoger-backend-v2/commit/8b8ca76b966bf36202fa0546286667bc7e68dded))
+
 ## [0.50.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.49.0...v0.50.0) (2021-03-02)
 
 
