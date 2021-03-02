@@ -1,17 +1,11 @@
-// // import { Test, TestingModule } from '@nestjs/testing';
-// import { CreatepresotipoDto } from '../dtos';
-// import { fakerRegistry } from './presotipo.factory'
+// import { Test, TestingModule } from '@nestjs/testing';
+import { CreatePresoTipoDto } from '../dtos';
+import { fakerRegistry } from './presotipo.factory';
 
-describe('Test Latter', () => {
-  it('-', () => {
-    const a = 1;
-    expect(a).toBe(1);
+describe('PresoTipoFactory', () => {
+  it('should create a factory and return it', async () => {
+    const PresoTipo: CreatePresoTipoDto = fakerRegistry();
+
+    expect(PresoTipo).toBe(PresoTipo);
   });
 });
-// describe('presotipoFactory', () => {
-//   it('should create a factory and return it', async () => {
-//     const presotipo: CreatepresotipoDto = fakerRegistry();
-
-//     expect(presotipo).toBe(presotipo)
-//   });
-// });

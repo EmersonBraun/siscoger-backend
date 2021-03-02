@@ -1,14 +1,6 @@
-// import { ApiProperty } from '@nestjs/swagger';
-// import {
-//   IsNumber,
-//   IsOptional,
-//   IsPositive,
-//   IsString,
-// } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString } from 'class-validator';
 
-// export class CreatepresotipoDto {
-//   // @IsOptional()
-//   // @ApiProperty()
-//   // data?: string | Date
-
-// }
+export class CreatePresoTipoDto {
+  @ApiProperty() @IsString() presotipo: string;
+}

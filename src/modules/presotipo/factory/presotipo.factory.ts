@@ -1,17 +1,17 @@
-// import * as Faker from 'faker'
-// import { define } from 'typeorm-seeding'
-// import { presotipo } from '../entity/presotipo.entity';
-// import { CreatepresotipoDto } from '../dtos/create.dto';
+import * as Faker from 'faker';
+import { define } from 'typeorm-seeding';
+import { CreatePresoTipoDto } from '../dtos/create.dto';
+import PresoTipo from '../entity/presotipo.entity';
 
-// define(presotipo, (faker: typeof Faker) => {
-//   const factory = new presotipo()
-//   // factory.data = faker.date.future(1)
-//   return factory
-// })
+define(PresoTipo, (faker: typeof Faker) => {
+  const factory = new PresoTipo();
+  factory.presotipo = faker.name.findName();
+  return factory;
+});
 
-// export const fakerRegistry = ():CreatepresotipoDto => {
-//   const faker = Faker
-//   return {
-//     // data: faker.date.past(1),
-//   }
-// }
+export const fakerRegistry = (): CreatePresoTipoDto => {
+  const faker = Faker;
+  return {
+    presotipo: faker.name.findName(),
+  };
+};

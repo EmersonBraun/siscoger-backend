@@ -1,8 +1,8 @@
-// import { presotipo } from '../entity/presotipo.entity';
 import { Factory, Seeder } from 'typeorm-seeding';
+import PresoTipo from '../entity/presotipo.entity';
 
-export default class Createpresotipos implements Seeder {
+export default class CreatePresoTipos implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    //     await factory(presotipo)().createMany(10)
+    await factory(PresoTipo)().createMany(10);
   }
 }
