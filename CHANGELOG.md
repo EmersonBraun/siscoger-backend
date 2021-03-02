@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.54.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.53.0...v0.54.0) (2021-03-02)
+
+
+### Features
+
+* add fatd module ([21f25d7](https://github.com/EmersonBraun/siscoger-backend-v2/commit/21f25d7db3633952db273b5920db45c935c3870c))
+* add ipm module ([6fe0f84](https://github.com/EmersonBraun/siscoger-backend-v2/commit/6fe0f841f24d3b7aebdc34349d74ebc684356165))
+
 ## [0.53.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.52.0...v0.53.0) (2021-03-02)
 
 ## [0.52.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.51.0...v0.52.0) (2021-03-02)
