@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.50.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.49.0...v0.50.0) (2021-03-02)
+
+
+### Features
+
+* add presotipo module ([d45ca17](https://github.com/EmersonBraun/siscoger-backend-v2/commit/d45ca176180ba1330cc0fd8d6423759e2821f8c2))
+
 ## [0.49.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.48.1...v0.49.0) (2021-03-02)
 
 
