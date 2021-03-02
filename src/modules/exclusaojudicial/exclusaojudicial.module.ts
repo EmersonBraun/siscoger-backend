@@ -1,13 +1,13 @@
-// import { Module } from '@nestjs/common';
-// import { TypeOrmModule } from '@nestjs/typeorm';
-// import { exclusaojudicialController } from './controller/exclusaojudicial.controller';
-// import { exclusaojudicial } from './entity/exclusaojudicial.entity';
-// import { exclusaojudicialService } from './service/exclusaojudicial.service';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ExclusaoJudicialController } from './controller/exclusaojudicial.controller';
+import ExclusaoJudicial from './entity/exclusaojudicial.entity';
+import { ExclusaoJudicialService } from './service/exclusaojudicial.service';
 
-// @Module({
-//   imports: [TypeOrmModule.forFeature([exclusaojudicial])],
-//   providers: [exclusaojudicialService],
-//   controllers: [exclusaojudicialController],
-//   exports: [exclusaojudicialService],
-// })
-// export class exclusaojudicialModule {}
+@Module({
+  imports: [TypeOrmModule.forFeature([ExclusaoJudicial])],
+  providers: [ExclusaoJudicialService],
+  controllers: [ExclusaoJudicialController],
+  exports: [ExclusaoJudicialService],
+})
+export class ExclusaoJudicialModule {}

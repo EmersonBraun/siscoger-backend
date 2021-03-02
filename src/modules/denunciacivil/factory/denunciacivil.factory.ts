@@ -1,6 +1,6 @@
 import * as Faker from 'faker';
 import { define } from 'typeorm-seeding';
-import { CreateDenunciacivilDto } from '../dtos/create.dto';
+import { CreateDenunciaCivilDto } from '../dtos';
 import Denunciacivil from '../entity/denunciacivil.entity';
 
 define(Denunciacivil, (faker: typeof Faker) => {
@@ -24,7 +24,7 @@ define(Denunciacivil, (faker: typeof Faker) => {
   return factory;
 });
 
-export const fakerRegistry = (): CreateDenunciacivilDto => {
+export const fakerRegistry = (): CreateDenunciaCivilDto => {
   const faker = Faker;
   return {
     rg: faker.name.findName(),

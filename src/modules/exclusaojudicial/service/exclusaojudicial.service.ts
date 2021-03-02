@@ -1,50 +1,53 @@
-// import { Injectable, NotFoundException } from '@nestjs/common';
-// import { InjectRepository } from '@nestjs/typeorm';
-// import { Repository } from 'typeorm';
-// import { CreateexclusaojudicialDto } from '../dtos/create.dto';
-// import { UpdateexclusaojudicialDto } from '../dtos/update.dto';
-// import { exclusaojudicial } from '../entity/exclusaojudicial.entity';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CreateExclusaoJudicialDto } from '../dtos/create.dto';
+import { UpdateExclusaoJudicialDto } from '../dtos/update.dto';
+import ExclusaoJudicial from '../entity/exclusaojudicial.entity';
 
-// @Injectable()
-// export class exclusaojudicialService {
-//   constructor(
-//     @InjectRepository(exclusaojudicial)
-//     private repository: Repository<exclusaojudicial>,
-//   ) {}
+@Injectable()
+export class ExclusaoJudicialService {
+  constructor(
+    @InjectRepository(ExclusaoJudicial)
+    private repository: Repository<ExclusaoJudicial>,
+  ) {}
 
-//   async findAll(): Promise<exclusaojudicial[]> {
-//     return await this.repository.find();
-//   }
+  async findAll(): Promise<ExclusaoJudicial[]> {
+    return await this.repository.find();
+  }
 
-//   async search(data: CreateexclusaojudicialDto): Promise<exclusaojudicial[]> {
-//     console.log(data)
-//     return await this.repository.find({ where: { ...data } });
-//   }
+  async search(data: CreateExclusaoJudicialDto): Promise<ExclusaoJudicial[]> {
+    console.log(data);
+    return await this.repository.find({ where: { ...data } });
+  }
 
-//   async create(data: CreateexclusaojudicialDto): Promise<exclusaojudicial> {
-//     const registry = this.repository.create(data);
-//     return await this.repository.save(registry);
-//   }
+  async create(data: CreateExclusaoJudicialDto): Promise<ExclusaoJudicial> {
+    const registry = this.repository.create(data);
+    return await this.repository.save(registry);
+  }
 
-//   async findById(id: string): Promise<exclusaojudicial> {
-//     const registry = await this.repository.findOne(id);
+  async findById(id: string): Promise<ExclusaoJudicial> {
+    const registry = await this.repository.findOne(id);
 
-//     if (!registry) {
-//       throw new NotFoundException('Registry not found');
-//     }
+    if (!registry) {
+      throw new NotFoundException('Registry not found');
+    }
 
-//     return registry;
-//   }
+    return registry;
+  }
 
-//   async update(id: string, data: UpdateexclusaojudicialDto): Promise<exclusaojudicial> {
-//     const registry = await this.findById(id);
-//     await this.repository.update(id, { ...data });
+  async update(
+    id: string,
+    data: UpdateExclusaoJudicialDto,
+  ): Promise<ExclusaoJudicial> {
+    const registry = await this.findById(id);
+    await this.repository.update(id, { ...data });
 
-//     return this.repository.create({ ...registry, ...data });
-//   }
+    return this.repository.create({ ...registry, ...data });
+  }
 
-//   async delete(id: string): Promise<void> {
-//     await this.findById(id);
-//     await this.repository.delete(id);
-//   }
-// }
+  async delete(id: string): Promise<void> {
+    await this.findById(id);
+    await this.repository.delete(id);
+  }
+}

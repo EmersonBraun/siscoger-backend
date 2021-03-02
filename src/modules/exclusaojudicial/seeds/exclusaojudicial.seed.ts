@@ -1,8 +1,8 @@
-// import { exclusaojudicial } from '../entity/exclusaojudicial.entity';
 import { Factory, Seeder } from 'typeorm-seeding';
+import ExclusaoJudicial from '../entity/exclusaojudicial.entity';
 
-export default class Createexclusaojudicials implements Seeder {
+export default class CreateExclusaoJudicials implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    //     await factory(exclusaojudicial)().createMany(10)
+    await factory(ExclusaoJudicial)().createMany(10);
   }
 }
