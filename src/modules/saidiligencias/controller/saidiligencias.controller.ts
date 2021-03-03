@@ -7,6 +7,9 @@ import {
   Param,
   Post,
   Put,
+  Query,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -17,80 +20,144 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { ErrorResponse } from '../../../common/responses';
-import { CreatesaidiligenciasDto } from '../dtos/create.dto';
-import { UpdatesaidiligenciasDto } from '../dtos/update.dto';
-import { saidiligencias } from '../entity/saidiligencias.entity';
-import { saidiligenciasService } from '../service/saidiligencias.service';
-import { SaiDiligencias } from '../types';
+import { activityLog } from '../../../common/activiti-log';
+import ACLPolice from '../../../common/decorators/acl.decorator';
+import ACLGuard from '../../../common/guards/acl.guard';
+import JwtAuthGuard from '../../../common/guards/jwt.guard';
+import { ErrorResponse } from '../../../common/responses/error';
+import { CreateSaiDiligenciasDto } from '../dtos/create.dto';
+import { UpdateSaiDiligenciasDto } from '../dtos/update.dto';
+import SaiDiligencias from '../entity/saidiligencias.entity';
+import { SaiDiligenciasService } from '../service/saidiligencias.service';
 
-@ApiTags('saidiligencias')
+@ApiTags('SaiDiligencias')
 @Controller('saidiligenciass')
-export class saidiligenciasController {
-  constructor(private service: saidiligenciasService) {}
+export class SaiDiligenciasController {
+  constructor(private service: SaiDiligenciasService) {}
 
   @Get()
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search all saidiligencias' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all SaiDiligencias' })
   @ApiOkResponse({
-    type: [CreatesaidiligenciasDto],
-    description: 'The found saidiligencias',
+    type: [CreateSaiDiligenciasDto],
+    description: 'The found SaiDiligencias',
   })
-  async findAll(): Promise<saidiligencias[]> {
+  async findAll(): Promise<SaiDiligencias[]> {
     return await this.service.findAll();
   }
 
-  @Post('search')
+  @Get('/deleted')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search saidiligencias' })
-  @ApiCreatedResponse({
-    type: UpdatesaidiligenciasDto,
-    description: 'Searched saidiligencias',
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all deleted SaiDiligencias' })
+  @ApiOkResponse({
+    type: [CreateSaiDiligenciasDto],
+    description: 'The found deleted SaiDiligencias',
   })
-  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async search(
-    @Body() data: CreatesaidiligenciasDto,
-  ): Promise<saidiligencias[]> {
-    return await this.service.search(data);
+  async listDeleted(): Promise<SaiDiligencias[]> {
+    return await this.service.listDeleted();
   }
+
+  @Get('/andamento')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Search all SaiDiligencias' })
+  // @ApiOkResponse({ type: [any], description: 'The found SaiDiligencias' })
+  async andamento(): Promise<any[]> {
+    return await this.service.findAndamento();
+  }
+
+  @Get('/resultado')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Search all SaiDiligencias' })
+  // @ApiOkResponse({ type: [any], description: 'The found SaiDiligencias' })
+  async resultado(@Query() situation: string): Promise<any[]> {
+    return await this.service.resultado({ situation });
+  }
+
+  // @Post('portarias')
+  // @HttpCode(200)
+  // @UseGuards(JwtAuthGuard, ACLGuard)
+  // @ACLPolice({ roles: [], permissions: [] })
+  // @ApiOperation({ summary: 'Found SaiDiligencias' })
+  // @ApiOkResponse({
+  //   type: CreateSaiDiligenciasDto,
+  //   description: 'Found SaiDiligencias',
+  // })
+  // @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
+  // async findPortaria(@Body() data: SearchPortariaDto): Promise<any> {
+  //   return await this.service.findPortaria(data);
+  // }
 
   @Post()
   @HttpCode(201)
-  @ApiOperation({ summary: 'Create a new saidiligencias' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Create a new SaiDiligencias' })
   @ApiCreatedResponse({
-    type: UpdatesaidiligenciasDto,
-    description: 'Created saidiligencias',
+    type: UpdateSaiDiligenciasDto,
+    description: 'Created SaiDiligencias',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreatesaidiligenciasDto): Promise<saidiligencias> {
-    return await this.service.create(data);
+  async create(
+    @Body() data: CreateSaiDiligenciasDto,
+    @Request() request?: any,
+  ): Promise<SaiDiligencias> {
+    const response = await this.service.create(data);
+
+    await activityLog({
+      module: 'saidiligencias',
+      action: 'create',
+      data: response,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Get(':id')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search a saidiligencias by id' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search a SaiDiligencias by id' })
   @ApiOkResponse({
-    type: UpdatesaidiligenciasDto,
-    description: 'The found saidiligencias',
+    type: UpdateSaiDiligenciasDto,
+    description: 'The found SaiDiligencias',
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<saidiligencias> {
+  async findById(@Param('id') id: string): Promise<SaiDiligencias> {
     return await this.service.findById(id);
   }
 
   @Put(':id')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Update a saidiligencias' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Update a SaiDiligencias' })
   @ApiOkResponse({
-    type: UpdatesaidiligenciasDto,
-    description: 'Updated saidiligencias',
+    type: UpdateSaiDiligenciasDto,
+    description: 'Updated SaiDiligencias',
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
   async update(
     @Param('id') id: string,
-    @Body() data: UpdatesaidiligenciasDto,
-  ): Promise<saidiligencias> {
-    return this.service.update(id, data);
+    @Body() data: UpdateSaiDiligenciasDto,
+    @Request() request?: any,
+  ): Promise<SaiDiligencias> {
+    const old = await this.service.findById(id);
+    const response = await this.service.update(id, data);
+
+    await activityLog({
+      module: 'saidiligencias',
+      action: 'update',
+      data: response,
+      old,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Put(':id/restore')

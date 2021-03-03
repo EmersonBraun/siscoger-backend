@@ -1,13 +1,13 @@
-// import { Module } from '@nestjs/common';
-// import { TypeOrmModule } from '@nestjs/typeorm';
-// import { restricaoController } from './controller/restricao.controller';
-// import { restricao } from './entity/restricao.entity';
-// import { restricaoService } from './service/restricao.service';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { RestricaoController } from './controller/restricao.controller';
+import Restricao from './entity/restricao.entity';
+import { RestricaoService } from './service/restricao.service';
 
-// @Module({
-//   imports: [TypeOrmModule.forFeature([restricao])],
-//   providers: [restricaoService],
-//   controllers: [restricaoController],
-//   exports: [restricaoService],
-// })
-// export class restricaoModule {}
+@Module({
+  imports: [TypeOrmModule.forFeature([Restricao])],
+  providers: [RestricaoService],
+  controllers: [RestricaoController],
+  exports: [RestricaoService],
+})
+export class RestricaoModule {}

@@ -1,13 +1,13 @@
-// import { Module } from '@nestjs/common';
-// import { TypeOrmModule } from '@nestjs/typeorm';
-// import { saidiligenciasController } from './controller/saidiligencias.controller';
-// import { saidiligencias } from './entity/saidiligencias.entity';
-// import { saidiligenciasService } from './service/saidiligencias.service';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { SaiDiligenciasController } from './controller/saidiligencias.controller';
+import SaiDiligencias from './entity/saidiligencias.entity';
+import { SaiDiligenciasService } from './service/saidiligencias.service';
 
-// @Module({
-//   imports: [TypeOrmModule.forFeature([saidiligencias])],
-//   providers: [saidiligenciasService],
-//   controllers: [saidiligenciasController],
-//   exports: [saidiligenciasService],
-// })
-// export class saidiligenciasModule {}
+@Module({
+  imports: [TypeOrmModule.forFeature([SaiDiligencias])],
+  providers: [SaiDiligenciasService],
+  controllers: [SaiDiligenciasController],
+  exports: [SaiDiligenciasService],
+})
+export class SaiDiligenciasModule {}

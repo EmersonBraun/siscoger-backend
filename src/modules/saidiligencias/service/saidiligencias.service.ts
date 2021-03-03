@@ -1,118 +1,60 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Connection, Repository } from 'typeorm';
+import { CreateSaiDiligenciasDto, UpdateSaiDiligenciasDto } from '../dtos';
+import SaiDiligencias from '../entity/saidiligencias.entity';
 
 @Injectable()
-export class saidiligenciasService {
+export class SaiDiligenciasService {
   constructor(
     @InjectRepository(SaiDiligencias)
     private repository: Repository<SaiDiligencias>,
-    private connection: Connection,
+    @Inject('CONNECTION') private connection: Connection,
   ) {}
 
-  getNextRefYear(data: CreateSaiDiligenciasDto): number {
-    return data.sjd_ref_ano || new Date().getFullYear();
+  async findAll(): Promise<SaiDiligencias[]> {
+    return await this.repository.find();
   }
 
-  async getNextRef(data: CreateSaiDiligenciasDto): Promise<number> {
-    const year = this.getNextRefYear(data);
-    const registry = await this.repository
-      .createQueryBuilder()
-      .select('MAX(sjd_ref)', 'max')
-      .where('sjd_ref_ano = :year', { year })
-      .getRawOne();
-    return registry?.max ? ++registry.max : 1;
-  }
-
-  async findAll(cdopm = null): Promise<SaiDiligencias[]> {
-    const query = cdopm
-      ? {
-          cdopm: Like(`${codeBase(cdopm)}%`),
-          completo: true,
-        }
-      : {
-          completo: true,
-        };
-
+  async listDeleted(): Promise<SaiDiligencias[]> {
     return await this.repository.find({
-      where: { ...query },
-      order: { sjd_ref: 'DESC' },
-    });
-  }
-
-  async listDeleted(cdopm = null): Promise<SaiDiligencias[]> {
-    const query = cdopm
-      ? {
-          cdopm: Like(`${codeBase(cdopm)}%`),
-          completo: true,
-          deletedAt: Not(IsNull()),
-        }
-      : {
-          completo: true,
-          deletedAt: Not(IsNull()),
-        };
-
-    return await this.repository.find({
-      where: { ...query },
       withDeleted: true,
-      order: { sjd_ref: 'DESC' },
     });
   }
 
-  async findByYear({
-    year,
-    cdopm,
-  }: {
-    year: string;
-    cdopm: string;
-  }): Promise<SaiDiligencias[]> {
-    year ?? new Date().getFullYear();
-    const query = cdopm
-      ? {
-          cdopm: Like(`${codeBase(cdopm)}%`),
-          sjd_ref_ano: year,
-          completo: true,
-        }
-      : {
-          sjd_ref_ano: year,
-          completo: true,
-        };
-
-    return await this.repository.find({
-      where: { ...query },
-      order: { sjd_ref: 'DESC' },
-    });
+  async findByYear(): Promise<SaiDiligencias[]> {
+    return await this.repository.find();
   }
 
   async findAndamento(cdopm = null): Promise<any[]> {
     if (cdopm) {
       return await this.connection.query(
         `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT saidiligencias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM saidiligencias
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        saidiligencias.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        saidiligencias.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
-      WHERE sindicancias.cdopm like "$1%"
-      ORDER BY sindicancias.id DESC
+        envolvidos.id_sindicancia=saidiligencias.id
+      WHERE saidiligencias.cdopm like "$1%"
+      ORDER BY saidiligencias.id DESC
       `,
         [cdopm],
       );
     }
 
     return await this.connection.query(`
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT saidiligencias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM saidiligencias
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        saidiligencias.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        saidiligencias.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
-      ORDER BY sindicancias.id DESC
+        envolvidos.id_sindicancia=saidiligencias.id
+      ORDER BY saidiligencias.id DESC
       `);
   }
 
@@ -127,19 +69,19 @@ export class saidiligenciasService {
     if (cdopm) {
       return await this.connection.query(
         `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT saidiligencias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM saidiligencias
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        saidiligencias.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        saidiligencias.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia=saidiligencias.id
       WHERE 
-        sindicancias.cdopm like "$1%"
+        saidiligencias.cdopm like "$1%"
       AND
-        sindicancias.sjd_ref_ano = "$2%"
-      ORDER BY sindicancias.id DESC
+        saidiligencias.sjd_ref_ano = "$2%"
+      ORDER BY saidiligencias.id DESC
       `,
         [cdopm, year],
       );
@@ -147,39 +89,45 @@ export class saidiligenciasService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT saidiligencias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM saidiligencias
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        saidiligencias.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        saidiligencias.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia=saidiligencias.id
       WHERE
-        sindicancias.sjd_ref_ano = "$1%"
-      ORDER BY sindicancias.id DESC
+        saidiligencias.sjd_ref_ano = "$1%"
+      ORDER BY saidiligencias.id DESC
       `,
       [year],
     );
   }
 
-  async resultado({ situation, cdopm }: { situation: string; cdopm: string }) {
+  async resultado({
+    situation,
+    cdopm,
+  }: {
+    situation?: string;
+    cdopm?: string;
+  }) {
     situation ?? 'Sindicado';
 
     if (cdopm) {
       return await this.connection.query(
         `
-        SELECT sindicancias.*, andamentos.*, envolvidos.*
-        FROM sindicancias
+        SELECT saidiligencias.*, andamentos.*, envolvidos.*
+        FROM saidiligencias
         LEFT JOIN andamentos ON
-          sindicancias.id_andamento = andamentos.id
+          saidiligencias.id_andamento = andamentos.id
         INNER JOIN envolvidos ON
-          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=saidiligencias.id
         WHERE 
           envolvidos.situacao= $1
         AND
-          sindicancias.cdopm LIKE "$2%"
-        ORDER BY sindicancias.id DESC
+          saidiligencias.cdopm LIKE "$2%"
+        ORDER BY saidiligencias.id DESC
         `,
         [situation, cdopm],
       );
@@ -187,14 +135,14 @@ export class saidiligenciasService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.*
-      FROM sindicancias
+      SELECT saidiligencias.*, andamentos.*, envolvidos.*
+      FROM saidiligencias
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        saidiligencias.id_andamento = andamentos.id
       INNER JOIN envolvidos ON
-        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=saidiligencias.id
       WHERE  envolvidos.situacao= $1
-      ORDER BY sindicancias.id DESC
+      ORDER BY saidiligencias.id DESC
       `,
       [situation],
     );
@@ -215,19 +163,19 @@ export class saidiligenciasService {
     if (cdopm) {
       return await this.connection.query(
         `
-        SELECT sindicancias.*, andamentos.*, envolvidos.*
-        FROM sindicancias
+        SELECT saidiligencias.*, andamentos.*, envolvidos.*
+        FROM saidiligencias
         LEFT JOIN andamentos ON
-          sindicancias.id_andamento = andamentos.id
+          saidiligencias.id_andamento = andamentos.id
         INNER JOIN envolvidos ON
-          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=saidiligencias.id
         WHERE 
           envolvidos.situacao= $1
         AND
-          sindicancias.cdopm LIKE "$2%"
+          saidiligencias.cdopm LIKE "$2%"
         AND
-          sindicancias.sjd_ref_ano = $3
-        ORDER BY sindicancias.id DESC
+          saidiligencias.sjd_ref_ano = $3
+        ORDER BY saidiligencias.id DESC
         `,
         [situation, cdopm, year],
       );
@@ -235,31 +183,29 @@ export class saidiligenciasService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.*
-      FROM sindicancias
+      SELECT saidiligencias.*, andamentos.*, envolvidos.*
+      FROM saidiligencias
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        saidiligencias.id_andamento = andamentos.id
       INNER JOIN envolvidos ON
-        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=saidiligencias.id
       WHERE 
         envolvidos.situacao= $1
       AND
-        sindicancias.sjd_ref_ano = $2
-      ORDER BY sindicancias.id DESC
+        saidiligencias.sjd_ref_ano = $2
+      ORDER BY saidiligencias.id DESC
       `,
       [situation, year],
     );
   }
 
-  async findPortaria(params: SearchPortariaDto): Promise<any> {
-    const { cdopm, portaria_numero } = params;
-    return await this.repository.findOne({ cdopm, portaria_numero });
-  }
+  // async findPortaria(params: SearchPortariaDto): Promise<any> {
+  //   const { cdopm, portaria_numero } = params;
+  //   return await this.repository.findOne({ cdopm, portaria_numero });
+  // }
 
   async create(data: CreateSaiDiligenciasDto): Promise<SaiDiligencias> {
     const registry = this.repository.create(data);
-    registry.sjd_ref_ano = this.getNextRefYear(data);
-    registry.sjd_ref = await this.getNextRef(data);
     return await this.repository.save(registry);
   }
 

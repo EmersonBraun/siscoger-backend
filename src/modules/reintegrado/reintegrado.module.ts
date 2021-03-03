@@ -1,13 +1,13 @@
-// import { Module } from '@nestjs/common';
-// import { TypeOrmModule } from '@nestjs/typeorm';
-// import { reintegradoController } from './controller/reintegrado.controller';
-// import { reintegrado } from './entity/reintegrado.entity';
-// import { reintegradoService } from './service/reintegrado.service';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ReintegradoController } from './controller/reintegrado.controller';
+import Reintegrado from './entity/reintegrado.entity';
+import { ReintegradoService } from './service/reintegrado.service';
 
-// @Module({
-//   imports: [TypeOrmModule.forFeature([reintegrado])],
-//   providers: [reintegradoService],
-//   controllers: [reintegradoController],
-//   exports: [reintegradoService],
-// })
-// export class reintegradoModule {}
+@Module({
+  imports: [TypeOrmModule.forFeature([Reintegrado])],
+  providers: [ReintegradoService],
+  controllers: [ReintegradoController],
+  exports: [ReintegradoService],
+})
+export class ReintegradoModule {}
