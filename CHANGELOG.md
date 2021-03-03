@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.64.1](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.64.0...v0.64.1) (2021-03-03)
+
+
+### Bug Fixes
+
+* solve module imports and create connection provider ([dd46152](https://github.com/EmersonBraun/siscoger-backend-v2/commit/dd46152584f051e6d388047b17172f4ca7372adc))
+
 ## [0.64.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.63.0...v0.64.0) (2021-03-03)
 
 
