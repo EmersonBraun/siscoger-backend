@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.59.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.58.0...v0.59.0) (2021-03-03)
+
+
+### Features
+
+* add saidiligencias module ([71e07b9](https://github.com/EmersonBraun/siscoger-backend-v2/commit/71e07b94901a7fe6d7e370d2ed4af77f30a73d7c))
+
 ## [0.58.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.57.0...v0.58.0) (2021-03-03)
 
 
