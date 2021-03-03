@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.62.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.61.0...v0.62.0) (2021-03-03)
+
+
+### Features
+
+* add preso module ([f6f2755](https://github.com/EmersonBraun/siscoger-backend-v2/commit/f6f275598331ea9c312d4f99a6c7d00293e26160))
+
 ## [0.61.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.60.0...v0.61.0) (2021-03-03)
 
 
