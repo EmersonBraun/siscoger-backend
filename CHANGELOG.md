@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.64.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.63.0...v0.64.0) (2021-03-03)
+
+
+### Features
+
+* add recurso module ([692aa18](https://github.com/EmersonBraun/siscoger-backend-v2/commit/692aa1892756f31256f7eb5c52ae309582de6d56))
+* add resultado module ([0e9c12c](https://github.com/EmersonBraun/siscoger-backend-v2/commit/0e9c12cbae6b6a1858b87300873a17aaf365c350))
+
 ## [0.63.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.62.0...v0.63.0) (2021-03-03)
 
 
