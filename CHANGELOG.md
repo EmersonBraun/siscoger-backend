@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.63.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.62.0...v0.63.0) (2021-03-03)
+
+
+### Features
+
+* add procoutros module ([7902a87](https://github.com/EmersonBraun/siscoger-backend-v2/commit/7902a87d58e0529eeb664f3b0e728d5913c84fe2))
+
 ## [0.62.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.61.0...v0.62.0) (2021-03-03)
 
 
