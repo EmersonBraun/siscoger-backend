@@ -1,8 +1,8 @@
-// import { pad } from '../entity/pad.entity';
 import { Factory, Seeder } from 'typeorm-seeding';
+import Pad from '../entity/pad.entity';
 
-export default class Createpads implements Seeder {
+export default class CreatePads implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    //     await factory(pad)().createMany(10)
+    await factory(Pad)().createMany(10);
   }
 }

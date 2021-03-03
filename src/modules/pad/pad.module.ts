@@ -1,13 +1,13 @@
-// import { Module } from '@nestjs/common';
-// import { TypeOrmModule } from '@nestjs/typeorm';
-// import { padController } from './controller/pad.controller';
-// import { pad } from './entity/pad.entity';
-// import { padService } from './service/pad.service';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { PadController } from './controller/pad.controller';
+import Pad from './entity/pad.entity';
+import { PadService } from './service/pad.service';
 
-// @Module({
-//   imports: [TypeOrmModule.forFeature([pad])],
-//   providers: [padService],
-//   controllers: [padController],
-//   exports: [padService],
-// })
-// export class padModule {}
+@Module({
+  imports: [TypeOrmModule.forFeature([Pad])],
+  providers: [PadService],
+  controllers: [PadController],
+  exports: [PadService],
+})
+export class PadModule {}

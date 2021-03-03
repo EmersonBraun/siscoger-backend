@@ -1,8 +1,6 @@
 /* eslint-disable camelcase */
-export type Role = {
+export type Resultado = {
   id?: number;
-  role: string;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date;
+  resultado: string;
+  procedimento: string;
 };

@@ -7,6 +7,9 @@ import {
   Param,
   Post,
   Put,
+  Query,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -17,62 +20,144 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { ErrorResponse } from '../../../common/responses';
-import { CreatepadDto } from '../dtos/create.dto';
-import { UpdatepadDto } from '../dtos/update.dto';
-import { pad } from '../entity/pad.entity';
-import { padService } from '../service/pad.service';
+import { activityLog } from '../../../common/activiti-log';
+import ACLPolice from '../../../common/decorators/acl.decorator';
+import ACLGuard from '../../../common/guards/acl.guard';
+import JwtAuthGuard from '../../../common/guards/jwt.guard';
+import { ErrorResponse } from '../../../common/responses/error';
+import { CreatePadDto } from '../dtos/create.dto';
+import { UpdatePadDto } from '../dtos/update.dto';
+import Pad from '../entity/pad.entity';
+import { PadService } from '../service/pad.service';
 
-@ApiTags('pad')
+@ApiTags('Pad')
 @Controller('pads')
-export class padController {
-  constructor(private service: padService) {}
+export class PadController {
+  constructor(private service: PadService) {}
 
   @Get()
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search all pad' })
-  @ApiOkResponse({ type: [CreatepadDto], description: 'The found pad' })
-  async findAll(): Promise<pad[]> {
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all Pad' })
+  @ApiOkResponse({
+    type: [CreatePadDto],
+    description: 'The found Pad',
+  })
+  async findAll(): Promise<Pad[]> {
     return await this.service.findAll();
   }
 
-  @Post('search')
+  @Get('/deleted')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search pad' })
-  @ApiCreatedResponse({ type: UpdatepadDto, description: 'Searched pad' })
-  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async search(@Body() data: CreatepadDto): Promise<pad[]> {
-    return await this.service.search(data);
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all deleted Pad' })
+  @ApiOkResponse({
+    type: [CreatePadDto],
+    description: 'The found deleted Pad',
+  })
+  async listDeleted(): Promise<Pad[]> {
+    return await this.service.listDeleted();
   }
+
+  @Get('/andamento')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Search all Pad' })
+  // @ApiOkResponse({ type: [any], description: 'The found Pad' })
+  async andamento(): Promise<any[]> {
+    return await this.service.findAndamento();
+  }
+
+  @Get('/resultado')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Search all Pad' })
+  // @ApiOkResponse({ type: [any], description: 'The found Pad' })
+  async resultado(@Query() situation: string): Promise<any[]> {
+    return await this.service.resultado({ situation });
+  }
+
+  // @Post('portarias')
+  // @HttpCode(200)
+  // @UseGuards(JwtAuthGuard, ACLGuard)
+  // @ACLPolice({ roles: [], permissions: [] })
+  // @ApiOperation({ summary: 'Found Pad' })
+  // @ApiOkResponse({
+  //   type: CreatePadDto,
+  //   description: 'Found Pad',
+  // })
+  // @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
+  // async findPortaria(@Body() data: SearchPortariaDto): Promise<any> {
+  //   return await this.service.findPortaria(data);
+  // }
 
   @Post()
   @HttpCode(201)
-  @ApiOperation({ summary: 'Create a new pad' })
-  @ApiCreatedResponse({ type: UpdatepadDto, description: 'Created pad' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Create a new Pad' })
+  @ApiCreatedResponse({
+    type: UpdatePadDto,
+    description: 'Created Pad',
+  })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreatepadDto): Promise<pad> {
-    return await this.service.create(data);
+  async create(
+    @Body() data: CreatePadDto,
+    @Request() request?: any,
+  ): Promise<Pad> {
+    const response = await this.service.create(data);
+
+    await activityLog({
+      module: 'pad',
+      action: 'create',
+      data: response,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Get(':id')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search a pad by id' })
-  @ApiOkResponse({ type: UpdatepadDto, description: 'The found pad' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search a Pad by id' })
+  @ApiOkResponse({
+    type: UpdatePadDto,
+    description: 'The found Pad',
+  })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<pad> {
+  async findById(@Param('id') id: string): Promise<Pad> {
     return await this.service.findById(id);
   }
 
   @Put(':id')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Update a pad' })
-  @ApiOkResponse({ type: UpdatepadDto, description: 'Updated pad' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Update a Pad' })
+  @ApiOkResponse({
+    type: UpdatePadDto,
+    description: 'Updated Pad',
+  })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
   async update(
     @Param('id') id: string,
-    @Body() data: UpdatepadDto,
-  ): Promise<pad> {
-    return this.service.update(id, data);
+    @Body() data: UpdatePadDto,
+    @Request() request?: any,
+  ): Promise<Pad> {
+    const old = await this.service.findById(id);
+    const response = await this.service.update(id, data);
+
+    await activityLog({
+      module: 'pad',
+      action: 'update',
+      data: response,
+      old,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Put(':id/restore')
