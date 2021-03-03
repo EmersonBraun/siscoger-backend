@@ -1,13 +1,14 @@
-// import { Module } from '@nestjs/common';
-// import { TypeOrmModule } from '@nestjs/typeorm';
-// import { recursoController } from './controller/recurso.controller';
-// import { recurso } from './entity/recurso.entity';
-// import { recursoService } from './service/recurso.service';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { postgresDatabaseProvider } from '../../common/providers/postgres.provider copy';
+import { RecursoController } from './controller/recurso.controller';
+import Recurso from './entity/recurso.entity';
+import { RecursoService } from './service/recurso.service';
 
-// @Module({
-//   imports: [TypeOrmModule.forFeature([recurso])],
-//   providers: [recursoService],
-//   controllers: [recursoController],
-//   exports: [recursoService],
-// })
-// export class recursoModule {}
+@Module({
+  imports: [TypeOrmModule.forFeature([Recurso])],
+  providers: [RecursoService, ...postgresDatabaseProvider],
+  controllers: [RecursoController],
+  exports: [RecursoService],
+})
+export class RecursoModule {}

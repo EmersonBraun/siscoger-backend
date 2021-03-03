@@ -5,7 +5,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Connection } from 'typeorm';
 import AppLoggerMiddleware from './common/logger/middleware';
 import { bullConfig, mailerConfig, mainConfig, typeOrmOptions } from './config';
 import { registerModules } from './register-modules';
@@ -33,8 +32,6 @@ import { registerModules } from './register-modules';
   ],
 })
 export class AppModule {
-  constructor(private connection: Connection) {}
-
   configure(consumer: MiddlewareConsumer): void {
     consumer.apply(AppLoggerMiddleware).forRoutes('*');
   }
