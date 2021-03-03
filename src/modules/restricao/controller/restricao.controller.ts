@@ -7,6 +7,9 @@ import {
   Param,
   Post,
   Put,
+  Query,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -17,74 +20,144 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { ErrorResponse } from '../../../common/responses';
-import { CreaterestricaoDto } from '../dtos/create.dto';
-import { UpdaterestricaoDto } from '../dtos/update.dto';
-import { restricao } from '../entity/restricao.entity';
-import { restricaoService } from '../service/restricao.service';
+import { activityLog } from '../../../common/activiti-log';
+import ACLPolice from '../../../common/decorators/acl.decorator';
+import ACLGuard from '../../../common/guards/acl.guard';
+import JwtAuthGuard from '../../../common/guards/jwt.guard';
+import { ErrorResponse } from '../../../common/responses/error';
+import { CreateRestricaoDto } from '../dtos/create.dto';
+import { UpdateRestricaoDto } from '../dtos/update.dto';
+import Restricao from '../entity/restricao.entity';
+import { RestricaoService } from '../service/restricao.service';
 
-@ApiTags('restricao')
+@ApiTags('Restricao')
 @Controller('restricaos')
-export class restricaoController {
-  constructor(private service: restricaoService) {}
+export class RestricaoController {
+  constructor(private service: RestricaoService) {}
 
   @Get()
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search all restricao' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all Restricao' })
   @ApiOkResponse({
-    type: [CreaterestricaoDto],
-    description: 'The found restricao',
+    type: [CreateRestricaoDto],
+    description: 'The found Restricao',
   })
-  async findAll(): Promise<restricao[]> {
+  async findAll(): Promise<Restricao[]> {
     return await this.service.findAll();
   }
 
-  @Post('search')
+  @Get('/deleted')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search restricao' })
-  @ApiCreatedResponse({
-    type: UpdaterestricaoDto,
-    description: 'Searched restricao',
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all deleted Restricao' })
+  @ApiOkResponse({
+    type: [CreateRestricaoDto],
+    description: 'The found deleted Restricao',
   })
-  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async search(@Body() data: CreaterestricaoDto): Promise<restricao[]> {
-    return await this.service.search(data);
+  async listDeleted(): Promise<Restricao[]> {
+    return await this.service.listDeleted();
   }
+
+  @Get('/andamento')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Search all Restricao' })
+  // @ApiOkResponse({ type: [any], description: 'The found Restricao' })
+  async andamento(): Promise<any[]> {
+    return await this.service.findAndamento();
+  }
+
+  @Get('/resultado')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Search all Restricao' })
+  // @ApiOkResponse({ type: [any], description: 'The found Restricao' })
+  async resultado(@Query() situation: string): Promise<any[]> {
+    return await this.service.resultado({ situation });
+  }
+
+  // @Post('portarias')
+  // @HttpCode(200)
+  // @UseGuards(JwtAuthGuard, ACLGuard)
+  // @ACLPolice({ roles: [], permissions: [] })
+  // @ApiOperation({ summary: 'Found Restricao' })
+  // @ApiOkResponse({
+  //   type: CreateRestricaoDto,
+  //   description: 'Found Restricao',
+  // })
+  // @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
+  // async findPortaria(@Body() data: SearchPortariaDto): Promise<any> {
+  //   return await this.service.findPortaria(data);
+  // }
 
   @Post()
   @HttpCode(201)
-  @ApiOperation({ summary: 'Create a new restricao' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Create a new Restricao' })
   @ApiCreatedResponse({
-    type: UpdaterestricaoDto,
-    description: 'Created restricao',
+    type: UpdateRestricaoDto,
+    description: 'Created Restricao',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreaterestricaoDto): Promise<restricao> {
-    return await this.service.create(data);
+  async create(
+    @Body() data: CreateRestricaoDto,
+    @Request() request?: any,
+  ): Promise<Restricao> {
+    const response = await this.service.create(data);
+
+    await activityLog({
+      module: 'restricao',
+      action: 'create',
+      data: response,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Get(':id')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search a restricao by id' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search a Restricao by id' })
   @ApiOkResponse({
-    type: UpdaterestricaoDto,
-    description: 'The found restricao',
+    type: UpdateRestricaoDto,
+    description: 'The found Restricao',
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<restricao> {
+  async findById(@Param('id') id: string): Promise<Restricao> {
     return await this.service.findById(id);
   }
 
   @Put(':id')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Update a restricao' })
-  @ApiOkResponse({ type: UpdaterestricaoDto, description: 'Updated restricao' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Update a Restricao' })
+  @ApiOkResponse({
+    type: UpdateRestricaoDto,
+    description: 'Updated Restricao',
+  })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
   async update(
     @Param('id') id: string,
-    @Body() data: UpdaterestricaoDto,
-  ): Promise<restricao> {
-    return this.service.update(id, data);
+    @Body() data: UpdateRestricaoDto,
+    @Request() request?: any,
+  ): Promise<Restricao> {
+    const old = await this.service.findById(id);
+    const response = await this.service.update(id, data);
+
+    await activityLog({
+      module: 'restricao',
+      action: 'update',
+      data: response,
+      old,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Put(':id/restore')

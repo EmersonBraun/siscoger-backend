@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class reintegrado1614773365243 implements MigrationInterface {
+export class restricao1614773691925 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'reintegrados',
+        name: 'restricoes',
         columns: [
           {
             name: 'id',
@@ -16,13 +16,39 @@ export class reintegrado1614773365243 implements MigrationInterface {
           { name: 'rg', type: 'varchar', default: null, isNullable: true },
           { name: 'cargo', type: 'varchar', default: null, isNullable: true },
           { name: 'nome', type: 'varchar', default: null, isNullable: true },
-          { name: 'motivo', type: 'varchar', default: null, isNullable: true },
           {
-            name: 'procedimento',
+            name: 'fardamento_bl',
             type: 'varchar',
             default: null,
             isNullable: true,
           },
+          { name: 'arma_bl', type: 'varchar', default: null, isNullable: true },
+          { name: 'origem', type: 'varchar', default: null, isNullable: true },
+          {
+            name: 'cadastro_data',
+            type: 'timestamp',
+            default: null,
+            isNullable: true,
+          },
+          {
+            name: 'inicio_data',
+            type: ' timestamp',
+            default: null,
+            isNullable: true,
+          },
+          {
+            name: 'fim_data',
+            type: 'timestamp',
+            default: null,
+            isNullable: true,
+          },
+          {
+            name: 'retirada_data',
+            type: ' timestamp',
+            default: null,
+            isNullable: true,
+          },
+          { name: 'proc', type: 'varchar', default: null, isNullable: true },
           { name: 'sjd_ref', type: 'integer', default: null, isNullable: true },
           {
             name: 'sjd_ref_ano',
@@ -30,19 +56,7 @@ export class reintegrado1614773365243 implements MigrationInterface {
             default: null,
             isNullable: true,
           },
-          {
-            name: 'retorno_data',
-            type: 'timestamp',
-            default: null,
-            isNullable: true,
-          },
-          {
-            name: 'bg_numero',
-            type: 'integer',
-            default: null,
-            isNullable: true,
-          },
-          { name: 'bg_ano', type: 'integer', default: null, isNullable: true },
+          { name: 'obs_txt', type: 'text', default: null, isNullable: true },
 
           { name: 'created_at', type: 'timestamp', default: 'now()' },
           { name: 'updated_at', type: 'timestamp', isNullable: true },
@@ -59,6 +73,6 @@ export class reintegrado1614773365243 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('reintegrados');
+    await queryRunner.dropTable('restricoes');
   }
 }

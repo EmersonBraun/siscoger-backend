@@ -1,17 +1,28 @@
-// import * as Faker from 'faker'
-// import { define } from 'typeorm-seeding'
-// import { restricao } from '../entity/restricao.entity';
-// import { CreaterestricaoDto } from '../dtos/create.dto';
+import * as Faker from 'faker';
+import { define } from 'typeorm-seeding';
+import { CreateRestricaoDto } from '../dtos/create.dto';
+import Restricao from '../entity/restricao.entity';
 
-// define(restricao, (faker: typeof Faker) => {
-//   const factory = new restricao()
-//   // factory.data = faker.date.future(1)
-//   return factory
-// })
+export const fakerRegistry = (): CreateRestricaoDto => {
+  const faker = Faker;
+  return {
+    rg: faker.name.findName(),
+    cargo: faker.name.findName(),
+    nome: faker.name.findName(),
+    fardamento_bl: faker.name.findName(),
+    arma_bl: faker.name.findName(),
+    origem: faker.name.findName(),
+    cadastro_data: faker.date.future(1),
+    inicio_data: faker.date.future(1),
+    fim_data: faker.date.future(1),
+    retirada_data: faker.date.future(1),
+    proc: faker.name.findName(),
+    sjd_ref: faker.random.number(),
+    sjd_ref_ano: faker.random.number(),
+    obs_txt: faker.lorem.word(50), // text
+  };
+};
 
-// export const fakerRegistry = ():CreaterestricaoDto => {
-//   const faker = Faker
-//   return {
-//     // data: faker.date.past(1),
-//   }
-// }
+define(Restricao, () => {
+  return (fakerRegistry as unknown) as Restricao;
+});
