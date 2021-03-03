@@ -1,8 +1,8 @@
-// import { pj } from '../entity/pj.entity';
 import { Factory, Seeder } from 'typeorm-seeding';
+import Pj from '../entity/pj.entity';
 
 export default class Createpjs implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    //     await factory(pj)().createMany(10)
+    await factory(Pj)().createMany(10);
   }
 }

@@ -7,6 +7,9 @@ import {
   Param,
   Post,
   Put,
+  Query,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -17,62 +20,144 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { ErrorResponse } from '../../../common/responses';
-import { CreatepjDto } from '../dtos/create.dto';
-import { UpdatepjDto } from '../dtos/update.dto';
-import { pj } from '../entity/pj.entity';
-import { pjService } from '../service/pj.service';
+import { activityLog } from '../../../common/activiti-log';
+import ACLPolice from '../../../common/decorators/acl.decorator';
+import ACLGuard from '../../../common/guards/acl.guard';
+import JwtAuthGuard from '../../../common/guards/jwt.guard';
+import { ErrorResponse } from '../../../common/responses/error';
+import { CreatePjDto } from '../dtos/create.dto';
+import { UpdatePjDto } from '../dtos/update.dto';
+import Pj from '../entity/pj.entity';
+import { PjService } from '../service/pj.service';
 
-@ApiTags('pj')
+@ApiTags('Pj')
 @Controller('pjs')
-export class pjController {
-  constructor(private service: pjService) {}
+export class PjController {
+  constructor(private service: PjService) {}
 
   @Get()
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search all pj' })
-  @ApiOkResponse({ type: [CreatepjDto], description: 'The found pj' })
-  async findAll(): Promise<pj[]> {
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all Pj' })
+  @ApiOkResponse({
+    type: [CreatePjDto],
+    description: 'The found Pj',
+  })
+  async findAll(): Promise<Pj[]> {
     return await this.service.findAll();
   }
 
-  @Post('search')
+  @Get('/deleted')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search pj' })
-  @ApiCreatedResponse({ type: UpdatepjDto, description: 'Searched pj' })
-  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async search(@Body() data: CreatepjDto): Promise<pj[]> {
-    return await this.service.search(data);
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all deleted Pj' })
+  @ApiOkResponse({
+    type: [CreatePjDto],
+    description: 'The found deleted Pj',
+  })
+  async listDeleted(): Promise<Pj[]> {
+    return await this.service.listDeleted();
   }
+
+  @Get('/andamento')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Search all Pj' })
+  // @ApiOkResponse({ type: [any], description: 'The found Pj' })
+  async andamento(): Promise<any[]> {
+    return await this.service.findAndamento();
+  }
+
+  @Get('/resultado')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Search all Pj' })
+  // @ApiOkResponse({ type: [any], description: 'The found Pj' })
+  async resultado(@Query() situation: string): Promise<any[]> {
+    return await this.service.resultado({ situation });
+  }
+
+  // @Post('portarias')
+  // @HttpCode(200)
+  // @UseGuards(JwtAuthGuard, ACLGuard)
+  // @ACLPolice({ roles: [], permissions: [] })
+  // @ApiOperation({ summary: 'Found Pj' })
+  // @ApiOkResponse({
+  //   type: CreatePjDto,
+  //   description: 'Found Pj',
+  // })
+  // @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
+  // async findPortaria(@Body() data: SearchPortariaDto): Promise<any> {
+  //   return await this.service.findPortaria(data);
+  // }
 
   @Post()
   @HttpCode(201)
-  @ApiOperation({ summary: 'Create a new pj' })
-  @ApiCreatedResponse({ type: UpdatepjDto, description: 'Created pj' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Create a new Pj' })
+  @ApiCreatedResponse({
+    type: UpdatePjDto,
+    description: 'Created Pj',
+  })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreatepjDto): Promise<pj> {
-    return await this.service.create(data);
+  async create(
+    @Body() data: CreatePjDto,
+    @Request() request?: any,
+  ): Promise<Pj> {
+    const response = await this.service.create(data);
+
+    await activityLog({
+      module: 'pj',
+      action: 'create',
+      data: response,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Get(':id')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search a pj by id' })
-  @ApiOkResponse({ type: UpdatepjDto, description: 'The found pj' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search a Pj by id' })
+  @ApiOkResponse({
+    type: UpdatePjDto,
+    description: 'The found Pj',
+  })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<pj> {
+  async findById(@Param('id') id: string): Promise<Pj> {
     return await this.service.findById(id);
   }
 
   @Put(':id')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Update a pj' })
-  @ApiOkResponse({ type: UpdatepjDto, description: 'Updated pj' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Update a Pj' })
+  @ApiOkResponse({
+    type: UpdatePjDto,
+    description: 'Updated Pj',
+  })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
   async update(
     @Param('id') id: string,
-    @Body() data: UpdatepjDto,
-  ): Promise<pj> {
-    return this.service.update(id, data);
+    @Body() data: UpdatePjDto,
+    @Request() request?: any,
+  ): Promise<Pj> {
+    const old = await this.service.findById(id);
+    const response = await this.service.update(id, data);
+
+    await activityLog({
+      module: 'pj',
+      action: 'update',
+      data: response,
+      old,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Put(':id/restore')

@@ -1,14 +1,11 @@
-// import { ApiProperty } from '@nestjs/swagger';
-// import {
-//   IsNumber,
-//   IsOptional,
-//   IsPositive,
-//   IsString,
-// } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
-// export class UpdatepjDto {
-//   @IsOptional()
-//   @ApiProperty()
-//   data?: string | Date
-
-// }
+export class UpdatePjDto {
+  @IsOptional() @ApiProperty() @IsNumber() id?: number;
+  @IsOptional() @ApiProperty() @IsNumber() id_pad: number;
+  @IsOptional() @ApiProperty() @IsString() cnpj: string;
+  @IsOptional() @ApiProperty() @IsString() razaosocial: string;
+  @IsOptional() @ApiProperty() @IsString() contato: string;
+  @IsOptional() @ApiProperty() @IsString() telefone: string;
+}

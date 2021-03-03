@@ -1,17 +1,19 @@
-// import * as Faker from 'faker'
-// import { define } from 'typeorm-seeding'
-// import { pj } from '../entity/pj.entity';
-// import { CreatepjDto } from '../dtos/create.dto';
+import * as Faker from 'faker';
+import { define } from 'typeorm-seeding';
+import { CreatePjDto } from '../dtos/create.dto';
+import Pj from '../entity/pj.entity';
 
-// define(pj, (faker: typeof Faker) => {
-//   const factory = new pj()
-//   // factory.data = faker.date.future(1)
-//   return factory
-// })
+export const fakerRegistry = (): CreatePjDto => {
+  const faker = Faker;
+  return {
+    id_pad: faker.random.number(),
+    cnpj: faker.name.findName(),
+    razaosocial: faker.name.findName(),
+    contato: faker.name.findName(),
+    telefone: faker.name.findName(),
+  };
+};
 
-// export const fakerRegistry = ():CreatepjDto => {
-//   const faker = Faker
-//   return {
-//     // data: faker.date.past(1),
-//   }
-// }
+define(Pj, () => {
+  return (fakerRegistry() as unknown) as Pj;
+});
