@@ -1,13 +1,13 @@
-// import { Module } from '@nestjs/common';
-// import { TypeOrmModule } from '@nestjs/typeorm';
-// import { isoController } from './controller/iso.controller';
-// import { iso } from './entity/iso.entity';
-// import { isoService } from './service/iso.service';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { IsoController } from './controller/iso.controller';
+import Iso from './entity/iso.entity';
+import { IsoService } from './service/iso.service';
 
-// @Module({
-//   imports: [TypeOrmModule.forFeature([iso])],
-//   providers: [isoService],
-//   controllers: [isoController],
-//   exports: [isoService],
-// })
-// export class isoModule {}
+@Module({
+  imports: [TypeOrmModule.forFeature([Iso])],
+  providers: [IsoService],
+  controllers: [IsoController],
+  exports: [IsoService],
+})
+export class IsoModule {}

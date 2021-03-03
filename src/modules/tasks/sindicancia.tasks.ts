@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { changeDate, getCurrentDate } from '../../common/utils/date.utils';
-import { Sindicancia } from '../sindicancia/entity/sindicancia.entity';
-import { SindicanciaService } from '../sindicancia/service/sindicancia.service';
 import { FeriadoService } from '../feriado/service/feriado.service';
+import Sindicancia from '../sindicancia/entity/sindicancia.entity';
+import { SindicanciaService } from '../sindicancia/service/sindicancia.service';
 import { SobrestamentoService } from '../sobrestamento/service/sobrestamento.service';
 import { TasksService } from './service/task.service';
 

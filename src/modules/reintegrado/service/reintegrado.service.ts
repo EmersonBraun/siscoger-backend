@@ -1,12 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Connection, IsNull, Not, Repository } from 'typeorm';
+import { CreateReintegradoDto, UpdateReintegradoDto } from '../dtos';
+import Reintegrado from '../entity/reintegrado.entity';
 
 @Injectable()
-export class reintegradoService {
+export class ReintegradoService {
   constructor(
     @InjectRepository(Reintegrado) private repository: Repository<Reintegrado>,
-    private connection: Connection,
+    @Inject('CONNECTION') private connection: Connection,
   ) {}
 
   getNextRefYear(data: CreateReintegradoDto): number {
@@ -23,36 +25,15 @@ export class reintegradoService {
     return registry?.max ? ++registry.max : 1;
   }
 
-  async findAll(cdopm = null): Promise<Reintegrado[]> {
-    const query = cdopm
-      ? {
-          cdopm: Like(`${codeBase(cdopm)}%`),
-          completo: true,
-        }
-      : {
-          completo: true,
-        };
-
+  async findAll(): Promise<Reintegrado[]> {
     return await this.repository.find({
-      where: { ...query },
       order: { sjd_ref: 'DESC' },
     });
   }
 
   async listDeleted(cdopm = null): Promise<Reintegrado[]> {
-    const query = cdopm
-      ? {
-          cdopm: Like(`${codeBase(cdopm)}%`),
-          completo: true,
-          deletedAt: Not(IsNull()),
-        }
-      : {
-          completo: true,
-          deletedAt: Not(IsNull()),
-        };
-
     return await this.repository.find({
-      where: { ...query },
+      where: { deletedAt: Not(IsNull()) },
       withDeleted: true,
       order: { sjd_ref: 'DESC' },
     });
@@ -60,140 +41,68 @@ export class reintegradoService {
 
   async findByYear({
     year,
-    cdopm,
   }: {
     year: string;
     cdopm: string;
   }): Promise<Reintegrado[]> {
     year ?? new Date().getFullYear();
-    const query = cdopm
-      ? {
-          cdopm: Like(`${codeBase(cdopm)}%`),
-          sjd_ref_ano: year,
-          completo: true,
-        }
-      : {
-          sjd_ref_ano: year,
-          completo: true,
-        };
-
     return await this.repository.find({
-      where: { ...query },
+      where: { sjd_ref_ano: year },
       order: { sjd_ref: 'DESC' },
     });
   }
 
-  async findAndamento(cdopm = null): Promise<any[]> {
-    if (cdopm) {
-      return await this.connection.query(
-        `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
-      LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
-      LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
-      LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
-      WHERE sindicancias.cdopm like "$1%"
-      ORDER BY sindicancias.id DESC
-      `,
-        [cdopm],
-      );
-    }
-
+  async findAndamento(): Promise<any[]> {
     return await this.connection.query(`
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT reintegrados.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM Reintegrados
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        reintegrados.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        reintegrados.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
-      ORDER BY sindicancias.id DESC
+        envolvidos.id_sindicancia=reintegrados.id
+      ORDER BY reintegrados.id DESC
       `);
   }
 
   async findAndamentoYear({
-    cdopm,
     year,
   }: {
     year: string;
     cdopm: string;
   }): Promise<any[]> {
     year ?? new Date().getFullYear();
-    if (cdopm) {
-      return await this.connection.query(
-        `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
-      LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
-      LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
-      LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
-      WHERE 
-        sindicancias.cdopm like "$1%"
-      AND
-        sindicancias.sjd_ref_ano = "$2%"
-      ORDER BY sindicancias.id DESC
-      `,
-        [cdopm, year],
-      );
-    }
-
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT reintegrados.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM Reintegrados
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        reintegrados.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        reintegrados.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia=reintegrados.id
       WHERE
-        sindicancias.sjd_ref_ano = "$1%"
-      ORDER BY sindicancias.id DESC
+        reintegrados.sjd_ref_ano = "$1%"
+      ORDER BY reintegrados.id DESC
       `,
       [year],
     );
   }
 
-  async resultado({ situation, cdopm }: { situation: string; cdopm: string }) {
+  async resultado({ situation }: { situation?: string }) {
     situation ?? 'Sindicado';
-
-    if (cdopm) {
-      return await this.connection.query(
-        `
-        SELECT sindicancias.*, andamentos.*, envolvidos.*
-        FROM sindicancias
-        LEFT JOIN andamentos ON
-          sindicancias.id_andamento = andamentos.id
-        INNER JOIN envolvidos ON
-          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
-        WHERE 
-          envolvidos.situacao= $1
-        AND
-          sindicancias.cdopm LIKE "$2%"
-        ORDER BY sindicancias.id DESC
-        `,
-        [situation, cdopm],
-      );
-    }
-
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.*
-      FROM sindicancias
+      SELECT reintegrados.*, andamentos.*, envolvidos.*
+      FROM Reintegrados
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        reintegrados.id_andamento = andamentos.id
       INNER JOIN envolvidos ON
-        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=reintegrados.id
       WHERE  envolvidos.situacao= $1
-      ORDER BY sindicancias.id DESC
+      ORDER BY reintegrados.id DESC
       `,
       [situation],
     );
@@ -201,59 +110,36 @@ export class reintegradoService {
 
   async resultadoYear({
     situation,
-    cdopm,
     year,
   }: {
     situation: string;
-    cdopm: string;
     year: string;
   }) {
     situation ?? 'Sindicado';
     year ?? new Date().getFullYear();
 
-    if (cdopm) {
-      return await this.connection.query(
-        `
-        SELECT sindicancias.*, andamentos.*, envolvidos.*
-        FROM sindicancias
-        LEFT JOIN andamentos ON
-          sindicancias.id_andamento = andamentos.id
-        INNER JOIN envolvidos ON
-          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
-        WHERE 
-          envolvidos.situacao= $1
-        AND
-          sindicancias.cdopm LIKE "$2%"
-        AND
-          sindicancias.sjd_ref_ano = $3
-        ORDER BY sindicancias.id DESC
-        `,
-        [situation, cdopm, year],
-      );
-    }
-
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.*
-      FROM sindicancias
+      SELECT reintegrados.*, andamentos.*, envolvidos.*
+      FROM Reintegrados
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        reintegrados.id_andamento = andamentos.id
       INNER JOIN envolvidos ON
-        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=reintegrados.id
       WHERE 
         envolvidos.situacao= $1
       AND
-        sindicancias.sjd_ref_ano = $2
-      ORDER BY sindicancias.id DESC
+        reintegrados.sjd_ref_ano = $2
+      ORDER BY reintegrados.id DESC
       `,
       [situation, year],
     );
   }
 
-  async findPortaria(params: SearchPortariaDto): Promise<any> {
-    const { cdopm, portaria_numero } = params;
-    return await this.repository.findOne({ cdopm, portaria_numero });
-  }
+  // async findPortaria(params: SearchPortariaDto): Promise<any> {
+  //   const { cdopm, portaria_numero } = params;
+  //   return await this.repository.findOne({ cdopm, portaria_numero });
+  // }
 
   async create(data: CreateReintegradoDto): Promise<Reintegrado> {
     const registry = this.repository.create(data);

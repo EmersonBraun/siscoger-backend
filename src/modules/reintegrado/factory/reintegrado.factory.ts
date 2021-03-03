@@ -1,17 +1,24 @@
-// import * as Faker from 'faker'
-// import { define } from 'typeorm-seeding'
-// import { reintegrado } from '../entity/reintegrado.entity';
-// import { CreatereintegradoDto } from '../dtos/create.dto';
+import * as Faker from 'faker';
+import { define } from 'typeorm-seeding';
+import { CreateReintegradoDto } from '../dtos/create.dto';
+import Reintegrado from '../entity/reintegrado.entity';
 
-// define(reintegrado, (faker: typeof Faker) => {
-//   const factory = new reintegrado()
-//   // factory.data = faker.date.future(1)
-//   return factory
-// })
+export const fakerRegistry = (): CreateReintegradoDto => {
+  const faker = Faker;
+  return {
+    rg: faker.name.findName(),
+    cargo: faker.name.findName(),
+    nome: faker.name.findName(),
+    motivo: faker.name.findName(),
+    procedimento: faker.name.findName(),
+    sjd_ref: faker.random.number(),
+    sjd_ref_ano: faker.random.number(),
+    retorno_data: faker.date.future(1),
+    bg_numero: faker.random.number(),
+    bg_ano: faker.random.number(),
+  };
+};
 
-// export const fakerRegistry = ():CreatereintegradoDto => {
-//   const faker = Faker
-//   return {
-//     // data: faker.date.past(1),
-//   }
-// }
+define(Reintegrado, () => {
+  return (fakerRegistry() as unknown) as Reintegrado;
+});

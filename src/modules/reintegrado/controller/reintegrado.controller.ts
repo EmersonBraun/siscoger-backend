@@ -7,6 +7,9 @@ import {
   Param,
   Post,
   Put,
+  Query,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -17,77 +20,144 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { ErrorResponse } from '../../../common/responses';
-import { CreatereintegradoDto } from '../dtos/create.dto';
-import { UpdatereintegradoDto } from '../dtos/update.dto';
-import { reintegrado } from '../entity/reintegrado.entity';
-import { reintegradoService } from '../service/reintegrado.service';
+import { activityLog } from '../../../common/activiti-log';
+import ACLPolice from '../../../common/decorators/acl.decorator';
+import ACLGuard from '../../../common/guards/acl.guard';
+import JwtAuthGuard from '../../../common/guards/jwt.guard';
+import { ErrorResponse } from '../../../common/responses/error';
+import { CreateReintegradoDto } from '../dtos/create.dto';
+import { UpdateReintegradoDto } from '../dtos/update.dto';
+import Reintegrado from '../entity/reintegrado.entity';
+import { ReintegradoService } from '../service/reintegrado.service';
 
-@ApiTags('reintegrado')
+@ApiTags('Reintegrado')
 @Controller('reintegrados')
-export class reintegradoController {
-  constructor(private service: reintegradoService) {}
+export class ReintegradoController {
+  constructor(private service: ReintegradoService) {}
 
   @Get()
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search all reintegrado' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all Reintegrado' })
   @ApiOkResponse({
-    type: [CreatereintegradoDto],
-    description: 'The found reintegrado',
+    type: [CreateReintegradoDto],
+    description: 'The found Reintegrado',
   })
-  async findAll(): Promise<reintegrado[]> {
+  async findAll(): Promise<Reintegrado[]> {
     return await this.service.findAll();
   }
 
-  @Post('search')
+  @Get('/deleted')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search reintegrado' })
-  @ApiCreatedResponse({
-    type: UpdatereintegradoDto,
-    description: 'Searched reintegrado',
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all deleted Reintegrado' })
+  @ApiOkResponse({
+    type: [CreateReintegradoDto],
+    description: 'The found deleted Reintegrado',
   })
-  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async search(@Body() data: CreatereintegradoDto): Promise<reintegrado[]> {
-    return await this.service.search(data);
+  async listDeleted(): Promise<Reintegrado[]> {
+    return await this.service.listDeleted();
   }
+
+  @Get('/andamento')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Search all Reintegrado' })
+  // @ApiOkResponse({ type: [any], description: 'The found Reintegrado' })
+  async andamento(): Promise<any[]> {
+    return await this.service.findAndamento();
+  }
+
+  @Get('/resultado')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Search all Reintegrado' })
+  // @ApiOkResponse({ type: [any], description: 'The found Reintegrado' })
+  async resultado(@Query() situation: string): Promise<any[]> {
+    return await this.service.resultado({ situation });
+  }
+
+  // @Post('portarias')
+  // @HttpCode(200)
+  // @UseGuards(JwtAuthGuard, ACLGuard)
+  // @ACLPolice({ roles: [], permissions: [] })
+  // @ApiOperation({ summary: 'Found Reintegrado' })
+  // @ApiOkResponse({
+  //   type: CreateReintegradoDto,
+  //   description: 'Found Reintegrado',
+  // })
+  // @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
+  // async findPortaria(@Body() data: SearchPortariaDto): Promise<any> {
+  //   return await this.service.findPortaria(data);
+  // }
 
   @Post()
   @HttpCode(201)
-  @ApiOperation({ summary: 'Create a new reintegrado' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Create a new Reintegrado' })
   @ApiCreatedResponse({
-    type: UpdatereintegradoDto,
-    description: 'Created reintegrado',
+    type: UpdateReintegradoDto,
+    description: 'Created Reintegrado',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreatereintegradoDto): Promise<reintegrado> {
-    return await this.service.create(data);
+  async create(
+    @Body() data: CreateReintegradoDto,
+    @Request() request?: any,
+  ): Promise<Reintegrado> {
+    const response = await this.service.create(data);
+
+    await activityLog({
+      module: 'reintegrado',
+      action: 'create',
+      data: response,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Get(':id')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search a reintegrado by id' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search a Reintegrado by id' })
   @ApiOkResponse({
-    type: UpdatereintegradoDto,
-    description: 'The found reintegrado',
+    type: UpdateReintegradoDto,
+    description: 'The found Reintegrado',
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<reintegrado> {
+  async findById(@Param('id') id: string): Promise<Reintegrado> {
     return await this.service.findById(id);
   }
 
   @Put(':id')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Update a reintegrado' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Update a Reintegrado' })
   @ApiOkResponse({
-    type: UpdatereintegradoDto,
-    description: 'Updated reintegrado',
+    type: UpdateReintegradoDto,
+    description: 'Updated Reintegrado',
   })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
   async update(
     @Param('id') id: string,
-    @Body() data: UpdatereintegradoDto,
-  ): Promise<reintegrado> {
-    return this.service.update(id, data);
+    @Body() data: UpdateReintegradoDto,
+    @Request() request?: any,
+  ): Promise<Reintegrado> {
+    const old = await this.service.findById(id);
+    const response = await this.service.update(id, data);
+
+    await activityLog({
+      module: 'reintegrado',
+      action: 'update',
+      data: response,
+      old,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Put(':id/restore')
