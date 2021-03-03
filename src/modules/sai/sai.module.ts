@@ -1,13 +1,13 @@
-// import { Module } from '@nestjs/common';
-// import { TypeOrmModule } from '@nestjs/typeorm';
-// import { saiController } from './controller/sai.controller';
-// import { sai } from './entity/sai.entity';
-// import { saiService } from './service/sai.service';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { SaiController } from './controller/sai.controller';
+import Sai from './entity/sai.entity';
+import { SaiService } from './service/sai.service';
 
-// @Module({
-//   imports: [TypeOrmModule.forFeature([sai])],
-//   providers: [saiService],
-//   controllers: [saiController],
-//   exports: [saiService],
-// })
-// export class saiModule {}
+@Module({
+  imports: [TypeOrmModule.forFeature([Sai])],
+  providers: [SaiService],
+  controllers: [SaiController],
+  exports: [SaiService],
+})
+export class SaiModule {}

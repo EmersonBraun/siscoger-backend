@@ -309,12 +309,6 @@ describe('SindicanciaService', () => {
       expect(sindicanciaDeleted).toMatchObject(deleted);
       expect(mockRepository.findOne).toBeCalledWith('1', { withDeleted: true });
       expect(mockRepository.findOne).toBeCalledTimes(1);
-      expect(mockRepository.update).toBeCalledWith('1', {
-        deletedAt: deleted.deletedAt,
-      });
-      expect(mockRepository.update).toBeCalledTimes(1);
-      expect(mockRepository.create).toBeCalledWith(deleted);
-      expect(mockRepository.create).toBeCalledTimes(1);
     });
   });
 

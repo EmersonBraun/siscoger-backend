@@ -1,14 +1,50 @@
-// import { ApiProperty } from '@nestjs/swagger';
-// import {
-//   IsNumber,
-//   IsOptional,
-//   IsPositive,
-//   IsString,
-// } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
 
-// export class UpdatesaiDto {
-//   @IsOptional()
-//   @ApiProperty()
-//   data?: string | Date
-
-// }
+export class UpdateSaiDto {
+  @IsOptional() @ApiProperty() @IsNumber() id?: number;
+  @IsOptional() @ApiProperty() @IsString() rg: string;
+  @IsOptional() @ApiProperty() @IsString() cargo: string;
+  @IsOptional() @ApiProperty() @IsString() nome: string;
+  @IsOptional() @ApiProperty() @IsString() rg_cadastro: string;
+  @IsOptional() @ApiProperty() @IsDateString() data: Date;
+  @IsOptional() @ApiProperty() @IsString() docorigem: string;
+  @IsOptional() @ApiProperty() @IsString() cdopm: string;
+  @IsOptional() @ApiProperty() @IsString() cdopm_fato: string;
+  @IsOptional() @ApiProperty() @IsString() cdopm_controle: string;
+  @IsOptional() @ApiProperty() @IsString() opm_abreviatura: string;
+  @IsOptional() @ApiProperty() @IsString() sintese_txt: string; // text
+  @IsOptional() @ApiProperty() @IsString() digitador: string;
+  @IsOptional() @ApiProperty() @IsString() arquivopasta: string;
+  @IsOptional() @ApiProperty() @IsString() bou_ano1: string;
+  @IsOptional() @ApiProperty() @IsString() bou_numero1: string;
+  @IsOptional() @ApiProperty() @IsNumber() id_municipio: number;
+  @IsOptional() @ApiProperty() @IsString() bairro: string;
+  @IsOptional() @ApiProperty() @IsString() logradouro: string;
+  @IsOptional() @ApiProperty() @IsString() numerodoc: string;
+  @IsOptional() @ApiProperty() @IsString() motivo_principal: string;
+  @IsOptional() @ApiProperty() @IsString() motivo_secundario: string;
+  @IsOptional() @ApiProperty() @IsString() desc_outros: string;
+  @IsOptional() @ApiProperty() @IsNumber() id_andamento: number;
+  @IsOptional() @ApiProperty() @IsNumber() id_andamentocoger: number;
+  @IsOptional() @ApiProperty() @IsNumber() sjd_ref: number;
+  @IsOptional() @ApiProperty() @IsDateString() abertura_data: Date;
+  @IsOptional() @ApiProperty() @IsNumber() sjd_ref_ano: number;
+  @IsOptional() @ApiProperty() @IsString() vtr1_placa: string;
+  @IsOptional() @ApiProperty() @IsString() vtr1_prefixo: string;
+  @IsOptional() @ApiProperty() @IsString() vtr2_placa: string;
+  @IsOptional() @ApiProperty() @IsString() vtr2_prefixo: string;
+  @IsOptional() @ApiProperty() @IsString() relatorio1: string;
+  @IsOptional() @ApiProperty() @IsDateString() relatorio1_data: Date;
+  @IsOptional() @ApiProperty() @IsString() relatorio1_file: string;
+  @IsOptional() @ApiProperty() @IsString() relatorio2: string;
+  @IsOptional() @ApiProperty() @IsDateString() relatorio2_data: Date;
+  @IsOptional() @ApiProperty() @IsString() relatorio2_file: string;
+  @IsOptional() @ApiProperty() @IsString() relatorio3: string;
+  @IsOptional() @ApiProperty() @IsDateString() relatorio3_data: Date;
+  @IsOptional() @ApiProperty() @IsString() relatorio3_file: string;
+  @IsOptional() @ApiProperty() @IsString() bou_ano2: string;
+  @IsOptional() @ApiProperty() @IsString() bou_ano3: string;
+  @IsOptional() @ApiProperty() @IsString() bou_numero2: string;
+  @IsOptional() @ApiProperty() @IsString() bou_numero3: string;
+}

@@ -1,8 +1,8 @@
-// import { sai } from '../entity/sai.entity';
 import { Factory, Seeder } from 'typeorm-seeding';
+import Sai from '../entity/sai.entity';
 
-export default class Createsais implements Seeder {
+export default class CreateSais implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    //     await factory(sai)().createMany(10)
+    await factory(Sai)().createMany(10);
   }
 }

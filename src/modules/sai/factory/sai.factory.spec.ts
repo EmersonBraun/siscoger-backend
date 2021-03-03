@@ -1,17 +1,11 @@
-// // import { Test, TestingModule } from '@nestjs/testing';
-// import { CreatesaiDto } from '../dtos';
-// import { fakerRegistry } from './sai.factory'
+// import { Test, TestingModule } from '@nestjs/testing';
+import { CreateSaiDto } from '../dtos';
+import { fakerRegistry } from './sai.factory';
 
-describe('Test Latter', () => {
-  it('-', () => {
-    const a = 1;
-    expect(a).toBe(1);
+describe('SaiFactory', () => {
+  it('should create a factory and return it', async () => {
+    const Sai: CreateSaiDto = fakerRegistry();
+
+    expect(Sai).toBe(Sai);
   });
 });
-// describe('saiFactory', () => {
-//   it('should create a factory and return it', async () => {
-//     const sai: CreatesaiDto = fakerRegistry();
-
-//     expect(sai).toBe(sai)
-//   });
-// });

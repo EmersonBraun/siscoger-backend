@@ -1,165 +1,347 @@
-// import { NotFoundException } from '@nestjs/common';
-// import { Test, TestingModule } from '@nestjs/testing';
-// import { getRepositoryToken } from '@nestjs/typeorm';
-// import { CreatesaiDto, UpdatesaiDto } from '../dtos';
-// import { fakerRegistry } from '../factory/sai.factory';
-// import { sai } from '../entity/sai.entity';
-// import { saiService } from './sai.service';
+import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Connection } from 'typeorm';
+import { CreateSaiDto, UpdateSaiDto } from '../dtos/index';
+import Sai from '../entity/sai.entity';
+import { fakerRegistry } from '../factory/sai.factory';
+import { SaiService } from './sai.service';
 
-describe('Test Latter', () => {
-  it('-', () => {
-    const a = 1;
-    expect(a).toBe(1);
+describe('SaiService', () => {
+  let db: Connection;
+
+  let service: SaiService;
+  // let repository: any;
+  let mockRegistry: CreateSaiDto;
+
+  const mockRepository = {
+    getNextRefYear: jest.fn(),
+    getNextRef: jest.fn(),
+    findAll: jest.fn(),
+    listDeleted: jest.fn(),
+    findByYear: jest.fn(),
+    findAndamento: jest.fn(),
+    findAndamentoYear: jest.fn(),
+    resultado: jest.fn(),
+    resultadoYear: jest.fn(),
+    restore: jest.fn(),
+    forceDelete: jest.fn(),
+    create: jest.fn(),
+    save: jest.fn(),
+    find: jest.fn(),
+    findOne: jest.fn(),
+    update: jest.fn(),
+    delete: jest.fn(),
+  };
+
+  beforeAll(async () => {
+    // db = await rootTypeormTestModule([Sai]);
+    // repository = await db.getRepository(Sai);
+    // service = new SaiService(repository, db);
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        SaiService,
+        {
+          provide: getRepositoryToken(Sai),
+          useValue: mockRepository,
+        },
+        {
+          provide: 'CONNECTION',
+          useValue: Connection,
+        },
+      ],
+    }).compile();
+
+    service = module.get<SaiService>(SaiService);
+    mockRegistry = fakerRegistry();
+  });
+
+  // afterAll(() => db.close());
+
+  beforeEach(() => {
+    mockRepository.getNextRefYear.mockReset();
+    mockRepository.getNextRef.mockReset();
+    mockRepository.findAll.mockReset();
+    mockRepository.listDeleted.mockReset();
+    mockRepository.findByYear.mockReset();
+    mockRepository.findAndamento.mockReset();
+    mockRepository.findAndamentoYear.mockReset();
+    mockRepository.resultado.mockReset();
+    mockRepository.resultadoYear.mockReset();
+    mockRepository.restore.mockReset();
+    mockRepository.forceDelete.mockReset();
+    mockRepository.create.mockReset();
+    mockRepository.save.mockReset();
+    mockRepository.find.mockReset();
+    mockRepository.findOne.mockReset();
+    mockRepository.update.mockReset();
+    mockRepository.delete.mockReset();
+  });
+
+  it('should be defined', async () => {
+    expect(service).toBeDefined();
+  });
+
+  it('should getNextRefYear from a Sai', async () => {
+    mockRepository.getNextRefYear.mockReturnValueOnce(1);
+
+    const saved = await mockRepository.getNextRefYear(mockRegistry);
+
+    expect(saved).toBe(1);
+    expect(mockRepository.getNextRefYear).toBeCalledWith(mockRegistry);
+    expect(mockRepository.getNextRefYear).toBeCalledTimes(1);
+  });
+
+  it('should getNextRef from a Sai', async () => {
+    mockRepository.getNextRef.mockReturnValueOnce(1);
+
+    const saved = await mockRepository.getNextRef(mockRegistry);
+
+    expect(saved).toBe(1);
+    expect(mockRepository.getNextRef).toBeCalledWith(mockRegistry);
+    expect(mockRepository.getNextRef).toBeCalledTimes(1);
+  });
+
+  describe('when findAll Sai', () => {
+    it('should findAll Sai', async () => {
+      mockRepository.findAll.mockReturnValueOnce([mockRegistry]);
+      const registry = await mockRepository.findAll();
+
+      expect(registry).toMatchObject([mockRegistry]);
+      expect(mockRepository.findAll).toBeCalledTimes(1);
+      expect(registry).toHaveLength(1);
+    });
+    it('should findAll Sai passed cdopm', async () => {
+      mockRepository.findAll.mockReturnValueOnce([mockRegistry]);
+      const registry = await mockRepository.findAll(mockRegistry.cdopm);
+
+      expect(registry).toMatchObject([mockRegistry]);
+      expect(mockRepository.findAll).toBeCalledTimes(1);
+      expect(registry).toHaveLength(1);
+    });
+  });
+
+  describe('when findByYear Sai', () => {
+    it('should findByYear Sai', async () => {
+      mockRepository.findByYear.mockReturnValueOnce([mockRegistry]);
+      const registry = await mockRepository.findByYear();
+
+      expect(registry).toMatchObject([mockRegistry]);
+      expect(mockRepository.findByYear).toBeCalledTimes(1);
+      expect(registry).toHaveLength(1);
+    });
+    it('should findByYear Sai pass year', async () => {
+      mockRepository.findByYear.mockReturnValueOnce([mockRegistry]);
+      const { sjd_ref_ano: year } = mockRegistry;
+      const registry = await mockRepository.findByYear({ year });
+
+      expect(registry).toMatchObject([mockRegistry]);
+      expect(mockRepository.findByYear).toBeCalledTimes(1);
+      expect(registry).toHaveLength(1);
+    });
+    it('should findByYear Sai passed year and cdopm', async () => {
+      mockRepository.findByYear.mockReturnValueOnce([mockRegistry]);
+      const { sjd_ref_ano: year, cdopm } = mockRegistry;
+      const registry = await mockRepository.findByYear({ year, cdopm });
+
+      expect(registry).toMatchObject([mockRegistry]);
+      expect(mockRepository.findByYear).toBeCalledTimes(1);
+      expect(registry).toHaveLength(1);
+    });
+  });
+
+  describe('when findAndamento Sai', () => {
+    it('should findAndamento Sai', async () => {
+      mockRepository.findAndamento.mockReturnValueOnce([mockRegistry]);
+      const registry = await mockRepository.findAndamento();
+
+      expect(registry).toMatchObject([mockRegistry]);
+      expect(mockRepository.findAndamento).toBeCalledTimes(1);
+      expect(registry).toHaveLength(1);
+    });
+    it('should findAndamento Sai passes cdopm', async () => {
+      mockRepository.findAndamento.mockReturnValueOnce([mockRegistry]);
+      const { cdopm } = mockRegistry;
+      const registry = await mockRepository.findAndamento({ cdopm });
+
+      expect(registry).toMatchObject([mockRegistry]);
+      expect(mockRepository.findAndamento).toBeCalledTimes(1);
+      expect(registry).toHaveLength(1);
+    });
+  });
+
+  describe('when findAndamentoYear Sai', () => {
+    it('should findAndamentoYear Sai', async () => {
+      mockRepository.findAndamentoYear.mockReturnValueOnce([mockRegistry]);
+      const registry = await mockRepository.findAndamentoYear();
+
+      expect(registry).toMatchObject([mockRegistry]);
+      expect(mockRepository.findAndamentoYear).toBeCalledTimes(1);
+      expect(registry).toHaveLength(1);
+    });
+    it('should findAndamentoYear Sai passes cdopm', async () => {
+      mockRepository.findAndamentoYear.mockReturnValueOnce([mockRegistry]);
+      const { cdopm } = mockRegistry;
+      const registry = await mockRepository.findAndamentoYear({ cdopm });
+
+      expect(registry).toMatchObject([mockRegistry]);
+      expect(mockRepository.findAndamentoYear).toBeCalledTimes(1);
+      expect(registry).toHaveLength(1);
+    });
+    it('should findAndamentoYear Sai passes year and cdopm', async () => {
+      mockRepository.findAndamentoYear.mockReturnValueOnce([mockRegistry]);
+      const { sjd_ref_ano: year, cdopm } = mockRegistry;
+      const registry = await mockRepository.findAndamentoYear({ year, cdopm });
+
+      expect(registry).toMatchObject([mockRegistry]);
+      expect(mockRepository.findAndamentoYear).toBeCalledTimes(1);
+      expect(registry).toHaveLength(1);
+    });
+  });
+
+  describe('when resultado Sai', () => {
+    it('should resultado Sai', async () => {
+      mockRepository.resultado.mockReturnValueOnce([mockRegistry]);
+      const registry = await mockRepository.resultado();
+
+      expect(registry).toMatchObject([mockRegistry]);
+      expect(mockRepository.resultado).toBeCalledTimes(1);
+      expect(registry).toHaveLength(1);
+    });
+    it('should resultado Sai passes cdopm', async () => {
+      mockRepository.resultado.mockReturnValueOnce([mockRegistry]);
+      const { cdopm } = mockRegistry;
+      const registry = await mockRepository.resultado({ cdopm });
+
+      expect(registry).toMatchObject([mockRegistry]);
+      expect(mockRepository.resultado).toBeCalledTimes(1);
+      expect(registry).toHaveLength(1);
+    });
+  });
+
+  describe('when resultadoYear Sai', () => {
+    it('should resultadoYear Sai', async () => {
+      mockRepository.resultadoYear.mockReturnValueOnce([mockRegistry]);
+      const registry = await mockRepository.resultadoYear();
+
+      expect(registry).toMatchObject([mockRegistry]);
+      expect(mockRepository.resultadoYear).toBeCalledTimes(1);
+      expect(registry).toHaveLength(1);
+    });
+    it('should resultadoYear Sai passes cdopm', async () => {
+      mockRepository.resultadoYear.mockReturnValueOnce([mockRegistry]);
+      const { cdopm } = mockRegistry;
+      const registry = await mockRepository.resultadoYear({ cdopm });
+
+      expect(registry).toMatchObject([mockRegistry]);
+      expect(mockRepository.resultadoYear).toBeCalledTimes(1);
+      expect(registry).toHaveLength(1);
+    });
+    it('should resultadoYear Sai passes year and cdopm', async () => {
+      mockRepository.resultadoYear.mockReturnValueOnce([mockRegistry]);
+      const { sjd_ref_ano: year, cdopm } = mockRegistry;
+      const registry = await mockRepository.resultadoYear({ year, cdopm });
+
+      expect(registry).toMatchObject([mockRegistry]);
+      expect(mockRepository.resultadoYear).toBeCalledTimes(1);
+      expect(registry).toHaveLength(1);
+    });
+  });
+
+  describe('when create Sai', () => {
+    it('should create a Sai', async () => {
+      mockRepository.create.mockReturnValueOnce(mockRegistry);
+      const data: CreateSaiDto = mockRegistry;
+      const registry = await mockRepository.create(data);
+
+      mockRepository.save.mockReturnValueOnce(registry);
+      const saved = await mockRepository.save(registry);
+
+      expect(saved).toMatchObject(registry);
+      expect(mockRepository.create).toBeCalledWith(mockRegistry);
+      expect(mockRepository.create).toBeCalledTimes(1);
+      expect(mockRepository.save).toBeCalledWith(registry);
+      expect(mockRepository.save).toBeCalledTimes(1);
+    });
+  });
+
+  describe('when update a Sai', () => {
+    it('should update a existing Sai', async () => {
+      const SaiUpdate: UpdateSaiDto = mockRegistry;
+      SaiUpdate.cdopm = 'Update Sai ';
+
+      mockRepository.findOne.mockReturnValue(mockRegistry);
+      mockRepository.update.mockReturnValue({
+        ...mockRegistry,
+        ...SaiUpdate,
+      });
+      mockRepository.create.mockReturnValue({
+        ...mockRegistry,
+        ...SaiUpdate,
+      });
+
+      const updatedSai = await service.update('1', SaiUpdate);
+
+      expect(updatedSai).toMatchObject(SaiUpdate);
+      expect(mockRepository.findOne).toBeCalledWith('1', { withDeleted: true });
+      expect(mockRepository.findOne).toBeCalledTimes(1);
+      expect(mockRepository.update).toBeCalledWith('1', SaiUpdate);
+      expect(mockRepository.update).toBeCalledTimes(1);
+      expect(mockRepository.create).toBeCalledWith({
+        ...mockRegistry,
+        ...SaiUpdate,
+      });
+      expect(mockRepository.create).toBeCalledTimes(1);
+    });
+  });
+
+  describe('when softdelete a Sai', () => {
+    it('should delete a existing Sai', async () => {
+      const deletedAt = new Date().toISOString().slice(0, 10);
+      mockRepository.findOne.mockReturnValue(mockRegistry);
+      const deleted = {
+        ...mockRegistry,
+        deletedAt,
+      };
+      mockRepository.update.mockReturnValue(deleted);
+      mockRepository.create.mockReturnValue(deleted);
+
+      const saiDeleted = await service.delete('1');
+
+      expect(saiDeleted).toMatchObject(deleted);
+      expect(mockRepository.findOne).toBeCalledWith('1', { withDeleted: true });
+      expect(mockRepository.findOne).toBeCalledTimes(1);
+    });
+  });
+
+  describe('when restore a Sai', () => {
+    it('should restore a existing Sai', async () => {
+      mockRepository.findOne.mockReturnValue(mockRegistry);
+      const deleted = {
+        ...mockRegistry,
+        deletedAt: null,
+      };
+      mockRepository.update.mockReturnValue(deleted);
+      mockRepository.create.mockReturnValue(deleted);
+
+      const saiDeleted = await service.delete('1');
+
+      expect(saiDeleted).toMatchObject(deleted);
+      expect(mockRepository.findOne).toBeCalledWith('1', { withDeleted: true });
+      expect(mockRepository.findOne).toBeCalledTimes(1);
+      expect(mockRepository.update).toBeCalledTimes(1);
+      expect(mockRepository.create).toBeCalledTimes(1);
+    });
+  });
+
+  describe('when forceDelete a Sai', () => {
+    it('should delete a existing Sai', async () => {
+      mockRepository.findOne.mockReturnValue(mockRegistry);
+      mockRepository.delete.mockReturnValue(mockRegistry);
+
+      await service.delete('1');
+
+      expect(mockRepository.findOne).toBeCalledWith('1', { withDeleted: true });
+      expect(mockRepository.findOne).toBeCalledTimes(1);
+    });
   });
 });
-// describe('saiService', () => {
-//   let service: saiService;
-//   let mockRegistry: CreatesaiDto;
-
-//   const mockRepository = {
-//     create: jest.fn(),
-//     save: jest.fn(),
-//     search: jest.fn(),
-//     find: jest.fn(),
-//     findOne: jest.fn(),
-//     update: jest.fn(),
-//     delete: jest.fn(),
-//   };
-
-//   beforeAll(async () => {
-//     const module: TestingModule = await Test.createTestingModule({
-//       providers: [
-//         saiService,
-//         { provide: getRepositoryToken(sai), useValue: mockRepository },
-//       ],
-//     }).compile();
-
-//     service = module.get<saiService>(saiService);
-//     mockRegistry = fakerRegistry()
-//   });
-
-//   beforeEach(() => {
-//     mockRepository.create.mockReset();
-//     mockRepository.save.mockReset();
-//     mockRepository.search.mockReset();
-//     mockRepository.find.mockReset();
-//     mockRepository.findOne.mockReset();
-//     mockRepository.update.mockReset();
-//     mockRepository.delete.mockReset();
-//   });
-
-//   it('should be defined', () => {
-//     expect(service).toBeDefined();
-//   });
-
-//   // need to solve
-//   describe('when create sai', () => {
-//     it('should create a sai', async () => {
-//       mockRepository.create.mockReturnValueOnce(mockRegistry);
-//       mockRepository.save.mockReturnValueOnce(mockRegistry);
-
-//       const sai: CreatesaiDto = mockRegistry;
-
-//       const savedsai = await service.create(sai);
-
-//       expect(savedsai).toMatchObject(mockRegistry);
-//       expect(mockRepository.create).toBeCalledWith(sai);
-//       expect(mockRepository.create).toBeCalledTimes(1);
-//       expect(mockRepository.save).toBeCalledTimes(1);
-//     });
-//   });
-
-//   describe('when search all sai', () => {
-//     it('should list all sai', async () => {
-//       mockRepository.find.mockReturnValue([mockRegistry]);
-
-//       const sai = await service.findAll();
-
-//       expect(sai).toHaveLength(1);
-//       expect(mockRepository.find).toBeCalledTimes(1);
-//     });
-//   });
-
-//   // describe('when search one sai', () => {
-//   //   it('should list one sai', async () => {
-//   //     mockRepository.create.mockReturnValueOnce(mockRegistry);
-//   //     mockRepository.save.mockReturnValueOnce(mockRegistry);
-
-//   //     const saiUpdate: UpdatesaiDto = mockRegistry;
-//   //     const sai = await service.search(saiUpdate);
-
-//   //     expect(sai).toMatchObject(mockRegistry);
-//   //     expect(mockRepository.find).toBeCalledTimes(1);
-//   //   });
-//   // });
-
-//   describe('when search sai by id', () => {
-//     it('should find a existing sai', async () => {
-//       mockRepository.findOne.mockReturnValue(mockRegistry);
-
-//       const sai = await service.findById('1');
-
-//       expect(sai).toMatchObject(mockRegistry);
-//       expect(mockRepository.findOne).toBeCalledWith('1');
-//       expect(mockRepository.findOne).toBeCalledTimes(1);
-//     });
-
-//     it('should return a exception when does not to find a sai', async () => {
-//       mockRepository.findOne.mockReturnValue(null);
-
-//       await service.findById('3').catch(error => {
-//         expect(error).toBeInstanceOf(NotFoundException);
-//         expect(error).toMatchObject({ message: 'Registry not found' });
-//         expect(mockRepository.findOne).toBeCalledWith('3');
-//         expect(mockRepository.findOne).toBeCalledTimes(1);
-//       });
-//     });
-//   });
-
-//   describe('when update a sai', () => {
-//     it('should update a existing sai', async () => {
-//       const saiUpdate: UpdatesaiDto = mockRegistry;
-//       saiUpdate.descricao = 'Update sai '
-
-//       mockRepository.findOne.mockReturnValue(mockRegistry);
-//       mockRepository.update.mockReturnValue({
-//         ...mockRegistry,
-//         ...saiUpdate,
-//       });
-//       mockRepository.create.mockReturnValue({
-//         ...mockRegistry,
-//         ...saiUpdate,
-//       });
-
-//       const updatedsai = await service.update(
-//         '1',
-//         saiUpdate,
-//       );
-
-//       expect(updatedsai).toMatchObject(saiUpdate);
-//       expect(mockRepository.findOne).toBeCalledWith('1');
-//       expect(mockRepository.findOne).toBeCalledTimes(1);
-//       expect(mockRepository.update).toBeCalledWith('1', saiUpdate);
-//       expect(mockRepository.update).toBeCalledTimes(1);
-//       expect(mockRepository.create).toBeCalledWith({
-//         ...mockRegistry,
-//         ...saiUpdate,
-//       });
-//       expect(mockRepository.create).toBeCalledTimes(1);
-//     });
-//   });
-
-//   describe('when delete a sai', () => {
-//     it('should delete a existing sai', async () => {
-//       mockRepository.findOne.mockReturnValue(mockRegistry);
-//       mockRepository.delete.mockReturnValue(mockRegistry);
-
-//       await service.delete('1');
-
-//       expect(mockRepository.findOne).toBeCalledWith('1');
-//       expect(mockRepository.findOne).toBeCalledTimes(1);
-//       expect(mockRepository.delete).toBeCalledWith('1');
-//       expect(mockRepository.delete).toBeCalledTimes(1);
-//     });
-//   });
-// });
