@@ -1,17 +1,16 @@
-// import * as Faker from 'faker'
-// import { define } from 'typeorm-seeding'
-// import { resultado } from '../entity/resultado.entity';
-// import { CreateresultadoDto } from '../dtos/create.dto';
+import * as Faker from 'faker';
+import { define } from 'typeorm-seeding';
+import { CreateResultadoDto } from '../dtos/create.dto';
+import Resultado from '../entity/resultado.entity';
 
-// define(resultado, (faker: typeof Faker) => {
-//   const factory = new resultado()
-//   // factory.data = faker.date.future(1)
-//   return factory
-// })
+export const fakerRegistry = (): CreateResultadoDto => {
+  const faker = Faker;
+  return {
+    resultado: faker.name.findName(),
+    procedimento: faker.name.findName(),
+  };
+};
 
-// export const fakerRegistry = ():CreateresultadoDto => {
-//   const faker = Faker
-//   return {
-//     // data: faker.date.past(1),
-//   }
-// }
+define(Resultado, (faker: typeof Faker) => {
+  return (fakerRegistry() as unknown) as Resultado;
+});

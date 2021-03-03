@@ -1,50 +1,157 @@
-// import { Injectable, NotFoundException } from '@nestjs/common';
-// import { InjectRepository } from '@nestjs/typeorm';
-// import { Repository } from 'typeorm';
-// import { CreateresultadoDto } from '../dtos/create.dto';
-// import { UpdateresultadoDto } from '../dtos/update.dto';
-// import { resultado } from '../entity/resultado.entity';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Connection, Like, Repository } from 'typeorm';
+import { CreateResultadoDto, UpdateResultadoDto } from '../dtos';
+import Resultado from '../entity/resultado.entity';
 
-// @Injectable()
-// export class resultadoService {
-//   constructor(
-//     @InjectRepository(resultado)
-//     private repository: Repository<resultado>,
-//   ) {}
+@Injectable()
+export class ResultadoService {
+  constructor(
+    @InjectRepository(Resultado) private repository: Repository<Resultado>,
+    @Inject('CONNECTION') private connection: Connection,
+  ) {}
 
-//   async findAll(): Promise<resultado[]> {
-//     return await this.repository.find();
-//   }
+  async findAll(): Promise<Resultado[]> {
+    return await this.repository.find();
+  }
 
-//   async search(data: CreateresultadoDto): Promise<resultado[]> {
-//     console.log(data)
-//     return await this.repository.find({ where: { ...data } });
-//   }
+  async listDeleted(): Promise<Resultado[]> {
+    return await this.repository.find({
+      withDeleted: true,
+    });
+  }
 
-//   async create(data: CreateresultadoDto): Promise<resultado> {
-//     const registry = this.repository.create(data);
-//     return await this.repository.save(registry);
-//   }
+  async findByYear({ year }: { year: string }): Promise<Resultado[]> {
+    year ?? new Date().getFullYear();
+    return await this.repository.find({
+      where: { createdAt: Like(`${year}%`) },
+    });
+  }
 
-//   async findById(id: string): Promise<resultado> {
-//     const registry = await this.repository.findOne(id);
+  async findAndamento(): Promise<any[]> {
+    return await this.connection.query(`
+      SELECT resultados.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM resultados
+      LEFT JOIN andamentos ON
+        resultados.id_andamento = andamentos.id
+      LEFT JOIN andamentoscoger ON
+        resultados.id_andamentocoger = andamentoscoger.id
+      LEFT JOIN envolvidos ON
+        envolvidos.id_sindicancia=resultados.id
+      ORDER BY resultados.id DESC
+      `);
+  }
 
-//     if (!registry) {
-//       throw new NotFoundException('Registry not found');
-//     }
+  async findAndamentoYear({ year }: { year: string }): Promise<any[]> {
+    year ?? new Date().getFullYear();
+    return await this.connection.query(
+      `
+      SELECT resultados.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM resultados
+      LEFT JOIN andamentos ON
+        resultados.id_andamento = andamentos.id
+      LEFT JOIN andamentoscoger ON
+        resultados.id_andamentocoger = andamentoscoger.id
+      LEFT JOIN envolvidos ON
+        envolvidos.id_sindicancia=resultados.id
+      WHERE
+        resultados.sjd_ref_ano = "$1%"
+      ORDER BY resultados.id DESC
+      `,
+      [year],
+    );
+  }
 
-//     return registry;
-//   }
+  async resultado({ situation }: { situation?: string }) {
+    situation ?? 'Sindicado';
 
-//   async update(id: string, data: UpdateresultadoDto): Promise<resultado> {
-//     const registry = await this.findById(id);
-//     await this.repository.update(id, { ...data });
+    return await this.connection.query(
+      `
+      SELECT resultados.*, andamentos.*, envolvidos.*
+      FROM resultados
+      LEFT JOIN andamentos ON
+        resultados.id_andamento = andamentos.id
+      INNER JOIN envolvidos ON
+        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=resultados.id
+      WHERE  envolvidos.situacao= $1
+      ORDER BY resultados.id DESC
+      `,
+      [situation],
+    );
+  }
 
-//     return this.repository.create({ ...registry, ...data });
-//   }
+  async resultadoYear({
+    situation,
+    year,
+  }: {
+    situation: string;
+    year: string;
+  }) {
+    situation ?? 'Sindicado';
+    year ?? new Date().getFullYear();
 
-//   async delete(id: string): Promise<void> {
-//     await this.findById(id);
-//     await this.repository.delete(id);
-//   }
-// }
+    return await this.connection.query(
+      `
+      SELECT resultados.*, andamentos.*, envolvidos.*
+      FROM resultados
+      LEFT JOIN andamentos ON
+        resultados.id_andamento = andamentos.id
+      INNER JOIN envolvidos ON
+        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=resultados.id
+      WHERE 
+        envolvidos.situacao= $1
+      AND
+        resultados.sjd_ref_ano = $2
+      ORDER BY resultados.id DESC
+      `,
+      [situation, year],
+    );
+  }
+
+  // async findPortaria(params: SearchPortariaDto): Promise<any> {
+  //   const { cdopm, portaria_numero } = params;
+  //   return await this.repository.findOne({ cdopm, portaria_numero });
+  // }
+
+  async create(data: CreateResultadoDto): Promise<Resultado> {
+    const registry = this.repository.create(data);
+    return await this.repository.save(registry);
+  }
+
+  async findById(id: string): Promise<Resultado> {
+    const registry = await this.repository.findOne(id, { withDeleted: true });
+
+    if (!registry) {
+      throw new NotFoundException('Registry not found');
+    }
+
+    return registry;
+  }
+
+  async update(id: string, data: UpdateResultadoDto): Promise<Resultado> {
+    const registry = await this.findById(id);
+    await this.repository.update(id, { ...data });
+
+    return this.repository.create({ ...registry, ...data });
+  }
+
+  async delete(id: string): Promise<Resultado> {
+    const registry = await this.findById(id);
+    await this.repository.update(id, { deletedAt: new Date() });
+
+    return this.repository.create({ ...registry, deletedAt: new Date() });
+  }
+
+  async restore(id: string): Promise<Resultado> {
+    const registry = await this.findById(id);
+    await this.repository.update(id, { deletedAt: null });
+
+    return this.repository.create({ ...registry, deletedAt: null });
+  }
+
+  async forceDelete(id: string): Promise<Resultado> {
+    const data = await this.findById(id);
+    await this.repository.delete(id);
+    return data;
+  }
+}

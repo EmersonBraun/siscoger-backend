@@ -1,14 +1,7 @@
-// import { ApiProperty } from '@nestjs/swagger';
-// import {
-//   IsNumber,
-//   IsOptional,
-//   IsPositive,
-//   IsString,
-// } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional, IsString } from 'class-validator';
 
-// export class CreateresultadoDto {
-//   // @IsOptional()
-//   // @ApiProperty()
-//   // data?: string | Date
-
-// }
+export class CreateResultadoDto {
+  @IsOptional() @ApiProperty() @IsString() resultado: string;
+  @IsOptional() @ApiProperty() @IsString() procedimento: string;
+}

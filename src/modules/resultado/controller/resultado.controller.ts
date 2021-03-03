@@ -1,87 +1,228 @@
-// import {
-//   Body,
-//   Controller,
-//   Delete,
-//   Get,
-//   HttpCode,
-//   Param,
-//   Post,
-//   Put,
-// } from '@nestjs/common';
-// import {
-//   ApiBadRequestResponse,
-//   ApiCreatedResponse,
-//   ApiNoContentResponse,
-//   ApiNotFoundResponse,
-//   ApiOkResponse,
-//   ApiOperation,
-//   ApiTags,
-// } from '@nestjs/swagger';
-// import { ErrorResponse } from '../../../common/responses';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Put,
+  Query,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiNoContentResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
+import { activityLog } from '../../../common/activiti-log';
+import ACLPolice from '../../../common/decorators/acl.decorator';
+import ACLGuard from '../../../common/guards/acl.guard';
+import JwtAuthGuard from '../../../common/guards/jwt.guard';
+import { ErrorResponse } from '../../../common/responses/error';
+import { CreateResultadoDto } from '../dtos/create.dto';
+import { UpdateResultadoDto } from '../dtos/update.dto';
+import Resultado from '../entity/resultado.entity';
+import { ResultadoService } from '../service/resultado.service';
 
-// import { CreateresultadoDto } from '../dtos/create.dto';
-// import { UpdateresultadoDto } from '../dtos/update.dto';
-// import { resultado } from '../entity/resultado.entity';
-// import { resultadoService } from '../service/resultado.service';
+@ApiTags('Resultado')
+@Controller('resultados')
+export class ResultadoController {
+  constructor(private service: ResultadoService) {}
 
-// @ApiTags('resultado')
-// @Controller('resultados')
-// export class resultadoController {
-//   constructor(private service: resultadoService) {}
+  @Get()
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all Resultado' })
+  @ApiOkResponse({
+    type: [CreateResultadoDto],
+    description: 'The found Resultado',
+  })
+  async findAll(): Promise<Resultado[]> {
+    return await this.service.findAll();
+  }
 
-//   @Get()
-//   @HttpCode(200)
-//   @ApiOperation({ summary: 'Search all resultado' })
-//   @ApiOkResponse({ type: [CreateresultadoDto], description: 'The found resultado' })
-//   async findAll(): Promise<resultado[]> {
-//     return await this.service.findAll();
-//   }
+  @Get('/deleted')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all deleted Resultado' })
+  @ApiOkResponse({
+    type: [CreateResultadoDto],
+    description: 'The found deleted Resultado',
+  })
+  async listDeleted(): Promise<Resultado[]> {
+    return await this.service.listDeleted();
+  }
 
-//   @Post('search')
-//   @HttpCode(200)
-//   @ApiOperation({ summary: 'Search resultado' })
-//   @ApiCreatedResponse({ type: UpdateresultadoDto, description: 'Searched resultado' })
-//   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
-//   async search(@Body() data: CreateresultadoDto): Promise<resultado[]> {
-//     return await this.service.search(data);
-//   }
+  @Get('/andamento')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Search all Resultado' })
+  // @ApiOkResponse({ type: [any], description: 'The found Resultado' })
+  async andamento(): Promise<any[]> {
+    return await this.service.findAndamento();
+  }
 
-//   @Post()
-//   @HttpCode(201)
-//   @ApiOperation({ summary: 'Create a new resultado' })
-//   @ApiCreatedResponse({ type: UpdateresultadoDto, description: 'Created resultado' })
-//   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request', })
-//   async create(@Body() data: CreateresultadoDto): Promise<resultado> {
-//     return await this.service.create(data);
-//   }
+  @Get('/resultado')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Search all Resultado' })
+  // @ApiOkResponse({ type: [any], description: 'The found Resultado' })
+  async resultado(@Query() situation: string): Promise<any[]> {
+    return await this.service.resultado({ situation });
+  }
 
-//   @Get(':id')
-//   @HttpCode(200)
-//   @ApiOperation({ summary: 'Search a resultado by id' })
-//   @ApiOkResponse({ type: UpdateresultadoDto, description: 'The found resultado' })
-//   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-//   async findById(@Param('id') id: string): Promise<resultado> {
-//     return await this.service.findById(id);
-//   }
+  // @Post('portarias')
+  // @HttpCode(200)
+  // @UseGuards(JwtAuthGuard, ACLGuard)
+  // @ACLPolice({ roles: [], permissions: [] })
+  // @ApiOperation({ summary: 'Found Resultado' })
+  // @ApiOkResponse({
+  //   type: CreateResultadoDto,
+  //   description: 'Found Resultado',
+  // })
+  // @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
+  // async findPortaria(@Body() data: SearchPortariaDto): Promise<any> {
+  //   return await this.service.findPortaria(data);
+  // }
 
-//   @Put(':id')
-//   @HttpCode(200)
-//   @ApiOperation({ summary: 'Update a resultado' })
-//   @ApiOkResponse({ type: UpdateresultadoDto, description: 'Updated resultado' })
-//   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-//   async update(
-//     @Param('id') id: string,
-//     @Body() data: UpdateresultadoDto,
-//   ): Promise<resultado> {
-//     return this.service.update(id, data);
-//   }
+  @Post()
+  @HttpCode(201)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Create a new Resultado' })
+  @ApiCreatedResponse({
+    type: UpdateResultadoDto,
+    description: 'Created Resultado',
+  })
+  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
+  async create(
+    @Body() data: CreateResultadoDto,
+    @Request() request?: any,
+  ): Promise<Resultado> {
+    const response = await this.service.create(data);
 
-//   @Delete(':id')
-//   @HttpCode(204)
-//   @ApiOperation({ summary: 'Delete a resultado' })
-//   @ApiNoContentResponse({ description: 'Deleted resultado' })
-//   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-//   async delete(@Param('id') id: string): Promise<void> {
-//     await this.service.delete(id);
-//   }
-// }
+    await activityLog({
+      module: 'resultado',
+      action: 'create',
+      data: response,
+      user: request?.user,
+    });
+
+    return response;
+  }
+
+  @Get(':id')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search a Resultado by id' })
+  @ApiOkResponse({
+    type: UpdateResultadoDto,
+    description: 'The found Resultado',
+  })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async findById(@Param('id') id: string): Promise<Resultado> {
+    return await this.service.findById(id);
+  }
+
+  @Put(':id')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Update a Resultado' })
+  @ApiOkResponse({
+    type: UpdateResultadoDto,
+    description: 'Updated Resultado',
+  })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async update(
+    @Param('id') id: string,
+    @Body() data: UpdateResultadoDto,
+    @Request() request?: any,
+  ): Promise<Resultado> {
+    const old = await this.service.findById(id);
+    const response = await this.service.update(id, data);
+
+    await activityLog({
+      module: 'resultado',
+      action: 'update',
+      data: response,
+      old,
+      user: request?.user,
+    });
+
+    return response;
+  }
+
+  @Put(':id/restore')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Delete a Resultado' })
+  @ApiNoContentResponse({ description: 'Deleted Resultado' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async restore(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<Resultado> {
+    const data = await this.service.restore(id);
+
+    await activityLog({
+      module: 'resultado',
+      action: 'restore',
+      data,
+      user: request?.user,
+    });
+    return data;
+  }
+
+  @Delete(':id')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Delete a Resultado' })
+  @ApiNoContentResponse({ description: 'Deleted Resultado' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async delete(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<Resultado> {
+    const data = await this.service.delete(id);
+
+    await activityLog({
+      module: 'resultado',
+      action: 'delete',
+      data,
+      user: request?.user,
+    });
+    return data;
+  }
+
+  @Delete(':id/force')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Delete definitive a Resultado' })
+  @ApiNoContentResponse({ description: 'Deleted definitive Resultado' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
+  async forceDelete(
+    @Param('id') id: string,
+    @Request() request?: any,
+  ): Promise<Resultado> {
+    const data = await this.service.forceDelete(id);
+
+    await activityLog({
+      module: 'resultado',
+      action: 'forceDelete',
+      data,
+      user: request?.user,
+    });
+    return data;
+  }
+}
