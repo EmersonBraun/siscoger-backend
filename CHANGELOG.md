@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.56.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.55.0...v0.56.0) (2021-03-03)
+
+
+### Features
+
+* add module reintegrado ([4fce4c4](https://github.com/EmersonBraun/siscoger-backend-v2/commit/4fce4c41ed2ff9b99ecac8c74d6056abe2742fde))
+
 ## [0.55.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.54.0...v0.55.0) (2021-03-02)
 
 
