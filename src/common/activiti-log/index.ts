@@ -1,8 +1,11 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable array-callback-return */
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 import mongoose from 'mongoose';
 import { LogSchema } from '../../modules/log/schema/log.schema';
 
+require('dotenv').config();
 // MONGO_CONNECTION=
 type LogActivity = {
   module: string;
@@ -44,7 +47,7 @@ export async function activityLog(
   logData: LogActivity,
   debug = false,
 ): Promise<void> {
-  const mongo = await mongoose.connect('mongodb://localhost:27017/siscoger');
+  const mongo = await mongoose.connect(process.env.MONGO_CONNECTION);
   const Log = mongo.model('logs', LogSchema);
   // if (logData.action === 'update') logData.changes = compareData(logData);
   const register = await Log.create(logData as any);

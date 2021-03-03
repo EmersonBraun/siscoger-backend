@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { postgresDatabaseProvider } from '../../common/providers/postgres.provider copy';
+import { postgresDatabaseProvider } from '../../common/providers/postgres.provider';
 import { LogModule } from '../log/log.module';
 import AdlController from './controller/adl.controller';
 import Adl from './entity/adl.entity';

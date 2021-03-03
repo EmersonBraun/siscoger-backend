@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { postgresDatabaseProvider } from '../../common/providers/postgres.provider copy';
+import { postgresDatabaseProvider } from '../../common/providers/postgres.provider';
 import { ProcOutrosController } from './controller/procoutros.controller';
 import ProcOutros from './entity/procoutros.entity';
 import { ProcOutrosService } from './service/procoutros.service';

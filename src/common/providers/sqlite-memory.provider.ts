@@ -1,9 +1,9 @@
 import { resolve } from 'path';
 import { createConnection } from 'typeorm';
 
-export const sqliteDatabaseProvider = [
+export const sqliteMemoryDatabaseProvider = [
   {
-    provide: 'SQLITE_CONNECTION',
+    provide: 'SQLITE_MEMORY_CONNECTION',
     useFactory: async () =>
       await createConnection({
         type: 'sqlite',

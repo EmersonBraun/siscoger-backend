@@ -16,7 +16,7 @@ export async function rootTypeormTestModule(entities: Entity[]) {
   });
 }
 
-export const closeInMongodConnection = async () => {
+export const closeInTypeormConnection = async () => {
   if (db) await db.close();
 };
 

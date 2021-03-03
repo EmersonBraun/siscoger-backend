@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { postgresDatabaseProvider } from '../../common/providers/postgres.provider copy';
+import { postgresDatabaseProvider } from '../../common/providers/postgres.provider';
 import { PadController } from './controller/pad.controller';
 import Pad from './entity/pad.entity';
 import { PadService } from './service/pad.service';

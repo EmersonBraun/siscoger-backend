@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { postgresDatabaseProvider } from '../../common/providers/postgres.provider copy';
+import { postgresDatabaseProvider } from '../../common/providers/postgres.provider';
 import { DesercaoController } from './controller/desercao.controller';
 import Desercao from './entity/desercao.entity';
 import { DesercaoService } from './service/desercao.service';

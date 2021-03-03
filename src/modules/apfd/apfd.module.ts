@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { postgresDatabaseProvider } from '../../common/providers/postgres.provider copy';
+import { postgresDatabaseProvider } from '../../common/providers/postgres.provider';
 import { LogModule } from '../log/log.module';
 import { ApfdController } from './controller/apfd.controller';
 import Apfd from './entity/apfd.entity';

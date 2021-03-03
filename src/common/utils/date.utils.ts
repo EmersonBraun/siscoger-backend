@@ -1,18 +1,82 @@
-export function getDiffDateInDays(init: string, end: string) {
-  const timeStart = new Date(init).getTime();
-  const timeEnd = new Date(end).getTime();
+export type Locales = 'pt-br' | 'en' | 'fr-ca';
+interface ToLocaleDateString {
+  year?: 'numeric';
+  month?: 'long' | 'short' | 'numeric';
+  weekday?: 'long' | 'short';
+  day?: 'numeric';
+  hour?: 'numeric';
+  minute?: 'numeric';
+  second?: 'numeric';
+  era?: 'long' | 'short';
+  timeZoneName?: 'long' | 'short';
+}
+
+// get date and time
+function getTime(date?: string | Date) {
+  if (!date) return new Date().getTime();
+  if (typeof date === 'string') return new Date(date).getTime();
+  return date.getTime();
+}
+
+function getDay(date?: string | Date) {
+  if (!date) return new Date().getDay();
+  if (typeof date === 'string') return new Date(date).getDay();
+  return date.getDay();
+}
+
+function getDayOfWeek(date?: string | Date) {
+  const week = [
+    'Domingo',
+    'Segunda-Feira',
+    'Terça-Feira',
+    'Quarta-Feira',
+    'Quinta-Feira',
+    'Sexta-Feira',
+    'Sábado',
+  ];
+  return week[getDay(date)];
+}
+
+const getSunday = (init: string | Date): number => {
+  return Number(Boolean(getDay(init) === 7));
+};
+
+function addOneDay(
+  type?: 'hour' | 'minutes' | 'secconds' | 'milisecconds',
+): number {
+  switch (type) {
+    case 'hour':
+      return 24;
+    case 'minutes':
+      return 24 * 60;
+    case 'secconds':
+      return 24 * 60 * 60;
+    case 'milisecconds':
+      return 24 * 60 * 60 * 60;
+    default:
+      return 6000;
+  }
+}
+
+// get difference of dates
+export function getDiffDateInDays(init: string | Date, end?: string | Date) {
+  const timeStart = getTime(init);
+  const timeEnd = getTime(end);
   return Number((timeEnd - timeStart) / (24 * 3600 * 1000));
 }
 
-export type Locales = 'pt-br' | 'en' | 'fr-ca';
-const getQtdOfWeeks = (init: string, end: string): number =>
-  Math.floor(getDiffDateInDays(init, end) / 7);
-const getMajorDayOfWeek = (init: string, end: string): number =>
-  Number(Boolean(new Date(init).getDay() < new Date(end).getDay()));
-const getSunday = (init: string): number =>
-  Number(Boolean(new Date(init).getDay() === 7));
+const getQtdOfWeeks = (init: string | Date, end?: string | Date): number => {
+  return Math.floor(getDiffDateInDays(init, end) / 7);
+};
 
-export function getDaysOfFDS(init: string, end: string): number {
+const getMajorDayOfWeek = (
+  init: string | Date,
+  end?: string | Date,
+): number => {
+  return Number(Boolean(getDay(init) < getDay(end)));
+};
+
+export function getDaysOfFDS(init: string | Date, end?: string | Date): number {
   return (
     getQtdOfWeeks(init, end) +
     getMajorDayOfWeek(init, end) * 2 +
@@ -20,16 +84,30 @@ export function getDaysOfFDS(init: string, end: string): number {
   );
 }
 
+export function datetoLocaleDateString(
+  date: string | Date,
+  locale: Locales,
+  options: ToLocaleDateString,
+) {
+  if (!date) return new Date().toLocaleDateString(locale, options);
+  if (typeof date === 'string')
+    return new Date(date).toLocaleDateString(locale, options);
+  return date.toLocaleDateString(locale, options);
+}
 export const getCurrentDate = (locale: Locales, extensive = false) => {
   const date = new Date();
 
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const options: ToLocaleDateString = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
 
   if (extensive) {
-    return date.toLocaleDateString(locale, options);
+    return datetoLocaleDateString(date, locale, options);
   }
 
-  return date.toLocaleDateString(locale, { ...options, month: 'numeric' });
+  return datetoLocaleDateString(date, locale, { ...options, month: 'numeric' });
 };
 
 export const changeDate = (
@@ -44,17 +122,21 @@ export const changeDate = (
   }
 
   let date = new Date(dateString);
-  date = new Date(date.getTime() + date.getTimezoneOffset() * 60000); // without that he returns one day less
+  date = new Date(getTime() + date.getTimezoneOffset() * addOneDay());
   if (debug) console.log({ date });
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const options: ToLocaleDateString = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
 
   if (extensive) {
-    const extensiveDate = date.toLocaleDateString(locale, options);
+    const extensiveDate = datetoLocaleDateString(date, locale, options);
     if (debug) console.log({ extensiveDate });
     return extensiveDate;
   }
 
-  const returnDate = date.toLocaleDateString(locale, {
+  const returnDate = datetoLocaleDateString(date, locale, {
     ...options,
     month: 'numeric',
   });
