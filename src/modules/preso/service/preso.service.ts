@@ -1,27 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Connection, IsNull, Like, Not, Repository } from 'typeorm';
+import codeBase from '../../../common/services/opm.service';
+import { CreatePresoDto, UpdatePresoDto } from '../dtos';
+import Preso from '../entity/preso.entity';
 
 @Injectable()
-export class presoService {
+export class PresoService {
   constructor(
     @InjectRepository(Preso) private repository: Repository<Preso>,
-    private connection: Connection,
+    @Inject('CONNECTION') private connection: Connection,
   ) {}
-
-  getNextRefYear(data: CreatePresoDto): number {
-    return data.sjd_ref_ano || new Date().getFullYear();
-  }
-
-  async getNextRef(data: CreatePresoDto): Promise<number> {
-    const year = this.getNextRefYear(data);
-    const registry = await this.repository
-      .createQueryBuilder()
-      .select('MAX(sjd_ref)', 'max')
-      .where('sjd_ref_ano = :year', { year })
-      .getRawOne();
-    return registry?.max ? ++registry.max : 1;
-  }
 
   async findAll(cdopm = null): Promise<Preso[]> {
     const query = cdopm
@@ -35,7 +24,6 @@ export class presoService {
 
     return await this.repository.find({
       where: { ...query },
-      order: { sjd_ref: 'DESC' },
     });
   }
 
@@ -54,7 +42,6 @@ export class presoService {
     return await this.repository.find({
       where: { ...query },
       withDeleted: true,
-      order: { sjd_ref: 'DESC' },
     });
   }
 
@@ -79,7 +66,6 @@ export class presoService {
 
     return await this.repository.find({
       where: { ...query },
-      order: { sjd_ref: 'DESC' },
     });
   }
 
@@ -87,31 +73,31 @@ export class presoService {
     if (cdopm) {
       return await this.connection.query(
         `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT presos.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM presos
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        presos.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        presos.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
-      WHERE sindicancias.cdopm like "$1%"
-      ORDER BY sindicancias.id DESC
+        envolvidos.id_sindicancia=presos.id
+      WHERE presos.cdopm like "$1%"
+      ORDER BY presos.id DESC
       `,
         [cdopm],
       );
     }
 
     return await this.connection.query(`
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT presos.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM presos
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        presos.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        presos.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
-      ORDER BY sindicancias.id DESC
+        envolvidos.id_sindicancia=presos.id
+      ORDER BY presos.id DESC
       `);
   }
 
@@ -126,19 +112,19 @@ export class presoService {
     if (cdopm) {
       return await this.connection.query(
         `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT presos.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM presos
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        presos.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        presos.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia=presos.id
       WHERE 
-        sindicancias.cdopm like "$1%"
+        presos.cdopm like "$1%"
       AND
-        sindicancias.sjd_ref_ano = "$2%"
-      ORDER BY sindicancias.id DESC
+        presos.sjd_ref_ano = "$2%"
+      ORDER BY presos.id DESC
       `,
         [cdopm, year],
       );
@@ -146,39 +132,45 @@ export class presoService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT presos.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM presos
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        presos.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        presos.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia=presos.id
       WHERE
-        sindicancias.sjd_ref_ano = "$1%"
-      ORDER BY sindicancias.id DESC
+        presos.sjd_ref_ano = "$1%"
+      ORDER BY presos.id DESC
       `,
       [year],
     );
   }
 
-  async resultado({ situation, cdopm }: { situation: string; cdopm: string }) {
+  async resultado({
+    situation,
+    cdopm,
+  }: {
+    situation?: string;
+    cdopm?: string;
+  }) {
     situation ?? 'Sindicado';
 
     if (cdopm) {
       return await this.connection.query(
         `
-        SELECT sindicancias.*, andamentos.*, envolvidos.*
-        FROM sindicancias
+        SELECT presos.*, andamentos.*, envolvidos.*
+        FROM presos
         LEFT JOIN andamentos ON
-          sindicancias.id_andamento = andamentos.id
+          presos.id_andamento = andamentos.id
         INNER JOIN envolvidos ON
-          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=presos.id
         WHERE 
           envolvidos.situacao= $1
         AND
-          sindicancias.cdopm LIKE "$2%"
-        ORDER BY sindicancias.id DESC
+          presos.cdopm LIKE "$2%"
+        ORDER BY presos.id DESC
         `,
         [situation, cdopm],
       );
@@ -186,14 +178,14 @@ export class presoService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.*
-      FROM sindicancias
+      SELECT presos.*, andamentos.*, envolvidos.*
+      FROM presos
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        presos.id_andamento = andamentos.id
       INNER JOIN envolvidos ON
-        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=presos.id
       WHERE  envolvidos.situacao= $1
-      ORDER BY sindicancias.id DESC
+      ORDER BY presos.id DESC
       `,
       [situation],
     );
@@ -214,19 +206,19 @@ export class presoService {
     if (cdopm) {
       return await this.connection.query(
         `
-        SELECT sindicancias.*, andamentos.*, envolvidos.*
-        FROM sindicancias
+        SELECT presos.*, andamentos.*, envolvidos.*
+        FROM presos
         LEFT JOIN andamentos ON
-          sindicancias.id_andamento = andamentos.id
+          presos.id_andamento = andamentos.id
         INNER JOIN envolvidos ON
-          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=presos.id
         WHERE 
           envolvidos.situacao= $1
         AND
-          sindicancias.cdopm LIKE "$2%"
+          presos.cdopm LIKE "$2%"
         AND
-          sindicancias.sjd_ref_ano = $3
-        ORDER BY sindicancias.id DESC
+          presos.sjd_ref_ano = $3
+        ORDER BY presos.id DESC
         `,
         [situation, cdopm, year],
       );
@@ -234,31 +226,29 @@ export class presoService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.*
-      FROM sindicancias
+      SELECT presos.*, andamentos.*, envolvidos.*
+      FROM presos
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        presos.id_andamento = andamentos.id
       INNER JOIN envolvidos ON
-        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=presos.id
       WHERE 
         envolvidos.situacao= $1
       AND
-        sindicancias.sjd_ref_ano = $2
-      ORDER BY sindicancias.id DESC
+        presos.sjd_ref_ano = $2
+      ORDER BY presos.id DESC
       `,
       [situation, year],
     );
   }
 
-  async findPortaria(params: SearchPortariaDto): Promise<any> {
-    const { cdopm, portaria_numero } = params;
-    return await this.repository.findOne({ cdopm, portaria_numero });
-  }
+  // async findPortaria(params: SearchPortariaDto): Promise<any> {
+  //   const { cdopm, portaria_numero } = params;
+  //   return await this.repository.findOne({ cdopm, portaria_numero });
+  // }
 
   async create(data: CreatePresoDto): Promise<Preso> {
     const registry = this.repository.create(data);
-    registry.sjd_ref_ano = this.getNextRefYear(data);
-    registry.sjd_ref = await this.getNextRef(data);
     return await this.repository.save(registry);
   }
 
