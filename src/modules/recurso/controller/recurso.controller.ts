@@ -7,6 +7,9 @@ import {
   Param,
   Post,
   Put,
+  Query,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -17,68 +20,144 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { ErrorResponse } from '../../../common/responses';
-import { CreaterecursoDto } from '../dtos/create.dto';
-import { UpdaterecursoDto } from '../dtos/update.dto';
-import { recurso } from '../entity/recurso.entity';
-import { recursoService } from '../service/recurso.service';
+import { activityLog } from '../../../common/activiti-log';
+import ACLPolice from '../../../common/decorators/acl.decorator';
+import ACLGuard from '../../../common/guards/acl.guard';
+import JwtAuthGuard from '../../../common/guards/jwt.guard';
+import { ErrorResponse } from '../../../common/responses/error';
+import { CreateRecursoDto } from '../dtos/create.dto';
+import { UpdateRecursoDto } from '../dtos/update.dto';
+import Recurso from '../entity/recurso.entity';
+import { RecursoService } from '../service/recurso.service';
 
-@ApiTags('recurso')
+@ApiTags('Recurso')
 @Controller('recursos')
-export class recursoController {
-  constructor(private service: recursoService) {}
+export class RecursoController {
+  constructor(private service: RecursoService) {}
 
   @Get()
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search all recurso' })
-  @ApiOkResponse({ type: [CreaterecursoDto], description: 'The found recurso' })
-  async findAll(): Promise<recurso[]> {
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all Recurso' })
+  @ApiOkResponse({
+    type: [CreateRecursoDto],
+    description: 'The found Recurso',
+  })
+  async findAll(): Promise<Recurso[]> {
     return await this.service.findAll();
   }
 
-  @Post('search')
+  @Get('/deleted')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search recurso' })
-  @ApiCreatedResponse({
-    type: UpdaterecursoDto,
-    description: 'Searched recurso',
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all deleted Recurso' })
+  @ApiOkResponse({
+    type: [CreateRecursoDto],
+    description: 'The found deleted Recurso',
   })
-  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async search(@Body() data: CreaterecursoDto): Promise<recurso[]> {
-    return await this.service.search(data);
+  async listDeleted(): Promise<Recurso[]> {
+    return await this.service.listDeleted();
   }
+
+  @Get('/andamento')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Search all Recurso' })
+  // @ApiOkResponse({ type: [any], description: 'The found Recurso' })
+  async andamento(): Promise<any[]> {
+    return await this.service.findAndamento();
+  }
+
+  @Get('/resultado')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Search all Recurso' })
+  // @ApiOkResponse({ type: [any], description: 'The found Recurso' })
+  async resultado(@Query() situation: string): Promise<any[]> {
+    return await this.service.resultado({ situation });
+  }
+
+  // @Post('portarias')
+  // @HttpCode(200)
+  // @UseGuards(JwtAuthGuard, ACLGuard)
+  // @ACLPolice({ roles: [], permissions: [] })
+  // @ApiOperation({ summary: 'Found Recurso' })
+  // @ApiOkResponse({
+  //   type: CreateRecursoDto,
+  //   description: 'Found Recurso',
+  // })
+  // @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
+  // async findPortaria(@Body() data: SearchPortariaDto): Promise<any> {
+  //   return await this.service.findPortaria(data);
+  // }
 
   @Post()
   @HttpCode(201)
-  @ApiOperation({ summary: 'Create a new recurso' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Create a new Recurso' })
   @ApiCreatedResponse({
-    type: UpdaterecursoDto,
-    description: 'Created recurso',
+    type: UpdateRecursoDto,
+    description: 'Created Recurso',
   })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Bad Request' })
-  async create(@Body() data: CreaterecursoDto): Promise<recurso> {
-    return await this.service.create(data);
+  async create(
+    @Body() data: CreateRecursoDto,
+    @Request() request?: any,
+  ): Promise<Recurso> {
+    const response = await this.service.create(data);
+
+    await activityLog({
+      module: 'recurso',
+      action: 'create',
+      data: response,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Get(':id')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search a recurso by id' })
-  @ApiOkResponse({ type: UpdaterecursoDto, description: 'The found recurso' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search a Recurso by id' })
+  @ApiOkResponse({
+    type: UpdateRecursoDto,
+    description: 'The found Recurso',
+  })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
-  async findById(@Param('id') id: string): Promise<recurso> {
+  async findById(@Param('id') id: string): Promise<Recurso> {
     return await this.service.findById(id);
   }
 
   @Put(':id')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Update a recurso' })
-  @ApiOkResponse({ type: UpdaterecursoDto, description: 'Updated recurso' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Update a Recurso' })
+  @ApiOkResponse({
+    type: UpdateRecursoDto,
+    description: 'Updated Recurso',
+  })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Not Found' })
   async update(
     @Param('id') id: string,
-    @Body() data: UpdaterecursoDto,
-  ): Promise<recurso> {
-    return this.service.update(id, data);
+    @Body() data: UpdateRecursoDto,
+    @Request() request?: any,
+  ): Promise<Recurso> {
+    const old = await this.service.findById(id);
+    const response = await this.service.update(id, data);
+
+    await activityLog({
+      module: 'recurso',
+      action: 'update',
+      data: response,
+      old,
+      user: request?.user,
+    });
+
+    return response;
   }
 
   @Put(':id/restore')

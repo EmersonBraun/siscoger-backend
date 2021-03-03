@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class recurso1614779633243 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {

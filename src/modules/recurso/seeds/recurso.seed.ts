@@ -1,8 +1,8 @@
-// import { recurso } from '../entity/recurso.entity';
 import { Factory, Seeder } from 'typeorm-seeding';
+import Recurso from '../entity/recurso.entity';
 
-export default class Createrecursos implements Seeder {
+export default class CreateRecursos implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    //     await factory(recurso)().createMany(10)
+    await factory(Recurso)().createMany(10);
   }
 }

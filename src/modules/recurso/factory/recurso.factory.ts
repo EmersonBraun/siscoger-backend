@@ -1,17 +1,23 @@
-// import * as Faker from 'faker'
-// import { define } from 'typeorm-seeding'
-// import { recurso } from '../entity/recurso.entity';
-// import { CreaterecursoDto } from '../dtos/create.dto';
+import * as Faker from 'faker';
+import { define } from 'typeorm-seeding';
+import { CreateRecursoDto } from '../dtos/create.dto';
+import Recurso from '../entity/recurso.entity';
 
-// define(recurso, (faker: typeof Faker) => {
-//   const factory = new recurso()
-//   // factory.data = faker.date.future(1)
-//   return factory
-// })
+export const fakerRegistry = (): CreateRecursoDto => {
+  const faker = Faker;
+  return {
+    cdopm: faker.name.findName(),
+    opm: faker.name.findName(),
+    rg: faker.name.findName(),
+    nome: faker.name.findName(),
+    procedimento: faker.name.findName(),
+    sjd_ref: faker.random.number(),
+    sjd_ref_ano: faker.random.number(),
+    datahora: faker.date.future(1),
+    id_movimento: faker.random.number(),
+  };
+};
 
-// export const fakerRegistry = ():CreaterecursoDto => {
-//   const faker = Faker
-//   return {
-//     // data: faker.date.past(1),
-//   }
-// }
+define(Recurso, (faker: typeof Faker) => {
+  return (fakerRegistry() as unknown) as Recurso;
+});

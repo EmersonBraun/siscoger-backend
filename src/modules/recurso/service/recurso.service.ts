@@ -1,27 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Connection, IsNull, Like, Not, Repository } from 'typeorm';
+import codeBase from '../../../common/services/opm.service';
+import { CreateRecursoDto, UpdateRecursoDto } from '../dtos';
+import Recurso from '../entity/recurso.entity';
 
 @Injectable()
-export class recursoService {
+export class RecursoService {
   constructor(
     @InjectRepository(Recurso) private repository: Repository<Recurso>,
-    private connection: Connection,
+    @Inject('CONNECTION') private connection: Connection,
   ) {}
-
-  getNextRefYear(data: CreateRecursoDto): number {
-    return data.sjd_ref_ano || new Date().getFullYear();
-  }
-
-  async getNextRef(data: CreateRecursoDto): Promise<number> {
-    const year = this.getNextRefYear(data);
-    const registry = await this.repository
-      .createQueryBuilder()
-      .select('MAX(sjd_ref)', 'max')
-      .where('sjd_ref_ano = :year', { year })
-      .getRawOne();
-    return registry?.max ? ++registry.max : 1;
-  }
 
   async findAll(cdopm = null): Promise<Recurso[]> {
     const query = cdopm
@@ -35,7 +24,6 @@ export class recursoService {
 
     return await this.repository.find({
       where: { ...query },
-      order: { sjd_ref: 'DESC' },
     });
   }
 
@@ -54,7 +42,6 @@ export class recursoService {
     return await this.repository.find({
       where: { ...query },
       withDeleted: true,
-      order: { sjd_ref: 'DESC' },
     });
   }
 
@@ -79,7 +66,6 @@ export class recursoService {
 
     return await this.repository.find({
       where: { ...query },
-      order: { sjd_ref: 'DESC' },
     });
   }
 
@@ -87,31 +73,31 @@ export class recursoService {
     if (cdopm) {
       return await this.connection.query(
         `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT recursos.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM recursos
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        recursos.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        recursos.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
-      WHERE sindicancias.cdopm like "$1%"
-      ORDER BY sindicancias.id DESC
+        envolvidos.id_sindicancia=recursos.id
+      WHERE recursos.cdopm like "$1%"
+      ORDER BY recursos.id DESC
       `,
         [cdopm],
       );
     }
 
     return await this.connection.query(`
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT recursos.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM recursos
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        recursos.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        recursos.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
-      ORDER BY sindicancias.id DESC
+        envolvidos.id_sindicancia=recursos.id
+      ORDER BY recursos.id DESC
       `);
   }
 
@@ -126,19 +112,19 @@ export class recursoService {
     if (cdopm) {
       return await this.connection.query(
         `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT recursos.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM recursos
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        recursos.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        recursos.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia=recursos.id
       WHERE 
-        sindicancias.cdopm like "$1%"
+        recursos.cdopm like "$1%"
       AND
-        sindicancias.sjd_ref_ano = "$2%"
-      ORDER BY sindicancias.id DESC
+        recursos.sjd_ref_ano = "$2%"
+      ORDER BY recursos.id DESC
       `,
         [cdopm, year],
       );
@@ -146,39 +132,45 @@ export class recursoService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT recursos.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM recursos
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        recursos.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        recursos.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia=recursos.id
       WHERE
-        sindicancias.sjd_ref_ano = "$1%"
-      ORDER BY sindicancias.id DESC
+        recursos.sjd_ref_ano = "$1%"
+      ORDER BY recursos.id DESC
       `,
       [year],
     );
   }
 
-  async resultado({ situation, cdopm }: { situation: string; cdopm: string }) {
+  async resultado({
+    situation,
+    cdopm,
+  }: {
+    situation?: string;
+    cdopm?: string;
+  }) {
     situation ?? 'Sindicado';
 
     if (cdopm) {
       return await this.connection.query(
         `
-        SELECT sindicancias.*, andamentos.*, envolvidos.*
-        FROM sindicancias
+        SELECT recursos.*, andamentos.*, envolvidos.*
+        FROM recursos
         LEFT JOIN andamentos ON
-          sindicancias.id_andamento = andamentos.id
+          recursos.id_andamento = andamentos.id
         INNER JOIN envolvidos ON
-          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=recursos.id
         WHERE 
           envolvidos.situacao= $1
         AND
-          sindicancias.cdopm LIKE "$2%"
-        ORDER BY sindicancias.id DESC
+          recursos.cdopm LIKE "$2%"
+        ORDER BY recursos.id DESC
         `,
         [situation, cdopm],
       );
@@ -186,14 +178,14 @@ export class recursoService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.*
-      FROM sindicancias
+      SELECT recursos.*, andamentos.*, envolvidos.*
+      FROM recursos
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        recursos.id_andamento = andamentos.id
       INNER JOIN envolvidos ON
-        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=recursos.id
       WHERE  envolvidos.situacao= $1
-      ORDER BY sindicancias.id DESC
+      ORDER BY recursos.id DESC
       `,
       [situation],
     );
@@ -214,19 +206,19 @@ export class recursoService {
     if (cdopm) {
       return await this.connection.query(
         `
-        SELECT sindicancias.*, andamentos.*, envolvidos.*
-        FROM sindicancias
+        SELECT recursos.*, andamentos.*, envolvidos.*
+        FROM recursos
         LEFT JOIN andamentos ON
-          sindicancias.id_andamento = andamentos.id
+          recursos.id_andamento = andamentos.id
         INNER JOIN envolvidos ON
-          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=recursos.id
         WHERE 
           envolvidos.situacao= $1
         AND
-          sindicancias.cdopm LIKE "$2%"
+          recursos.cdopm LIKE "$2%"
         AND
-          sindicancias.sjd_ref_ano = $3
-        ORDER BY sindicancias.id DESC
+          recursos.sjd_ref_ano = $3
+        ORDER BY recursos.id DESC
         `,
         [situation, cdopm, year],
       );
@@ -234,31 +226,29 @@ export class recursoService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.*
-      FROM sindicancias
+      SELECT recursos.*, andamentos.*, envolvidos.*
+      FROM recursos
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        recursos.id_andamento = andamentos.id
       INNER JOIN envolvidos ON
-        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=recursos.id
       WHERE 
         envolvidos.situacao= $1
       AND
-        sindicancias.sjd_ref_ano = $2
-      ORDER BY sindicancias.id DESC
+        recursos.sjd_ref_ano = $2
+      ORDER BY recursos.id DESC
       `,
       [situation, year],
     );
   }
 
-  async findPortaria(params: SearchPortariaDto): Promise<any> {
-    const { cdopm, portaria_numero } = params;
-    return await this.repository.findOne({ cdopm, portaria_numero });
-  }
+  // async findPortaria(params: SearchPortariaDto): Promise<any> {
+  //   const { cdopm, portaria_numero } = params;
+  //   return await this.repository.findOne({ cdopm, portaria_numero });
+  // }
 
   async create(data: CreateRecursoDto): Promise<Recurso> {
     const registry = this.repository.create(data);
-    registry.sjd_ref_ano = this.getNextRefYear(data);
-    registry.sjd_ref = await this.getNextRef(data);
     return await this.repository.save(registry);
   }
 
