@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.61.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.60.0...v0.61.0) (2021-03-03)
+
+
+### Features
+
+* add pj module ([4097d05](https://github.com/EmersonBraun/siscoger-backend-v2/commit/4097d05fd6c93a86552ce05f154a586dbfd827cd))
+
 ## [0.60.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.59.0...v0.60.0) (2021-03-03)
 
 
