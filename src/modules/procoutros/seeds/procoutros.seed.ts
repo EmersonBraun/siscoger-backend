@@ -1,8 +1,8 @@
-// import { procoutros } from '../entity/procoutros.entity';
 import { Factory, Seeder } from 'typeorm-seeding';
+import ProcOutros from '../entity/procoutros.entity';
 
-export default class Createprocoutross implements Seeder {
+export default class CreateProcOutross implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    //     await factory(procoutros)().createMany(10)
+    await factory(ProcOutros)().createMany(10);
   }
 }

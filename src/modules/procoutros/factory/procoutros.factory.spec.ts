@@ -1,17 +1,11 @@
-// // import { Test, TestingModule } from '@nestjs/testing';
-// import { CreateprocoutrosDto } from '../dtos';
-// import { fakerRegistry } from './procoutros.factory'
+// import { Test, TestingModule } from '@nestjs/testing';
+import { CreateProcOutrosDto } from '../dtos';
+import { fakerRegistry } from './procoutros.factory';
 
-describe('Test Latter', () => {
-  it('-', () => {
-    const a = 1;
-    expect(a).toBe(1);
+describe('ProcOutrosFactory', () => {
+  it('should create a factory and return it', async () => {
+    const ProcOutros: CreateProcOutrosDto = fakerRegistry();
+
+    expect(ProcOutros).toBe(ProcOutros);
   });
 });
-// describe('procoutrosFactory', () => {
-//   it('should create a factory and return it', async () => {
-//     const procoutros: CreateprocoutrosDto = fakerRegistry();
-
-//     expect(procoutros).toBe(procoutros)
-//   });
-// });
