@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.58.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.57.0...v0.58.0) (2021-03-03)
+
+
+### Features
+
+* add sai module ([019dc21](https://github.com/EmersonBraun/siscoger-backend-v2/commit/019dc214f0f1784a545e11a3e54b075c6b21baf7))
+
 ## [0.57.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.56.0...v0.57.0) (2021-03-03)
 
 
