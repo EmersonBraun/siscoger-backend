@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import * as Faker from 'faker';
 import { define } from 'typeorm-seeding';
 import { CreatePresoDto } from '../dtos/create.dto';
@@ -29,6 +30,11 @@ export const fakerRegistry = (): CreatePresoDto => {
     obs_txt: faker.lorem.word(50),
   };
 };
-define(Preso, (faker: typeof Faker) => {
-  return (fakerRegistry() as unknown) as Preso;
+define(Preso, () => {
+  const factory = new Preso();
+
+  Object.entries(fakerRegistry()).forEach(
+    ([key, value]) => (factory[key] = value) as Preso,
+  );
+  return factory;
 });

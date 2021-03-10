@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 @Entity('pads')
-export default class pad {
+export default class Pad {
   @PrimaryGeneratedColumn() id: number;
   @Column({ nullable: true }) id_andamento: number;
   @Column({ nullable: true }) id_andamentocoger: number;

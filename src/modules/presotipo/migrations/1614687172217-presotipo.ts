@@ -13,7 +13,7 @@ export class presotipo1614687172217 implements MigrationInterface {
             isGenerated: true,
             generationStrategy: 'increment',
           },
-          { name: 'posto', type: 'varchar', isNullable: true },
+          { name: 'presotipo', type: 'varchar', isNullable: true },
           { name: 'created_at', type: 'timestamp', default: 'now()' },
           { name: 'updated_at', type: 'timestamp', isNullable: true },
           {

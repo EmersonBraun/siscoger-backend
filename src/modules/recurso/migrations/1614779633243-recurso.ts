@@ -4,7 +4,7 @@ export class recurso1614779633243 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'pads',
+        name: 'recursos',
         columns: [
           {
             name: 'id',
@@ -32,7 +32,7 @@ export class recurso1614779633243 implements MigrationInterface {
           },
           {
             name: 'datahora',
-            type: 'datetime',
+            type: 'timestamp',
             default: null,
             isNullable: true,
           },
@@ -57,6 +57,6 @@ export class recurso1614779633243 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('pads');
+    await queryRunner.dropTable('recursos');
   }
 }

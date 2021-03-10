@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('saidiligenciass')
+@Entity('saidiligencias')
 export default class SaiDiligencias {
   @PrimaryGeneratedColumn() id: number;
   @Column({ nullable: true }) sai: number;

@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('Fatds')
+@Entity('fatds')
 export default class Fatd {
   @PrimaryGeneratedColumn() id: number;
   @Column({ nullable: true }) id_andamento: number;

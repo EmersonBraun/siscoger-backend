@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import * as Faker from 'faker';
 import { define } from 'typeorm-seeding';
 import { CreateRestricaoDto } from '../dtos/create.dto';
@@ -24,5 +25,10 @@ export const fakerRegistry = (): CreateRestricaoDto => {
 };
 
 define(Restricao, () => {
-  return (fakerRegistry as unknown) as Restricao;
+  const factory = new Restricao();
+
+  Object.entries(fakerRegistry()).forEach(
+    ([key, value]) => (factory[key] = value) as Restricao,
+  );
+  return factory;
 });

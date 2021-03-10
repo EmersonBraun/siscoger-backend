@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import * as Faker from 'faker';
 import { define } from 'typeorm-seeding';
 import { CreateProcOutrosDto } from '../dtos/create.dto';
@@ -43,6 +44,11 @@ export const fakerRegistry = (): CreateProcOutrosDto => {
   };
 };
 
-define(ProcOutros, (faker: typeof Faker) => {
-  return (fakerRegistry() as unknown) as ProcOutros;
+define(ProcOutros, () => {
+  const factory = new ProcOutros();
+
+  Object.entries(fakerRegistry()).forEach(
+    ([key, value]) => (factory[key] = value) as ProcOutros,
+  );
+  return factory;
 });

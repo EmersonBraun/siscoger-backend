@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('procoutross')
+@Entity('procoutros')
 export default class ProcOutros {
   @PrimaryGeneratedColumn() id: number;
   @Column({ nullable: true }) sjd_ref: number;

@@ -29,7 +29,7 @@ import Adl from '../entity/adl.entity';
 import { AdlService } from '../service/adl.service';
 
 @ApiTags('Adl')
-@Controller('adls')
+@Controller('adl')
 export default class AdlController {
   constructor(private service: AdlService) {}
 
