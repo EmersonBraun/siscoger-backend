@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.64.3](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.64.2...v0.64.3) (2021-03-10)
+
+
+### Bug Fixes
+
+* solve adl columns and routes ([6c12f3c](https://github.com/EmersonBraun/siscoger-backend-v2/commit/6c12f3c4e73722cd5f4e081e85ff11893247adfd))
+
 ### [0.64.2](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.64.1...v0.64.2) (2021-03-03)
 
 
