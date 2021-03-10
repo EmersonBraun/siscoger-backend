@@ -38,7 +38,6 @@ export class AdlService {
       : {
           completo: true,
         };
-
     return await this.repository.find({
       where: { ...query },
       order: { sjd_ref: 'DESC' },
@@ -56,7 +55,6 @@ export class AdlService {
           completo: true,
           deletedAt: Not(IsNull()),
         };
-
     return await this.repository.find({
       where: { ...query },
       withDeleted: true,
@@ -93,31 +91,31 @@ export class AdlService {
     if (cdopm) {
       return await this.connection.query(
         `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT adls.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM adls
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        adls.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        adls.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
-      WHERE sindicancias.cdopm like "$1%"
-      ORDER BY sindicancias.id DESC
+        envolvidos.id_sindicancia=adls.id
+      WHERE adls.cdopm like "$1%"
+      ORDER BY adls.id DESC
       `,
         [cdopm],
       );
     }
 
     return await this.connection.query(`
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT adls.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM adls
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        adls.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        adls.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
-      ORDER BY sindicancias.id DESC
+        envolvidos.id_sindicancia=adls.id
+      ORDER BY adls.id DESC
       `);
   }
 
@@ -132,19 +130,19 @@ export class AdlService {
     if (cdopm) {
       return await this.connection.query(
         `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT adls.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM adls
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        adls.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        adls.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia=adls.id
       WHERE 
-        sindicancias.cdopm like "$1%"
+        adls.cdopm like "$1%"
       AND
-        sindicancias.sjd_ref_ano = "$2%"
-      ORDER BY sindicancias.id DESC
+        adls.sjd_ref_ano = "$2%"
+      ORDER BY adls.id DESC
       `,
         [cdopm, year],
       );
@@ -152,39 +150,45 @@ export class AdlService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT adls.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM adls
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        adls.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        adls.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia=adls.id
       WHERE
-        sindicancias.sjd_ref_ano = "$1%"
-      ORDER BY sindicancias.id DESC
+        adls.sjd_ref_ano = "$1%"
+      ORDER BY adls.id DESC
       `,
       [year],
     );
   }
 
-  async resultado({ situation, cdopm }: { situation: string; cdopm: string }) {
+  async resultado({
+    situation,
+    cdopm,
+  }: {
+    situation?: string;
+    cdopm?: string;
+  }) {
     situation ?? 'Sindicado';
 
     if (cdopm) {
       return await this.connection.query(
         `
-        SELECT sindicancias.*, andamentos.*, envolvidos.*
-        FROM sindicancias
+        SELECT adls.*, andamentos.*, envolvidos.*
+        FROM adls
         LEFT JOIN andamentos ON
-          sindicancias.id_andamento = andamentos.id
+          adls.id_andamento = andamentos.id
         INNER JOIN envolvidos ON
-          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=adls.id
         WHERE 
           envolvidos.situacao= $1
         AND
-          sindicancias.cdopm LIKE "$2%"
-        ORDER BY sindicancias.id DESC
+          adls.cdopm LIKE "$2%"
+        ORDER BY adls.id DESC
         `,
         [situation, cdopm],
       );
@@ -192,14 +196,14 @@ export class AdlService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.*
-      FROM sindicancias
+      SELECT adls.*, andamentos.*, envolvidos.*
+      FROM adls
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        adls.id_andamento = andamentos.id
       INNER JOIN envolvidos ON
-        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=adls.id
       WHERE  envolvidos.situacao= $1
-      ORDER BY sindicancias.id DESC
+      ORDER BY adls.id DESC
       `,
       [situation],
     );
@@ -220,19 +224,19 @@ export class AdlService {
     if (cdopm) {
       return await this.connection.query(
         `
-        SELECT sindicancias.*, andamentos.*, envolvidos.*
-        FROM sindicancias
+        SELECT adls.*, andamentos.*, envolvidos.*
+        FROM adls
         LEFT JOIN andamentos ON
-          sindicancias.id_andamento = andamentos.id
+          adls.id_andamento = andamentos.id
         INNER JOIN envolvidos ON
-          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=adls.id
         WHERE 
           envolvidos.situacao= $1
         AND
-          sindicancias.cdopm LIKE "$2%"
+          adls.cdopm LIKE "$2%"
         AND
-          sindicancias.sjd_ref_ano = $3
-        ORDER BY sindicancias.id DESC
+          adls.sjd_ref_ano = $3
+        ORDER BY adls.id DESC
         `,
         [situation, cdopm, year],
       );
@@ -240,17 +244,17 @@ export class AdlService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.*
-      FROM sindicancias
+      SELECT adls.*, andamentos.*, envolvidos.*
+      FROM adls
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        adls.id_andamento = andamentos.id
       INNER JOIN envolvidos ON
-        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=adls.id
       WHERE 
         envolvidos.situacao= $1
       AND
-        sindicancias.sjd_ref_ano = $2
-      ORDER BY sindicancias.id DESC
+        adls.sjd_ref_ano = $2
+      ORDER BY adls.id DESC
       `,
       [situation, year],
     );

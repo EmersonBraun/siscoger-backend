@@ -8,7 +8,7 @@ define(Adl, (faker: typeof Faker) => {
   factory.id_andamento = faker.random.number(999);
   factory.id_andamentocoger = faker.random.number(999);
   factory.id_motivoconselho = faker.random.number(999);
-  factory.id_decorrenciaconselho = faker.random.boolean();
+  factory.id_decorrenciaconselho = faker.random.number(999);
   factory.id_situacaoconselho = faker.random.number(999);
   factory.outromotivo = faker.name.findName();
   factory.cdopm = faker.name.findName();
@@ -36,7 +36,7 @@ define(Adl, (faker: typeof Faker) => {
   factory.ac_honra_bl = faker.name.findName();
   factory.tjpr_file = faker.name.findName();
   factory.stj_file = faker.name.findName();
-  factory.prioridade = faker.random.number(999);
+  factory.prioridade = faker.random.boolean();
   return factory;
 });
 
@@ -46,7 +46,7 @@ export default function fakerRegistry(): CreateAdlDto {
     id_andamento: faker.random.number(999),
     id_andamentocoger: faker.random.number(999),
     id_motivoconselho: faker.random.number(999),
-    id_decorrenciaconselho: faker.random.boolean(),
+    id_decorrenciaconselho: faker.random.number(999),
     id_situacaoconselho: faker.random.number(999),
     outromotivo: faker.name.findName(),
     cdopm: faker.name.findName(),
@@ -74,6 +74,6 @@ export default function fakerRegistry(): CreateAdlDto {
     ac_honra_bl: faker.name.findName(),
     tjpr_file: faker.name.findName(),
     stj_file: faker.name.findName(),
-    prioridade: faker.random.number(999),
+    prioridade: faker.random.boolean(),
   };
 }

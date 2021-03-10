@@ -43,6 +43,42 @@ export default class AdlController {
     return await this.service.findAll();
   }
 
+  @Get('/andamento')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all andamento Adl' })
+  @ApiOkResponse({
+    type: [CreateAdlDto],
+    description: 'The found andamento Adl',
+  })
+  async findAndamento(): Promise<Adl[]> {
+    return await this.service.findAndamento();
+  }
+
+  @Get('/resultado')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all resultado Adl' })
+  @ApiOkResponse({
+    type: [CreateAdlDto],
+    description: 'The found resultado Adl',
+  })
+  async resultado(): Promise<Adl[]> {
+    return await this.service.resultado({});
+  }
+
+  @Get('/deleted')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all deleted Adl' })
+  @ApiOkResponse({ type: [CreateAdlDto], description: 'The found deleted Adl' })
+  async listDeleted(): Promise<Adl[]> {
+    return await this.service.listDeleted();
+  }
+
   @Post()
   @HttpCode(201)
   @UseGuards(JwtAuthGuard, ACLGuard)

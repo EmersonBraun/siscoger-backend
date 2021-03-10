@@ -13,7 +13,7 @@ export default class Adl {
   @Column({ nullable: true }) id_andamento: number;
   @Column({ nullable: true }) id_andamentocoger: number;
   @Column({ nullable: true }) id_motivoconselho: number;
-  @Column({ nullable: true }) id_decorrenciaconselho: boolean;
+  @Column({ nullable: true }) id_decorrenciaconselho: number;
   @Column({ nullable: true }) id_situacaoconselho: number;
   @Column({ nullable: true }) outromotivo: string;
   @Column({ nullable: true }) cdopm: string;
@@ -41,8 +41,11 @@ export default class Adl {
   @Column({ nullable: true }) ac_honra_bl: string;
   @Column({ nullable: true }) tjpr_file: string;
   @Column({ nullable: true }) stj_file: string;
-  @Column({ nullable: true }) prioridade: number;
+  @Column({ nullable: true }) prioridade: boolean;
   @Column({ nullable: true }) completo: boolean;
+  @Column({ nullable: true }) diasuteis_sobrestado: number;
+  @Column({ nullable: true }) motivo_sobrestado: string;
+  @Column({ nullable: true }) prazo_decorrido: number;
   @CreateDateColumn({ name: 'created_at' }) createdAt: Date;
   @UpdateDateColumn({ name: 'updated_at' }) updatedAt: Date;
   @DeleteDateColumn({ name: 'deleted_at' }) deletedAt: Date;

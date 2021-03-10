@@ -18,9 +18,9 @@ export class UpdateAdlDto {
   id_motivoconselho: number;
 
   @IsOptional()
-  @IsBoolean()
+  @IsNumber()
   @ApiProperty()
-  id_decorrenciaconselho: boolean;
+  id_decorrenciaconselho: number;
 
   @IsOptional()
   @IsNumber()
@@ -154,7 +154,12 @@ export class UpdateAdlDto {
   stj_file: string;
 
   @IsOptional()
-  @IsNumber()
+  @IsBoolean()
   @ApiProperty()
-  prioridade: number;
+  completo?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  @ApiProperty()
+  prioridade: boolean;
 }
