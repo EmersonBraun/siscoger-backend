@@ -30,18 +30,60 @@ import Apfd from '../entity/apfd.entity';
 import { ApfdService } from '../service/apfd.service';
 
 @ApiTags('Apfd')
-@Controller('apfds')
+@Controller('apfd')
 export class ApfdController {
   constructor(private service: ApfdService) {}
 
   @Get()
   @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
-  @ACLPolice({ roles: ['admin'], permissions: ['criar-apfd'] })
-  @ApiOperation({ summary: 'Search all Apfd' })
-  @ApiOkResponse({ type: [CreateApfdDto], description: 'The found Apfd' })
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all CD' })
+  @ApiOkResponse({
+    type: [CreateApfdDto],
+    description: 'The found CD',
+  })
   async findAll(): Promise<Apfd[]> {
     return await this.service.findAll();
+  }
+
+  @Get('/andamento')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all andamento CD' })
+  @ApiOkResponse({
+    type: [CreateApfdDto],
+    description: 'The found andamento CD',
+  })
+  async findAndamento(): Promise<Apfd[]> {
+    return await this.service.findAndamento();
+  }
+
+  @Get('/resultado')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all resultado Apfd' })
+  @ApiOkResponse({
+    type: [CreateApfdDto],
+    description: 'The found resultado Apfd',
+  })
+  async resultado(): Promise<Apfd[]> {
+    return await this.service.resultado({});
+  }
+
+  @Get('/deleted')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all deleted Apfd' })
+  @ApiOkResponse({
+    type: [CreateApfdDto],
+    description: 'The found deleted Apfd',
+  })
+  async listDeleted(): Promise<Apfd[]> {
+    return await this.service.listDeleted();
   }
 
   @Post()

@@ -7,7 +7,6 @@ import {
   Param,
   Post,
   Put,
-  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -31,7 +30,7 @@ import Pad from '../entity/pad.entity';
 import { PadService } from '../service/pad.service';
 
 @ApiTags('Pad')
-@Controller('pads')
+@Controller('pad')
 export class PadController {
   constructor(private service: PadService) {}
 
@@ -59,22 +58,6 @@ export class PadController {
   })
   async listDeleted(): Promise<Pad[]> {
     return await this.service.listDeleted();
-  }
-
-  @Get('/andamento')
-  @HttpCode(200)
-  @ApiOperation({ summary: 'Search all Pad' })
-  // @ApiOkResponse({ type: [any], description: 'The found Pad' })
-  async andamento(): Promise<any[]> {
-    return await this.service.findAndamento();
-  }
-
-  @Get('/resultado')
-  @HttpCode(200)
-  @ApiOperation({ summary: 'Search all Pad' })
-  // @ApiOkResponse({ type: [any], description: 'The found Pad' })
-  async resultado(@Query() situation: string): Promise<any[]> {
-    return await this.service.resultado({ situation });
   }
 
   // @Post('portarias')

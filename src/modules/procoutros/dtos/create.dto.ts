@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsDateString,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateProcOutrosDto {
   @IsOptional() @ApiProperty() @IsNumber() id?: number;
@@ -37,4 +43,5 @@ export class CreateProcOutrosDto {
   @IsOptional() @ApiProperty() @IsString() digitador: string;
   @IsOptional() @ApiProperty() @IsString() num_pid: string;
   @IsOptional() @ApiProperty() @IsDateString() limite_data: Date;
+  @IsOptional() @IsBoolean() @ApiProperty() completo?: boolean;
 }

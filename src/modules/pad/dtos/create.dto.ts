@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsDateString,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreatePadDto {
   @IsOptional() @ApiProperty() @IsNumber() id?: number;
@@ -19,4 +25,5 @@ export class CreatePadDto {
   @IsOptional() @ApiProperty() @IsString() relatorio_file: string;
   @IsOptional() @ApiProperty() @IsString() solucao_file: string;
   @IsOptional() @ApiProperty() @IsNumber() prioridade: number;
+  @IsOptional() @IsBoolean() @ApiProperty() completo?: boolean;
 }

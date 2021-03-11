@@ -166,7 +166,13 @@ export class ApfdService {
     );
   }
 
-  async resultado({ situation, cdopm }: { situation: string; cdopm: string }) {
+  async resultado({
+    situation,
+    cdopm,
+  }: {
+    situation?: string;
+    cdopm?: string;
+  }) {
     situation ?? 'Sindicado';
 
     if (cdopm) {

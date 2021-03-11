@@ -7,7 +7,6 @@ import {
   Param,
   Post,
   Put,
-  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -31,7 +30,7 @@ import ProcOutros from '../entity/procoutros.entity';
 import { ProcOutrosService } from '../service/procoutros.service';
 
 @ApiTags('ProcOutros')
-@Controller('procoutross')
+@Controller('procoutros')
 export class ProcOutrosController {
   constructor(private service: ProcOutrosService) {}
 
@@ -39,13 +38,39 @@ export class ProcOutrosController {
   @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
   @ACLPolice({ roles: [], permissions: [] })
-  @ApiOperation({ summary: 'Search all ProcOutros' })
+  @ApiOperation({ summary: 'Search all CD' })
   @ApiOkResponse({
     type: [CreateProcOutrosDto],
-    description: 'The found ProcOutros',
+    description: 'The found CD',
   })
   async findAll(): Promise<ProcOutros[]> {
     return await this.service.findAll();
+  }
+
+  @Get('/andamento')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all andamento CD' })
+  @ApiOkResponse({
+    type: [CreateProcOutrosDto],
+    description: 'The found andamento CD',
+  })
+  async findAndamento(): Promise<ProcOutros[]> {
+    return await this.service.findAndamento();
+  }
+
+  @Get('/resultado')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all resultado ProcOutros' })
+  @ApiOkResponse({
+    type: [CreateProcOutrosDto],
+    description: 'The found resultado ProcOutros',
+  })
+  async resultado(): Promise<ProcOutros[]> {
+    return await this.service.resultado({});
   }
 
   @Get('/deleted')
@@ -59,22 +84,6 @@ export class ProcOutrosController {
   })
   async listDeleted(): Promise<ProcOutros[]> {
     return await this.service.listDeleted();
-  }
-
-  @Get('/andamento')
-  @HttpCode(200)
-  @ApiOperation({ summary: 'Search all ProcOutros' })
-  // @ApiOkResponse({ type: [any], description: 'The found ProcOutros' })
-  async andamento(): Promise<any[]> {
-    return await this.service.findAndamento();
-  }
-
-  @Get('/resultado')
-  @HttpCode(200)
-  @ApiOperation({ summary: 'Search all ProcOutros' })
-  // @ApiOkResponse({ type: [any], description: 'The found ProcOutros' })
-  async resultado(@Query() situation: string): Promise<any[]> {
-    return await this.service.resultado({ situation });
   }
 
   // @Post('portarias')

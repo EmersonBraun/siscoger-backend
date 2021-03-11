@@ -98,31 +98,31 @@ export class DesercaoService {
     if (cdopm) {
       return await this.connection.query(
         `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT desercoes.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM desercoes
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        desercoes.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        desercoes.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
-      WHERE sindicancias.cdopm like "$1%"
-      ORDER BY sindicancias.id DESC
+        envolvidos.id_sindicancia=desercoes.id
+      WHERE desercoes.cdopm like "$1%"
+      ORDER BY desercoes.id DESC
       `,
         [cdopm],
       );
     }
 
     return await this.connection.query(`
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT desercoes.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM desercoes
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        desercoes.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        desercoes.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
-      ORDER BY sindicancias.id DESC
+        envolvidos.id_sindicancia=desercoes.id
+      ORDER BY desercoes.id DESC
       `);
   }
 
@@ -137,19 +137,19 @@ export class DesercaoService {
     if (cdopm) {
       return await this.connection.query(
         `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT desercoes.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM desercoes
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        desercoes.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        desercoes.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia=desercoes.id
       WHERE 
-        sindicancias.cdopm like "$1%"
+        desercoes.cdopm like "$1%"
       AND
-        sindicancias.sjd_ref_ano = "$2%"
-      ORDER BY sindicancias.id DESC
+        desercoes.sjd_ref_ano = "$2%"
+      ORDER BY desercoes.id DESC
       `,
         [cdopm, year],
       );
@@ -157,39 +157,45 @@ export class DesercaoService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
-        FROM sindicancias
+      SELECT desercoes.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+        FROM desercoes
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        desercoes.id_andamento = andamentos.id
       LEFT JOIN andamentoscoger ON
-        sindicancias.id_andamentocoger = andamentoscoger.id
+        desercoes.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
-        envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia=desercoes.id
       WHERE
-        sindicancias.sjd_ref_ano = "$1%"
-      ORDER BY sindicancias.id DESC
+        desercoes.sjd_ref_ano = "$1%"
+      ORDER BY desercoes.id DESC
       `,
       [year],
     );
   }
 
-  async resultado({ situation, cdopm }: { situation: string; cdopm: string }) {
+  async resultado({
+    situation,
+    cdopm,
+  }: {
+    situation?: string;
+    cdopm?: string;
+  }) {
     situation ?? 'Sindicado';
 
     if (cdopm) {
       return await this.connection.query(
         `
-        SELECT sindicancias.*, andamentos.*, envolvidos.*
-        FROM sindicancias
+        SELECT desercoes.*, andamentos.*, envolvidos.*
+        FROM desercoes
         LEFT JOIN andamentos ON
-          sindicancias.id_andamento = andamentos.id
+          desercoes.id_andamento = andamentos.id
         INNER JOIN envolvidos ON
-          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=desercoes.id
         WHERE 
           envolvidos.situacao= $1
         AND
-          sindicancias.cdopm LIKE "$2%"
-        ORDER BY sindicancias.id DESC
+          desercoes.cdopm LIKE "$2%"
+        ORDER BY desercoes.id DESC
         `,
         [situation, cdopm],
       );
@@ -197,14 +203,14 @@ export class DesercaoService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.*
-      FROM sindicancias
+      SELECT desercoes.*, andamentos.*, envolvidos.*
+      FROM desercoes
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        desercoes.id_andamento = andamentos.id
       INNER JOIN envolvidos ON
-        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=desercoes.id
       WHERE  envolvidos.situacao= $1
-      ORDER BY sindicancias.id DESC
+      ORDER BY desercoes.id DESC
       `,
       [situation],
     );
@@ -225,19 +231,19 @@ export class DesercaoService {
     if (cdopm) {
       return await this.connection.query(
         `
-        SELECT sindicancias.*, andamentos.*, envolvidos.*
-        FROM sindicancias
+        SELECT desercoes.*, andamentos.*, envolvidos.*
+        FROM desercoes
         LEFT JOIN andamentos ON
-          sindicancias.id_andamento = andamentos.id
+          desercoes.id_andamento = andamentos.id
         INNER JOIN envolvidos ON
-          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+          envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=desercoes.id
         WHERE 
           envolvidos.situacao= $1
         AND
-          sindicancias.cdopm LIKE "$2%"
+          desercoes.cdopm LIKE "$2%"
         AND
-          sindicancias.sjd_ref_ano = $3
-        ORDER BY sindicancias.id DESC
+          desercoes.sjd_ref_ano = $3
+        ORDER BY desercoes.id DESC
         `,
         [situation, cdopm, year],
       );
@@ -245,17 +251,17 @@ export class DesercaoService {
 
     return await this.connection.query(
       `
-      SELECT sindicancias.*, andamentos.*, envolvidos.*
-      FROM sindicancias
+      SELECT desercoes.*, andamentos.*, envolvidos.*
+      FROM desercoes
       LEFT JOIN andamentos ON
-        sindicancias.id_andamento = andamentos.id
+        desercoes.id_andamento = andamentos.id
       INNER JOIN envolvidos ON
-        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=sindicancias.id
+        envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=desercoes.id
       WHERE 
         envolvidos.situacao= $1
       AND
-        sindicancias.sjd_ref_ano = $2
-      ORDER BY sindicancias.id DESC
+        desercoes.sjd_ref_ano = $2
+      ORDER BY desercoes.id DESC
       `,
       [situation, year],
     );

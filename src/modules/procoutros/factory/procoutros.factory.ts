@@ -41,6 +41,7 @@ export const fakerRegistry = (): CreateProcOutrosDto => {
     digitador: faker.name.findName(),
     num_pid: faker.name.findName(),
     limite_data: faker.date.future(1),
+    completo: true,
   };
 };
 

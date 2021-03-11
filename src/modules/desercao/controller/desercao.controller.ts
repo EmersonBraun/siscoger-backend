@@ -29,19 +29,60 @@ import Desercao from '../entity/desercao.entity';
 import { DesercaoService } from '../service/desercao.service';
 
 @ApiTags('Desercao')
-@Controller('Desercaos')
+@Controller('desercoes')
 export class DesercaoController {
   constructor(private service: DesercaoService) {}
 
   @Get()
   @HttpCode(200)
-  @ApiOperation({ summary: 'Search all Desercao' })
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all CD' })
   @ApiOkResponse({
     type: [CreateDesercaoDto],
-    description: 'The found Desercao',
+    description: 'The found CD',
   })
   async findAll(): Promise<Desercao[]> {
     return await this.service.findAll();
+  }
+
+  @Get('/andamento')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all andamento CD' })
+  @ApiOkResponse({
+    type: [CreateDesercaoDto],
+    description: 'The found andamento CD',
+  })
+  async findAndamento(): Promise<Desercao[]> {
+    return await this.service.findAndamento();
+  }
+
+  @Get('/resultado')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all resultado Desercao' })
+  @ApiOkResponse({
+    type: [CreateDesercaoDto],
+    description: 'The found resultado Desercao',
+  })
+  async resultado(): Promise<Desercao[]> {
+    return await this.service.resultado({});
+  }
+
+  @Get('/deleted')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all deleted Desercao' })
+  @ApiOkResponse({
+    type: [CreateDesercaoDto],
+    description: 'The found deleted Desercao',
+  })
+  async listDeleted(): Promise<Desercao[]> {
+    return await this.service.listDeleted();
   }
 
   @Post('search')

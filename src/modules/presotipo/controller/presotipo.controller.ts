@@ -24,7 +24,7 @@ import PresoTipo from '../entity/presotipo.entity';
 import { PresoTipoService } from '../service/presotipo.service';
 
 @ApiTags('PresoTipo')
-@Controller('PresoTipos')
+@Controller('presotipos')
 export class PresoTipoController {
   constructor(private service: PresoTipoService) {}
 

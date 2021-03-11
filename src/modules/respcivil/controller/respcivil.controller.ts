@@ -24,7 +24,7 @@ import RespCivil from '../entity/respcivil.entity';
 import { RespCivilService } from '../service/respcivil.service';
 
 @ApiTags('RespCivil')
-@Controller('RespCivils')
+@Controller('respcivis')
 export class RespCivilController {
   constructor(private service: RespCivilService) {}
 

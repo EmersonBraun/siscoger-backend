@@ -90,12 +90,8 @@ export class ProcOutrosService {
     if (cdopm) {
       return await this.connection.query(
         `
-      SELECT procoutros.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+      SELECT procoutros.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo
         FROM procoutros
-      LEFT JOIN andamentos ON
-        procoutros.id_andamento = andamentos.id
-      LEFT JOIN andamentoscoger ON
-        procoutros.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
         envolvidos.id_sindicancia=procoutros.id
       WHERE procoutros.cdopm like "$1%"
@@ -106,12 +102,8 @@ export class ProcOutrosService {
     }
 
     return await this.connection.query(`
-      SELECT procoutros.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+      SELECT procoutros.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo
         FROM procoutros
-      LEFT JOIN andamentos ON
-        procoutros.id_andamento = andamentos.id
-      LEFT JOIN andamentoscoger ON
-        procoutros.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
         envolvidos.id_sindicancia=procoutros.id
       ORDER BY procoutros.id DESC
@@ -129,12 +121,8 @@ export class ProcOutrosService {
     if (cdopm) {
       return await this.connection.query(
         `
-      SELECT procoutros.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+      SELECT procoutros.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo
         FROM procoutros
-      LEFT JOIN andamentos ON
-        procoutros.id_andamento = andamentos.id
-      LEFT JOIN andamentoscoger ON
-        procoutros.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
         envolvidos.id_sindicancia=procoutros.id
       WHERE 
@@ -149,12 +137,8 @@ export class ProcOutrosService {
 
     return await this.connection.query(
       `
-      SELECT procoutros.*, andamentos.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo, andamentoscoger.andamentocoger
+      SELECT procoutros.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo
         FROM procoutros
-      LEFT JOIN andamentos ON
-        procoutros.id_andamento = andamentos.id
-      LEFT JOIN andamentoscoger ON
-        procoutros.id_andamentocoger = andamentoscoger.id
       LEFT JOIN envolvidos ON
         envolvidos.id_sindicancia=procoutros.id
       WHERE
@@ -177,10 +161,8 @@ export class ProcOutrosService {
     if (cdopm) {
       return await this.connection.query(
         `
-        SELECT procoutros.*, andamentos.*, envolvidos.*
-        FROM procoutros
-        LEFT JOIN andamentos ON
-          procoutros.id_andamento = andamentos.id
+        SELECT procoutros.*, envolvidos.*
+          FROM procoutros
         INNER JOIN envolvidos ON
           envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=procoutros.id
         WHERE 
@@ -195,10 +177,8 @@ export class ProcOutrosService {
 
     return await this.connection.query(
       `
-      SELECT procoutros.*, andamentos.*, envolvidos.*
-      FROM procoutros
-      LEFT JOIN andamentos ON
-        procoutros.id_andamento = andamentos.id
+      SELECT procoutros.*, envolvidos.*
+        FROM procoutros
       INNER JOIN envolvidos ON
         envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=procoutros.id
       WHERE  envolvidos.situacao= $1
@@ -223,10 +203,8 @@ export class ProcOutrosService {
     if (cdopm) {
       return await this.connection.query(
         `
-        SELECT procoutros.*, andamentos.*, envolvidos.*
-        FROM procoutros
-        LEFT JOIN andamentos ON
-          procoutros.id_andamento = andamentos.id
+        SELECT procoutros.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo
+          FROM procoutros
         INNER JOIN envolvidos ON
           envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=procoutros.id
         WHERE 
@@ -243,10 +221,8 @@ export class ProcOutrosService {
 
     return await this.connection.query(
       `
-      SELECT procoutros.*, andamentos.*, envolvidos.*
-      FROM procoutros
-      LEFT JOIN andamentos ON
-        procoutros.id_andamento = andamentos.id
+      SELECT procoutros.*, envolvidos.nome, envolvidos.rg, envolvidos.cargo
+        FROM procoutros
       INNER JOIN envolvidos ON
         envolvidos.id_sindicancia!=0 AND envolvidos.id_sindicancia=procoutros.id
       WHERE 

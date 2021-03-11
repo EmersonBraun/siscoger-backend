@@ -23,6 +23,7 @@ export const fakerRegistry = (): CreatePadDto => {
     relatorio_file: faker.name.findName(),
     solucao_file: faker.name.findName(),
     prioridade: faker.random.number(),
+    completo: true,
   };
 };
 

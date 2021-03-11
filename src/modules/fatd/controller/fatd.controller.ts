@@ -7,7 +7,6 @@ import {
   Param,
   Post,
   Put,
-  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -31,7 +30,7 @@ import Fatd from '../entity/fatd.entity';
 import { FatdService } from '../service/fatd.service';
 
 @ApiTags('Fatd')
-@Controller('fatds')
+@Controller('fatd')
 export class FatdController {
   constructor(private service: FatdService) {}
 
@@ -39,13 +38,39 @@ export class FatdController {
   @HttpCode(200)
   @UseGuards(JwtAuthGuard, ACLGuard)
   @ACLPolice({ roles: [], permissions: [] })
-  @ApiOperation({ summary: 'Search all Fatd' })
+  @ApiOperation({ summary: 'Search all CD' })
   @ApiOkResponse({
     type: [CreateFatdDto],
-    description: 'The found Fatd',
+    description: 'The found CD',
   })
   async findAll(): Promise<Fatd[]> {
     return await this.service.findAll();
+  }
+
+  @Get('/andamento')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all andamento CD' })
+  @ApiOkResponse({
+    type: [CreateFatdDto],
+    description: 'The found andamento CD',
+  })
+  async findAndamento(): Promise<Fatd[]> {
+    return await this.service.findAndamento();
+  }
+
+  @Get('/resultado')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all resultado Fatd' })
+  @ApiOkResponse({
+    type: [CreateFatdDto],
+    description: 'The found resultado Fatd',
+  })
+  async resultado(): Promise<Fatd[]> {
+    return await this.service.resultado({});
   }
 
   @Get('/deleted')
@@ -59,22 +84,6 @@ export class FatdController {
   })
   async listDeleted(): Promise<Fatd[]> {
     return await this.service.listDeleted();
-  }
-
-  @Get('/andamento')
-  @HttpCode(200)
-  @ApiOperation({ summary: 'Search all Fatd' })
-  // @ApiOkResponse({ type: [any], description: 'The found Fatd' })
-  async andamento(): Promise<any[]> {
-    return await this.service.findAndamento();
-  }
-
-  @Get('/resultado')
-  @HttpCode(200)
-  @ApiOperation({ summary: 'Search all Fatd' })
-  // @ApiOkResponse({ type: [any], description: 'The found Fatd' })
-  async resultado(@Query() situation: string): Promise<any[]> {
-    return await this.service.resultado({ situation });
   }
 
   // @Post('portarias')
