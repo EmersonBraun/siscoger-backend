@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsDateString,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class SearchPortariaDto {
   @IsOptional() @ApiProperty() @IsNumber() id?: number;
@@ -31,4 +37,5 @@ export class SearchPortariaDto {
   @IsOptional() @ApiProperty() @IsString() situacao_fatd: string;
   @IsOptional() @ApiProperty() @IsString() motivo_fatd: string;
   @IsOptional() @ApiProperty() @IsString() motivo_outros: string;
+  @IsOptional() @IsBoolean() @ApiProperty() completo?: boolean;
 }

@@ -8,7 +8,7 @@ import {
   Processor,
 } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
-import { DoneCallback, Job } from 'bull';
+import { Job } from 'bull';
 import { MailService } from './mail.service';
 
 @Processor('mail')
@@ -60,7 +60,7 @@ export class MailProcessor {
   }
 }
 
-export default function (job: Job, cb: DoneCallback) {
-  console.log(`[${process.pid}] ${JSON.stringify(job.data)}`);
-  cb(null, 'It works');
-}
+// export default function (job: Job, cb: DoneCallback) {
+//   console.log(`[${process.pid}] ${JSON.stringify(job.data)}`);
+//   cb(null, 'It works');
+// }

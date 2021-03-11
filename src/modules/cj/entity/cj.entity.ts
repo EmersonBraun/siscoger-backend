@@ -31,7 +31,7 @@ export default class Cj {
   @Column({ nullable: true }) doc_prorrogacao: string;
   @Column({ nullable: true }) numero_tj: string;
   @Column({ nullable: true }) prescricao_data: Date;
-  @Column({ nullable: true }) exclusao_text: string;
+  @Column({ nullable: true }) exclusao_txt: string;
   @Column({ nullable: true }) rec_ato_file: string;
   @Column({ nullable: true }) rec_gov_file: string;
   @Column({ nullable: true }) opm_meta4: string;
@@ -40,8 +40,9 @@ export default class Cj {
   @Column({ nullable: true }) ac_honra_bl: string;
   @Column({ nullable: true }) tjpr_file: string;
   @Column({ nullable: true }) sjd_file: string;
-  @Column({ nullable: true }) sintese_text: string;
-  @Column() prioridade: boolean;
+  @Column({ nullable: true }) sintese_txt: string;
+  @Column({ nullable: true }) prioridade: boolean;
+  @Column({ nullable: true }) completo: boolean;
   @CreateDateColumn({ name: 'created_at' }) createdAt: Date;
   @UpdateDateColumn({ name: 'updated_at' }) updatedAt: Date;
   @DeleteDateColumn({ name: 'deleted_at' }) deletedAt: Date;

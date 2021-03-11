@@ -54,7 +54,7 @@ export class CreateCjDto {
 
   @IsOptional() @IsString() @ApiProperty() prescricao_data: Date;
 
-  @IsOptional() @IsString() @ApiProperty() exclusao_text: string;
+  @IsOptional() @IsString() @ApiProperty() exclusao_txt: string;
 
   @IsOptional() @IsString() @ApiProperty() rec_ato_file: string;
 
@@ -73,6 +73,7 @@ export class CreateCjDto {
   @IsOptional() @IsString() @ApiProperty() sjd_file: string;
 
   @IsOptional() @IsBoolean() @ApiProperty() prioridade?: boolean;
+  @IsOptional() @IsBoolean() @ApiProperty() completo?: boolean;
 
-  @IsString() @IsNotEmpty() @MinLength(100) @ApiProperty() sintese_text: string;
+  @IsString() @IsNotEmpty() @MinLength(100) @ApiProperty() sintese_txt: string;
 }

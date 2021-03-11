@@ -38,6 +38,10 @@ export default class Fatd {
   @Column({ nullable: true }) situacao_fatd: string;
   @Column({ nullable: true }) motivo_fatd: string;
   @Column({ nullable: true }) motivo_outros: string;
+  @Column({ nullable: true }) completo: boolean;
+  @Column({ nullable: true }) diasuteis_sobrestado: number;
+  @Column({ nullable: true }) motivo_sobrestado: string;
+  @Column({ nullable: true }) prazo_decorrido: number;
   @CreateDateColumn({ name: 'created_at' }) createdAt: Date;
   @UpdateDateColumn({ name: 'updated_at' }) updatedAt: Date;
   @DeleteDateColumn({ name: 'deleted_at' }) deletedAt: Date;

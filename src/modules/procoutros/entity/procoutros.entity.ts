@@ -44,6 +44,8 @@ export default class ProcOutros {
   @Column({ nullable: true }) digitador: string;
   @Column({ nullable: true }) num_pid: string;
   @Column({ nullable: true }) limite_data: Date;
+  @Column({ nullable: true }) completo: boolean;
+  @Column({ nullable: true }) prazo_decorrido: number;
   @CreateDateColumn({ name: 'created_at' }) createdAt: Date;
   @UpdateDateColumn({ name: 'updated_at' }) updatedAt: Date;
   @DeleteDateColumn({ name: 'deleted_at' }) deletedAt: Date;

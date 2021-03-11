@@ -47,6 +47,42 @@ export class CdController {
     return await this.service.findAll();
   }
 
+  @Get('/andamento')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all andamento CD' })
+  @ApiOkResponse({
+    type: [CreateCdDto],
+    description: 'The found andamento CD',
+  })
+  async findAndamento(): Promise<Cd[]> {
+    return await this.service.findAndamento();
+  }
+
+  @Get('/julgamento')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all julgamento Cd' })
+  @ApiOkResponse({
+    type: [CreateCdDto],
+    description: 'The found julgamento Cd',
+  })
+  async julgamento(): Promise<Cd[]> {
+    return await this.service.julgamento({});
+  }
+
+  @Get('/deleted')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all deleted Cd' })
+  @ApiOkResponse({ type: [CreateCdDto], description: 'The found deleted Cd' })
+  async listDeleted(): Promise<Cd[]> {
+    return await this.service.listDeleted();
+  }
+
   @Post()
   @HttpCode(201)
   @UseGuards(JwtAuthGuard, ACLGuard)

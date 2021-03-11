@@ -30,6 +30,10 @@ export default class Iso {
   @Column({ nullable: true }) solucaoautoridade_file: string;
   @Column({ nullable: true }) solucaoautoridade_data: Date;
   @Column({ nullable: true }) prioridade: number;
+  @Column({ nullable: true }) completo: boolean;
+  @Column({ nullable: true }) diasuteis_sobrestado: number;
+  @Column({ nullable: true }) motivo_sobrestado: string;
+  @Column({ nullable: true }) prazo_decorrido: number;
   @CreateDateColumn({ name: 'created_at' }) createdAt: Date;
   @UpdateDateColumn({ name: 'updated_at' }) updatedAt: Date;
   @DeleteDateColumn({ name: 'deleted_at' }) deletedAt: Date;

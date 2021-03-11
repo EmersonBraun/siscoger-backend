@@ -31,7 +31,7 @@ export type Cj = {
   ac_honra_bl: string;
   tjpr_file: string;
   sjd_file: string;
-  sintese_text: string;
+  sintese_txt: string;
   prioridade: boolean;
   createdAt: Date;
   updatedAt: Date;

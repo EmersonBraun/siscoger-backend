@@ -30,7 +30,7 @@ export class UpdateCdDto {
 
   @IsOptional() @ApiProperty() abertura_data?: string | Date;
 
-  @IsString() @IsNotEmpty() @MinLength(100) @ApiProperty() sintese_text: string;
+  @IsString() @IsNotEmpty() @MinLength(100) @ApiProperty() sintese_txt: string;
 
   @IsOptional() @IsString() @ApiProperty() libelo_file: string;
 
@@ -56,7 +56,7 @@ export class UpdateCdDto {
 
   @IsOptional() @IsString() @ApiProperty() parecer_cmtgeral: string;
 
-  @IsOptional() @IsString() @ApiProperty() exclusao_text: string;
+  @IsOptional() @IsString() @ApiProperty() exclusao_txt: string;
 
   @IsOptional() @IsString() @ApiProperty() rec_ato_file: string;
 
@@ -73,4 +73,9 @@ export class UpdateCdDto {
   @IsOptional() @IsString() @ApiProperty() sjd_file: string;
 
   @IsOptional() @IsBoolean() @ApiProperty() prioridade?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  @ApiProperty()
+  completo?: boolean;
 }

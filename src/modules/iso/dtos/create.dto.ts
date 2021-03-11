@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsDateString,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateIsoDto {
   @IsOptional() @ApiProperty() @IsNumber() id?: number;
@@ -23,4 +29,5 @@ export class CreateIsoDto {
   @IsOptional() @ApiProperty() @IsString() solucaoautoridade_file: string;
   @IsOptional() @ApiProperty() @IsDateString() solucaoautoridade_data: Date;
   @IsOptional() @ApiProperty() @IsNumber() prioridade: number;
+  @IsOptional() @IsBoolean() @ApiProperty() completo?: boolean;
 }

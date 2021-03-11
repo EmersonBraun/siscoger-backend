@@ -20,7 +20,7 @@ export default class Cd {
   @Column({ nullable: true }) motivo_outros: string;
   @Column({ nullable: true }) fato_data: Date;
   @Column({ nullable: true }) abertura_data: Date;
-  @Column({ nullable: true }) sintese_text: string;
+  @Column({ nullable: true }) sintese_txt: string;
   @Column({ nullable: true }) libelo_file: string;
   @Column({ nullable: true }) doc_tipo: string;
   @Column({ nullable: true }) doc_numero: string;
@@ -31,7 +31,7 @@ export default class Cd {
   @Column({ nullable: true }) doc_prorrogacao: string;
   @Column({ nullable: true }) prescricao_comissao: string;
   @Column({ nullable: true }) parecer_cmtgeral: string;
-  @Column({ nullable: true }) exclusao_text: string;
+  @Column({ nullable: true }) exclusao_txt: string;
   @Column({ nullable: true }) rec_ato_file: string;
   @Column({ nullable: true }) rec_gov_file: string;
   @Column({ nullable: true }) cdopm: string;
@@ -40,6 +40,7 @@ export default class Cd {
   @Column({ nullable: true }) ac_honra_bl: string;
   @Column({ nullable: true }) tjpr_file: string;
   @Column({ nullable: true }) sjd_file: string;
+  @Column({ nullable: true }) completo?: boolean;
   @Column() prioridade: boolean;
   @CreateDateColumn({ name: 'created_at' }) createdAt: Date;
   @UpdateDateColumn({ name: 'updated_at' }) updatedAt: Date;

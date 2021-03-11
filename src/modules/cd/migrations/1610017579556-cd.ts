@@ -218,6 +218,6 @@ export class cd1610017579556 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('sindicancias');
+    await queryRunner.dropTable('cd');
   }
 }

@@ -37,6 +37,6 @@ export class apfd1606828006066 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('apfd');
+    await queryRunner.dropTable('apfds');
   }
 }

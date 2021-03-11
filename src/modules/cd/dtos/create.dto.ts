@@ -54,7 +54,7 @@ export class CreateCdDto {
 
   @IsOptional() @IsString() @ApiProperty() parecer_cmtgeral: string;
 
-  @IsOptional() @IsString() @ApiProperty() exclusao_text: string;
+  @IsOptional() @IsString() @ApiProperty() exclusao_txt: string;
 
   @IsOptional() @IsString() @ApiProperty() rec_ato_file: string;
 
@@ -72,5 +72,10 @@ export class CreateCdDto {
 
   @IsOptional() @IsBoolean() @ApiProperty() prioridade?: boolean;
 
-  @IsString() @IsNotEmpty() @MinLength(100) @ApiProperty() sintese_text: string;
+  @IsString() @IsNotEmpty() @MinLength(100) @ApiProperty() sintese_txt: string;
+
+  @IsOptional()
+  @IsBoolean()
+  @ApiProperty()
+  completo?: boolean;
 }

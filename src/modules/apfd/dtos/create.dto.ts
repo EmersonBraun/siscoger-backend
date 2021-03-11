@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateApfdDto {
   @IsOptional()
@@ -85,4 +85,9 @@ export class CreateApfdDto {
   @IsNumber()
   @ApiProperty()
   prioridade: number;
+
+  @IsOptional()
+  @IsBoolean()
+  @ApiProperty()
+  completo?: boolean;
 }

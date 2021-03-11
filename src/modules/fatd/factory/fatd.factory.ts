@@ -1,40 +1,8 @@
+/* eslint-disable no-return-assign */
 import * as Faker from 'faker';
 import { define } from 'typeorm-seeding';
 import { CreateFatdDto } from '../dtos/create.dto';
 import Fatd from '../entity/fatd.entity';
-
-define(Fatd, (faker: typeof Faker) => {
-  const factory = new Fatd();
-  factory.id_andamento = faker.random.number();
-  factory.id_andamentocoger = faker.random.number();
-  factory.sjd_ref = faker.random.number();
-  factory.sjd_ref_ano = faker.random.number();
-  factory.fato_data = faker.date.future(1);
-  factory.abertura_data = faker.date.future(1);
-  factory.sintese_txt = faker.lorem.word(50);
-  factory.cdopm = faker.name.findName();
-  factory.doc_tipo = faker.name.findName();
-  factory.doc_numero = faker.name.findName();
-  factory.doc_origem_txt = faker.lorem.word(50);
-  factory.despacho_numero = faker.name.findName();
-  factory.portaria_data = faker.date.future(1);
-  factory.fato_file = faker.name.findName();
-  factory.relatorio_file = faker.name.findName();
-  factory.sol_cmt_file = faker.name.findName();
-  factory.sol_cg_file = faker.name.findName();
-  factory.rec_ato_file = faker.name.findName();
-  factory.rec_cmt_file = faker.name.findName();
-  factory.rec_crpm_file = faker.name.findName();
-  factory.rec_cg_file = faker.name.findName();
-  factory.opm_meta4 = faker.name.findName();
-  factory.notapunicao_file = faker.name.findName();
-  factory.publicacaonp = faker.name.findName();
-  factory.prioridade = faker.random.number();
-  factory.situacao_fatd = faker.name.findName();
-  factory.motivo_fatd = faker.name.findName();
-  factory.motivo_outros = faker.name.findName();
-  return factory;
-});
 
 export const fakerRegistry = (): CreateFatdDto => {
   const faker = Faker;
@@ -67,5 +35,15 @@ export const fakerRegistry = (): CreateFatdDto => {
     situacao_fatd: faker.name.findName(),
     motivo_fatd: faker.name.findName(),
     motivo_outros: faker.name.findName(),
+    completo: true,
   };
 };
+
+define(Fatd, () => {
+  const factory = new Fatd();
+
+  Object.entries(fakerRegistry()).forEach(
+    ([key, value]) => (factory[key] = value) as Fatd,
+  );
+  return factory;
+});

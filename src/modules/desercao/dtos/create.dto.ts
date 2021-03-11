@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsDateString,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateDesercaoDto {
   @IsOptional() @ApiProperty() id?: number;
@@ -22,4 +28,5 @@ export class CreateDesercaoDto {
   @IsOptional() @ApiProperty() @IsString() opm_meta4: string;
   @IsOptional() @ApiProperty() @IsString() referenciavajme: string;
   @IsOptional() @ApiProperty() @IsNumber() prioridade: number;
+  @IsOptional() @IsBoolean() @ApiProperty() completo?: boolean;
 }

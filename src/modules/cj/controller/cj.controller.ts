@@ -41,10 +41,46 @@ export class CjController {
   @ApiOperation({ summary: 'Search all CJ' })
   @ApiOkResponse({
     type: [CreateCjDto],
-    description: 'The found CD',
+    description: 'The found CJ',
   })
   async findAll(): Promise<Cj[]> {
     return await this.service.findAll();
+  }
+
+  @Get('/andamento')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all andamento CJ' })
+  @ApiOkResponse({
+    type: [CreateCjDto],
+    description: 'The found andamento CJ',
+  })
+  async findAndamento(): Promise<Cj[]> {
+    return await this.service.findAndamento();
+  }
+
+  @Get('/julgamento')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all julgamento Cj' })
+  @ApiOkResponse({
+    type: [CreateCjDto],
+    description: 'The found julgamento Cj',
+  })
+  async julgamento(): Promise<Cj[]> {
+    return await this.service.julgamento({});
+  }
+
+  @Get('/deleted')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard, ACLGuard)
+  @ACLPolice({ roles: [], permissions: [] })
+  @ApiOperation({ summary: 'Search all deleted Cj' })
+  @ApiOkResponse({ type: [CreateCjDto], description: 'The found deleted Cj' })
+  async listDeleted(): Promise<Cj[]> {
+    return await this.service.listDeleted();
   }
 
   @Post()

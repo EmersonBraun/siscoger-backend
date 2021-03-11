@@ -19,6 +19,7 @@ export default class Recurso {
   @Column({ nullable: true }) sjd_ref_ano: number;
   @Column({ nullable: true }) datahora: Date; // datetime
   @Column({ nullable: true }) id_movimento: number;
+  @Column({ nullable: true }) prazo_decorrido: number;
   @CreateDateColumn({ name: 'created_at' }) createdAt: Date;
   @UpdateDateColumn({ name: 'updated_at' }) updatedAt: Date;
   @DeleteDateColumn({ name: 'deleted_at' }) deletedAt: Date;
