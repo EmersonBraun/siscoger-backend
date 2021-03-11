@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.65.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.64.4...v0.65.0) (2021-03-11)
+
+
+### Features
+
+* add new columns in processos and procedimentos ([1742601](https://github.com/EmersonBraun/siscoger-backend-v2/commit/1742601d0bbe87f471b7e9559ff8c1442f733376))
+
 ### [0.64.4](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.64.3...v0.64.4) (2021-03-10)
 
 
