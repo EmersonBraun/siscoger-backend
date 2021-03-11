@@ -79,7 +79,7 @@ describe('CdController', () => {
   describe('when update a CD', () => {
     it('should update a existing CD and return it', async () => {
       const cdUpdate: UpdateCdDto = mockRegistry;
-      cdUpdate.sintese_text = 'Update CD ';
+      cdUpdate.sintese_txt = 'Update CD ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,

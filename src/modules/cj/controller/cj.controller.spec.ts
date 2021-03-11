@@ -79,7 +79,7 @@ describe('CjController', () => {
   describe('when update a Cj', () => {
     it('should update a existing Cj and return it', async () => {
       const cjUpdate: UpdateCjDto = mockRegistry;
-      cjUpdate.sintese_text = 'Update Cj ';
+      cjUpdate.sintese_txt = 'Update Cj ';
 
       mockService.update.mockReturnValue({
         ...mockRegistry,
