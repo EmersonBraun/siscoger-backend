@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.65.1](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.65.0...v0.65.1) (2021-03-11)
+
+
+### Bug Fixes
+
+* solve cd and cj migrations ([875d184](https://github.com/EmersonBraun/siscoger-backend-v2/commit/875d184ab8f156c5061374d726fa24094aae7240))
+* solve cd and cj tests ([481dffa](https://github.com/EmersonBraun/siscoger-backend-v2/commit/481dffacad6bd7c4d5723e0a8c9ef70b356cdedc))
+* solve routes lists ([a2b9f75](https://github.com/EmersonBraun/siscoger-backend-v2/commit/a2b9f75e842137a9c5da007025fc43813eef5b7e))
+
 ## [0.65.0](https://github.com/EmersonBraun/siscoger-backend-v2/compare/v0.64.4...v0.65.0) (2021-03-11)
 
 
