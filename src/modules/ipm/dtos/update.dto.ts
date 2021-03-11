@@ -49,6 +49,6 @@ export class UpdateIpmDto {
   @IsOptional() @ApiProperty() @IsString() opm_meta4: string;
   @IsOptional() @ApiProperty() @IsNumber() bou_ano: number;
   @IsOptional() @ApiProperty() @IsNumber() bou_numero: number;
-  @IsOptional() @ApiProperty() @IsNumber() prioridade: number;
+  @IsOptional() @ApiProperty() @IsBoolean() prioridade: boolean;
   @IsOptional() @IsBoolean() @ApiProperty() completo?: boolean;
 }

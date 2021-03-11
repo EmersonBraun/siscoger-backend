@@ -28,6 +28,6 @@ export class UpdateIsoDto {
   @IsOptional() @ApiProperty() @IsDateString() relatoriomedico_data: Date;
   @IsOptional() @ApiProperty() @IsString() solucaoautoridade_file: string;
   @IsOptional() @ApiProperty() @IsDateString() solucaoautoridade_data: Date;
-  @IsOptional() @ApiProperty() @IsNumber() prioridade: number;
+  @IsOptional() @IsBoolean() @ApiProperty() prioridade: boolean;
   @IsOptional() @IsBoolean() @ApiProperty() completo?: boolean;
 }

@@ -82,9 +82,9 @@ export class CreateApfdDto {
   referenciavajme: string;
 
   @IsOptional()
-  @IsNumber()
+  @IsBoolean()
   @ApiProperty()
-  prioridade: number;
+  prioridade: boolean;
 
   @IsOptional()
   @IsBoolean()

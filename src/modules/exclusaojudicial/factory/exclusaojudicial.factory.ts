@@ -25,7 +25,7 @@ export const fakerRegistry = (): CreateExclusaoJudicialDto => {
     portaria_numero: faker.random.number(),
     bg_numero: faker.random.number(),
     bg_ano: faker.random.number(),
-    prioridade: faker.random.number(),
+    prioridade: faker.random.boolean(),
   };
 };
 

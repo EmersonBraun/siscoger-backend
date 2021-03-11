@@ -28,7 +28,7 @@ export default class ExclusaoJudicial {
   @Column({ nullable: true }) portaria_numero: number;
   @Column({ nullable: true }) bg_numero: number;
   @Column({ nullable: true }) bg_ano: number;
-  @Column({ nullable: true }) prioridade: number;
+  @Column({ nullable: true }) prioridade: boolean;
   @Column({ nullable: true }) prazo_decorrido: number;
   @CreateDateColumn({ name: 'created_at' }) createdAt: Date;
   @UpdateDateColumn({ name: 'updated_at' }) updatedAt: Date;

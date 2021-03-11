@@ -29,7 +29,7 @@ export default class Iso {
   @Column({ nullable: true }) relatoriomedico_data: Date;
   @Column({ nullable: true }) solucaoautoridade_file: string;
   @Column({ nullable: true }) solucaoautoridade_data: Date;
-  @Column({ nullable: true }) prioridade: number;
+  @Column({ nullable: true }) prioridade: boolean;
   @Column({ nullable: true }) completo: boolean;
   @Column({ nullable: true }) diasuteis_sobrestado: number;
   @Column({ nullable: true }) motivo_sobrestado: string;

@@ -23,7 +23,7 @@ export const fakerRegistry = (): CreateApfdDto => {
     exclusao_txt: faker.name.findName(),
     opm_meta4: faker.name.findName(),
     referenciavajme: faker.name.findName(),
-    prioridade: faker.random.number(999),
+    prioridade: faker.random.boolean(),
     completo: true,
   };
 };

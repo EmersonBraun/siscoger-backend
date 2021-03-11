@@ -26,7 +26,7 @@ export const fakerRegistry = (): CreateIsoDto => {
     relatoriomedico_data: faker.date.future(1),
     solucaoautoridade_file: faker.name.findName(),
     solucaoautoridade_data: faker.date.future(1),
-    prioridade: faker.random.number(),
+    prioridade: faker.random.boolean(),
     completo: true,
   };
 };

@@ -26,7 +26,7 @@ export default class Apfd {
   @Column({ nullable: true }) exclusao_txt: string;
   @Column({ nullable: true }) opm_meta4: string;
   @Column({ nullable: true }) referenciavajme: string;
-  @Column({ nullable: true }) prioridade: number;
+  @Column({ nullable: true }) prioridade: boolean;
   @Column({ nullable: true }) completo: boolean;
   @CreateDateColumn({ name: 'created_at' }) createdAt: Date;
   @UpdateDateColumn({ name: 'updated_at' }) updatedAt: Date;

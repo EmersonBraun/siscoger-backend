@@ -51,7 +51,7 @@ export default class Ipm {
   @Column({ nullable: true }) opm_meta4: string;
   @Column({ nullable: true }) bou_ano: number;
   @Column({ nullable: true }) bou_numero: number;
-  @Column({ nullable: true }) prioridade: number;
+  @Column({ nullable: true }) prioridade: boolean;
   @Column({ nullable: true }) completo: boolean;
   @Column({ nullable: true }) prazo_decorrido: number;
   @Column({ nullable: true }) n_eproc: number;

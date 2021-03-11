@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsDateString,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateExclusaoJudicialDto {
   @IsOptional() @ApiProperty() id?: number;
@@ -21,5 +27,5 @@ export class CreateExclusaoJudicialDto {
   @IsOptional() @ApiProperty() @IsNumber() portaria_numero: number;
   @IsOptional() @ApiProperty() @IsNumber() bg_numero: number;
   @IsOptional() @ApiProperty() @IsNumber() bg_ano: number;
-  @IsOptional() @ApiProperty() @IsNumber() prioridade: number;
+  @IsOptional() @ApiProperty() @IsBoolean() prioridade: boolean;
 }

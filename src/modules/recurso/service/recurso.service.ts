@@ -16,11 +16,8 @@ export class RecursoService {
     const query = cdopm
       ? {
           cdopm: Like(`${codeBase(cdopm)}%`),
-          completo: true,
         }
-      : {
-          completo: true,
-        };
+      : {};
 
     return await this.repository.find({
       where: { ...query },
@@ -31,11 +28,10 @@ export class RecursoService {
     const query = cdopm
       ? {
           cdopm: Like(`${codeBase(cdopm)}%`),
-          completo: true,
+
           deletedAt: Not(IsNull()),
         }
       : {
-          completo: true,
           deletedAt: Not(IsNull()),
         };
 
@@ -57,11 +53,9 @@ export class RecursoService {
       ? {
           cdopm: Like(`${codeBase(cdopm)}%`),
           sjd_ref_ano: year,
-          completo: true,
         }
       : {
           sjd_ref_ano: year,
-          completo: true,
         };
 
     return await this.repository.find({

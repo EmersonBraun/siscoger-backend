@@ -48,7 +48,7 @@ export const fakerRegistry = (): CreateIpmDto => {
     opm_meta4: faker.name.findName(),
     bou_ano: faker.random.number(),
     bou_numero: faker.random.number(),
-    prioridade: faker.random.number(),
+    prioridade: faker.random.boolean(),
     completo: true,
   };
 };
